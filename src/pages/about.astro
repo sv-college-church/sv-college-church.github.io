@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="Learn about Silicon Valley College Church — our story, what we believe, and our community."
+>
+  <Nav />
+
+  <main class="pt-16">
+    <!-- PAGE HERO -->
+    <section class="py-24 bg-paper border-b border-ink/8">
+      <div class="max-w-6xl mx-auto px-6">
+        <p
+          class="font-sans text-xs font-semibold tracking-widest uppercase text-ink/30 mb-4 animate-fade-up"
+          style="animation-delay: 0.1s"
+        >
+          About SVCC
+        </p>
+        <h1
+          class="font-display font-semibold leading-tight animate-fade-up"
+          style="font-size: clamp(3rem, 7vw, 6rem); animation-delay: 0.2s;"
+        >
+          Not your<br />average <span class="text-accent italic">church.</span>
+        </h1>
+      </div>
+    </section>
+
+    <!-- OUR STORY -->
+    <section class="py-24 bg-paper">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+          <div data-animate>
+            <h2 class="font-display text-4xl font-semibold mb-6 leading-tight">Our story</h2>
+            <div class="space-y-4 font-sans text-sm text-ink/60 leading-relaxed">
+              <p>
+                Silicon Valley College Church was planted to serve the thousands of students
+                and young professionals who call the Bay Area home — people who are smart,
+                driven, and often spiritually curious but haven't found a church that takes
+                both their intellect and their questions seriously.
+              </p>
+              <p>
+                We believe the gospel of Jesus Christ is good news worth sharing, and that
+                the local church is one of the most powerful forces for human flourishing
+                in the world.
+              </p>
+            </div>
+          </div>
+          <div data-animate data-animate-delay="2">
+            <div class="border-l-2 border-accent pl-8 py-2">
+              <blockquote class="font-display text-2xl font-semibold leading-snug text-ink">
+                "Come and see."
+              </blockquote>
+              <cite class="font-sans text-xs text-ink/40 mt-3 block not-italic tracking-wide uppercase">
+                John 1:39
+              </cite>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE BELIEVE -->
+    <section class="py-24 bg-ink text-paper">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="mb-16" data-animate>
+          <p class="font-sans text-xs font-semibold tracking-widest uppercase text-paper/30 mb-3">Doctrine</p>
+          <h2 class="font-display font-semibold leading-tight" style="font-size: clamp(2.5rem, 5vw, 4rem);">
+            What we believe
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-paper/10">
+          {[
+            { title: 'The Bible', body: 'We believe the Bible is the inspired, authoritative Word of God — our ultimate guide for faith and life.' },
+            { title: 'Jesus Christ', body: 'We believe Jesus is fully God and fully human, who died for our sins and rose bodily from the dead.' },
+            { title: 'Salvation by grace', body: 'We are saved by grace alone through faith alone in Christ alone — not by our own effort or merit.' },
+            { title: 'The local church', body: "We believe the local church is central to God's plan — a community of disciples on mission together." },
+          ].map((item, i) => (
+            <div class="bg-ink p-10" data-animate data-animate-delay={String((i % 2) + 1)}>
+              <h3 class="font-display text-2xl font-semibold mb-3 text-paper">{item.title}</h3>
+              <div class="w-8 h-px bg-accent mb-4"></div>
+              <p class="font-sans text-sm text-paper/55 leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 bg-paper">
+      <div class="max-w-6xl mx-auto px-6 text-center" data-animate>
+        <h2 class="font-display font-semibold mb-6" style="font-size: clamp(2rem, 4vw, 3.5rem);">
+          Come check us out.
+        </h2>
+        <p class="font-sans text-sm text-ink/55 max-w-md mx-auto mb-10 leading-relaxed">
+          No pressure, no commitment. Just a Sunday morning with people who are glad you came.
+        </p>
+        <a
+          href="/#connect"
+          class="inline-block font-sans font-semibold text-sm bg-ink text-paper px-10 py-4 hover:bg-accent transition-colors duration-200"
+        >
+          Plan a Visit
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-up {
+    animation: fade-up 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+</style>
