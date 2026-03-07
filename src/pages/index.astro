@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Silicon Valley College Church"
+  description="A contemporary Christian church in Silicon Valley for college students and young adults. Join us Sundays at 10am."
+>
+  <Nav />
+
+  <main>
+    <!-- HERO -->
+    <section class="relative min-h-[92vh] flex items-center bg-paper pt-16 overflow-hidden">
+      <!-- Decorative diagonal slashes (echo the logo motif) -->
+      <div
+        class="absolute right-0 top-0 w-px bg-ink/8 origin-top pointer-events-none"
+        style="height: 140%; transform: rotate(8deg) translateX(-20vw);"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="absolute right-0 top-0 w-px bg-accent/20 origin-top pointer-events-none"
+        style="height: 140%; transform: rotate(8deg) translateX(-22vw);"
+        aria-hidden="true"
+      ></div>
+
+      <div class="max-w-6xl mx-auto px-6 py-24 w-full">
+        <div class="max-w-3xl">
+          <p
+            class="font-sans text-xs font-semibold tracking-widest uppercase text-ink/40 mb-8 animate-fade-up"
+            style="animation-delay: 0.1s"
+          >
+            Silicon Valley — Sundays 10 AM
+          </p>
+
+          <h1
+            class="font-display font-semibold leading-[1.05] mb-8 animate-fade-up"
+            style="font-size: clamp(3.5rem, 8vw, 7rem); animation-delay: 0.2s;"
+          >
+            A church<br />
+            for the <span class="text-accent italic">curious.</span>
+          </h1>
+
+          <p
+            class="font-sans text-lg text-ink/60 leading-relaxed max-w-xl mb-12 animate-fade-up"
+            style="animation-delay: 0.35s"
+          >
+            We're a community of college students and young adults asking real questions,
+            exploring faith, and finding belonging in Silicon Valley.
+          </p>
+
+          <div class="flex flex-wrap gap-4 animate-fade-up" style="animation-delay: 0.5s">
+            <a
+              href="#visit"
+              class="font-sans font-semibold text-sm bg-ink text-paper px-8 py-4 hover:bg-accent transition-colors duration-200"
+            >
+              Plan a Visit
+            </a>
+            <a
+              href="#connect"
+              class="font-sans font-semibold text-sm border border-ink/20 text-ink px-8 py-4 hover:border-ink hover:bg-ink hover:text-paper transition-all duration-200"
+            >
+              Get Connected
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="absolute bottom-8 left-6 flex items-center gap-3 animate-fade-up" style="animation-delay: 0.8s">
+        <div class="w-px h-12 bg-ink/20"></div>
+        <span class="font-sans text-xs text-ink/30 tracking-widest uppercase">Scroll</span>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-up {
+    animation: fade-up 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+</style>
