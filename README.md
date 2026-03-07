@@ -1,43 +1,108 @@
-# Astro Starter Kit: Minimal
+# SVCC Website
 
-```sh
-bun create astro@latest -- --template minimal
+Production-ready static site for Silicon Valley College Church, built with Astro and Bun.
+
+## Tech Stack
+
+| Tool | Version |
+|------|---------|
+| Astro | 5.x |
+| Bun | latest |
+| TypeScript | strict mode |
+| Tailwind CSS | v3 |
+| @astrojs/tailwind | latest |
+| @astrojs/sitemap | latest |
+| Prettier | latest |
+
+## Prerequisites
+
+- **Bun** — [https://bun.sh/docs/installation](https://bun.sh/docs/installation)
+
+Node 18+ is bundled with Bun; no separate Node installation required.
+
+## Local Setup
+
+```bash
+git clone <repo-url>
+cd svc
+bun install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Development
 
-## 🚀 Project Structure
+```bash
+bun run dev
+```
 
-Inside of your Astro project, you'll see the following folders and files:
+Opens at [http://localhost:4321](http://localhost:4321).
 
-```text
+## Build
+
+```bash
+bun run build
+```
+
+Outputs to `dist/`. To preview the production build locally:
+
+```bash
+bun run preview
+```
+
+## Formatting
+
+```bash
+# Format all files
+bun run format
+
+# Check formatting without writing
+bun run format:check
+```
+
+## Project Structure
+
+```
 /
 ├── public/
+│   ├── images/          # Logo assets
+│   ├── favicon.svg
+│   └── robots.txt
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/
+│   │   ├── Nav.astro    # Fixed navigation with mobile menu
+│   │   └── Footer.astro
+│   ├── layouts/
+│   │   └── BaseLayout.astro  # Shared layout: SEO, OG tags, canonical URL
+│   ├── pages/
+│   │   ├── index.astro  # Homepage
+│   │   └── about.astro  # About page
+│   └── styles/
+│       └── global.css   # Tailwind directives + scroll animation utilities
+├── astro.config.mjs
+├── tailwind.config.mjs
+└── tsconfig.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Deployment
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+This is a fully static site. Deploy the `dist/` folder to any static host.
 
-Any static assets, like images, can be placed in the `public/` directory.
+Compatible hosts include:
+- [Netlify](https://www.netlify.com/)
+- [Vercel](https://vercel.com/)
+- [Cloudflare Pages](https://pages.cloudflare.com/)
 
-## 🧞 Commands
+Before deploying, update the `site` field in `astro.config.mjs` to match the production domain. This is required for sitemap generation and OG image URLs to resolve correctly.
 
-All commands are run from the root of the project, from a terminal:
+## SEO
 
-| Command               | Action                                           |
-| :-------------------- | :----------------------------------------------- |
-| `bun install`         | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+`BaseLayout.astro` accepts the following props:
 
-## 👀 Want to learn more?
+| Prop | Purpose |
+|------|---------|
+| `title` | Page `<title>` tag |
+| `description` | Meta description |
+| `ogImage` | Open Graph image URL |
+| `canonicalUrl` | Canonical URL override |
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Sitemap auto-generated at `/sitemap-index.xml`
+- `robots.txt` served at `/robots.txt`
