@@ -4,15 +4,15 @@ Production-ready static site for Silicon Valley College Church, built with Astro
 
 ## Tech Stack
 
-| Tool | Version |
-|------|---------|
-| Astro | 5.x |
-| Bun | latest |
-| TypeScript | strict mode |
-| Tailwind CSS | v3 |
-| @astrojs/tailwind | latest |
-| @astrojs/sitemap | latest |
-| Prettier | latest |
+| Tool              | Version     |
+| ----------------- | ----------- |
+| Astro             | 5.x         |
+| Bun               | latest      |
+| TypeScript        | strict mode |
+| Tailwind CSS      | v3          |
+| @astrojs/tailwind | latest      |
+| @astrojs/sitemap  | latest      |
+| Prettier          | latest      |
 
 ## Prerequisites
 
@@ -87,6 +87,7 @@ bun run format:check
 This is a fully static site. Deploy the `dist/` folder to any static host.
 
 Compatible hosts include:
+
 - [Netlify](https://www.netlify.com/)
 - [Vercel](https://vercel.com/)
 - [Cloudflare Pages](https://pages.cloudflare.com/)
@@ -97,11 +98,11 @@ Before deploying, update the `site` field in `astro.config.mjs` to match the pro
 
 `BaseLayout.astro` accepts the following props:
 
-| Prop | Purpose |
-|------|---------|
-| `title` | Page `<title>` tag |
-| `description` | Meta description |
-| `ogImage` | Open Graph image URL |
+| Prop           | Purpose                |
+| -------------- | ---------------------- |
+| `title`        | Page `<title>` tag     |
+| `description`  | Meta description       |
+| `ogImage`      | Open Graph image URL   |
 | `canonicalUrl` | Canonical URL override |
 
 - Sitemap auto-generated at `/sitemap-index.xml`
