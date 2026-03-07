@@ -1,0 +1,62 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-ink text-paper">
+  <div class="max-w-6xl mx-auto px-6 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+      <!-- Brand -->
+      <div>
+        <img
+          src="/images/svc-logo-white.png"
+          alt="SVCC Logo"
+          class="h-14 w-14 object-contain mb-4 invert"
+          width="56"
+          height="56"
+        />
+        <p class="font-display text-xl text-paper/80 leading-snug">
+          Silicon Valley<br />College Church
+        </p>
+      </div>
+
+      <!-- Quick links -->
+      <div>
+        <h3 class="font-sans text-xs font-semibold tracking-widest uppercase text-paper/40 mb-4">Explore</h3>
+        <ul class="space-y-2.5">
+          {[
+            ['Visit Us', '/#visit'],
+            ['About', '/about'],
+            ['Sermons', '/#sermons'],
+            ['Get Connected', '/#connect'],
+          ].map(([label, href]) => (
+            <li>
+              <a href={href} class="font-sans text-sm text-paper/60 hover:text-paper transition-colors">
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="font-sans text-xs font-semibold tracking-widest uppercase text-paper/40 mb-4">Find Us</h3>
+        <p class="font-sans text-sm text-paper/60 leading-relaxed">
+          Silicon Valley, CA<br />
+          Sundays at 10:00 AM<br />
+          <a href="mailto:hello@svcc.church" class="text-accent hover:text-paper transition-colors mt-2 inline-block">
+            hello@svcc.church
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="border-t border-paper/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+      <p class="font-sans text-xs text-paper/30">
+        &copy; {year} Silicon Valley College Church. All rights reserved.
+      </p>
+      <div class="h-px w-8 bg-accent"></div>
+    </div>
+  </div>
+</footer>
