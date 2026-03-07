@@ -73,6 +73,116 @@ import Footer from '../components/Footer.astro';
         <span class="font-sans text-xs text-ink/30 tracking-widest uppercase">Scroll</span>
       </div>
     </section>
+
+    <!-- VISIT INFO STRIP -->
+    <section id="visit" class="bg-ink text-paper py-16">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 md:divide-x md:divide-paper/10">
+          {[
+            { label: 'When', value: 'Sundays', detail: '10:00 AM' },
+            { label: 'Where', value: 'San Jose, CA', detail: 'Address shared upon RSVP' },
+            { label: 'Who', value: 'Everyone', detail: 'College students & young adults' },
+          ].map((item) => (
+            <div class="md:px-8 first:pl-0 last:pr-0" data-animate>
+              <p class="font-sans text-xs font-semibold tracking-widest uppercase text-paper/30 mb-2">{item.label}</p>
+              <p class="font-display text-3xl font-semibold text-paper mb-1">{item.value}</p>
+              <p class="font-sans text-sm text-paper/50">{item.detail}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT TO EXPECT -->
+    <section class="py-24 bg-paper">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="mb-16" data-animate>
+          <p class="font-sans text-xs font-semibold tracking-widest uppercase text-ink/30 mb-3">First time?</p>
+          <h2 class="font-display font-semibold leading-tight text-ink" style="font-size: clamp(2.5rem, 5vw, 4.5rem);">
+            What to expect
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-ink/8">
+          {[
+            { num: '01', title: 'Genuine welcome', body: 'No dress code, no obligation. Show up as you are. Someone will be there to greet you.' },
+            { num: '02', title: 'Real teaching', body: 'We go through books of the Bible verse by verse. Challenging, honest, and worth your time.' },
+            { num: '03', title: 'Community after', body: "Stick around. We hang out after service — it's genuinely the best part." },
+          ].map((item, i) => (
+            <div class="bg-paper p-10" data-animate data-animate-delay={String(i + 1)}>
+              <span class="font-display text-5xl font-bold text-accent/20 block mb-6 leading-none">{item.num}</span>
+              <h3 class="font-display text-2xl font-semibold text-ink mb-3">{item.title}</h3>
+              <p class="font-sans text-sm text-ink/55 leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHO WE ARE -->
+    <section class="py-24 bg-ink text-paper overflow-hidden relative">
+      <div
+        class="absolute left-0 top-0 w-px bg-paper/5 origin-top pointer-events-none"
+        style="height: 130%; transform: rotate(6deg) translateX(30vw);"
+        aria-hidden="true"
+      ></div>
+
+      <div class="max-w-6xl mx-auto px-6 relative">
+        <div class="max-w-2xl" data-animate>
+          <p class="font-sans text-xs font-semibold tracking-widest uppercase text-paper/30 mb-4">Who we are</p>
+          <h2 class="font-display font-semibold leading-tight mb-8" style="font-size: clamp(2rem, 4vw, 3.5rem);">
+            We take the Bible seriously.<br />
+            We take <span class="text-accent italic">questions</span> seriously too.
+          </h2>
+          <p class="font-sans text-base text-paper/60 leading-relaxed mb-10 max-w-lg">
+            SVCC is a non-denominational church rooted in the gospel of Jesus Christ. We believe
+            faith grows in community — so we prioritize belonging, honest conversation, and
+            serving our city.
+          </p>
+          <a href="/about" class="inline-flex items-center gap-3 font-sans text-sm font-semibold text-paper hover:text-accent transition-colors">
+            Read our story
+            <span class="w-8 h-px bg-current inline-block"></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GET CONNECTED -->
+    <section id="connect" class="py-24 bg-paper">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+          <div data-animate>
+            <p class="font-sans text-xs font-semibold tracking-widest uppercase text-ink/30 mb-3">Next steps</p>
+            <h2 class="font-display font-semibold leading-tight mb-6" style="font-size: clamp(2.5rem, 5vw, 4rem);">
+              Ready to<br /><span class="text-accent italic">visit us?</span>
+            </h2>
+            <p class="font-sans text-sm text-ink/55 leading-relaxed max-w-sm">
+              Fill out a quick form and we'll send you everything you need to know — address,
+              parking, and what to expect — before you arrive.
+            </p>
+          </div>
+
+          <div data-animate data-animate-delay="2">
+            <form class="space-y-4" name="connect" method="POST" action="/thanks">
+              <div>
+                <label for="name" class="font-sans text-xs font-semibold tracking-wide uppercase text-ink/40 block mb-1.5">Your name</label>
+                <input id="name" name="name" type="text" required placeholder="First name"
+                  class="w-full border border-ink/15 bg-transparent px-4 py-3 font-sans text-sm text-ink placeholder:text-ink/25 focus:outline-none focus:border-ink transition-colors" />
+              </div>
+              <div>
+                <label for="email" class="font-sans text-xs font-semibold tracking-wide uppercase text-ink/40 block mb-1.5">Email</label>
+                <input id="email" name="email" type="email" required placeholder="you@example.com"
+                  class="w-full border border-ink/15 bg-transparent px-4 py-3 font-sans text-sm text-ink placeholder:text-ink/25 focus:outline-none focus:border-ink transition-colors" />
+              </div>
+              <button type="submit"
+                class="w-full bg-ink text-paper font-sans font-semibold text-sm py-4 hover:bg-accent transition-colors duration-200 mt-2">
+                Send me the details
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <Footer />
