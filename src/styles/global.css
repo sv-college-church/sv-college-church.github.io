@@ -6,7 +6,7 @@
 
 @layer base {
   html {
-    @apply font-sans text-ink bg-paper;
+    @apply bg-paper font-sans text-ink;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
   }
@@ -31,9 +31,19 @@
     transform: translateY(0);
   }
 
-  [data-animate-delay='1'] { transition-delay: 0.1s; }
-  [data-animate-delay='2'] { transition-delay: 0.2s; }
-  [data-animate-delay='3'] { transition-delay: 0.3s; }
-  [data-animate-delay='4'] { transition-delay: 0.4s; }
-  [data-animate-delay='5'] { transition-delay: 0.5s; }
+  [data-animate-delay='1'] {
+    transition-delay: 0.1s;
+  }
+  [data-animate-delay='2'] {
+    transition-delay: 0.2s;
+  }
+  [data-animate-delay='3'] {
+    transition-delay: 0.3s;
+  }
+  [data-animate-delay='4'] {
+    transition-delay: 0.4s;
+  }
+  [data-animate-delay='5'] {
+    transition-delay: 0.5s;
+  }
 }
