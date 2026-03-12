@@ -23,22 +23,56 @@ jobs:
       - name: Build site
         run: npm run build
 
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
       - name: Serve and audit
         run: |
           npx serve dist -l 4321 &
           sleep 3
 
           PAGES=(
-            "http://localhost:4321/"
-            "http://localhost:4321/about"
-            "http://localhost:4321/church"
-            "http://localhost:4321/connect"
-            "http://localhost:4321/campuses"
-            "http://localhost:4321/campuses/sjsu-klesis"
-            "http://localhost:4321/campuses/sjsu-4c"
-            "http://localhost:4321/campuses/scu-klesis"
-            "http://localhost:4321/campuses/stanford-moment"
-            "http://localhost:4321/campuses/ucsc-klesis"
+            "/"
+            "/about"
+            "/church"
+            "/connect"
+            "/campuses"
+            "/campuses/sjsu-klesis"
+            "/campuses/sjsu-4c"
+            "/campuses/scu-klesis"
+            "/campuses/stanford-moment"
+            "/campuses/ucsc-klesis"
           )
 
-          npx @axe-core/cli "${PAGES[@]}" --exit
+          node -e "
+          const { chromium } = require('playwright');
+          const AxeBuilder = require('@axe-core/playwright').default;
+
+          (async () => {
+            const browser = await chromium.launch();
+            const pages = process.argv.slice(1);
+            let failed = false;
+
+            for (const path of pages) {
+              const context = await browser.newContext();
+              const page = await context.newPage();
+              await page.goto('http://localhost:4321' + path, { waitUntil: 'load' });
+
+              const results = await new AxeBuilder({ page }).analyze();
+
+              if (results.violations.length > 0) {
+                failed = true;
+                console.log('\n❌ ' + path);
+                for (const v of results.violations) {
+                  console.log('  [' + v.impact + '] ' + v.id + ': ' + v.description + ' (' + v.nodes.length + ' elements)');
+                }
+              } else {
+                console.log('✅ ' + path);
+              }
+              await context.close();
+            }
+
+            await browser.close();
+            process.exit(failed ? 1 : 0);
+          })();
+          " "${PAGES[@]}"
