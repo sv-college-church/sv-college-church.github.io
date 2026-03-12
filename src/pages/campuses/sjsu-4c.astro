@@ -1,0 +1,234 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<BaseLayout title="4Corners — SJSU" description="4Corners international student ministry at San José State University.">
+  <Nav />
+  <main class="min-h-screen bg-paper pt-20 md:pt-32">
+
+    <!-- Hero -->
+    <section class="px-6 py-16 text-center md:py-28">
+      <p class="col-label mb-4">San José State University</p>
+      <h1 class="font-sans font-black uppercase leading-none text-ink" style="font-size: clamp(2.5rem, 7vw, 7rem);">
+        4Corners
+      </h1>
+      <div class="mt-10 flex items-center justify-center gap-6">
+        <a
+          href="/connect"
+          class="border border-ink px-8 py-3 font-sans text-sm font-bold uppercase tracking-widest text-ink transition-colors duration-200 hover:bg-ink hover:text-paper"
+        >
+          Get Connected
+        </a>
+        <a
+          href="https://4corners-sj.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-ink px-8 py-3 font-sans text-sm font-bold uppercase tracking-widest text-paper transition-colors duration-200 hover:bg-ink/70"
+        >
+          Visit Site ↗
+        </a>
+      </div>
+    </section>
+
+    <!-- Photo -->
+    <section class="w-full px-6 md:px-16" data-animate>
+      <img
+        src="/images/campuses/sjsu-4c.jpg"
+        alt="4Corners SJSU gathering group photo"
+        class="hero-photo"
+      />
+    </section>
+
+    <!-- Info grid -->
+    <section class="w-full border-t border-ink/15 mt-16" data-animate>
+      <div class="info-grid">
+        <div class="info-col">
+          <p class="col-label">What is 4Corners?</p>
+          <p class="col-body">
+            4Corners is a home away from home for international students in Silicon Valley. We love coming together for home-cooked meals, just hanging out, and enjoying each other's company. We also offer a space to explore the big questions of life and to build a relationship with God.
+          </p>
+          <p class="col-body">
+            At 4Corners you can seek answers, build friendships, and make memories along the way. Whether you are a Christian or seeking to find out more, we hope that you can make yourself at home with us! 🏠
+          </p>
+        </div>
+        <div class="info-col border-t border-ink/15 md:border-l md:border-t-0">
+          <p class="col-label">Part Of</p>
+          <p class="col-body">
+            <a href="https://sjsu.my.campusapp.com/#/stores" target="_blank" rel="noopener noreferrer" class="text-link">Registered Student Organization</a> at SJSU.
+          </p>
+          <p class="col-body">
+            Part of <a href="https://www.acts2international.org/" target="_blank" rel="noopener noreferrer" class="text-link">Acts2 International</a>.
+          </p>
+        </div>
+        <div class="info-col border-t border-ink/15 md:border-l md:border-t-0">
+          <p class="col-label">Instagram</p>
+          <p class="col-body">
+            <a href="https://www.instagram.com/4corners_sjsu/" target="_blank" rel="noopener noreferrer" class="text-link">@4corners_sjsu</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- What We Do -->
+    <section class="border-t border-ink/15 px-6 py-20 md:px-16" data-animate>
+      <p class="col-label mb-12">What We Do</p>
+      <div class="activities-grid">
+        <div class="activity">
+          <h3 class="activity-title">Friday Night Talks</h3>
+          <p class="col-body">Join us to hang out, enjoy dinner, and discuss the Bible! A great way to end the week with good food and great conversation.</p>
+          <p class="activity-detail">Fridays 6:30 PM · 2346 Walsh Avenue</p>
+        </div>
+        <div class="activity">
+          <h3 class="activity-title">Sundays</h3>
+          <p class="col-body">We meet for church service with other college groups in the area at Silicon Valley College Church in Santa Clara. We also provide rides and lunch!</p>
+          <p class="activity-detail">Rides at 11:30 AM · Washburn Hall</p>
+        </div>
+        <div class="activity">
+          <h3 class="activity-title">Trips &amp; Outings</h3>
+          <p class="col-body">Whether it's helping out with one of the other international groups that we're connected with or enjoying the beauty of nature — it's always a great memory-making time.</p>
+        </div>
+        <div class="activity">
+          <h3 class="activity-title">Community</h3>
+          <p class="col-body">Home-cooked meals, hangouts, and genuine friendship. We're a home away from home for international students finding their way in Silicon Valley.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Back link -->
+    <section class="border-t border-ink/15 px-6 py-12 md:px-16">
+      <a href="/campuses" class="back-link">← All Campuses</a>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .col-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgb(20 20 20 / 0.35);
+  }
+
+  .col-body {
+    font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+    line-height: 1.75;
+    color: rgb(20 20 20 / 0.65);
+  }
+
+  .col-display {
+    font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: rgb(20 20 20);
+  }
+
+  .hero-photo {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    object-position: center;
+    border: 1.5px solid rgb(20 20 20 / 0.15);
+    background: rgb(20 20 20 / 0.04);
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .info-col {
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .info-grid {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+    .info-col {
+      padding: 3rem 3.5rem;
+    }
+  }
+
+  .text-link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgb(20 20 20 / 0.3);
+    transition: text-decoration-color 0.2s;
+  }
+
+  .text-link:hover {
+    text-decoration-color: rgb(20 20 20);
+  }
+
+  .activities-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  @media (min-width: 768px) {
+    .activities-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .activity {
+    padding: 2.5rem 0;
+    border-top: 1px solid rgb(20 20 20 / 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .activity {
+      padding: 2.5rem 3rem 2.5rem 0;
+    }
+
+    .activity:nth-child(even) {
+      padding-left: 3rem;
+      padding-right: 0;
+      border-left: 1px solid rgb(20 20 20 / 0.1);
+    }
+  }
+
+  .activity-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgb(20 20 20);
+  }
+
+  .activity-detail {
+    font-size: 0.7rem;
+    color: rgb(20 20 20 / 0.3);
+    letter-spacing: 0.02em;
+    margin-top: 0.25rem;
+  }
+
+  .back-link {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgb(20 20 20 / 0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: rgb(20 20 20);
+  }
+</style>
