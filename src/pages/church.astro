@@ -32,10 +32,10 @@ import Footer from '../components/Footer.astro';
     <!-- Photo circles -->
     <section class="w-full px-6 pb-16 md:px-16 md:pb-32" style="padding-top: 2rem;">
       <div class="circles-row">
-        <div class="photo-circle" style="--offset: -4vw; background-image: url('/images/church-train.jpg');"></div>
-        <div class="photo-circle" style="--offset: 4vw; background-image: url('/images/church-easter.jpg');"></div>
-        <div class="photo-circle" style="--offset: -4vw; background-image: url('/images/church-cliff.jpg');"></div>
-        <div class="photo-circle" style="--offset: 4vw; background-image: url('/images/church-beach.jpg');"></div>
+        <div class="photo-circle" style="--offset: -4vw;"><img src="/images/church-train.jpg" alt="SVC church group on a train" /></div>
+        <div class="photo-circle" style="--offset: 4vw;"><img src="/images/church-easter.jpg" alt="SVC church Easter gathering" /></div>
+        <div class="photo-circle" style="--offset: -4vw;"><img src="/images/church-cliff.jpg" alt="SVC church group at a cliff" /></div>
+        <div class="photo-circle" style="--offset: 4vw;"><img src="/images/church-beach.jpg" alt="SVC church group at the beach" /></div>
       </div>
     </section>
 
@@ -116,11 +116,17 @@ import Footer from '../components/Footer.astro';
     border-radius: 50%;
     border: 1.5px solid rgb(20 20 20 / 0.3);
     justify-self: center;
-    background-size: cover;
-    background-position: center;
+    overflow: hidden;
     transition:
       transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
       border-color 0.3s ease;
+  }
+
+  .photo-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
   @media (min-width: 768px) {
