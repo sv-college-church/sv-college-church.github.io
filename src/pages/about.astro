@@ -79,7 +79,7 @@ import Footer from '../components/Footer.astro';
         </div>
         <!-- Photo -->
         <div class="leader-photo-wrap">
-          <div class="leader-photo" style="background-image: url('/images/suhfam.png'); background-size: cover; background-position: center;"></div>
+          <img src="/images/suhfam.png" alt="SVC directors Steve and Suzanne with their family" class="leader-photo" />
         </div>
       </div>
     </section>
@@ -88,7 +88,7 @@ import Footer from '../components/Footer.astro';
     <section class="border-t border-ink/15 px-6 py-20 md:px-16">
       <p class="col-label mb-12">The Team</p>
       <div class="team-row">
-        <div class="team-photo" style="background-image: url('/images/mentors.png'); background-size: cover; background-position: center top;"></div>
+        <img src="/images/mentors.png" alt="SVC staff group photo" class="team-photo" />
         <div class="team-bio">
           <p class="col-body">
             Our staff members work various roles — teachers, software engineers, product managers, finance professionals — but share a common story of transformation from their college years. Our collective passion is inviting current college students to experience the same life change through Jesus.
@@ -259,6 +259,8 @@ import Footer from '../components/Footer.astro';
     aspect-ratio: 3 / 2;
     border: 1.5px solid rgb(20 20 20 / 0.2);
     background: rgb(20 20 20 / 0.04);
+    object-fit: cover;
+    object-position: center;
   }
 
   .leader-name {
@@ -295,6 +297,8 @@ import Footer from '../components/Footer.astro';
     aspect-ratio: 3 / 2;
     border: 1.5px solid rgb(20 20 20 / 0.2);
     background: rgb(20 20 20 / 0.04);
+    object-fit: cover;
+    object-position: center top;
   }
 
   /* Statement of faith */
