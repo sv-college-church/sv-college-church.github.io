@@ -14,9 +14,6 @@ const {
   ogImage = '/images/og-default.png',
   canonicalUrl = Astro.url.href,
 } = Astro.props;
-
-const siteName = 'Silicon Valley College Church';
-const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
 ---
 
 <!doctype html>
@@ -27,36 +24,31 @@ const fullTitle = title === siteName ? title : `${title} | ${siteName}`;
     <meta name="generator" content={Astro.generator} />
 
     <!-- SEO -->
-    <title>{fullTitle}</title>
+    <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:title" content={fullTitle} />
+    <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
-    <meta property="og:site_name" content={siteName} />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
-
-    <!-- Google Fonts preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
   <body>
     <slot />
 
-    <!-- Scroll animation observer — non-blocking, runs after paint -->
+    <!-- Scroll animation observer -->
     <script>
       const observer = new IntersectionObserver(
         (entries) => {

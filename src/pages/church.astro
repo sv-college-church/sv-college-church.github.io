@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="Church" description="">
+  <Nav />
+  <main class="min-h-screen bg-paper pt-20 md:pt-32">
+    <section class="py-16 text-center">
+      <h1 class="font-sans font-black uppercase leading-none" style="font-size: clamp(3rem, 8vw, 8rem);">
+        Sundays at SVC
+      </h1>
+      <div class="mt-10 flex items-center justify-center gap-6">
+        <a
+          href="#info"
+          class="border border-ink px-8 py-3 font-sans text-sm font-bold uppercase tracking-widest text-ink transition-colors duration-200 hover:bg-ink hover:text-paper"
+        >
+          Info
+        </a>
+        <a
+          href="https://maps.app.goo.gl/XnKMeboUpYpEXNxB8"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="bg-ink px-8 py-3 font-sans text-sm font-bold uppercase tracking-widest text-paper transition-colors duration-200 hover:bg-ink/70"
+        >
+          Get Directions
+        </a>
+      </div>
+    </section>
+
+    <!-- Photo circles -->
+    <section class="w-full px-6 pb-16 md:px-16 md:pb-32" style="padding-top: 2rem;">
+      <div class="circles-row">
+        <div class="photo-circle" style="--offset: -4vw; background-image: url('/images/church-train.jpg');"></div>
+        <div class="photo-circle" style="--offset: 4vw; background-image: url('/images/church-easter.jpg');"></div>
+        <div class="photo-circle" style="--offset: -4vw; background-image: url('/images/church-cliff.jpg');"></div>
+        <div class="photo-circle" style="--offset: 4vw; background-image: url('/images/church-beach.jpg');"></div>
+      </div>
+    </section>
+
+    <!-- Info row -->
+    <section id="info" class="w-full border-t border-ink/15">
+      <div class="info-grid">
+        <!-- Info -->
+        <div class="info-col">
+          <p class="col-label">Info</p>
+          <p class="col-body">
+            A typical sunday at SVC looks like a bunch of college students from across the south bay gathering together to worship God. Students from SJSU, Stanford, UC Santa Cruz, De Anza, and more all gather at our main building, called Walsh. We usually have some praise, a message, maybe a testimony, and enjoy lunch altogether afterwards. Occasionally an impromptu basketball/volleyball game will breakout after taking down all the tech equipment. Come check us out, we'd love to have you!
+          </p>
+        </div>
+
+        <!-- Where -->
+        <div class="info-col border-l border-ink/15">
+          <p class="col-label">Where 📍</p>
+          <p class="col-display">2346 Walsh Ave<br />Santa Clara<br />CA 95051</p>
+        </div>
+
+        <!-- When -->
+        <div class="info-col border-l border-ink/15">
+          <p class="col-label">When 🕛</p>
+          <p class="col-display">Sundays<br />12 PM</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .info-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+
+  .info-col {
+    padding: 3rem 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .col-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgb(20 20 20 / 0.35);
+  }
+
+  .col-body {
+    font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+    line-height: 1.75;
+    color: rgb(20 20 20 / 0.65);
+  }
+
+  .col-display {
+    font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: rgb(20 20 20);
+  }
+
+  .circles-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6vw;
+    align-items: center;
+  }
+
+  .photo-circle {
+    width: 38vw;
+    height: 38vw;
+    border-radius: 50%;
+    border: 1.5px solid rgb(20 20 20 / 0.3);
+    justify-self: center;
+    background-size: cover;
+    background-position: center;
+    transition:
+      transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      border-color 0.3s ease;
+  }
+
+  @media (min-width: 768px) {
+    .circles-row {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2vw;
+      height: 32vw;
+    }
+
+    .photo-circle {
+      width: 22vw;
+      height: 22vw;
+      transform: translateY(var(--offset));
+    }
+
+    .photo-circle:hover {
+      border-color: rgb(20 20 20 / 0.7);
+      transform: translateY(calc(var(--offset) - 0.5vw));
+    }
+  }
+</style>

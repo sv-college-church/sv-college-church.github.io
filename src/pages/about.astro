@@ -4,146 +4,408 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<BaseLayout
-  title="About"
-  description="Learn about Silicon Valley College Church — our story, what we believe, and our community."
->
+<BaseLayout title="About" description="Launching kingdom workers from every college town.">
   <Nav />
+  <main class="min-h-screen bg-paper pt-20 md:pt-32">
 
-  <main class="pt-16">
-    <!-- PAGE HERO -->
-    <section class="border-ink/8 border-b bg-paper py-24">
-      <div class="mx-auto max-w-6xl px-6">
-        <p
-          class="animate-fade-up mb-4 font-sans text-xs font-semibold uppercase tracking-widest text-ink/30"
-          style="animation-delay: 0.1s"
-        >
-          About SVCC
-        </p>
-        <h1
-          class="animate-fade-up font-display font-semibold leading-tight"
-          style="font-size: clamp(3rem, 7vw, 6rem); animation-delay: 0.2s;"
-        >
-          Not your<br />average <span class="italic text-accent">church.</span>
-        </h1>
-      </div>
-    </section>
-
-    <!-- OUR STORY -->
-    <section class="bg-paper py-24">
-      <div class="mx-auto max-w-6xl px-6">
-        <div class="grid grid-cols-1 gap-16 md:grid-cols-2">
-          <div data-animate>
-            <h2 class="mb-6 font-display text-4xl font-semibold leading-tight">Our story</h2>
-            <div class="space-y-4 font-sans text-sm leading-relaxed text-ink/60">
-              <p>
-                Silicon Valley College Church was planted to serve the thousands of students and
-                young professionals who call the Bay Area home — people who are smart, driven, and
-                often spiritually curious but haven't found a church that takes both their intellect
-                and their questions seriously.
-              </p>
-              <p>
-                We believe the gospel of Jesus Christ is good news worth sharing, and that the local
-                church is one of the most powerful forces for human flourishing in the world.
-              </p>
-            </div>
-          </div>
-          <div data-animate data-animate-delay="2">
-            <div class="border-l-2 border-accent py-2 pl-8">
-              <blockquote class="font-display text-2xl font-semibold leading-snug text-ink">
-                "Come and see."
-              </blockquote>
-              <cite
-                class="mt-3 block font-sans text-xs uppercase not-italic tracking-wide text-ink/40"
-              >
-                John 1:39
-              </cite>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHAT WE BELIEVE -->
-    <section class="bg-ink py-24 text-paper">
-      <div class="mx-auto max-w-6xl px-6">
-        <div class="mb-16" data-animate>
-          <p class="mb-3 font-sans text-xs font-semibold uppercase tracking-widest text-paper/30">
-            Doctrine
-          </p>
-          <h2
-            class="font-display font-semibold leading-tight"
-            style="font-size: clamp(2.5rem, 5vw, 4rem);"
-          >
-            What we believe
-          </h2>
-        </div>
-
-        <div class="grid grid-cols-1 gap-px bg-paper/10 md:grid-cols-2">
-          {
-            [
-              {
-                title: 'The Bible',
-                body: 'We believe the Bible is the inspired, authoritative Word of God — our ultimate guide for faith and life.',
-              },
-              {
-                title: 'Jesus Christ',
-                body: 'We believe Jesus is fully God and fully human, who died for our sins and rose bodily from the dead.',
-              },
-              {
-                title: 'Salvation by grace',
-                body: 'We are saved by grace alone through faith alone in Christ alone — not by our own effort or merit.',
-              },
-              {
-                title: 'The local church',
-                body: "We believe the local church is central to God's plan — a community of disciples on mission together.",
-              },
-            ].map((item, i) => (
-              <div class="bg-ink p-10" data-animate data-animate-delay={String((i % 2) + 1)}>
-                <h3 class="mb-3 font-display text-2xl font-semibold text-paper">{item.title}</h3>
-                <div class="mb-4 h-px w-8 bg-accent" />
-                <p class="font-sans text-sm leading-relaxed text-paper/55">{item.body}</p>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="bg-paper py-24">
-      <div class="mx-auto max-w-6xl px-6 text-center" data-animate>
-        <h2 class="mb-6 font-display font-semibold" style="font-size: clamp(2rem, 4vw, 3.5rem);">
-          Come check us out.
-        </h2>
-        <p class="mx-auto mb-10 max-w-md font-sans text-sm leading-relaxed text-ink/55">
-          No pressure, no commitment. Just a Sunday morning with people who are glad you came.
-        </p>
+    <!-- Hero -->
+    <section class="py-16 text-center">
+      <h1 class="font-sans font-black uppercase leading-none" style="font-size: clamp(3rem, 8vw, 8rem);">
+        About
+      </h1>
+      <div class="mt-10 flex items-center justify-center gap-6">
         <a
-          href="/#connect"
-          class="inline-block bg-ink px-10 py-4 font-sans text-sm font-semibold text-paper transition-colors duration-200 hover:bg-accent"
+          href="#statement"
+          class="border border-ink px-8 py-3 font-sans text-sm font-bold uppercase tracking-widest text-ink transition-colors duration-200 hover:bg-ink hover:text-paper"
         >
-          Plan a Visit
+          Statement of Faith
+        </a>
+        <a
+          href="#resources"
+          class="bg-ink px-8 py-3 font-sans text-sm font-bold uppercase tracking-widest text-paper transition-colors duration-200 hover:bg-ink/70"
+        >
+          Resources
         </a>
       </div>
     </section>
-  </main>
 
+    <!-- Mission -->
+    <section class="border-t border-ink/15 px-6 py-20 text-center md:py-28">
+      <p class="mx-auto max-w-3xl font-sans font-black uppercase leading-tight text-ink" style="font-size: clamp(1.8rem, 4vw, 3.5rem);">
+        Launching kingdom workers from every college town.
+      </p>
+    </section>
+
+    <!-- Info grid -->
+    <section class="w-full border-t border-ink/15">
+      <div class="about-grid">
+        <div class="about-col">
+          <p class="col-label">Our Story</p>
+          <p class="col-body">
+            In 2021, a team of college friends and volunteers relocated to Silicon Valley to establish a Christian community modeled after the early church. We believe every follower of Christ is called to be a kingdom worker — someone actively participating in sharing the gospel. We model ourselves after the Acts 2 church, emphasizing close-knit community as the ideal context for growing disciples.
+          </p>
+        </div>
+        <div class="about-col border-t border-ink/15 md:border-l md:border-t-0">
+          <p class="col-label">Founded</p>
+          <p class="col-display">2021<br />Silicon<br />Valley</p>
+        </div>
+        <div class="about-col border-t border-ink/15 md:border-l md:border-t-0">
+          <p class="col-label">Network</p>
+          <p class="col-body">
+            <a href="https://acts2.network/" target="_blank" rel="noopener noreferrer" class="network-link">Acts2 Network</a><br />
+            <a href="https://www.acts2college.org/" target="_blank" rel="noopener noreferrer" class="network-link">Acts2 College</a><br />
+            <a href="https://www.namb.net/send-network/" target="_blank" rel="noopener noreferrer" class="network-link">Send Network</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Leadership -->
+    <section class="border-t border-ink/15 px-6 py-20 md:px-16">
+      <p class="col-label mb-12">Leadership</p>
+      <div class="leader-row">
+        <!-- Bio -->
+        <div class="leader-bio">
+          <p class="leader-name">Steve &amp; Suzanne</p>
+          <p class="col-body mt-4">
+            Steve grew up in SoCal attending church, and after high school moved to Berkeley and studied Architecture. He planned to slowly "fade away" and jump instead into the freedom of college life, but God had other plans for his freshman year, as he experienced the word of God coming alive and addressing him personally and shortly after, he gave his life to following Jesus — and the rest is history!
+          </p>
+          <p class="col-body mt-4">
+            Suzanne's aim after graduating UC Berkeley was to be a successful Asian American female living alone in a flat overlooking the San Francisco bay, sipping a latte while climbing the ranks of a Big Four Firm. But during her senior year, God changed that direction when she met Jesus and gave her life to his cause of ministering to college students, and her life has never been the same.
+          </p>
+          <p class="col-body mt-4">
+            Steve & Suzanne lead our SVC church. They have a huge heart for students and youth ministry and founded Area Youth Ministry, a para-church organization where college students and alumni mentor students nationwide to strengthen their Christian faith. Their mission is to gospelize and engage the next generation of students for Christ. They have two kids: a son who just graduated from Purdue and a daughter who just started at UCSB.
+          </p>
+        </div>
+        <!-- Photo -->
+        <div class="leader-photo-wrap">
+          <div class="leader-photo" style="background-image: url('/images/suhfam.png'); background-size: cover; background-position: center;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="border-t border-ink/15 px-6 py-20 md:px-16">
+      <p class="col-label mb-12">The Team</p>
+      <div class="team-row">
+        <div class="team-photo" style="background-image: url('/images/mentors.png'); background-size: cover; background-position: center top;"></div>
+        <div class="team-bio">
+          <p class="col-body">
+            Our staff members work various roles — teachers, software engineers, product managers, finance professionals — but share a common story of transformation from their college years. Our collective passion is inviting current college students to experience the same life change through Jesus.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Statement of Faith -->
+    <section id="statement" class="border-t border-ink/15 px-6 py-20 md:px-16">
+      <p class="col-label mb-12">Statement of Faith</p>
+
+      <p class="col-body mb-16 max-w-2xl">
+        Silicon Valley College Church is a member of the Southern Baptist Convention and SEND Network.
+      </p>
+
+      <div class="beliefs">
+        <div class="belief">
+          <h3 class="belief-title">The Bible</h3>
+          <p class="col-body">The Bible is God's Holy Word, without error, and is the sole authority for life.</p>
+          <p class="belief-refs">2 Tim. 3:16–17 · 2 Pet. 1:20–21 · Heb. 4:12 · Psalm 119:105 · John 1:1 · Isa. 40:8</p>
+        </div>
+
+        <div class="belief">
+          <h3 class="belief-title">The Godhead (Trinity)</h3>
+          <p class="col-body">There is one God: The Father, the Son, and the Holy Spirit; who subsist in unity, and also as three separate distinct Persons.</p>
+          <p class="belief-refs">Deut. 6:4 · Matt. 28:19 · John 10:30 · 2 Cor. 13:14</p>
+        </div>
+
+        <div class="belief">
+          <h3 class="belief-title">God the Father</h3>
+          <p class="col-body">God is the first person of the Trinity and is the eternal, all-powerful, all-loving, just and perfectly holy, sovereign Ruler and Sustainer of the universe.</p>
+          <p class="belief-refs">Gen. 1:1 · Eph. 4:6 · John 3:16 · Isa. 40:21–28</p>
+        </div>
+
+        <div class="belief">
+          <h3 class="belief-title">God the Son</h3>
+          <p class="col-body">Jesus Christ is the second person of the Trinity and God's Son. He was born of a virgin as both God and man, lived a sinless life, died to atone for the sins of human beings, was buried, arose from the grave, ascended into heaven, and will literally return to earth.</p>
+          <p class="belief-refs">John 1:1 · John 1:14 · Luke 1:30–35 · Phil. 2:5–8 · Acts 2:22–24 · John 20:20 · Acts 1:11</p>
+        </div>
+
+        <div class="belief">
+          <h3 class="belief-title">God the Holy Spirit</h3>
+          <p class="col-body">The Holy Spirit is the divine helper, assistant, counselor and instructor. His work is to reveal Christ, convict of sin, lead to repentance, guide believers, comfort, strengthen, and sanctify the soul.</p>
+          <p class="belief-refs">John 16:7–8 · 1 Cor. 6:19 · Gal. 5:22–23 · Rom. 8:26–28</p>
+        </div>
+
+        <div class="belief">
+          <h3 class="belief-title">Man</h3>
+          <p class="col-body">Man is the special creation of God, made in His image. Man was created to glorify God, worship and serve Him. Man fell through sin by disobeying God, incurring both physical and spiritual death. All men are sinners, utterly lost, and totally incapable of saving himself by his own merit or effort.</p>
+          <p class="belief-refs">Gen. 1:26 · Gen. 3:17–24 · Rom. 3:23 · Rom. 5:8 · Eph. 2:13</p>
+        </div>
+
+        <div class="belief">
+          <h3 class="belief-title">Salvation</h3>
+          <p class="col-body">Salvation is a gift through repentance toward God and faith in Jesus Christ. Every person who truly is saved is eternally secure in the Lord Jesus Christ and will spend eternity in heaven, while those who die in their sins will spend eternity in hell.</p>
+          <p class="belief-refs">Eph. 2:8–10 · John 3:14–16 · Rom. 10:9–10 · John 10:27–29 · John 14:6</p>
+        </div>
+
+        <div class="belief">
+          <h3 class="belief-title">The Church</h3>
+          <p class="col-body">The church is a local body of baptized believers with the Lord Jesus Christ as the Head. The purpose of the church is to make Christ known to lost men and to make disciples, and glorify God on earth.</p>
+          <p class="belief-refs">Matt. 28:18–20 · Eph. 4:11–16 · 1 Cor. 12:12–27 · Col. 1:24–29</p>
+        </div>
+
+        <div class="belief">
+          <h3 class="belief-title">The Christian Life</h3>
+          <p class="col-body">Every Christian should live for Christ to God's glory. By obedience to the Word of God, each believer should mature and progressively become more like Jesus. In the power of the Spirit, each believer should live a holy life; be part of a Christian community; and be personally involved in making disciples to fulfill the great commission.</p>
+          <p class="belief-refs">Gal. 2:20 · 1 Pet. 1:15–16 · Matt. 28:18–20 · Acts 1:8 · John 15:8</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <section id="resources" class="border-t border-ink/15 px-6 py-20 md:px-16">
+      <p class="col-label mb-12">Resources</p>
+      <div class="resources-grid">
+        <a href="https://www.course101.online/" target="_blank" rel="noopener noreferrer" class="resource-card">
+          <p class="resource-title">Course 101</p>
+          <p class="col-body mt-2">7-week course on the intellectual foundations of Christianity providing space for conversation about life, faith, the Bible, and God.</p>
+          <p class="resource-url">course101.online ↗</p>
+        </a>
+        <a href="https://devotions.acts2.network/" target="_blank" rel="noopener noreferrer" class="resource-card">
+          <p class="resource-title">Daily Devotions</p>
+          <p class="col-body mt-2">We read and reflect on God's Word daily. Click through to learn more about our daily devotional text.</p>
+          <p class="resource-url">devotions.acts2.network ↗</p>
+        </a>
+        <a href="https://sites.google.com/view/bible-reading-resources/home" target="_blank" rel="noopener noreferrer" class="resource-card">
+          <p class="resource-title">Bible Resources</p>
+          <p class="col-body mt-2">Bible Reading site containing Bible Project Videos, top verses to memorize, top chapters to read, Bible Reading plans, and so much more.</p>
+          <p class="resource-url">Bible Reading Resources ↗</p>
+        </a>
+        <a href="https://www.apologeticsqna.com" target="_blank" rel="noopener noreferrer" class="resource-card">
+          <p class="resource-title">Apologetics</p>
+          <p class="col-body mt-2">Got questions about the Christian faith? Here are answers to commonly asked questions.</p>
+          <p class="resource-url">apologeticsqna.com ↗</p>
+        </a>
+      </div>
+    </section>
+
+  </main>
   <Footer />
 </BaseLayout>
 
 <style>
-  @keyframes fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(24px);
+  .col-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgb(20 20 20 / 0.35);
+  }
+
+  .col-body {
+    font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+    line-height: 1.75;
+    color: rgb(20 20 20 / 0.65);
+  }
+
+  .col-display {
+    font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: rgb(20 20 20);
+  }
+
+  /* Info grid */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .about-col {
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .about-grid {
+      grid-template-columns: 2fr 1fr 1fr;
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+    .about-col {
+      padding: 3rem 3.5rem;
     }
   }
-  .animate-fade-up {
-    animation: fade-up 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+
+  /* Leadership */
+  .leader-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .leader-row {
+      grid-template-columns: 3fr 2fr;
+      gap: 6rem;
+      align-items: start;
+    }
+  }
+
+  .leader-photo {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    border: 1.5px solid rgb(20 20 20 / 0.2);
+    background: rgb(20 20 20 / 0.04);
+  }
+
+  .leader-name {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: rgb(20 20 20);
+  }
+
+  /* Team */
+  .team-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .team-row {
+      grid-template-columns: 3fr 2fr;
+      gap: 6rem;
+      align-items: start;
+    }
+  }
+
+  .team-bio {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .team-photo {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    border: 1.5px solid rgb(20 20 20 / 0.2);
+    background: rgb(20 20 20 / 0.04);
+  }
+
+  /* Statement of faith */
+  .beliefs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  @media (min-width: 768px) {
+    .beliefs {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .belief {
+    padding: 2.5rem 0;
+    border-top: 1px solid rgb(20 20 20 / 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 768px) {
+    .belief {
+      padding: 2.5rem 3rem 2.5rem 0;
+    }
+
+    .belief:nth-child(even) {
+      padding-left: 3rem;
+      padding-right: 0;
+      border-left: 1px solid rgb(20 20 20 / 0.1);
+    }
+  }
+
+  .belief-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgb(20 20 20);
+  }
+
+  /* Resources */
+  .resources-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  @media (min-width: 768px) {
+    .resources-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .resource-card {
+    display: block;
+    padding: 2.5rem 0;
+    border-top: 1px solid rgb(20 20 20 / 0.1);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .resource-card:hover {
+    opacity: 0.6;
+  }
+
+  @media (min-width: 768px) {
+    .resource-card {
+      padding: 2.5rem 3rem 2.5rem 0;
+    }
+
+    .resource-card:nth-child(even) {
+      padding-left: 3rem;
+      padding-right: 0;
+      border-left: 1px solid rgb(20 20 20 / 0.1);
+    }
+  }
+
+  .resource-title {
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgb(20 20 20);
+  }
+
+  .resource-url {
+    font-size: 0.7rem;
+    color: rgb(20 20 20 / 0.3);
+    letter-spacing: 0.02em;
+    margin-top: 1rem;
+  }
+
+  .network-link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgb(20 20 20 / 0.3);
+    transition: text-decoration-color 0.2s;
+  }
+
+  .network-link:hover {
+    text-decoration-color: rgb(20 20 20);
+  }
+
+  .belief-refs {
+    font-size: 0.7rem;
+    color: rgb(20 20 20 / 0.3);
+    letter-spacing: 0.02em;
+    margin-top: 0.25rem;
   }
 </style>

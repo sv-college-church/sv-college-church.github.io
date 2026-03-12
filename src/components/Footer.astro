@@ -2,75 +2,8 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="bg-ink text-paper">
-  <div class="mx-auto max-w-6xl px-6 py-16">
-    <div class="mb-16 grid grid-cols-1 gap-12 md:grid-cols-3">
-      <!-- Brand -->
-      <div>
-        <img
-          src="/images/svc-logo-white.png"
-          alt="SVCC Logo"
-          class="mb-4 h-14 w-14 object-contain invert"
-          width="56"
-          height="56"
-        />
-        <p class="font-display text-xl leading-snug text-paper/80">
-          Silicon Valley<br />College Church
-        </p>
-      </div>
-
-      <!-- Quick links -->
-      <div>
-        <h3 class="mb-4 font-sans text-xs font-semibold uppercase tracking-widest text-paper/40">
-          Explore
-        </h3>
-        <ul class="space-y-2.5">
-          {
-            [
-              ['Visit Us', '/#visit'],
-              ['About', '/about'],
-              ['Sermons', '/#sermons'],
-              ['Get Connected', '/#connect'],
-            ].map(([label, href]) => (
-              <li>
-                <a
-                  href={href}
-                  class="font-sans text-sm text-paper/60 transition-colors hover:text-paper"
-                >
-                  {label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-
-      <!-- Contact -->
-      <div>
-        <h3 class="mb-4 font-sans text-xs font-semibold uppercase tracking-widest text-paper/40">
-          Find Us
-        </h3>
-        <p class="font-sans text-sm leading-relaxed text-paper/60">
-          Silicon Valley, CA<br />
-          Sundays at 10:00 AM<br />
-          <a
-            href="mailto:hello@svcc.church"
-            class="mt-2 inline-block text-accent transition-colors hover:text-paper"
-          >
-            hello@svcc.church
-          </a>
-        </p>
-      </div>
-    </div>
-
-    <!-- Bottom bar -->
-    <div
-      class="flex flex-col items-start justify-between gap-3 border-t border-paper/10 pt-8 md:flex-row md:items-center"
-    >
-      <p class="font-sans text-xs text-paper/30">
-        &copy; {year} Silicon Valley College Church. All rights reserved.
-      </p>
-      <div class="h-px w-8 bg-accent"></div>
-    </div>
+<footer class="border-t border-ink/10 bg-paper">
+  <div class="mx-auto max-w-6xl px-6 py-8">
+    <p class="font-sans text-xs text-ink/30">&copy; {year}</p>
   </div>
 </footer>

@@ -1,91 +1,313 @@
 ---
-const navLinks = [
-  { label: 'Visit', href: '/#visit' },
-  { label: 'About', href: '/about' },
-  { label: 'Sermons', href: '/#sermons' },
-  { label: 'Connect', href: '/#connect' },
-];
 ---
 
-<header
-  class="fixed left-0 right-0 top-0 z-50 border-b border-ink/5 bg-paper/95 backdrop-blur-sm transition-all duration-300"
->
-  <nav class="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-    <!-- Logo -->
-    <a href="/" class="group flex items-center gap-3">
-      <img
-        src="/images/svc-logo-black.png"
-        alt="SVCC Logo"
-        class="h-9 w-9 object-contain"
-        width="36"
-        height="36"
-      />
-      <span
-        class="font-display text-sm font-semibold uppercase tracking-wide text-ink/70 transition-colors group-hover:text-ink"
-      >
-        SV College Church
-      </span>
+<header class="fixed left-0 right-0 top-0 z-50 bg-paper/95 backdrop-blur-sm">
+  <!-- Nav bar -->
+  <nav class="relative flex h-20 w-full items-center px-6 md:h-32 md:justify-between md:px-12">
+
+    <!-- Desktop left links -->
+    <a
+      href="/church"
+      id="church-link"
+      class="relative hidden font-sans text-lg font-black uppercase tracking-widest text-ink transition-colors hover:text-accent md:block"
+    >
+      Church
+      <span id="church-cross" class="pointer-events-none absolute left-1/2 -top-8 -translate-x-1/2 select-none text-xl opacity-0" aria-hidden="true">✝️</span>
+    </a>
+    <a
+      href="/campuses"
+      id="campuses-link"
+      class="relative hidden font-sans text-lg font-black uppercase tracking-widest text-ink transition-colors hover:text-accent md:block"
+    >
+      Campuses
+      <span class="campus-emoji ce-1 pointer-events-none absolute -top-8 select-none text-xl opacity-0" aria-hidden="true">🌲</span>
+      <span class="campus-emoji ce-2 pointer-events-none absolute -top-8 select-none text-xl opacity-0" aria-hidden="true">🐌</span>
+      <span class="campus-emoji ce-3 pointer-events-none absolute -top-8 select-none text-xl opacity-0" aria-hidden="true">🛡️</span>
     </a>
 
-    <!-- Desktop links -->
-    <ul class="hidden items-center gap-8 md:flex">
-      {
-        navLinks.map((link) => (
-          <li>
-            <a
-              href={link.href}
-              class="relative font-sans text-sm font-medium text-ink/60 transition-colors after:absolute after:bottom-[-2px] after:left-0 after:h-[1.5px] after:w-0 after:bg-accent after:transition-all hover:text-ink hover:after:w-full"
-            >
-              {link.label}
-            </a>
-          </li>
-        ))
-      }
-      <li>
-        <a
-          href="/#visit"
-          class="bg-ink px-4 py-2 font-sans text-sm font-semibold text-paper transition-colors duration-200 hover:bg-accent"
-        >
-          Plan a Visit
-        </a>
-      </li>
-    </ul>
+    <!-- Logo — absolutely centered on mobile, in-flow on desktop -->
+    <a href="/" id="logo-link" class="logo-wrap absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
+      <div id="logo-inner" class="logo-inner">
+        <!-- Depth layer: blurred ghost that moves opposite the tilt for parallax depth -->
+        <img id="logo-depth" src="/images/svc-logo-black.png" alt="" aria-hidden="true" class="logo-depth" width="96" height="96" />
+        <!-- Main logo -->
+        <img src="/images/svc-logo-black.png" alt="SVC" class="logo-main h-16 w-auto object-contain md:h-24" width="96" height="96" />
+      </div>
+    </a>
 
-    <!-- Mobile menu toggle (CSS-only checkbox trick) -->
-    <label
-      class="-mr-2 cursor-pointer p-2 md:hidden"
-      for="mobile-menu-toggle"
+    <!-- Desktop right links -->
+    <a
+      href="/connect"
+      id="connect-link"
+      class="relative hidden font-sans text-lg font-black uppercase tracking-widest text-ink transition-colors hover:text-accent md:block"
+    >
+      Connect
+      <span id="connect-emoji" class="pointer-events-none absolute left-1/2 -top-8 -translate-x-1/2 select-none text-xl opacity-0" aria-hidden="true">🤝</span>
+    </a>
+    <a
+      href="/about"
+      id="about-link"
+      class="relative hidden font-sans text-lg font-black uppercase tracking-widest text-ink transition-colors hover:text-accent md:block"
+    >
+      About
+      <span id="about-emoji" class="pointer-events-none absolute left-1/2 -top-8 -translate-x-1/2 select-none text-xl opacity-0" aria-hidden="true">📖</span>
+    </a>
+
+    <!-- Hamburger button — mobile only -->
+    <button
+      id="menu-toggle"
+      class="ml-auto flex flex-col items-center justify-center gap-1.5 md:hidden"
       aria-label="Toggle menu"
+      aria-expanded="false"
     >
-      <span class="mb-1.5 block h-px w-5 bg-ink"></span>
-      <span class="mb-1.5 block h-px w-5 bg-ink"></span>
-      <span class="block h-px w-3 bg-ink"></span>
-    </label>
-    <input type="checkbox" id="mobile-menu-toggle" class="peer hidden" />
-
-    <!-- Mobile menu panel -->
-    <div
-      class="fixed inset-x-0 top-16 hidden border-b border-ink/10 bg-paper px-6 py-6 peer-checked:block md:hidden"
-    >
-      <ul class="flex flex-col gap-5">
-        {
-          navLinks.map((link) => (
-            <li>
-              <a href={link.href} class="font-sans text-base font-medium text-ink">
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-        <li class="pt-2">
-          <a
-            href="/#visit"
-            class="inline-block bg-ink px-5 py-2.5 font-sans text-sm font-semibold text-paper transition-colors hover:bg-accent"
-          >
-            Plan a Visit
-          </a>
-        </li>
-      </ul>
-    </div>
+      <span class="hamburger-bar block h-0.5 w-6 bg-ink transition-all duration-300"></span>
+      <span class="hamburger-bar block h-0.5 w-6 bg-ink transition-all duration-300"></span>
+      <span class="hamburger-bar block h-0.5 w-6 bg-ink transition-all duration-300"></span>
+    </button>
   </nav>
+
+  <!-- Mobile dropdown menu -->
+  <div
+    id="mobile-menu"
+    class="overflow-hidden transition-[max-height] duration-300 ease-in-out md:hidden"
+    style="max-height: 0;"
+  >
+    <nav class="flex flex-col border-t border-ink/10 bg-paper px-6 py-2">
+      <a href="/church"   class="border-b border-ink/10 py-4 font-sans text-sm font-black uppercase tracking-widest text-ink">Church</a>
+      <a href="/campuses" class="border-b border-ink/10 py-4 font-sans text-sm font-black uppercase tracking-widest text-ink">Campuses</a>
+      <a href="/connect"  class="border-b border-ink/10 py-4 font-sans text-sm font-black uppercase tracking-widest text-ink">Connect</a>
+      <a href="/about"    class="py-4 font-sans text-sm font-black uppercase tracking-widest text-ink">About</a>
+    </nav>
+  </div>
 </header>
+
+<style>
+  /* ── Shared pop keyframes ── */
+  @keyframes emojiAppear {
+    0%   { opacity: 0; transform: translateX(-50%) scale(0) rotate(-20deg); }
+    55%  { opacity: 1; transform: translateX(-50%) scale(1.2) rotate(6deg); }
+    75%  { transform: translateX(-50%) scale(0.93) rotate(-2deg); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1) rotate(0deg); }
+  }
+  @keyframes emojiDisappear {
+    0%   { opacity: 1; transform: translateX(-50%) scale(1) rotate(0deg); }
+    100% { opacity: 0; transform: translateX(-50%) scale(0) rotate(15deg); }
+  }
+  @keyframes emojiBurst {
+    0%   { opacity: 1; transform: translateX(-50%) scale(1) rotate(0deg); }
+    40%  { opacity: 0.9; transform: translateX(-50%) scale(2) rotate(-8deg); }
+    70%  { opacity: 0.4; transform: translateX(-50%) scale(2.6) rotate(5deg); }
+    100% { opacity: 0;   transform: translateX(-50%) scale(3) rotate(0deg); }
+  }
+
+  #church-cross.appear,
+  #connect-emoji.appear,
+  #about-emoji.appear    { animation: emojiAppear    0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+  #church-cross.disappear,
+  #connect-emoji.disappear,
+  #about-emoji.disappear { animation: emojiDisappear 0.25s ease-in forwards; }
+
+  #church-cross.burst,
+  #connect-emoji.burst,
+  #about-emoji.burst     { animation: emojiBurst     0.5s  ease-out forwards; }
+
+  .ce-1 { left: 20%; }
+  .ce-2 { left: 50%; }
+  .ce-3 { left: 80%; }
+
+  .ce-1.appear { animation: emojiAppear    0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0s    forwards; }
+  .ce-2.appear { animation: emojiAppear    0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s  forwards; }
+  .ce-3.appear { animation: emojiAppear    0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s  forwards; }
+
+  .ce-1.disappear { animation: emojiDisappear 0.25s ease-in 0s    forwards; }
+  .ce-2.disappear { animation: emojiDisappear 0.25s ease-in 0.05s forwards; }
+  .ce-3.disappear { animation: emojiDisappear 0.25s ease-in 0.1s  forwards; }
+
+  .ce-1.burst { animation: emojiBurst 0.5s ease-out 0s    forwards; }
+  .ce-2.burst { animation: emojiBurst 0.5s ease-out 0.06s forwards; }
+  .ce-3.burst { animation: emojiBurst 0.5s ease-out 0.12s forwards; }
+
+  /* ── Logo tilt ── */
+  .logo-wrap {
+    display: block;
+    perspective: 400px; /* tighter perspective = more dramatic foreshortening */
+  }
+
+  @keyframes logoFloat {
+    0%, 100% { transform: translateY(0px) rotateY(0deg) rotateX(0deg); }
+    50%       { transform: translateY(-4px) rotateY(-8deg) rotateX(2deg); }
+  }
+
+  .logo-inner {
+    position: relative;
+    display: inline-block;
+    transform-style: preserve-3d;
+    animation: logoFloat 4s ease-in-out infinite;
+    will-change: transform, filter;
+  }
+
+  .logo-inner.is-tilting {
+    animation: none;
+    transition: none; /* raw mousemove — no transition lag */
+  }
+
+  .logo-inner.is-resetting {
+    animation: none;
+    transition: transform 0.7s cubic-bezier(0.34, 1.4, 0.64, 1), filter 0.4s ease-out;
+  }
+
+  /* Depth ghost layer */
+  .logo-depth {
+    position: absolute;
+    inset: 0;
+    height: 4rem;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.18;
+    filter: blur(5px);
+    pointer-events: none;
+    transform: translate(0px, 0px);
+    transition: transform 0.08s linear;
+  }
+
+  .logo-main {
+    position: relative; /* sits above depth layer */
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    .logo-depth { height: 6rem; }
+  }
+
+  /* Hamburger → X */
+  #menu-toggle[aria-expanded="true"] .hamburger-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  #menu-toggle[aria-expanded="true"] .hamburger-bar:nth-child(2) { opacity: 0; }
+  #menu-toggle[aria-expanded="true"] .hamburger-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+</style>
+
+<script>
+  /* ── Mobile menu ── */
+  const toggle     = document.getElementById('menu-toggle')!;
+  const mobileMenu = document.getElementById('mobile-menu')!;
+
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    mobileMenu.style.maxHeight = open ? '0' : `${mobileMenu.scrollHeight}px`;
+  });
+
+  /* ── Logo cursor tilt — desktop only ── */
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const logoWrap  = document.getElementById('logo-link')!;
+    const logoInner = document.getElementById('logo-inner')!;
+    const logoDepth = document.getElementById('logo-depth') as HTMLImageElement;
+    let resetTimer: ReturnType<typeof setTimeout>;
+
+    logoWrap.addEventListener('mouseenter', () => {
+      clearTimeout(resetTimer);
+      logoInner.classList.remove('is-resetting');
+      logoInner.classList.add('is-tilting');
+    });
+
+    logoWrap.addEventListener('mousemove', (e) => {
+      const rect = logoWrap.getBoundingClientRect();
+      const cx = rect.left + rect.width  / 2;
+      const cy = rect.top  + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width  / 2); // -1 → 1
+      const dy = (e.clientY - cy) / (rect.height / 2); // -1 → 1
+
+      // Exaggerated tilt — tighter perspective makes this very dramatic
+      const rotY =  dx * 38;
+      const rotX = -dy * 28;
+
+      // Shadow moves opposite to tilt — simulates fixed overhead light source
+      const shadowX =  dx * 16;
+      const shadowY = -dy * 12 + 8; // always some downward shadow from above
+
+      logoInner.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+      logoInner.style.filter    = `drop-shadow(${shadowX}px ${shadowY}px 18px rgba(0,0,0,0.22))`;
+
+      // Depth ghost moves counter to tilt — parallax separation = perceived thickness
+      logoDepth.style.transform = `translate(${-dx * 10}px, ${-dy * 7}px)`;
+    });
+
+    logoWrap.addEventListener('mouseleave', () => {
+      logoInner.classList.remove('is-tilting');
+      logoInner.classList.add('is-resetting');
+      logoInner.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      logoInner.style.filter    = '';
+      logoDepth.style.transform = 'translate(0px, 0px)';
+      resetTimer = setTimeout(() => {
+        logoInner.classList.remove('is-resetting');
+        logoInner.style.transform = '';
+      }, 720);
+    });
+  }
+
+  /* ── Emoji interactions — desktop/mouse only ── */
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+
+    /* Church cross */
+    const link  = document.getElementById('church-link')  as HTMLAnchorElement;
+    const cross = document.getElementById('church-cross') as HTMLSpanElement;
+
+    function resetCross(...classes: string[]) { cross.classList.remove(...classes); void cross.offsetWidth; }
+
+    link.addEventListener('mouseenter', () => { resetCross('disappear', 'burst'); cross.classList.add('appear'); });
+    link.addEventListener('mouseleave', () => {
+      resetCross('appear', 'burst');
+      cross.classList.add('disappear');
+      cross.addEventListener('animationend', () => cross.classList.remove('disappear'), { once: true });
+    });
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      resetCross('appear', 'disappear');
+      cross.classList.add('burst');
+      setTimeout(() => { window.location.href = link.href; }, 450);
+    });
+
+    /* Campus emojis */
+    const campusLink   = document.getElementById('campuses-link') as HTMLAnchorElement;
+    const campusEmojis = Array.from(campusLink.querySelectorAll<HTMLElement>('.campus-emoji'));
+
+    function resetCampus(...classes: string[]) { campusEmojis.forEach(el => el.classList.remove(...classes)); void campusLink.offsetWidth; }
+
+    campusLink.addEventListener('mouseenter', () => { resetCampus('disappear', 'burst'); campusEmojis.forEach(el => el.classList.add('appear')); });
+    campusLink.addEventListener('mouseleave', () => {
+      resetCampus('appear', 'burst');
+      campusEmojis.forEach(el => {
+        el.classList.add('disappear');
+        el.addEventListener('animationend', () => el.classList.remove('disappear'), { once: true });
+      });
+    });
+    campusLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      resetCampus('appear', 'disappear');
+      campusEmojis.forEach(el => el.classList.add('burst'));
+      setTimeout(() => { window.location.href = campusLink.href; }, 450);
+    });
+
+    /* Single-emoji helper */
+    function setupSingleEmoji(linkId: string, emojiId: string) {
+      const l = document.getElementById(linkId)  as HTMLAnchorElement;
+      const e = document.getElementById(emojiId) as HTMLSpanElement;
+      function reset(...classes: string[]) { e.classList.remove(...classes); void e.offsetWidth; }
+      l.addEventListener('mouseenter', () => { reset('disappear', 'burst'); e.classList.add('appear'); });
+      l.addEventListener('mouseleave', () => {
+        reset('appear', 'burst');
+        e.classList.add('disappear');
+        e.addEventListener('animationend', () => e.classList.remove('disappear'), { once: true });
+      });
+      l.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        reset('appear', 'disappear');
+        e.classList.add('burst');
+        setTimeout(() => { window.location.href = l.href; }, 450);
+      });
+    }
+
+    setupSingleEmoji('connect-link', 'connect-emoji');
+    setupSingleEmoji('about-link',   'about-emoji');
+  }
+</script>
