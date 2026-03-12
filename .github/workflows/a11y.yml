@@ -1,0 +1,44 @@
+name: Accessibility Audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Serve and audit
+        run: |
+          npx serve dist -l 4321 &
+          sleep 3
+
+          PAGES=(
+            "http://localhost:4321/"
+            "http://localhost:4321/about"
+            "http://localhost:4321/church"
+            "http://localhost:4321/connect"
+            "http://localhost:4321/campuses"
+            "http://localhost:4321/campuses/sjsu-klesis"
+            "http://localhost:4321/campuses/sjsu-4c"
+            "http://localhost:4321/campuses/scu-klesis"
+            "http://localhost:4321/campuses/stanford-moment"
+            "http://localhost:4321/campuses/ucsc-klesis"
+          )
+
+          npx @axe-core/cli "${PAGES[@]}" --exit
