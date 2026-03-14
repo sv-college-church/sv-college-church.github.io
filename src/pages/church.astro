@@ -4,147 +4,516 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<BaseLayout title="Church" description="">
+<BaseLayout title="Church" description="Sundays at SVC — college students from across the South Bay gathering every Sunday at 12 PM in Santa Clara.">
   <Nav />
   <main class="min-h-screen bg-paper pt-20 md:pt-32">
-    <section class="py-16 text-center">
+
+    <!-- Easter announcement banner -->
+    <div class="announcement-banner">
+      <span class="banner-text">🐣 EASTER SUNDAY · APR 6 · THE KINGS ACADEMY · SUNNYVALE</span>
+      <button class="easter-btn" aria-label="Switch to Easter Sunday service details"><span class="btn-default">CLICK HERE FOR INFO</span><span class="btn-reset">← BACK TO REGULAR</span></button>
+    </div>
+
+    <!-- Hero -->
+    <section class="py-12 text-center md:py-16">
       <h1 class="font-sans font-black uppercase leading-none" style="font-size: clamp(3rem, 8vw, 8rem);">
         Sundays at SVC
       </h1>
-      <div class="mt-10 flex items-center justify-center gap-6">
-        <a
-          href="#info"
-          class="border border-ink px-8 py-3 font-sans text-sm font-bold uppercase tracking-widest text-ink transition-colors duration-200 hover:bg-ink hover:text-paper"
-        >
-          Info
-        </a>
+    </section>
+
+    <!-- WHEN + WHERE side by side -->
+    <section class="when-where border-t border-ink/10">
+      <!-- When -->
+      <div class="info-col" data-animate>
+        <p class="section-label">When</p>
+        <p class="display-primary" id="when-primary">Sundays</p>
+        <p class="display-bold" id="when-bold">12 PM</p>
+        <button class="easter-inline-btn" id="easter-inline"><span class="inline-default">🐣 Easter Sunday? →</span><span class="inline-reset">← Back to regular</span></button>
+      </div>
+
+      <!-- Divider -->
+      <div class="col-divider" aria-hidden="true"></div>
+
+      <!-- Where -->
+      <div class="info-col" data-animate>
+        <p class="section-label">Where</p>
+        <p class="display-primary" id="where-primary">2346 Walsh Ave</p>
+        <p class="display-secondary" id="where-secondary">Santa Clara, CA</p>
         <a
           href="https://maps.app.goo.gl/XnKMeboUpYpEXNxB8"
           target="_blank"
           rel="noopener noreferrer"
-          class="bg-ink px-8 py-3 font-sans text-sm font-bold uppercase tracking-widest text-paper transition-colors duration-200 hover:bg-ink/70"
+          class="directions-link"
+          id="directions-link"
+        >
+          Get Directions →
+        </a>
+      </div>
+    </section>
+
+    <!-- Easter reset (appears when Easter mode is active) -->
+    <div class="easter-reset" id="easter-reset" aria-live="polite">
+      <button id="reset-btn">← Back to regular service</button>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint border-t border-ink/10" aria-hidden="true">
+      <a href="#what" class="scroll-arrow">↓</a>
+    </div>
+
+    <!-- WHAT -->
+    <section id="what" class="reveal-section border-t border-ink/10">
+      <div class="reveal-inner what-inner" data-animate>
+        <div class="section-rule"></div>
+        <p class="section-label">What to Expect</p>
+        <p class="body-text">
+          Every Sunday, students from SJSU, Stanford, UC Santa Cruz, De Anza, and beyond pack into Walsh to worship together. Expect live praise, a message worth hearing, and lunch after. It usually ends with a pickup basketball game nobody planned. Come as you are — we'd love to have you.
+        </p>
+        <a
+          href="https://maps.app.goo.gl/XnKMeboUpYpEXNxB8"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cta-button"
         >
           Get Directions
         </a>
       </div>
     </section>
 
-    <!-- Photo circles -->
-    <section class="w-full px-6 pb-16 md:px-16 md:pb-32" style="padding-top: 2rem;">
-      <div class="circles-row">
-        <div class="photo-circle" style="--offset: -4vw;"><img src="/images/church-train.jpg" alt="SVC church group on a train" /></div>
-        <div class="photo-circle" style="--offset: 4vw;"><img src="/images/church-easter.jpg" alt="SVC church Easter gathering" /></div>
-        <div class="photo-circle" style="--offset: -4vw;"><img src="/images/church-cliff.jpg" alt="SVC church group at a cliff" /></div>
-        <div class="photo-circle" style="--offset: 4vw;"><img src="/images/church-beach.jpg" alt="SVC church group at the beach" /></div>
-      </div>
-    </section>
-
-    <!-- Info row -->
-    <section id="info" class="w-full border-t border-ink/15">
-      <div class="info-grid">
-        <!-- Info -->
-        <div class="info-col">
-          <p class="col-label">Info</p>
-          <p class="col-body">
-            A typical sunday at SVC looks like a bunch of college students from across the south bay gathering together to worship God. Students from SJSU, Stanford, UC Santa Cruz, De Anza, and more all gather at our main building, called Walsh. We usually have some praise, a message, maybe a testimony, and enjoy lunch altogether afterwards. Occasionally an impromptu basketball/volleyball game will breakout after taking down all the tech equipment. Come check us out, we'd love to have you!
-          </p>
-        </div>
-
-        <!-- Where -->
-        <div class="info-col border-l border-ink/15">
-          <p class="col-label">Where 📍</p>
-          <p class="col-display">2346 Walsh Ave<br />Santa Clara<br />CA 95051</p>
-        </div>
-
-        <!-- When -->
-        <div class="info-col border-l border-ink/15">
-          <p class="col-label">When 🕛</p>
-          <p class="col-display">Sundays<br />12 PM</p>
-        </div>
-      </div>
-    </section>
   </main>
   <Footer />
 </BaseLayout>
 
 <style>
-  .info-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-  }
-
-  .info-col {
-    padding: 3rem 3.5rem;
+  /* ── Announcement banner ── */
+  .announcement-banner {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 1.5rem;
+    background: #0A0A0A;
+    padding: 1.1rem 2rem;
   }
 
-  .col-label {
+  .banner-text {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #F5F5F0;
+    line-height: 1;
+  }
+
+  .easter-btn {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: 1;
+    color: #F5F5F0;
+    background: #D91C2A;
+    border: 1px solid transparent;
+    padding: 0.65rem 1.6rem;
+    cursor: pointer;
+    white-space: nowrap;
+    position: relative;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+
+  .easter-btn:hover { background: #b51623; }
+
+  .easter-btn.is-reset {
+    background: transparent;
+    border-color: rgb(245 245 240 / 0.5);
+  }
+
+  .easter-btn.is-reset:hover { background: rgb(245 245 240 / 0.1); }
+
+  .btn-default, .btn-reset {
+    display: block;
+    white-space: nowrap;
+    transition: opacity 0.15s ease;
+  }
+
+  .btn-reset {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+  }
+
+  .easter-btn.is-reset .btn-default { opacity: 0; }
+  .easter-btn.is-reset .btn-reset { opacity: 1; }
+
+  /* ── Easter inline trigger (below 12 PM) ── */
+  .easter-inline-btn {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #D91C2A;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 1.5rem;
+    padding: 0;
+    position: relative;
+    transition: opacity 0.2s ease;
+  }
+
+  .easter-inline-btn:hover { opacity: 0.7; }
+
+  .inline-default, .inline-reset {
+    transition: opacity 0.15s ease;
+  }
+
+  .inline-reset {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+  }
+
+  .easter-inline-btn.is-reset .inline-default { opacity: 0; }
+  .easter-inline-btn.is-reset .inline-reset { opacity: 1; }
+
+  /* ── Easter reset pill ── */
+  .easter-reset {
+    display: flex;
+    justify-content: center;
+    padding: 0.75rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .easter-reset.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  #reset-btn {
+    font-family: 'Instrument Sans', sans-serif;
     font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: rgb(20 20 20 / 0.35);
+    letter-spacing: 0.18em;
+    color: rgb(10 10 10 / 0.4);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
   }
 
-  .col-body {
-    font-size: clamp(0.9rem, 1.2vw, 1.05rem);
-    line-height: 1.75;
-    color: rgb(20 20 20 / 0.65);
+  #reset-btn:hover {
+    color: rgb(10 10 10 / 0.8);
   }
 
-  .col-display {
-    font-size: clamp(1.4rem, 2.5vw, 2.2rem);
-    font-weight: 800;
-    line-height: 1.2;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    color: rgb(20 20 20);
-  }
-
-  .circles-row {
+  /* ── WHEN + WHERE side by side ── */
+  .when-where {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6vw;
+    grid-template-columns: 1fr 1px 1fr;
+    min-height: 50vh;
+  }
+
+  .info-col {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 3rem;
+    gap: 0;
   }
 
-  .photo-circle {
-    width: 38vw;
-    height: 38vw;
-    border-radius: 50%;
-    border: 1.5px solid rgb(20 20 20 / 0.3);
-    justify-self: center;
-    overflow: hidden;
+  .col-divider {
+    background: rgb(10 10 10 / 0.1);
+    align-self: stretch;
+  }
+
+  /* ── Reveal (data-animate) ── */
+  [data-animate] {
+    opacity: 0;
+    transform: translateY(28px);
     transition:
-      transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-      border-color 0.3s ease;
+      opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+      transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
-  .photo-circle img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+  [data-animate].is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  @media (min-width: 768px) {
-    .circles-row {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2vw;
-      height: 32vw;
+  /* ── Section label ── */
+  .section-label {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgb(10 10 10 / 0.32);
+    margin-bottom: 1.75rem;
+  }
+
+  .what-inner .section-label {
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    color: rgb(10 10 10 / 0.5);
+    margin-bottom: 2rem;
+  }
+
+  /* ── Display text ── */
+  .display-primary {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5.5vw, 6rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    color: rgb(10 10 10);
+  }
+
+  #where-primary {
+    font-size: clamp(1.6rem, 3vw, 3.4rem);
+    white-space: nowrap;
+  }
+
+  .display-bold {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 9rem);
+    font-weight: 700;
+    font-style: normal;
+    line-height: 0.88;
+    letter-spacing: -0.03em;
+    color: rgb(10 10 10);
+    margin-top: 0.1em;
+  }
+
+  .display-secondary {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 3vw, 3.2rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: rgb(10 10 10 / 0.45);
+    margin-top: 0.35em;
+  }
+
+  /* ── Directions link ── */
+  .directions-link {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgb(10 10 10 / 0.4);
+    text-decoration: none;
+    margin-top: 2rem;
+    transition: color 0.2s ease;
+  }
+
+  .directions-link:hover {
+    color: rgb(10 10 10);
+  }
+
+  /* ── Scroll hint ── */
+  .scroll-hint {
+    display: flex;
+    justify-content: center;
+    padding: 1rem 0;
+  }
+
+  .scroll-arrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: #D91C2A;
+    text-decoration: none;
+    animation: nudge 2.4s ease-in-out infinite;
+    transition: opacity 0.2s ease;
+    line-height: 1;
+  }
+
+  .scroll-arrow:hover {
+    opacity: 0.7;
+  }
+
+  @keyframes nudge {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50%       { transform: translateY(5px); opacity: 1; }
+  }
+
+  /* ── WHAT section ── */
+  .reveal-section {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 2rem;
+  }
+
+  .reveal-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .section-rule {
+    width: 1px;
+    height: 3.5rem;
+    background: rgb(10 10 10 / 0.18);
+    margin-bottom: 1.75rem;
+  }
+
+  .what-inner {
+    max-width: 60rem;
+  }
+
+  .body-text {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(1.35rem, 2.2vw, 2rem);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.75;
+    color: rgb(10 10 10 / 0.82);
+    margin-bottom: 3rem;
+  }
+
+  .cta-button {
+    display: inline-block;
+    border: 1px solid rgb(10 10 10);
+    padding: 0.8rem 2.75rem;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgb(10 10 10);
+    text-decoration: none;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .cta-button:hover {
+    background: rgb(10 10 10);
+    color: #F5F5F0;
+  }
+
+  /* ── Mobile: stack when/where ── */
+  @media (max-width: 640px) {
+    .when-where {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1px auto;
+      min-height: unset;
     }
 
-    .photo-circle {
-      width: 22vw;
-      height: 22vw;
-      transform: translateY(var(--offset));
-    }
-
-    .photo-circle:hover {
-      border-color: rgb(20 20 20 / 0.7);
-      transform: translateY(calc(var(--offset) - 0.5vw));
+    .col-divider {
+      width: 100%;
+      height: 1px;
+      background: rgb(10 10 10 / 0.1);
     }
   }
 </style>
+
+<script>
+  var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+  var REGULAR = {
+    whenPrimary: 'Sundays',
+    wherePrimary: '2346 Walsh Ave',
+    whereSecondary: 'Santa Clara, CA',
+    mapsUrl: 'https://maps.app.goo.gl/XnKMeboUpYpEXNxB8',
+  };
+
+  var EASTER = {
+    whenPrimary: 'April 6',
+    wherePrimary: 'The Kings Academy',
+    whereSecondary: '562 N Britton Ave',
+    mapsUrl: 'https://maps.app.goo.gl/Qxu9AUFbXdcRdcSY7',
+  };
+
+  var isEaster = false;
+
+  function scramble(el, target) {
+    var INTERVAL = 28;
+    var STEPS = 18;
+    var step = 0;
+    // Use source length during animation so the element never grows mid-scramble
+    var scrambleLen = el.textContent.length;
+
+    var run = setInterval(function () {
+      step++;
+      var progress = step / STEPS;
+      var result = '';
+
+      for (var i = 0; i < scrambleLen; i++) {
+        var resolveThreshold = (i / scrambleLen) * 0.65 + 0.35;
+        if (progress >= resolveThreshold) {
+          result += (target[i] !== undefined ? target[i] : '');
+        } else {
+          result += CHARS[Math.floor(Math.random() * CHARS.length)];
+        }
+      }
+
+      el.textContent = result;
+
+      if (step >= STEPS) {
+        clearInterval(run);
+        // Snap to final text only at the very end
+        el.textContent = target;
+      }
+    }, INTERVAL);
+  }
+
+  function applyState(data) {
+    scramble(document.getElementById('when-primary'), data.whenPrimary);
+    scramble(document.getElementById('where-primary'), data.wherePrimary);
+    scramble(document.getElementById('where-secondary'), data.whereSecondary);
+
+    var link = document.getElementById('directions-link');
+    setTimeout(function () { link.href = data.mapsUrl; }, 300);
+  }
+
+  function toggleEaster() {
+    isEaster = !isEaster;
+    applyState(isEaster ? EASTER : REGULAR);
+
+    // Toggle all Easter buttons (banner + inline)
+    document.querySelectorAll('.easter-btn').forEach(function (btn) {
+      btn.classList.toggle('is-reset', isEaster);
+    });
+    var inlineBtn = document.getElementById('easter-inline');
+    if (inlineBtn) inlineBtn.classList.toggle('is-reset', isEaster);
+
+    // Show/hide reset pill
+    var reset = document.getElementById('easter-reset');
+    if (reset) reset.classList.toggle('visible', isEaster);
+  }
+
+  // Banner button
+  document.querySelector('.easter-btn').addEventListener('click', function () {
+    toggleEaster();
+  });
+
+  // Inline button (below 12 PM)
+  document.getElementById('easter-inline').addEventListener('click', function () {
+    toggleEaster();
+  });
+
+  // Reset pill
+  var resetBtn = document.getElementById('reset-btn');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () {
+      if (isEaster) toggleEaster();
+    });
+  }
+</script>
