@@ -1,0 +1,232 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+
+const groups = [
+  {
+    name: 'Klesis',
+    type: 'Fellowship',
+    href: '/campuses/sjsu-klesis',
+    logo: '/images/campuses/logos/klesis-sjsu.png',
+    desc: 'Weekly Bible studies, discipleship, and community for SJSU students.',
+  },
+  {
+    name: '4Corners',
+    type: 'International Fellowship',
+    href: '/campuses/sjsu-4c',
+    logo: '/images/campuses/logos/4corners.png',
+    desc: 'A fellowship for international students at SJSU.',
+  },
+  {
+    name: 'ISMP',
+    type: 'International Mentorship',
+    href: 'https://internationalmentorship.org/sjsu',
+    logo: '/images/campuses/logos/ismp.png',
+    external: true,
+    desc: 'One-on-one mentorship for international students navigating college life.',
+  },
+];
+---
+
+<BaseLayout title="SJSU — Campuses" description="Campus ministries at San José State University.">
+  <Nav />
+
+  <main class="min-h-screen bg-paper pt-20 md:pt-32">
+
+    <!-- Hero -->
+    <section
+      class="hero-section"
+      style="view-transition-name: campus-sjsu"
+    >
+      <a href="/campuses" class="back-link">← Campuses</a>
+      <p class="school-label">San José State University</p>
+      <h1 class="school-name">SJSU</h1>
+    </section>
+
+    <!-- Groups -->
+    <section class="groups-section border-t border-ink/10" data-animate>
+      <div class="section-rule"></div>
+      <p class="section-label">Groups on Campus</p>
+
+      <div class="groups-list">
+        {groups.map((g) => (
+          <a
+            href={g.href}
+            class="group-row"
+            {...(g.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            <img src={g.logo} alt={`${g.name} logo`} class="group-logo" />
+            <div class="group-info">
+              <p class="group-name">{g.name}</p>
+              <p class="group-desc">{g.desc}</p>
+            </div>
+            <div class="group-right">
+              <span class="group-type">{g.type}</span>
+              <span class="group-arrow">{g.external ? '↗' : '→'}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 60vh;
+    padding: 4rem 2rem 3rem;
+    position: relative;
+  }
+
+  .back-link {
+    position: absolute;
+    top: 0;
+    left: 2rem;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgb(10 10 10 / 0.35);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: rgb(10 10 10);
+  }
+
+  .school-label {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgb(10 10 10 / 0.32);
+    margin-bottom: 1.25rem;
+  }
+
+  .school-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(5rem, 14vw, 12rem);
+    line-height: 0.88;
+    letter-spacing: -0.02em;
+    color: rgb(10 10 10);
+  }
+
+  /* Groups section */
+  .groups-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5rem 2rem 6rem;
+  }
+
+  .section-rule {
+    width: 1px;
+    height: 3.5rem;
+    background: rgb(10 10 10 / 0.18);
+    margin-bottom: 1.75rem;
+  }
+
+  .section-label {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgb(10 10 10 / 0.32);
+    margin-bottom: 3rem;
+  }
+
+  .groups-list {
+    width: 100%;
+    max-width: 52rem;
+  }
+
+  .group-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgb(10 10 10 / 0.1);
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s ease;
+  }
+
+  .group-row:last-child {
+    border-bottom: 1px solid rgb(10 10 10 / 0.1);
+  }
+
+  .group-row:hover {
+    opacity: 0.6;
+  }
+
+  .group-logo {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: contain;
+    flex-shrink: 0;
+    filter: grayscale(100%);
+    opacity: 0.45;
+    transition: opacity 0.2s ease;
+  }
+
+  .group-row:hover .group-logo {
+    opacity: 0.7;
+  }
+
+  .group-info {
+    flex: 1;
+  }
+
+  .group-name {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgb(10 10 10);
+    margin-bottom: 0.3rem;
+  }
+
+  .group-desc {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: rgb(10 10 10 / 0.45);
+  }
+
+  .group-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  .group-type {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgb(10 10 10 / 0.3);
+  }
+
+  .group-arrow {
+    font-size: 0.85rem;
+    color: #D91C2A;
+  }
+</style>

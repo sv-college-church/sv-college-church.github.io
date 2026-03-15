@@ -3,209 +3,145 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 
-const campuses = [
+const schools = [
   {
-    school: 'San José State',
-    groups: [
-      { name: 'Klesis', type: 'Fellowship', href: '/campuses/sjsu-klesis', logo: '/images/campuses/logos/klesis-sjsu.png' },
-      { name: '4Corners', type: 'International', href: '/campuses/sjsu-4c', logo: '/images/campuses/logos/4corners.png' },
-      { name: 'ISMP', type: 'International', href: 'https://internationalmentorship.org/sjsu', logo: '/images/campuses/logos/ismp.png', external: true },
-    ],
+    id: 'sjsu',
+    label: 'San José State',
+    name: 'SJSU',
+    href: '/campuses/sjsu',
   },
   {
-    school: 'Stanford',
-    groups: [
-      { name: 'Moment', type: 'Fellowship', href: '/campuses/stanford-moment', logo: '/images/campuses/logos/moment.png' },
-      { name: 'Moment International', type: 'International', href: '/campuses/stanford-moment#international', logo: '/images/campuses/logos/moment-intl.png' },
-    ],
+    id: 'stanford',
+    label: 'Stanford University',
+    name: 'Stanford',
+    href: '/campuses/stanford',
   },
   {
-    school: 'Santa Clara',
-    groups: [
-      { name: 'Klesis', type: 'Fellowship', href: '/campuses/scu-klesis', logo: '/images/campuses/logos/klesis-scu.png' },
-    ],
-  },
-  {
-    school: 'UC Santa Cruz',
-    groups: [
-      { name: 'Klesis', type: 'Fellowship', href: '/campuses/ucsc-klesis', logo: '/images/campuses/logos/klesis-ucsc.png' },
-    ],
-  },
-  {
-    school: 'De Anza',
-    groups: [
-      { name: 'ISMP', type: 'International', href: 'https://internationalmentorship.org/deanza', logo: '/images/campuses/logos/ismp.png', external: true },
-    ],
+    id: 'ucsc',
+    label: 'UC Santa Cruz',
+    name: 'UCSC',
+    href: '/campuses/ucsc',
   },
 ];
 ---
 
 <BaseLayout title="Campuses" description="Campus ministries across Silicon Valley and beyond.">
   <Nav />
-  <main class="min-h-screen bg-paper pt-20 md:pt-32">
 
-    <!-- Hero -->
-    <section class="px-6 py-16 text-center md:py-28">
-      <h1 class="font-sans font-black uppercase leading-none text-ink" style="font-size: clamp(3rem, 8vw, 8rem);">
-        Campuses
-      </h1>
-      <p class="col-body mx-auto mt-8 max-w-2xl">
-        Our college students are part of Christian fellowships on campuses across Silicon Valley. Each fellowship is a community rooted in the Acts 2 church — studying the Bible, sharing meals, and doing life together.
-      </p>
-    </section>
-
-    <!-- Campus grid -->
-    <section class="border-t border-ink/15 px-6 py-20 md:px-16" data-animate>
-      <h2 class="col-label mb-12">Find Your Campus</h2>
-      <div class="campus-grid">
-        {campuses.map((c) => (
-          <div class="campus-cell">
-            <h3 class="campus-school">{c.school}</h3>
-            <div class="campus-groups">
-              {c.groups.map((g) => (
-                <a
-                  href={g.href}
-                  class="group-row"
-                  aria-label={`${g.name} at ${c.school}`}
-                  {...(g.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                >
-                  <img src={g.logo} alt={`${g.name} logo`} class="group-logo" />
-                  <span class="group-name">{g.name}</span>
-                  <span class="group-type">{g.type}</span>
-                  <span class="group-arrow">{g.external ? '↗' : '→'}</span>
-                </a>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="border-t border-ink/15 px-6 py-16 text-center md:px-16" data-animate>
-      <p class="col-body">Want to get plugged in?</p>
-      <a
-        href="/connect"
-        class="mt-6 inline-block border border-ink px-8 py-3 font-sans text-sm font-bold uppercase tracking-widest text-ink transition-colors duration-200 hover:bg-ink hover:text-paper"
-      >
-        Get Connected
-      </a>
-    </section>
-
+  <main class="campuses-main">
+    <div class="triptych">
+      {schools.map((school) => (
+        <a
+          href={school.href}
+          class="campus-col"
+          aria-label={`Learn more about ${school.label}`}
+          style={`view-transition-name: campus-${school.id}`}
+        >
+          <p class="col-label">{school.label}</p>
+          <h2 class="col-name">{school.name}</h2>
+          <span class="col-cta">Learn More →</span>
+        </a>
+      ))}
+    </div>
   </main>
+
   <Footer />
 </BaseLayout>
 
 <style>
+  .campuses-main {
+    min-height: 100svh;
+    display: flex;
+    align-items: stretch;
+    padding-top: 5rem; /* clear nav */
+  }
+
+  .triptych {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+  }
+
+  .campus-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 3rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .campus-col:not(:last-child) {
+    border-right: 1px solid rgb(10 10 10 / 0.1);
+  }
+
+  .campus-col:hover .col-name {
+    color: rgb(10 10 10);
+  }
+
+  .campus-col:hover .col-cta {
+    color: rgb(10 10 10 / 0.7);
+  }
+
   .col-label {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgb(10 10 10 / 0.32);
+    margin-bottom: 1.5rem;
+  }
+
+  .col-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(2.5rem, 4.5vw, 5.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: rgb(10 10 10 / 0.75);
+    margin-bottom: 2.5rem;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .col-cta {
+    font-family: 'Instrument Sans', sans-serif;
     font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: rgb(20 20 20 / 0.35);
+    letter-spacing: 0.2em;
+    color: rgb(10 10 10 / 0.35);
+    transition: color 0.25s ease;
+    white-space: nowrap;
   }
 
-  .col-body {
-    font-size: clamp(0.9rem, 1.2vw, 1.05rem);
-    line-height: 1.75;
-    color: rgb(20 20 20 / 0.65);
-  }
-
-  .campus-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  @media (min-width: 768px) {
-    .campus-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  .campus-cell {
-    padding: 2.5rem 0;
-    border-top: 1px solid rgb(20 20 20 / 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  @media (min-width: 768px) {
-    .campus-cell {
-      padding: 2.5rem 3rem 2.5rem 0;
+  /* Mobile: stack vertically */
+  @media (max-width: 640px) {
+    .campuses-main {
+      padding-top: 4rem;
+      min-height: unset;
     }
 
-    .campus-cell:nth-child(even) {
-      padding-left: 3rem;
-      padding-right: 0;
-      border-left: 1px solid rgb(20 20 20 / 0.1);
+    .triptych {
+      grid-template-columns: 1fr;
     }
-  }
 
-  .campus-school {
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: rgb(20 20 20);
-  }
+    .campus-col {
+      padding: 3.5rem 2rem;
+    }
 
-  .campus-groups {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
+    .campus-col:not(:last-child) {
+      border-right: none;
+      border-bottom: 1px solid rgb(10 10 10 / 0.1);
+    }
 
-  .group-row {
-    display: grid;
-    grid-template-columns: 2rem 1fr auto auto;
-    gap: 0.75rem;
-    align-items: center;
-    padding: 0.75rem 0;
-    border-top: 1px solid rgb(20 20 20 / 0.06);
-    text-decoration: none;
-    color: inherit;
-    transition: opacity 0.2s;
-  }
-
-  .group-row:hover {
-    opacity: 0.6;
-  }
-
-  .group-row:hover .group-logo {
-    filter: grayscale(0%);
-    opacity: 0.85;
-  }
-
-  .group-logo {
-    width: 2rem;
-    height: 2rem;
-    object-fit: contain;
-    filter: grayscale(100%);
-    opacity: 0.45;
-    transition: filter 0.3s, opacity 0.3s;
-  }
-
-  .group-name {
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: rgb(20 20 20);
-  }
-
-  .group-type {
-    font-size: 0.6rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgb(20 20 20 / 0.3);
-  }
-
-  .group-arrow {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #D91C2A;
+    .col-name {
+      font-size: clamp(3rem, 14vw, 5rem);
+      white-space: normal;
+    }
   }
 </style>

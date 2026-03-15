@@ -1,0 +1,574 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Class of 2030 · Silicon Valley College Church"
+  description="Welcome, Class of 2030. Your people are waiting at Silicon Valley College Church — a faith community built for college students in Silicon Valley."
+>
+  <Nav />
+
+  <main id="c30-main">
+
+    <!-- ── HERO ── -->
+    <section id="c30-hero">
+      <div class="c30-bg-year" aria-hidden="true">2030</div>
+      <div class="c30-hero-content">
+        <p class="c30-eyebrow">Silicon Valley College Church</p>
+        <h1 class="c30-title">
+          <span class="c30-class-label">Class of</span>
+          <span class="c30-year-display">2030</span>
+        </h1>
+        <div class="c30-rule"></div>
+        <p class="c30-tagline">Your people are waiting.</p>
+        <a href="/connect" class="c30-hero-cta">
+          Join the community
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M3.5 9h11M9.5 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+      <div class="c30-scroll-hint" aria-hidden="true">
+        <span>scroll</span>
+        <svg width="1" height="40" viewBox="0 0 1 40"><line x1="0.5" y1="0" x2="0.5" y2="40" stroke="currentColor" stroke-width="1"/></svg>
+      </div>
+    </section>
+
+    <!-- ── WELCOME ── -->
+    <section id="c30-welcome">
+      <div class="c30-wrap">
+        <div class="c30-welcome-grid">
+          <aside class="c30-welcome-aside" data-animate>
+            <span>↓ Welcome</span>
+          </aside>
+          <div class="c30-welcome-body" data-animate data-animate-delay="2">
+            <h2>
+              You're not just starting college.<br />
+              <em>You're starting the best years of your life.</em>
+            </h2>
+            <p>
+              SVC is a church for college students — built around real community, honest faith, and
+              the kind of friendships that outlast graduation. No performance required. No pressure.
+              Just people who will actually show up for you.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PILLARS ── -->
+    <section id="c30-pillars">
+      <div class="c30-wrap">
+        <p class="c30-section-label" data-animate>What to expect</p>
+        <div class="c30-pillars-grid">
+          <div class="c30-pillar" data-animate data-animate-delay="1">
+            <span class="c30-pillar-num">01</span>
+            <h3>Real Community</h3>
+            <p>Weekly gatherings, small groups on your campus, and friendships that outlast graduation.</p>
+          </div>
+          <div class="c30-pillar" data-animate data-animate-delay="2">
+            <span class="c30-pillar-num">02</span>
+            <h3>Honest Faith</h3>
+            <p>Space to ask hard questions. No judgment. Just real conversations about God and life.</p>
+          </div>
+          <div class="c30-pillar" data-animate data-animate-delay="3">
+            <span class="c30-pillar-num">03</span>
+            <h3>Your Campus</h3>
+            <p>We're at Stanford, SJSU, SCU, UCSC, and more. Your community is already there.</p>
+          </div>
+          <div class="c30-pillar" data-animate data-animate-delay="4">
+            <span class="c30-pillar-num">04</span>
+            <h3>Room to Grow</h3>
+            <p>Come as you are. Doubt, question, struggle — and find out who you're becoming.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CAMPUSES ── -->
+    <section id="c30-campuses">
+      <div class="c30-wrap">
+        <div class="c30-campus-inner" data-animate>
+          <div class="c30-campus-text">
+            <h2>Find us on<br /><em>your campus.</em></h2>
+            <p>
+              We're scattered across the Bay Area — at your school, in the quad, at the coffee shop.
+              Come find us.
+            </p>
+            <a href="/campuses" class="c30-text-link">See all campuses →</a>
+          </div>
+          <ul class="c30-campus-names" aria-label="Our campuses">
+            <li><a href="/campuses/stanford-moment">Stanford</a></li>
+            <li><a href="/campuses/sjsu-klesis">SJSU</a></li>
+            <li><a href="/campuses/scu-klesis">SCU</a></li>
+            <li><a href="/campuses/ucsc-klesis">UCSC</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONNECT CTA ── -->
+    <section id="c30-connect">
+      <div class="c30-wrap">
+        <div class="c30-connect-inner" data-animate>
+          <p class="c30-connect-over">Class of 2030</p>
+          <h2>Ready to belong?</h2>
+          <a href="/connect" class="c30-connect-btn">Connect with SVC</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* ── GLOBAL RESET FOR THIS PAGE ── */
+  #c30-main {
+    overflow-x: hidden;
+  }
+
+  .c30-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── HERO ── */
+  #c30-hero {
+    position: relative;
+    min-height: 100svh;
+    background: #0A0A0A;
+    display: flex;
+    align-items: center;
+    padding: clamp(120px, 18vh, 160px) 8vw clamp(80px, 12vh, 120px);
+    overflow: hidden;
+  }
+
+  /* Ghost background year */
+  .c30-bg-year {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(200px, 52vw, 580px);
+    font-weight: 700;
+    font-style: italic;
+    color: rgba(245, 245, 240, 0.028);
+    user-select: none;
+    pointer-events: none;
+    letter-spacing: -0.05em;
+    line-height: 0.85;
+    transform: translateX(12%);
+  }
+
+  .c30-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 880px;
+  }
+
+  .c30-eyebrow {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: clamp(0.6rem, 1.1vw, 0.75rem);
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(245, 245, 240, 0.35);
+    margin: 0 0 1.75rem;
+    opacity: 0;
+    animation: c30FadeUp 0.55s ease 0.4s forwards;
+  }
+
+  .c30-title {
+    margin: 0 0 2rem;
+    line-height: 1;
+  }
+
+  .c30-class-label {
+    display: block;
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: clamp(0.9rem, 2.2vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(245, 245, 240, 0.45);
+    margin-bottom: 0.12em;
+    opacity: 0;
+    animation: c30FadeUp 0.55s ease 0.6s forwards;
+  }
+
+  .c30-year-display {
+    display: block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(5.5rem, 17vw, 16rem);
+    font-weight: 700;
+    font-style: italic;
+    color: #F5F5F0;
+    letter-spacing: -0.03em;
+    line-height: 0.88;
+    opacity: 0;
+    animation: c30YearReveal 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s forwards;
+  }
+
+  .c30-rule {
+    width: clamp(50px, 10vw, 100px);
+    height: 2px;
+    background: #D91C2A;
+    margin: 2rem 0;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: c30RuleReveal 0.45s ease 1.2s forwards;
+  }
+
+  .c30-tagline {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.3rem, 3.2vw, 2.75rem);
+    font-style: italic;
+    font-weight: 400;
+    color: rgba(245, 245, 240, 0.8);
+    margin: 0 0 3rem;
+    opacity: 0;
+    animation: c30FadeUp 0.55s ease 1.4s forwards;
+  }
+
+  .c30-hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: #D91C2A;
+    color: #F5F5F0;
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 2px;
+    transition: background 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    animation: c30FadeUp 0.5s ease 1.6s forwards;
+  }
+
+  .c30-hero-cta:hover {
+    background: #bf1622;
+    transform: translateY(-2px);
+  }
+
+  /* Scroll hint */
+  .c30-scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(245, 245, 240, 0.25);
+    opacity: 0;
+    animation: c30FadeUp 0.5s ease 2s forwards;
+  }
+
+  /* ── HERO KEYFRAMES ── */
+  @keyframes c30FadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes c30YearReveal {
+    from { opacity: 0; transform: translateY(0.08em) skewX(-3deg); }
+    to   { opacity: 1; transform: translateY(0) skewX(0); }
+  }
+
+  @keyframes c30RuleReveal {
+    from { opacity: 0; transform: scaleX(0); }
+    to   { opacity: 1; transform: scaleX(1); }
+  }
+
+  /* ── WELCOME ── */
+  #c30-welcome {
+    background: #F5F5F0;
+    padding: clamp(5rem, 10vw, 8rem) 8vw;
+  }
+
+  .c30-welcome-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .c30-welcome-aside {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(10, 10, 10, 0.3);
+    padding-top: 0.6rem;
+  }
+
+  .c30-welcome-body h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.8rem, 3.8vw, 3.4rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: #0A0A0A;
+    margin: 0 0 2rem;
+  }
+
+  .c30-welcome-body h2 em {
+    font-style: italic;
+    color: #D91C2A;
+  }
+
+  .c30-welcome-body p {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+    line-height: 1.75;
+    color: rgba(10, 10, 10, 0.65);
+    max-width: 520px;
+  }
+
+  /* ── PILLARS ── */
+  #c30-pillars {
+    background: #0A0A0A;
+    padding: clamp(5rem, 10vw, 8rem) 8vw;
+  }
+
+  .c30-section-label {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(245, 245, 240, 0.35);
+    margin: 0 0 3.5rem;
+  }
+
+  .c30-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .c30-pillar {
+    background: rgba(245, 245, 240, 0.035);
+    border: 1px solid rgba(245, 245, 240, 0.07);
+    padding: 2.5rem 1.75rem;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .c30-pillar:hover {
+    background: rgba(245, 245, 240, 0.065);
+    border-color: rgba(217, 28, 42, 0.45);
+  }
+
+  .c30-pillar-num {
+    display: block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    font-style: italic;
+    color: #D91C2A;
+    margin-bottom: 1.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .c30-pillar h3 {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #F5F5F0;
+    margin: 0 0 1rem;
+  }
+
+  .c30-pillar p {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: rgba(245, 245, 240, 0.5);
+    margin: 0;
+  }
+
+  /* ── CAMPUSES ── */
+  #c30-campuses {
+    background: #F5F5F0;
+    padding: clamp(5rem, 10vw, 8rem) 8vw;
+  }
+
+  .c30-campus-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .c30-campus-text h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2rem, 4.2vw, 3.75rem);
+    font-weight: 600;
+    line-height: 1.1;
+    color: #0A0A0A;
+    margin: 0 0 1.5rem;
+  }
+
+  .c30-campus-text h2 em {
+    font-style: italic;
+  }
+
+  .c30-campus-text p {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: clamp(0.88rem, 1.4vw, 1rem);
+    line-height: 1.75;
+    color: rgba(10, 10, 10, 0.6);
+    margin: 0 0 2rem;
+    max-width: 380px;
+  }
+
+  .c30-text-link {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0A0A0A;
+    text-decoration: none;
+    border-bottom: 1.5px solid #D91C2A;
+    padding-bottom: 2px;
+    transition: color 0.2s ease;
+  }
+
+  .c30-text-link:hover {
+    color: #D91C2A;
+  }
+
+  .c30-campus-names {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .c30-campus-names li {
+    border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  }
+
+  .c30-campus-names li:first-child {
+    border-top: 1px solid rgba(10, 10, 10, 0.1);
+  }
+
+  .c30-campus-names a {
+    display: block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    font-weight: 600;
+    font-style: italic;
+    color: #0A0A0A;
+    text-decoration: none;
+    padding: 0.22em 0;
+    padding-left: 0;
+    transition: color 0.2s ease, padding-left 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    line-height: 1.1;
+  }
+
+  .c30-campus-names a:hover {
+    color: #D91C2A;
+    padding-left: 0.18em;
+  }
+
+  /* ── CONNECT CTA ── */
+  #c30-connect {
+    background: #D91C2A;
+    padding: clamp(6rem, 12vw, 10rem) 8vw;
+  }
+
+  .c30-connect-inner {
+    text-align: center;
+  }
+
+  .c30-connect-over {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(245, 245, 240, 0.55);
+    margin: 0 0 1.25rem;
+  }
+
+  .c30-connect-inner h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 700;
+    font-style: italic;
+    color: #F5F5F0;
+    margin: 0 0 3rem;
+    line-height: 1;
+  }
+
+  .c30-connect-btn {
+    display: inline-block;
+    background: #F5F5F0;
+    color: #0A0A0A;
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: clamp(0.72rem, 1.4vw, 0.88rem);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.1rem 2.5rem;
+    border-radius: 2px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .c30-connect-btn:hover {
+    background: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .c30-pillars-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .c30-campus-inner {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .c30-welcome-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .c30-welcome-aside {
+      display: none;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .c30-pillars-grid {
+      grid-template-columns: 1fr;
+    }
+
+    #c30-hero {
+      padding-left: 6vw;
+      padding-right: 6vw;
+    }
+  }
+</style>
