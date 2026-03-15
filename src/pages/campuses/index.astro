@@ -3,67 +3,39 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 
-const fellowships = [
+const campuses = [
   {
-    name: 'Klesis',
-    school: 'San José State University',
-    shortSchool: 'SJSU',
-    href: '/campuses/sjsu-klesis',
-    logo: '/images/campuses/logos/klesis-sjsu.png',
+    school: 'San José State',
+    groups: [
+      { name: 'Klesis', type: 'Fellowship', href: '/campuses/sjsu-klesis', logo: '/images/campuses/logos/klesis-sjsu.png' },
+      { name: '4Corners', type: 'International', href: '/campuses/sjsu-4c', logo: '/images/campuses/logos/4corners.png' },
+      { name: 'ISMP', type: 'International', href: 'https://internationalmentorship.org/sjsu', logo: '/images/campuses/logos/ismp.png', external: true },
+    ],
   },
   {
-    name: 'Moment',
-    school: 'Stanford University',
-    shortSchool: 'Stanford',
-    href: '/campuses/stanford-moment',
-    logo: '/images/campuses/logos/moment.png',
+    school: 'Stanford',
+    groups: [
+      { name: 'Moment', type: 'Fellowship', href: '/campuses/stanford-moment', logo: '/images/campuses/logos/moment.png' },
+      { name: 'Moment International', type: 'International', href: '/campuses/stanford-moment#international', logo: '/images/campuses/logos/moment-intl.png' },
+    ],
   },
   {
-    name: 'Klesis',
-    school: 'Santa Clara University',
-    shortSchool: 'SCU',
-    href: '/campuses/scu-klesis',
-    logo: '/images/campuses/logos/klesis-scu.png',
+    school: 'Santa Clara',
+    groups: [
+      { name: 'Klesis', type: 'Fellowship', href: '/campuses/scu-klesis', logo: '/images/campuses/logos/klesis-scu.png' },
+    ],
   },
   {
-    name: 'Klesis',
     school: 'UC Santa Cruz',
-    shortSchool: 'UCSC',
-    href: '/campuses/ucsc-klesis',
-    logo: '/images/campuses/logos/klesis-ucsc.png',
-  },
-];
-
-const international = [
-  {
-    name: '4Corners',
-    school: 'San José State University',
-    shortSchool: 'SJSU',
-    href: '/campuses/sjsu-4c',
-    logo: '/images/campuses/logos/4corners.png',
+    groups: [
+      { name: 'Klesis', type: 'Fellowship', href: '/campuses/ucsc-klesis', logo: '/images/campuses/logos/klesis-ucsc.png' },
+    ],
   },
   {
-    name: 'Moment International',
-    school: 'Stanford University',
-    shortSchool: 'Stanford',
-    href: '/campuses/stanford-moment#international',
-    logo: '/images/campuses/logos/moment-intl.png',
-  },
-  {
-    name: 'ISMP',
-    school: 'De Anza College',
-    shortSchool: 'De Anza',
-    href: 'https://internationalmentorship.org/deanza',
-    external: true,
-    logo: '/images/campuses/logos/ismp.png',
-  },
-  {
-    name: 'ISMP',
-    school: 'San José State University',
-    shortSchool: 'SJSU',
-    href: 'https://internationalmentorship.org/sjsu',
-    external: true,
-    logo: '/images/campuses/logos/ismp.png',
+    school: 'De Anza',
+    groups: [
+      { name: 'ISMP', type: 'International', href: 'https://internationalmentorship.org/deanza', logo: '/images/campuses/logos/ismp.png', external: true },
+    ],
   },
 ];
 ---
@@ -82,37 +54,29 @@ const international = [
       </p>
     </section>
 
-    <!-- Fellowship -->
+    <!-- Campus grid -->
     <section class="border-t border-ink/15 px-6 py-20 md:px-16" data-animate>
-      <h2 class="col-label mb-12">Fellowship</h2>
+      <h2 class="col-label mb-12">Find Your Campus</h2>
       <div class="campus-grid">
-        {fellowships.map((f) => (
-          <a href={f.href} class="campus-cell" aria-label={`Learn more about ${f.name} at ${f.shortSchool}`}>
-            <img src={f.logo} alt={`${f.name} logo`} class="campus-logo" />
-            <h3 class="campus-name">{f.name}</h3>
-            <p class="campus-school">{f.school}</p>
-            <p class="campus-link">Learn more →</p>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <!-- International Ministries -->
-    <section class="border-t border-ink/15 px-6 py-20 md:px-16" data-animate>
-      <h2 class="col-label mb-12">International Ministries</h2>
-      <div class="campus-grid">
-        {international.map((f) => (
-          <a
-            href={f.href}
-            class="campus-cell"
-            aria-label={f.external ? `Visit ${f.name} at ${f.shortSchool} website` : `Learn more about ${f.name} at ${f.shortSchool}`}
-            {...(f.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-          >
-            <img src={f.logo} alt={`${f.name} logo`} class="campus-logo" />
-            <h3 class="campus-name">{f.name}</h3>
-            <p class="campus-school">{f.school}</p>
-            <p class="campus-link">{f.external ? 'Visit site ↗' : 'Learn more →'}</p>
-          </a>
+        {campuses.map((c) => (
+          <div class="campus-cell">
+            <h3 class="campus-school">{c.school}</h3>
+            <div class="campus-groups">
+              {c.groups.map((g) => (
+                <a
+                  href={g.href}
+                  class="group-row"
+                  aria-label={`${g.name} at ${c.school}`}
+                  {...(g.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  <img src={g.logo} alt={`${g.name} logo`} class="group-logo" />
+                  <span class="group-name">{g.name}</span>
+                  <span class="group-type">{g.type}</span>
+                  <span class="group-arrow">{g.external ? '↗' : '→'}</span>
+                </a>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </section>
@@ -160,22 +124,11 @@ const international = [
   }
 
   .campus-cell {
-    display: flex;
-    flex-direction: column;
     padding: 2.5rem 0;
     border-top: 1px solid rgb(20 20 20 / 0.1);
-    text-decoration: none;
-    color: inherit;
-    transition: opacity 0.2s;
-  }
-
-  .campus-cell:hover {
-    opacity: 0.7;
-  }
-
-  .campus-cell:hover .campus-logo {
-    filter: grayscale(0%);
-    opacity: 0.85;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
   @media (min-width: 768px) {
@@ -190,37 +143,69 @@ const international = [
     }
   }
 
-  .campus-logo {
-    width: 3rem;
-    height: 3rem;
-    object-fit: contain;
-    margin-bottom: 1.25rem;
-    filter: grayscale(100%);
-    opacity: 0.5;
-    transition: filter 0.3s, opacity 0.3s;
-  }
-
-  .campus-name {
-    font-size: 0.8rem;
+  .campus-school {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.02em;
     color: rgb(20 20 20);
   }
 
-  .campus-school {
-    font-size: 0.7rem;
-    color: rgb(20 20 20 / 0.4);
-    letter-spacing: 0.02em;
-    margin-top: 0.35rem;
+  .campus-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
 
-  .campus-link {
-    font-size: 0.7rem;
+  .group-row {
+    display: grid;
+    grid-template-columns: 2rem 1fr auto auto;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-top: 1px solid rgb(20 20 20 / 0.06);
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s;
+  }
+
+  .group-row:hover {
+    opacity: 0.6;
+  }
+
+  .group-row:hover .group-logo {
+    filter: grayscale(0%);
+    opacity: 0.85;
+  }
+
+  .group-logo {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.45;
+    transition: filter 0.3s, opacity 0.3s;
+  }
+
+  .group-name {
+    font-size: 0.8rem;
     font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgb(20 20 20);
+  }
+
+  .group-type {
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
     letter-spacing: 0.08em;
+    color: rgb(20 20 20 / 0.3);
+  }
+
+  .group-arrow {
+    font-size: 0.75rem;
+    font-weight: 700;
     color: #D91C2A;
-    margin-top: 1rem;
   }
 </style>

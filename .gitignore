@@ -23,3 +23,6 @@ pnpm-debug.log*
 # playwright-cli
 .playwright/
 .playwright-cli/
+
+# vercel
+.vercel
