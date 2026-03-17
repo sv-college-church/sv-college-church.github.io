@@ -187,127 +187,126 @@
 </style>
 
 <script>
-  /* ── Mobile menu ── */
-  const toggle     = document.getElementById('menu-toggle')!;
-  const mobileMenu = document.getElementById('mobile-menu')!;
+  document.addEventListener('astro:page-load', () => {
+    /* ── Mobile menu ── */
+    const toggle     = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-  toggle.addEventListener('click', () => {
-    const open = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!open));
-    mobileMenu.style.maxHeight = open ? '0' : `${mobileMenu.scrollHeight}px`;
-  });
+    if (toggle && mobileMenu) {
+      // Reset mobile menu state
+      toggle.setAttribute('aria-expanded', 'false');
+      mobileMenu.style.maxHeight = '0';
 
-  /* ── Logo cursor tilt — desktop only ── */
-  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    const logoWrap  = document.getElementById('logo-link')!;
-    const logoInner = document.getElementById('logo-inner')!;
-    const logoDepth = document.getElementById('logo-depth') as HTMLImageElement;
-    let resetTimer: ReturnType<typeof setTimeout>;
-
-    logoWrap.addEventListener('mouseenter', () => {
-      clearTimeout(resetTimer);
-      logoInner.classList.remove('is-resetting');
-      logoInner.classList.add('is-tilting');
-    });
-
-    logoWrap.addEventListener('mousemove', (e) => {
-      const rect = logoWrap.getBoundingClientRect();
-      const cx = rect.left + rect.width  / 2;
-      const cy = rect.top  + rect.height / 2;
-      const dx = (e.clientX - cx) / (rect.width  / 2); // -1 → 1
-      const dy = (e.clientY - cy) / (rect.height / 2); // -1 → 1
-
-      // Exaggerated tilt — tighter perspective makes this very dramatic
-      const rotY =  dx * 38;
-      const rotX = -dy * 28;
-
-      // Shadow moves opposite to tilt — simulates fixed overhead light source
-      const shadowX =  dx * 16;
-      const shadowY = -dy * 12 + 8; // always some downward shadow from above
-
-      logoInner.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg)`;
-      logoInner.style.filter    = `drop-shadow(${shadowX}px ${shadowY}px 18px rgba(0,0,0,0.22))`;
-
-      // Depth ghost moves counter to tilt — parallax separation = perceived thickness
-      logoDepth.style.transform = `translate(${-dx * 10}px, ${-dy * 7}px)`;
-    });
-
-    logoWrap.addEventListener('mouseleave', () => {
-      logoInner.classList.remove('is-tilting');
-      logoInner.classList.add('is-resetting');
-      logoInner.style.transform = 'rotateY(0deg) rotateX(0deg)';
-      logoInner.style.filter    = '';
-      logoDepth.style.transform = 'translate(0px, 0px)';
-      resetTimer = setTimeout(() => {
-        logoInner.classList.remove('is-resetting');
-        logoInner.style.transform = '';
-      }, 720);
-    });
-  }
-
-  /* ── Emoji interactions — desktop/mouse only ── */
-  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-
-    /* Church cross */
-    const link  = document.getElementById('church-link')  as HTMLAnchorElement;
-    const cross = document.getElementById('church-cross') as HTMLSpanElement;
-
-    function resetCross(...classes: string[]) { cross.classList.remove(...classes); void cross.offsetWidth; }
-
-    link.addEventListener('mouseenter', () => { resetCross('disappear', 'burst'); cross.classList.add('appear'); });
-    link.addEventListener('mouseleave', () => {
-      resetCross('appear', 'burst');
-      cross.classList.add('disappear');
-      cross.addEventListener('animationend', () => cross.classList.remove('disappear'), { once: true });
-    });
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      resetCross('appear', 'disappear');
-      cross.classList.add('burst');
-      setTimeout(() => { window.location.href = link.href; }, 450);
-    });
-
-    /* Campus emojis */
-    const campusLink   = document.getElementById('campuses-link') as HTMLAnchorElement;
-    const campusEmojis = Array.from(campusLink.querySelectorAll<HTMLElement>('.campus-emoji'));
-
-    function resetCampus(...classes: string[]) { campusEmojis.forEach(el => el.classList.remove(...classes)); void campusLink.offsetWidth; }
-
-    campusLink.addEventListener('mouseenter', () => { resetCampus('disappear', 'burst'); campusEmojis.forEach(el => el.classList.add('appear')); });
-    campusLink.addEventListener('mouseleave', () => {
-      resetCampus('appear', 'burst');
-      campusEmojis.forEach(el => {
-        el.classList.add('disappear');
-        el.addEventListener('animationend', () => el.classList.remove('disappear'), { once: true });
-      });
-    });
-    campusLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      resetCampus('appear', 'disappear');
-      campusEmojis.forEach(el => el.classList.add('burst'));
-      setTimeout(() => { window.location.href = campusLink.href; }, 450);
-    });
-
-    /* Single-emoji helper */
-    function setupSingleEmoji(linkId: string, emojiId: string) {
-      const l = document.getElementById(linkId)  as HTMLAnchorElement;
-      const e = document.getElementById(emojiId) as HTMLSpanElement;
-      function reset(...classes: string[]) { e.classList.remove(...classes); void e.offsetWidth; }
-      l.addEventListener('mouseenter', () => { reset('disappear', 'burst'); e.classList.add('appear'); });
-      l.addEventListener('mouseleave', () => {
-        reset('appear', 'burst');
-        e.classList.add('disappear');
-        e.addEventListener('animationend', () => e.classList.remove('disappear'), { once: true });
-      });
-      l.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        reset('appear', 'disappear');
-        e.classList.add('burst');
-        setTimeout(() => { window.location.href = l.href; }, 450);
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        mobileMenu.style.maxHeight = open ? '0' : `${mobileMenu.scrollHeight}px`;
       });
     }
 
-    setupSingleEmoji('connect-link', 'connect-emoji');
-    setupSingleEmoji('about-link',   'about-emoji');
-  }
+    /* ── Logo cursor tilt — desktop only ── */
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      const logoWrap  = document.getElementById('logo-link');
+      const logoInner = document.getElementById('logo-inner');
+      const logoDepth = document.getElementById('logo-depth') as HTMLImageElement | null;
+
+      if (logoWrap && logoInner && logoDepth) {
+        // Reset logo state
+        logoInner.classList.remove('is-tilting', 'is-resetting');
+        logoInner.style.transform = '';
+        logoInner.style.filter    = '';
+        logoDepth.style.transform = 'translate(0px, 0px)';
+
+        let resetTimer: ReturnType<typeof setTimeout>;
+
+        logoWrap.addEventListener('mouseenter', () => {
+          clearTimeout(resetTimer);
+          logoInner.classList.remove('is-resetting');
+          logoInner.classList.add('is-tilting');
+        });
+
+        logoWrap.addEventListener('mousemove', (e) => {
+          const rect = logoWrap.getBoundingClientRect();
+          const cx = rect.left + rect.width  / 2;
+          const cy = rect.top  + rect.height / 2;
+          const dx = (e.clientX - cx) / (rect.width  / 2);
+          const dy = (e.clientY - cy) / (rect.height / 2);
+
+          const rotY =  dx * 38;
+          const rotX = -dy * 28;
+          const shadowX =  dx * 16;
+          const shadowY = -dy * 12 + 8;
+
+          logoInner.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+          logoInner.style.filter    = `drop-shadow(${shadowX}px ${shadowY}px 18px rgba(0,0,0,0.22))`;
+          logoDepth.style.transform = `translate(${-dx * 10}px, ${-dy * 7}px)`;
+        });
+
+        logoWrap.addEventListener('mouseleave', () => {
+          logoInner.classList.remove('is-tilting');
+          logoInner.classList.add('is-resetting');
+          logoInner.style.transform = 'rotateY(0deg) rotateX(0deg)';
+          logoInner.style.filter    = '';
+          logoDepth.style.transform = 'translate(0px, 0px)';
+          resetTimer = setTimeout(() => {
+            logoInner.classList.remove('is-resetting');
+            logoInner.style.transform = '';
+          }, 720);
+        });
+      }
+    }
+
+    /* ── Emoji interactions — desktop/mouse only ── */
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+
+      /* Single-emoji helper */
+      function setupSingleEmoji(linkId: string, emojiId: string) {
+        const l = document.getElementById(linkId)  as HTMLAnchorElement | null;
+        const e = document.getElementById(emojiId) as HTMLSpanElement | null;
+        if (!l || !e) return;
+        function reset(...classes: string[]) { e!.classList.remove(...classes); void e!.offsetWidth; }
+        l.addEventListener('mouseenter', () => { reset('disappear', 'burst'); e!.classList.add('appear'); });
+        l.addEventListener('mouseleave', () => {
+          reset('appear', 'burst');
+          e!.classList.add('disappear');
+          e!.addEventListener('animationend', () => e!.classList.remove('disappear'), { once: true });
+        });
+        l.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          reset('appear', 'disappear');
+          e!.classList.add('burst');
+          setTimeout(() => { window.location.href = l!.href; }, 450);
+        });
+      }
+
+      /* Church cross */
+      setupSingleEmoji('church-link', 'church-cross');
+
+      /* Campus emojis */
+      const campusLink   = document.getElementById('campuses-link') as HTMLAnchorElement | null;
+      const campusEmojis = campusLink ? Array.from(campusLink.querySelectorAll<HTMLElement>('.campus-emoji')) : [];
+
+      if (campusLink && campusEmojis.length) {
+        function resetCampus(...classes: string[]) { campusEmojis.forEach(el => el.classList.remove(...classes)); void campusLink!.offsetWidth; }
+
+        campusLink.addEventListener('mouseenter', () => { resetCampus('disappear', 'burst'); campusEmojis.forEach(el => el.classList.add('appear')); });
+        campusLink.addEventListener('mouseleave', () => {
+          resetCampus('appear', 'burst');
+          campusEmojis.forEach(el => {
+            el.classList.add('disappear');
+            el.addEventListener('animationend', () => el.classList.remove('disappear'), { once: true });
+          });
+        });
+        campusLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          resetCampus('appear', 'disappear');
+          campusEmojis.forEach(el => el.classList.add('burst'));
+          setTimeout(() => { window.location.href = campusLink!.href; }, 450);
+        });
+      }
+
+      setupSingleEmoji('connect-link', 'connect-emoji');
+      setupSingleEmoji('about-link',   'about-emoji');
+    }
+  });
 </script>

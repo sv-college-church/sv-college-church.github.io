@@ -3,43 +3,31 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 
-const schools = [
-  {
-    id: 'sjsu',
-    label: 'San José State',
-    name: 'SJSU',
-    href: '/campuses/sjsu',
-  },
-  {
-    id: 'stanford',
-    label: 'Stanford University',
-    name: 'Stanford',
-    href: '/campuses/stanford',
-  },
-  {
-    id: 'ucsc',
-    label: 'UC Santa Cruz',
-    name: 'UCSC',
-    href: '/campuses/ucsc',
-  },
+const campuses = [
+  { name: 'San José State University', href: '/campuses/sjsu' },
+  { name: 'Stanford', href: '/campuses/stanford' },
+  { name: 'UC Santa Cruz', href: '/campuses/ucsc' },
+  { name: 'Santa Clara University', href: '/campuses/scu' },
+  { name: 'De Anza Community College', href: '/campuses/deanza' },
 ];
 ---
 
 <BaseLayout title="Campuses" description="Campus ministries across Silicon Valley and beyond.">
   <Nav />
 
-  <main class="campuses-main">
-    <div class="triptych">
-      {schools.map((school) => (
+  <main class="campuses-main" style="padding-top: 5rem;">
+    <section class="hero-section">
+      <h1 class="page-title">Campuses</h1>
+    </section>
+
+    <div class="campus-list">
+      {campuses.map((c) => (
         <a
-          href={school.href}
-          class="campus-col"
-          aria-label={`Learn more about ${school.label}`}
-          style={`view-transition-name: campus-${school.id}`}
+          href={c.href}
+          class="campus-name"
+          style={`view-transition-name: campus-${c.href.split('/').pop()}`}
         >
-          <p class="col-label">{school.label}</p>
-          <h2 class="col-name">{school.name}</h2>
-          <span class="col-cta">Learn More →</span>
+          {c.name}
         </a>
       ))}
     </div>
@@ -52,96 +40,67 @@ const schools = [
   .campuses-main {
     min-height: 100svh;
     display: flex;
-    align-items: stretch;
-    padding-top: 5rem; /* clear nav */
-  }
-
-  .triptych {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    width: 100%;
-  }
-
-  .campus-col {
-    display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .hero-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 0 3rem;
-    text-decoration: none;
-    color: inherit;
+    padding: 4rem 2rem 3rem;
   }
 
-  .campus-col:not(:last-child) {
-    border-right: 1px solid rgb(10 10 10 / 0.1);
+  @media (min-width: 768px) {
+    main { padding-top: 8rem !important; }
   }
 
-  .campus-col:hover .col-name {
+  .page-title {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: clamp(3rem, 8vw, 8rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1;
     color: rgb(10 10 10);
   }
 
-  .campus-col:hover .col-cta {
-    color: rgb(10 10 10 / 0.7);
+  .campus-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 2rem 2rem 3rem;
   }
 
-  .col-label {
+  .campus-list:hover .campus-name {
+    opacity: 0.15;
+  }
+
+  .campus-list:hover .campus-name:hover {
+    opacity: 1;
+  }
+
+  .campus-name {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.6rem;
-    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.8rem);
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: rgb(10 10 10 / 0.32);
-    margin-bottom: 1.5rem;
+    letter-spacing: 0.04em;
+    color: rgb(10 10 10 / 0.8);
+    text-decoration: none;
+    line-height: 1.15;
+    transition: opacity 0.3s ease, color 0.2s ease;
   }
 
-  .col-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400;
-    font-style: italic;
-    font-size: clamp(2.5rem, 4.5vw, 5.5rem);
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    color: rgb(10 10 10 / 0.75);
-    margin-bottom: 2.5rem;
-    transition: color 0.25s ease;
-    white-space: nowrap;
+  .campus-list:hover .campus-name:hover {
+    color: rgb(10 10 10);
   }
 
-  .col-cta {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: rgb(10 10 10 / 0.35);
-    transition: color 0.25s ease;
-    white-space: nowrap;
-  }
-
-  /* Mobile: stack vertically */
+  /* ── Mobile ── */
   @media (max-width: 640px) {
-    .campuses-main {
-      padding-top: 4rem;
-      min-height: unset;
-    }
-
-    .triptych {
-      grid-template-columns: 1fr;
-    }
-
-    .campus-col {
-      padding: 3.5rem 2rem;
-    }
-
-    .campus-col:not(:last-child) {
-      border-right: none;
-      border-bottom: 1px solid rgb(10 10 10 / 0.1);
-    }
-
-    .col-name {
-      font-size: clamp(3rem, 14vw, 5rem);
-      white-space: normal;
-    }
+    .campus-name { font-size: clamp(1.4rem, 6vw, 2.2rem); }
   }
 </style>

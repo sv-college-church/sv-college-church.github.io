@@ -441,13 +441,10 @@ import Footer from '../components/Footer.astro';
     mapsUrl: 'https://maps.app.goo.gl/Qxu9AUFbXdcRdcSY7',
   };
 
-  var isEaster = false;
-
   function scramble(el, target) {
     var INTERVAL = 28;
     var STEPS = 18;
     var step = 0;
-    // Use source length during animation so the element never grows mid-scramble
     var scrambleLen = el.textContent.length;
 
     var run = setInterval(function () {
@@ -468,52 +465,54 @@ import Footer from '../components/Footer.astro';
 
       if (step >= STEPS) {
         clearInterval(run);
-        // Snap to final text only at the very end
         el.textContent = target;
       }
     }, INTERVAL);
   }
 
-  function applyState(data) {
-    scramble(document.getElementById('when-primary'), data.whenPrimary);
-    scramble(document.getElementById('where-primary'), data.wherePrimary);
-    scramble(document.getElementById('where-secondary'), data.whereSecondary);
-
-    var link = document.getElementById('directions-link');
-    setTimeout(function () { link.href = data.mapsUrl; }, 300);
-  }
-
-  function toggleEaster() {
-    isEaster = !isEaster;
-    applyState(isEaster ? EASTER : REGULAR);
-
-    // Toggle all Easter buttons (banner + inline)
-    document.querySelectorAll('.easter-btn').forEach(function (btn) {
-      btn.classList.toggle('is-reset', isEaster);
-    });
+  document.addEventListener('astro:page-load', () => {
+    // Only run on the church page
+    var easterBtn = document.querySelector('.easter-btn');
     var inlineBtn = document.getElementById('easter-inline');
-    if (inlineBtn) inlineBtn.classList.toggle('is-reset', isEaster);
+    if (!easterBtn || !inlineBtn) return;
 
-    // Show/hide reset pill
-    var reset = document.getElementById('easter-reset');
-    if (reset) reset.classList.toggle('visible', isEaster);
-  }
+    var isEaster = false;
 
-  // Banner button
-  document.querySelector('.easter-btn').addEventListener('click', function () {
-    toggleEaster();
-  });
+    function applyState(data) {
+      scramble(document.getElementById('when-primary'), data.whenPrimary);
+      scramble(document.getElementById('where-primary'), data.wherePrimary);
+      scramble(document.getElementById('where-secondary'), data.whereSecondary);
 
-  // Inline button (below 12 PM)
-  document.getElementById('easter-inline').addEventListener('click', function () {
-    toggleEaster();
-  });
+      var link = document.getElementById('directions-link');
+      setTimeout(function () { link.href = data.mapsUrl; }, 300);
+    }
 
-  // Reset pill
-  var resetBtn = document.getElementById('reset-btn');
-  if (resetBtn) {
-    resetBtn.addEventListener('click', function () {
-      if (isEaster) toggleEaster();
+    function toggleEaster() {
+      isEaster = !isEaster;
+      applyState(isEaster ? EASTER : REGULAR);
+
+      document.querySelectorAll('.easter-btn').forEach(function (btn) {
+        btn.classList.toggle('is-reset', isEaster);
+      });
+      if (inlineBtn) inlineBtn.classList.toggle('is-reset', isEaster);
+
+      var reset = document.getElementById('easter-reset');
+      if (reset) reset.classList.toggle('visible', isEaster);
+    }
+
+    easterBtn.addEventListener('click', function () {
+      toggleEaster();
     });
-  }
+
+    inlineBtn.addEventListener('click', function () {
+      toggleEaster();
+    });
+
+    var resetBtn = document.getElementById('reset-btn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        if (isEaster) toggleEaster();
+      });
+    }
+  });
 </script>

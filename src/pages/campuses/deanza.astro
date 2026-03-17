@@ -4,26 +4,30 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 ---
 
-<BaseLayout title="UCSC — Campuses" description="Campus ministries at UC Santa Cruz.">
+<BaseLayout title="De Anza — Campuses" description="Campus ministries at De Anza College.">
   <Nav />
 
   <main>
 
-    <section class="hero-section" style="view-transition-name: campus-ucsc">
+    <section class="hero-section" style="view-transition-name: campus-deanza">
       <a href="/campuses" class="back-link">← Campuses</a>
-      <h1 class="school-name">UC Santa Cruz</h1>
+      <h1 class="school-name">De Anza<br/>Community College</h1>
     </section>
 
     <section class="single-section" data-animate>
       <div class="panel-inner">
         <div class="section-rule"></div>
-        <p class="panel-label">Klesis · UC Santa Cruz</p>
-        <p class="panel-body">Klesis UC Santa Cruz is a Christian fellowship for UCSC students built on Bible study, community, and doing life together. Modeled after the Acts 2 church and open to all students.</p>
-        <p class="panel-body">We meet weekly on campus for devo groups and connect with the broader SVC community on Sundays.</p>
+        <p class="panel-label">ISMP · De Anza College</p>
+        <p class="panel-body">International Student Mentorship Program provides one-on-one mentorship for international students at De Anza — helping students navigate college life, build community, and explore faith.</p>
+        <p class="panel-body">Mentors are members of the SVC church community who have walked similar paths and want to invest in the next generation of students.</p>
         <div class="panel-details">
           <div class="detail-item">
-            <p class="detail-label">Weekly Devo</p>
-            <p class="detail-value">On campus · Small group Bible study</p>
+            <p class="detail-label">Format</p>
+            <p class="detail-value">One-on-one mentorship</p>
+          </div>
+          <div class="detail-item">
+            <p class="detail-label">Open to</p>
+            <p class="detail-value">International students at De Anza</p>
           </div>
           <div class="detail-item">
             <p class="detail-label">Sunday Service</p>
@@ -31,7 +35,7 @@ import Footer from '../../components/Footer.astro';
           </div>
         </div>
         <div class="panel-links">
-          <a href="https://www.instagram.com/klesis.ucsc/" target="_blank" rel="noopener noreferrer" class="panel-link">@klesis.ucsc ↗</a>
+          <a href="https://internationalmentorship.org/deanza" target="_blank" rel="noopener noreferrer" class="panel-link">Website ↗</a>
         </div>
       </div>
     </section>
@@ -41,33 +45,33 @@ import Footer from '../../components/Footer.astro';
 </BaseLayout>
 
 <style is:global>
-  html, body { background: #002A4E !important; }
+  html, body { background: #2E0E0E !important; }
 
   header {
-    background: rgba(0, 36, 68, 0.97) !important;
-    border-bottom: 1px solid rgba(253,199,0,0.15);
+    background: rgba(36, 8, 8, 0.97) !important;
+    border-bottom: 1px solid rgba(196,160,50,0.2);
   }
-  header a { color: rgba(255,255,255,0.75) !important; }
-  header a:hover { color: #FDC700 !important; }
+  header a { color: rgba(255,255,255,0.7) !important; }
+  header a:hover { color: #C4A032 !important; }
   .hamburger-bar { background-color: rgba(255,255,255,0.8) !important; }
   .logo-main, .logo-depth { filter: invert(1) brightness(1.1) !important; }
 
   #mobile-menu nav {
-    background: #001F3A !important;
-    border-color: rgba(253,199,0,0.12) !important;
+    background: #240808 !important;
+    border-color: rgba(196,160,50,0.15) !important;
   }
   #mobile-menu a {
-    color: rgba(255,255,255,0.75) !important;
+    color: rgba(255,255,255,0.7) !important;
     border-color: rgba(255,255,255,0.08) !important;
   }
 
   footer {
-    background: #001F3A !important;
-    border-color: rgba(253,199,0,0.15) !important;
+    background: #240808 !important;
+    border-color: rgba(196,160,50,0.2) !important;
   }
-  footer p { color: rgba(253,199,0,0.35) !important; }
-  footer a { color: rgba(253,199,0,0.35) !important; }
-  footer a:hover { color: rgba(253,199,0,0.85) !important; }
+  footer p { color: rgba(196,160,50,0.35) !important; }
+  footer a { color: rgba(196,160,50,0.35) !important; }
+  footer a:hover { color: rgba(196,160,50,0.85) !important; }
 </style>
 
 <style>
@@ -78,7 +82,7 @@ import Footer from '../../components/Footer.astro';
     align-items: center; justify-content: center;
     text-align: center; min-height: 60vh;
     padding: 5rem 2rem 4rem; position: relative;
-    border-bottom: 1px solid rgba(253,199,0,0.15);
+    border-bottom: 1px solid rgba(196,160,50,0.2);
   }
 
   .back-link {
@@ -86,16 +90,15 @@ import Footer from '../../components/Footer.astro';
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.65rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.18em;
-    color: rgba(253,199,0,0.45); text-decoration: none; transition: color 0.2s ease;
+    color: rgba(196,160,50,0.45); text-decoration: none; transition: color 0.2s ease;
   }
-  .back-link:hover { color: #FDC700; }
+  .back-link:hover { color: #C4A032; }
 
   .school-name {
     font-family: 'Unbounded', sans-serif;
     font-size: clamp(2rem, 6vw, 6rem);
     font-weight: 900; text-transform: uppercase;
-    letter-spacing: -0.01em; line-height: 0.9;
-    color: #FDC700;
+    letter-spacing: -0.01em; line-height: 0.9; color: #C4A032;
   }
 
   .single-section { display: flex; align-items: center; justify-content: center; }
@@ -106,30 +109,30 @@ import Footer from '../../components/Footer.astro';
     max-width: 56rem; margin: 0 auto; gap: 1.5rem; width: 100%;
   }
 
-  .section-rule { width: 2px; height: 3.5rem; background: #FDC700; margin-bottom: 0.5rem; flex-shrink: 0; }
+  .section-rule { width: 2px; height: 3.5rem; background: #C4A032; margin-bottom: 0.5rem; flex-shrink: 0; }
 
   .panel-label {
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.62rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.22em;
-    color: rgba(253,199,0,0.65);
+    color: rgba(196,160,50,0.6);
   }
 
   .panel-body {
     font-family: 'Instrument Sans', sans-serif;
     font-size: clamp(1rem, 1.5vw, 1.25rem);
     font-weight: 500; line-height: 1.75;
-    color: rgba(255,255,255,0.65); max-width: 48ch;
+    color: rgba(255,255,255,0.6); max-width: 48ch;
   }
 
   .panel-details {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-    width: 100%; border: 1px solid rgba(253,199,0,0.2); margin-top: 1rem;
+    width: 100%; border: 1px solid rgba(196,160,50,0.2); margin-top: 1rem;
   }
   .detail-item {
     padding: 1.5rem 2rem; text-align: left;
-    border-right: 1px solid rgba(253,199,0,0.15);
-    border-bottom: 1px solid rgba(253,199,0,0.15);
+    border-right: 1px solid rgba(196,160,50,0.15);
+    border-bottom: 1px solid rgba(196,160,50,0.15);
     background: rgba(255,255,255,0.02);
   }
   .detail-item:last-child { border-right: none; }
@@ -138,7 +141,7 @@ import Footer from '../../components/Footer.astro';
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.6rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.18em;
-    color: #FDC700; opacity: 0.65; margin-bottom: 0.5rem;
+    color: #C4A032; opacity: 0.65; margin-bottom: 0.5rem;
   }
   .detail-value {
     font-family: 'Instrument Sans', sans-serif;
@@ -151,7 +154,7 @@ import Footer from '../../components/Footer.astro';
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.7rem; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.15em;
-    color: #FDC700; opacity: 0.5;
+    color: #C4A032; opacity: 0.5;
     text-decoration: none; transition: opacity 0.2s ease;
   }
   .panel-link:hover { opacity: 1; }
