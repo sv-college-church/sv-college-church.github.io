@@ -12,111 +12,123 @@ import Footer from '../components/Footer.astro';
 
   <main id="c30-main">
 
-    <!-- ── HERO ── -->
     <section id="c30-hero">
-      <div class="c30-bg-year" aria-hidden="true">2030</div>
-      <div class="c30-hero-content">
-        <p class="c30-eyebrow">Silicon Valley College Church</p>
-        <h1 class="c30-title">
-          <span class="c30-class-label">Class of</span>
-          <span class="c30-year-display">2030</span>
-        </h1>
-        <div class="c30-rule"></div>
-        <p class="c30-tagline">Your people are waiting.</p>
-        <a href="/connect" class="c30-hero-cta">
-          Join the community
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-            <path d="M3.5 9h11M9.5 4.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <!-- Noise texture overlay -->
+      <div class="c30-noise" aria-hidden="true"></div>
+
+      <!-- Red glow behind video -->
+      <div class="c30-glow" aria-hidden="true"></div>
+
+      <!-- Floating bokeh orbs — concert light vibes -->
+      <div class="c30-bokeh" aria-hidden="true">
+        <div class="c30-orb c30-orb-1"></div>
+        <div class="c30-orb c30-orb-2"></div>
+        <div class="c30-orb c30-orb-3"></div>
+        <div class="c30-orb c30-orb-4"></div>
+        <div class="c30-orb c30-orb-5"></div>
+        <div class="c30-orb c30-orb-6"></div>
+        <div class="c30-orb c30-orb-7"></div>
+        <div class="c30-orb c30-orb-8"></div>
+        <div class="c30-orb c30-orb-9"></div>
+        <div class="c30-orb c30-orb-10"></div>
+      </div>
+
+      <!-- Canvas for cursor sparkle trail -->
+      <canvas id="c30-sparkle-canvas"></canvas>
+
+      <div class="c30-layout">
+
+        <!-- Cinematic title with flowing rectangular text border -->
+        <div class="c30-title-row">
+
+          <!--
+            The rectangle is traced TWICE in one continuous path (4520 units).
+            textLength="2260" fills exactly ONE lap.
+            Animating startOffset 0→2260 shifts the text one full lap.
+            At every moment the text [S, S+2260] covers the full visible
+            rectangle [0,2260] — the second lap of the path provides the
+            wrap-around, so there is never a bare gap.
+          -->
+          <svg class="c30-orbit-svg" viewBox="0 0 1000 182" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <!--
+                Two laps of the same rounded rectangle joined as one open path.
+                Lap 1 + Lap 2, no Z so it stays a single continuous stroke.
+                Each lap perimeter ≈ 2×(980+150) = 2260 units.
+              -->
+              <!--
+                Shifted up 7 units vs original to equalise visual padding:
+                top WELCOME gap ≈ bottom WELCOME gap once cap-height offset
+                is accounted for. Perimeter unchanged at 2×(980+150)=2260.
+              -->
+              <path id="c30-rpath"
+                d="M 16 9
+                   L 984 9   Q 990 9   990 15
+                   L 990 153 Q 990 159 984 159
+                   L 16 159  Q 10 159  10 153
+                   L 10 15   Q 10 9    16 9
+                   L 984 9   Q 990 9   990 15
+                   L 990 153 Q 990 159 984 159
+                   L 16 159  Q 10 159  10 153
+                   L 10 15   Q 10 9    16 9"
+              />
+            </defs>
+            <text
+              font-family="'Plus Jakarta Sans', sans-serif"
+              font-size="14"
+              font-weight="700"
+              fill="rgba(240,237,232,0.75)"
+              letter-spacing="3"
+            >
+              <textPath href="#c30-rpath" textLength="2260" lengthAdjust="spacing" startOffset="0">
+                <animate attributeName="startOffset" from="0" to="2260" dur="32s" repeatCount="indefinite"/>
+                WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022; WELCOME &#x2022;
+              </textPath>
+            </text>
           </svg>
-        </a>
-      </div>
-      <div class="c30-scroll-hint" aria-hidden="true">
-        <span>scroll</span>
-        <svg width="1" height="40" viewBox="0 0 1 40"><line x1="0.5" y1="0" x2="0.5" y2="40" stroke="currentColor" stroke-width="1"/></svg>
-      </div>
-    </section>
 
-    <!-- ── WELCOME ── -->
-    <section id="c30-welcome">
-      <div class="c30-wrap">
-        <div class="c30-welcome-grid">
-          <aside class="c30-welcome-aside" data-animate>
-            <span>↓ Welcome</span>
-          </aside>
-          <div class="c30-welcome-body" data-animate data-animate-delay="2">
-            <h2>
-              You're not just starting college.<br />
-              <em>You're starting the best years of your life.</em>
-            </h2>
-            <p>
-              SVC is a church for college students — built around real community, honest faith, and
-              the kind of friendships that outlast graduation. No performance required. No pressure.
-              Just people who will actually show up for you.
-            </p>
+          <h1 class="c30-class-of">Class of 2030</h1>
+        </div>
+
+        <!-- Video -->
+        <div class="c30-video-wrap">
+          <!-- Replace src with your actual video file or use a YouTube embed -->
+          <video
+            class="c30-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            poster=""
+          >
+            <!-- <source src="/videos/church-highlight.mp4" type="video/mp4" /> -->
+          </video>
+          <!-- Placeholder shown when no video source -->
+          <div class="c30-video-placeholder" aria-hidden="true">
+            <div class="c30-play-icon">
+              <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="30" cy="30" r="29" stroke="rgba(240,237,232,0.2)" stroke-width="1"/>
+                <path d="M25 20L42 30L25 40V20Z" fill="rgba(240,237,232,0.5)"/>
+              </svg>
+            </div>
+            <p class="c30-placeholder-label">Your video here</p>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ── PILLARS ── -->
-    <section id="c30-pillars">
-      <div class="c30-wrap">
-        <p class="c30-section-label" data-animate>What to expect</p>
-        <div class="c30-pillars-grid">
-          <div class="c30-pillar" data-animate data-animate-delay="1">
-            <span class="c30-pillar-num">01</span>
-            <h3>Real Community</h3>
-            <p>Weekly gatherings, small groups on your campus, and friendships that outlast graduation.</p>
-          </div>
-          <div class="c30-pillar" data-animate data-animate-delay="2">
-            <span class="c30-pillar-num">02</span>
-            <h3>Honest Faith</h3>
-            <p>Space to ask hard questions. No judgment. Just real conversations about God and life.</p>
-          </div>
-          <div class="c30-pillar" data-animate data-animate-delay="3">
-            <span class="c30-pillar-num">03</span>
-            <h3>Your Campus</h3>
-            <p>We're at Stanford, SJSU, SCU, UCSC, and more. Your community is already there.</p>
-          </div>
-          <div class="c30-pillar" data-animate data-animate-delay="4">
-            <span class="c30-pillar-num">04</span>
-            <h3>Room to Grow</h3>
-            <p>Come as you are. Doubt, question, struggle — and find out who you're becoming.</p>
-          </div>
+        <!-- CTA buttons -->
+        <div class="c30-ctas">
+          <a href="/connect" class="c30-btn c30-btn-primary">
+            Get Connected
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M8.5 3.5L13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="/about" class="c30-btn c30-btn-ghost">
+            More Info
+          </a>
         </div>
-      </div>
-    </section>
 
-    <!-- ── CAMPUSES ── -->
-    <section id="c30-campuses">
-      <div class="c30-wrap">
-        <div class="c30-campus-inner" data-animate>
-          <div class="c30-campus-text">
-            <h2>Find us on<br /><em>your campus.</em></h2>
-            <p>
-              We're scattered across the Bay Area — at your school, in the quad, at the coffee shop.
-              Come find us.
-            </p>
-            <a href="/campuses" class="c30-text-link">See all campuses →</a>
-          </div>
-          <ul class="c30-campus-names" aria-label="Our campuses">
-            <li><a href="/campuses/stanford-moment">Stanford</a></li>
-            <li><a href="/campuses/sjsu-klesis">SJSU</a></li>
-            <li><a href="/campuses/scu-klesis">SCU</a></li>
-            <li><a href="/campuses/ucsc-klesis">UCSC</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── CONNECT CTA ── -->
-    <section id="c30-connect">
-      <div class="c30-wrap">
-        <div class="c30-connect-inner" data-animate>
-          <p class="c30-connect-over">Class of 2030</p>
-          <h2>Ready to belong?</h2>
-          <a href="/connect" class="c30-connect-btn">Connect with SVC</a>
-        </div>
       </div>
     </section>
 
@@ -126,449 +138,592 @@ import Footer from '../components/Footer.astro';
 </BaseLayout>
 
 <style>
-  /* ── GLOBAL RESET FOR THIS PAGE ── */
+  /* ── IMPORTS ── */
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+  /* ── PAGE BASE ── */
   #c30-main {
     overflow-x: hidden;
+    background: #080808;
   }
 
-  .c30-wrap {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  /* ── HERO ── */
+  /* ── HERO SECTION ── */
   #c30-hero {
     position: relative;
     min-height: 100svh;
-    background: #0A0A0A;
-    display: flex;
-    align-items: center;
-    padding: clamp(120px, 18vh, 160px) 8vw clamp(80px, 12vh, 120px);
-    overflow: hidden;
-  }
-
-  /* Ghost background year */
-  .c30-bg-year {
-    position: absolute;
-    inset: 0;
+    background: #080808;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(200px, 52vw, 580px);
-    font-weight: 700;
-    font-style: italic;
-    color: rgba(245, 245, 240, 0.028);
-    user-select: none;
-    pointer-events: none;
-    letter-spacing: -0.05em;
-    line-height: 0.85;
-    transform: translateX(12%);
+    padding: clamp(80px, 12vh, 120px) 4vw clamp(60px, 8vh, 80px);
+    overflow: hidden;
   }
 
-  .c30-hero-content {
+  /* Noise texture */
+  .c30-noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 128px 128px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* Red atmospheric glow */
+  .c30-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 65%;
+    height: 60%;
+    background: radial-gradient(ellipse at center, rgba(217, 28, 42, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── BOKEH ORBS ── */
+  .c30-bokeh {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .c30-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(1px);
+    will-change: transform;
+  }
+
+  /* ── Individual orbs — staggered sizes, positions, speeds, colors ── */
+  .c30-orb-1 {
+    width: 110px; height: 110px;
+    top: 12%; left: 8%;
+    background: radial-gradient(circle, rgba(217,28,42,0.18) 0%, transparent 70%);
+    animation: c30Drift1 22s ease-in-out infinite;
+  }
+  .c30-orb-2 {
+    width: 70px; height: 70px;
+    top: 68%; left: 78%;
+    background: radial-gradient(circle, rgba(240,237,232,0.12) 0%, transparent 70%);
+    animation: c30Drift2 28s ease-in-out infinite;
+  }
+  .c30-orb-3 {
+    width: 140px; height: 140px;
+    top: 30%; left: 65%;
+    background: radial-gradient(circle, rgba(217,28,42,0.14) 0%, transparent 70%);
+    animation: c30Drift3 25s ease-in-out infinite;
+  }
+  .c30-orb-4 {
+    width: 50px; height: 50px;
+    top: 80%; left: 20%;
+    background: radial-gradient(circle, rgba(240,237,232,0.15) 0%, transparent 70%);
+    animation: c30Drift4 18s ease-in-out infinite;
+  }
+  .c30-orb-5 {
+    width: 90px; height: 90px;
+    top: 15%; left: 42%;
+    background: radial-gradient(circle, rgba(217,28,42,0.1) 0%, transparent 70%);
+    animation: c30Drift5 30s ease-in-out infinite;
+  }
+  .c30-orb-6 {
+    width: 60px; height: 60px;
+    top: 55%; left: 10%;
+    background: radial-gradient(circle, rgba(240,237,232,0.1) 0%, transparent 70%);
+    animation: c30Drift1 35s ease-in-out infinite reverse;
+  }
+  .c30-orb-7 {
+    width: 120px; height: 120px;
+    top: 40%; left: 88%;
+    background: radial-gradient(circle, rgba(217,28,42,0.12) 0%, transparent 70%);
+    animation: c30Drift3 20s ease-in-out infinite reverse;
+  }
+  .c30-orb-8 {
+    width: 45px; height: 45px;
+    top: 75%; left: 55%;
+    background: radial-gradient(circle, rgba(240,237,232,0.13) 0%, transparent 70%);
+    animation: c30Drift2 24s ease-in-out infinite reverse;
+  }
+  .c30-orb-9 {
+    width: 80px; height: 80px;
+    top: 8%; left: 90%;
+    background: radial-gradient(circle, rgba(217,28,42,0.16) 0%, transparent 70%);
+    animation: c30Drift4 32s ease-in-out infinite;
+  }
+  .c30-orb-10 {
+    width: 100px; height: 100px;
+    top: 60%; left: 35%;
+    background: radial-gradient(circle, rgba(240,237,232,0.08) 0%, transparent 70%);
+    animation: c30Drift5 27s ease-in-out infinite reverse;
+  }
+
+  /* Drift paths — each unique to avoid pattern repetition */
+  @keyframes c30Drift1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25%      { transform: translate(60px, -40px) scale(1.1); }
+    50%      { transform: translate(-30px, 50px) scale(0.9); }
+    75%      { transform: translate(40px, 20px) scale(1.05); }
+  }
+  @keyframes c30Drift2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(-50px, 30px) scale(1.15); }
+    66%      { transform: translate(40px, -60px) scale(0.85); }
+  }
+  @keyframes c30Drift3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    20%      { transform: translate(30px, 50px) scale(0.95); }
+    50%      { transform: translate(-60px, -20px) scale(1.12); }
+    80%      { transform: translate(20px, -40px) scale(1); }
+  }
+  @keyframes c30Drift4 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    40%      { transform: translate(-40px, -50px) scale(1.2); }
+    70%      { transform: translate(50px, 30px) scale(0.9); }
+  }
+  @keyframes c30Drift5 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    30%      { transform: translate(45px, 35px) scale(1.08); }
+    60%      { transform: translate(-35px, -45px) scale(0.92); }
+    85%      { transform: translate(20px, -20px) scale(1.1); }
+  }
+
+  /* ── SPARKLE CANVAS ── */
+  #c30-sparkle-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* ── LAYOUT ── */
+  .c30-layout {
     position: relative;
     z-index: 1;
-    max-width: 880px;
-  }
-
-  .c30-eyebrow {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: clamp(0.6rem, 1.1vw, 0.75rem);
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: rgba(245, 245, 240, 0.35);
-    margin: 0 0 1.75rem;
-    opacity: 0;
-    animation: c30FadeUp 0.55s ease 0.4s forwards;
-  }
-
-  .c30-title {
-    margin: 0 0 2rem;
-    line-height: 1;
-  }
-
-  .c30-class-label {
-    display: block;
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: clamp(0.9rem, 2.2vw, 1.5rem);
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(245, 245, 240, 0.45);
-    margin-bottom: 0.12em;
-    opacity: 0;
-    animation: c30FadeUp 0.55s ease 0.6s forwards;
-  }
-
-  .c30-year-display {
-    display: block;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(5.5rem, 17vw, 16rem);
-    font-weight: 700;
-    font-style: italic;
-    color: #F5F5F0;
-    letter-spacing: -0.03em;
-    line-height: 0.88;
-    opacity: 0;
-    animation: c30YearReveal 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s forwards;
-  }
-
-  .c30-rule {
-    width: clamp(50px, 10vw, 100px);
-    height: 2px;
-    background: #D91C2A;
-    margin: 2rem 0;
-    opacity: 0;
-    transform: scaleX(0);
-    transform-origin: left;
-    animation: c30RuleReveal 0.45s ease 1.2s forwards;
-  }
-
-  .c30-tagline {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.3rem, 3.2vw, 2.75rem);
-    font-style: italic;
-    font-weight: 400;
-    color: rgba(245, 245, 240, 0.8);
-    margin: 0 0 3rem;
-    opacity: 0;
-    animation: c30FadeUp 0.55s ease 1.4s forwards;
-  }
-
-  .c30-hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    background: #D91C2A;
-    color: #F5F5F0;
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 1rem 2rem;
-    border-radius: 2px;
-    transition: background 0.2s ease, transform 0.2s ease;
-    opacity: 0;
-    animation: c30FadeUp 0.5s ease 1.6s forwards;
-  }
-
-  .c30-hero-cta:hover {
-    background: #bf1622;
-    transform: translateY(-2px);
-  }
-
-  /* Scroll hint */
-  .c30-scroll-hint {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1400px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 0.6rem;
+    gap: 0;
+  }
+
+  /* ── EYEBROW ── */
+  .c30-eyebrow {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: clamp(0.55rem, 0.9vw, 0.7rem);
     font-weight: 600;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: rgba(245, 245, 240, 0.25);
+    color: rgba(240, 237, 232, 0.3);
+    margin: 0 0 clamp(1rem, 2.5vw, 1.75rem);
     opacity: 0;
-    animation: c30FadeUp 0.5s ease 2s forwards;
+    animation: c30FadeDown 0.6s ease 0.2s forwards;
   }
 
-  /* ── HERO KEYFRAMES ── */
-  @keyframes c30FadeUp {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes c30YearReveal {
-    from { opacity: 0; transform: translateY(0.08em) skewX(-3deg); }
-    to   { opacity: 1; transform: translateY(0) skewX(0); }
-  }
-
-  @keyframes c30RuleReveal {
-    from { opacity: 0; transform: scaleX(0); }
-    to   { opacity: 1; transform: scaleX(1); }
-  }
-
-  /* ── WELCOME ── */
-  #c30-welcome {
-    background: #F5F5F0;
-    padding: clamp(5rem, 10vw, 8rem) 8vw;
-  }
-
-  .c30-welcome-grid {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 4rem;
-    align-items: start;
-  }
-
-  .c30-welcome-aside {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: rgba(10, 10, 10, 0.3);
-    padding-top: 0.6rem;
-  }
-
-  .c30-welcome-body h2 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.8rem, 3.8vw, 3.4rem);
-    font-weight: 600;
-    line-height: 1.2;
-    color: #0A0A0A;
-    margin: 0 0 2rem;
-  }
-
-  .c30-welcome-body h2 em {
-    font-style: italic;
-    color: #D91C2A;
-  }
-
-  .c30-welcome-body p {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
-    line-height: 1.75;
-    color: rgba(10, 10, 10, 0.65);
-    max-width: 520px;
-  }
-
-  /* ── PILLARS ── */
-  #c30-pillars {
-    background: #0A0A0A;
-    padding: clamp(5rem, 10vw, 8rem) 8vw;
-  }
-
-  .c30-section-label {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: rgba(245, 245, 240, 0.35);
-    margin: 0 0 3.5rem;
-  }
-
-  .c30-pillars-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2px;
-  }
-
-  .c30-pillar {
-    background: rgba(245, 245, 240, 0.035);
-    border: 1px solid rgba(245, 245, 240, 0.07);
-    padding: 2.5rem 1.75rem;
-    transition: background 0.3s ease, border-color 0.3s ease;
-  }
-
-  .c30-pillar:hover {
-    background: rgba(245, 245, 240, 0.065);
-    border-color: rgba(217, 28, 42, 0.45);
-  }
-
-  .c30-pillar-num {
-    display: block;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    font-style: italic;
-    color: #D91C2A;
-    margin-bottom: 1.75rem;
-    letter-spacing: 0.08em;
-  }
-
-  .c30-pillar h3 {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #F5F5F0;
-    margin: 0 0 1rem;
-  }
-
-  .c30-pillar p {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 0.85rem;
-    line-height: 1.7;
-    color: rgba(245, 245, 240, 0.5);
-    margin: 0;
-  }
-
-  /* ── CAMPUSES ── */
-  #c30-campuses {
-    background: #F5F5F0;
-    padding: clamp(5rem, 10vw, 8rem) 8vw;
-  }
-
-  .c30-campus-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
+  /* ── TITLE ROW ── */
+  .c30-title-row {
+    position: relative;
+    display: flex;
     align-items: center;
+    justify-content: center;
+    width: min(80vw, 1280px);
+    /* aspect-ratio matches SVG viewBox 1000/182 ≈ 5.49 */
+    aspect-ratio: 1000 / 182;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    opacity: 0;
+    animation: c30FadeDown 0.7s ease 0.3s forwards;
   }
 
-  .c30-campus-text h2 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(2rem, 4.2vw, 3.75rem);
-    font-weight: 600;
-    line-height: 1.1;
-    color: #0A0A0A;
-    margin: 0 0 1.5rem;
+  /* SVG text border — fills container exactly */
+  .c30-orbit-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
   }
 
-  .c30-campus-text h2 em {
-    font-style: italic;
-  }
-
-  .c30-campus-text p {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: clamp(0.88rem, 1.4vw, 1rem);
-    line-height: 1.75;
-    color: rgba(10, 10, 10, 0.6);
-    margin: 0 0 2rem;
-    max-width: 380px;
-  }
-
-  .c30-text-link {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
+  .c30-class-of {
+    font-family: 'Bebas Neue', 'Impact', sans-serif;
+    font-size: clamp(5rem, 11vw, 14rem);
+    font-weight: 400;
+    color: #F0EDE8;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #0A0A0A;
-    text-decoration: none;
-    border-bottom: 1.5px solid #D91C2A;
-    padding-bottom: 2px;
-    transition: color 0.2s ease;
-  }
-
-  .c30-text-link:hover {
-    color: #D91C2A;
-  }
-
-  .c30-campus-names {
-    list-style: none;
+    line-height: 0.88;
     margin: 0;
-    padding: 0;
+    position: relative;
+    z-index: 1;
   }
 
-  .c30-campus-names li {
-    border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  /* ── VIDEO WRAPPER ── */
+  .c30-video-wrap {
+    position: relative;
+    width: min(80vw, 1280px);
+    aspect-ratio: 16 / 9;
+    border-radius: clamp(16px, 2vw, 24px);
+    overflow: hidden;
+    background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow:
+      0 0 0 1px rgba(217, 28, 42, 0.15),
+      0 40px 100px rgba(0, 0, 0, 0.8),
+      0 0 80px rgba(217, 28, 42, 0.1);
+    opacity: 0;
+    animation: c30VideoReveal 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards;
   }
 
-  .c30-campus-names li:first-child {
-    border-top: 1px solid rgba(10, 10, 10, 0.1);
-  }
-
-  .c30-campus-names a {
+  .c30-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(2.2rem, 5vw, 4.5rem);
-    font-weight: 600;
-    font-style: italic;
-    color: #0A0A0A;
+  }
+
+  /* Placeholder (shown when no video source) */
+  .c30-video-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #141414 0%, #0e0e0e 50%, #161010 100%);
+    gap: 1rem;
+  }
+
+  /* Hide placeholder if video loads */
+  .c30-video:not([src=""]) + .c30-video-placeholder,
+  .c30-video:has(source) + .c30-video-placeholder {
+    display: none;
+  }
+
+  .c30-play-icon svg {
+    width: clamp(40px, 6vw, 64px);
+    height: clamp(40px, 6vw, 64px);
+  }
+
+  .c30-placeholder-label {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: clamp(0.6rem, 1vw, 0.75rem);
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(240, 237, 232, 0.2);
+    margin: 0;
+  }
+
+  /* ── CTA BUTTONS ── */
+  .c30-ctas {
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    display: flex;
+    align-items: center;
+    gap: clamp(0.75rem, 2vw, 1.25rem);
+    opacity: 0;
+    animation: c30FadeUp 0.6s ease 1.1s forwards;
+  }
+
+  .c30-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: clamp(0.72rem, 1.1vw, 0.85rem);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     text-decoration: none;
-    padding: 0.22em 0;
-    padding-left: 0;
-    transition: color 0.2s ease, padding-left 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    line-height: 1.1;
+    padding: clamp(0.75rem, 1.5vw, 0.95rem) clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: 100px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   }
 
-  .c30-campus-names a:hover {
-    color: #D91C2A;
-    padding-left: 0.18em;
-  }
-
-  /* ── CONNECT CTA ── */
-  #c30-connect {
+  .c30-btn-primary {
     background: #D91C2A;
-    padding: clamp(6rem, 12vw, 10rem) 8vw;
+    color: #F0EDE8;
+    box-shadow: 0 4px 24px rgba(217, 28, 42, 0.4);
   }
 
-  .c30-connect-inner {
-    text-align: center;
+  .c30-btn-primary:hover {
+    background: #e82233;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(217, 28, 42, 0.55);
   }
 
-  .c30-connect-over {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: rgba(245, 245, 240, 0.55);
-    margin: 0 0 1.25rem;
+  .c30-btn-ghost {
+    background: transparent;
+    color: rgba(240, 237, 232, 0.65);
+    border: 1.5px solid rgba(240, 237, 232, 0.2);
   }
 
-  .c30-connect-inner h2 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(3rem, 8vw, 7rem);
-    font-weight: 700;
-    font-style: italic;
-    color: #F5F5F0;
-    margin: 0 0 3rem;
-    line-height: 1;
-  }
-
-  .c30-connect-btn {
-    display: inline-block;
-    background: #F5F5F0;
-    color: #0A0A0A;
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: clamp(0.72rem, 1.4vw, 0.88rem);
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 1.1rem 2.5rem;
-    border-radius: 2px;
-    transition: background 0.2s ease, transform 0.2s ease;
-  }
-
-  .c30-connect-btn:hover {
-    background: #ffffff;
+  .c30-btn-ghost:hover {
+    color: #F0EDE8;
+    border-color: rgba(240, 237, 232, 0.45);
     transform: translateY(-2px);
   }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    .c30-pillars-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .c30-campus-inner {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
-
-    .c30-welcome-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .c30-welcome-aside {
-      display: none;
-    }
+  /* ── KEYFRAMES ── */
+  @keyframes c30FadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
-  @media (max-width: 580px) {
-    .c30-pillars-grid {
-      grid-template-columns: 1fr;
+  @keyframes c30FadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+@keyframes c30VideoReveal {
+    from { opacity: 0; transform: scale(0.96); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* ── RESPONSIVE ── */
+
+  /* Tablet */
+  @media (max-width: 768px) {
+    #c30-hero {
+      padding: clamp(70px, 10vh, 100px) 4vw clamp(40px, 6vh, 60px);
     }
 
-    #c30-hero {
-      padding-left: 6vw;
-      padding-right: 6vw;
+    .c30-title-row,
+    .c30-video-wrap {
+      width: 92vw;
     }
+
+    .c30-class-of {
+      font-size: clamp(3.5rem, 9vw, 6rem);
+      letter-spacing: 0.05em;
+    }
+
+    .c30-title-row {
+      margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    /* Scale down bokeh */
+    .c30-orb { transform: scale(0.7); }
+  }
+
+  /* Mobile */
+  @media (max-width: 480px) {
+    #c30-hero {
+      padding: 80px 4vw 40px;
+    }
+
+    .c30-class-of {
+      font-size: clamp(2.6rem, 13vw, 4rem);
+      letter-spacing: 0.02em;
+    }
+
+    .c30-title-row {
+      margin-bottom: 1.5rem;
+    }
+
+    .c30-video-wrap {
+      width: 92vw;
+      border-radius: 12px;
+    }
+
+    .c30-ctas {
+      flex-direction: column;
+      width: 92vw;
+      margin-top: 1.25rem;
+    }
+
+    .c30-btn {
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Scale down WELCOME orbit text for mobile */
+    .c30-orbit-svg text {
+      font-size: 8;
+      letter-spacing: 1.5;
+    }
+
+    /* Smaller bokeh */
+    .c30-orb { transform: scale(0.5); }
   }
 </style>
+
+<!-- Nav inversion for dark page -->
+<style is:global>
+  /* Background */
+  body:has(#c30-main) header.fixed {
+    background: rgba(8, 8, 8, 0.85) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Desktop nav links */
+  body:has(#c30-main) header.fixed nav a {
+    color: rgba(240, 237, 232, 0.75) !important;
+  }
+  body:has(#c30-main) header.fixed nav a:hover {
+    color: #D91C2A !important;
+  }
+
+  /* Hamburger bars */
+  body:has(#c30-main) header.fixed .hamburger-bar {
+    background: #F0EDE8 !important;
+  }
+
+  /* Mobile dropdown */
+  body:has(#c30-main) #mobile-menu nav {
+    background: #0d0d0d !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+  body:has(#c30-main) #mobile-menu a {
+    color: rgba(240, 237, 232, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* Footer inversion */
+  body:has(#c30-main) footer {
+    background: #080808 !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+  }
+  body:has(#c30-main) footer p {
+    color: rgba(240, 237, 232, 0.7) !important;
+  }
+  body:has(#c30-main) footer a {
+    color: rgba(240, 237, 232, 0.7) !important;
+  }
+  body:has(#c30-main) footer a:hover {
+    color: #F0EDE8 !important;
+  }
+
+  /* Logo — invert black logo to white */
+  body:has(#c30-main) .logo-main,
+  body:has(#c30-main) .logo-depth {
+    filter: brightness(0) invert(1) !important;
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const canvas = document.getElementById('c30-sparkle-canvas') as HTMLCanvasElement | null;
+    const hero = document.getElementById('c30-hero');
+    if (!canvas || !hero) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Palette: reds + warm whites
+    const colors = [
+      'rgba(217,28,42,',   // red
+      'rgba(230,60,70,',   // lighter red
+      'rgba(240,237,232,', // warm white
+      'rgba(255,200,180,', // peachy glow
+    ];
+
+    interface Particle {
+      x: number; y: number;
+      vx: number; vy: number;
+      life: number; maxLife: number;
+      size: number;
+      color: string;
+    }
+
+    let particles: Particle[] = [];
+    let raf = 0;
+    let lastX = 0;
+    let lastY = 0;
+
+    function resize() {
+      const rect = hero!.getBoundingClientRect();
+      canvas!.width = rect.width * devicePixelRatio;
+      canvas!.height = rect.height * devicePixelRatio;
+      ctx!.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+
+    function spawn(x: number, y: number, count: number) {
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 0.4 + Math.random() * 1.8;
+        particles.push({
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 0.5, // slight upward bias
+          life: 1,
+          maxLife: 0.4 + Math.random() * 0.4,
+          size: 1.5 + Math.random() * 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+        });
+      }
+    }
+
+    function tick() {
+      const w = canvas!.width / devicePixelRatio;
+      const h = canvas!.height / devicePixelRatio;
+      ctx!.clearRect(0, 0, w, h);
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.life -= 1 / 60 / p.maxLife;
+        if (p.life <= 0) { particles.splice(i, 1); continue; }
+
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.02; // gravity
+        p.vx *= 0.98; // drag
+
+        const alpha = p.life * 0.85;
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+        ctx!.fillStyle = p.color + alpha + ')';
+        ctx!.fill();
+      }
+
+      raf = requestAnimationFrame(tick);
+    }
+
+    // Mouse tracking
+    function onMove(e: MouseEvent) {
+      const rect = hero!.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Only spawn if cursor has moved enough (avoids static clusters)
+      const dx = x - lastX;
+      const dy = y - lastY;
+      if (dx * dx + dy * dy > 16) {
+        spawn(x, y, 2);
+        lastX = x;
+        lastY = y;
+      }
+    }
+
+    // Touch tracking for mobile
+    function onTouch(e: TouchEvent) {
+      const rect = hero!.getBoundingClientRect();
+      for (const touch of Array.from(e.touches)) {
+        spawn(touch.clientX - rect.left, touch.clientY - rect.top, 3);
+      }
+    }
+
+    resize();
+    tick();
+
+    hero.addEventListener('mousemove', onMove);
+    hero.addEventListener('touchmove', onTouch, { passive: true });
+    window.addEventListener('resize', resize);
+
+    // Cleanup on page navigation
+    document.addEventListener('astro:before-swap', () => {
+      cancelAnimationFrame(raf);
+      hero.removeEventListener('mousemove', onMove);
+      hero.removeEventListener('touchmove', onTouch);
+      window.removeEventListener('resize', resize);
+    }, { once: true });
+  });
+</script>
+

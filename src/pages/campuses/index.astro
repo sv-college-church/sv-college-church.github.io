@@ -56,6 +56,10 @@ const campuses = [
     main { padding-top: 8rem !important; }
   }
 
+  @media (min-width: 768px) and (max-height: 760px) {
+    main { padding-top: 5rem !important; }
+  }
+
   .page-title {
     font-family: 'Instrument Sans', system-ui, sans-serif;
     font-size: clamp(3rem, 8vw, 8rem);
@@ -75,12 +79,14 @@ const campuses = [
     padding: 2rem 2rem 3rem;
   }
 
-  .campus-list:hover .campus-name {
-    opacity: 0.15;
-  }
+  @media (hover: hover) and (pointer: fine) {
+    .campus-list:hover .campus-name {
+      opacity: 0.15;
+    }
 
-  .campus-list:hover .campus-name:hover {
-    opacity: 1;
+    .campus-list:hover .campus-name:hover {
+      opacity: 1;
+    }
   }
 
   .campus-name {
@@ -95,8 +101,10 @@ const campuses = [
     transition: opacity 0.3s ease, color 0.2s ease;
   }
 
-  .campus-list:hover .campus-name:hover {
-    color: rgb(10 10 10);
+  @media (hover: hover) and (pointer: fine) {
+    .campus-list:hover .campus-name:hover {
+      color: rgb(10 10 10);
+    }
   }
 
   /* ── Mobile ── */

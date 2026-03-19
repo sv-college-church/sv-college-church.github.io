@@ -135,12 +135,14 @@ const photoUrls = optimized.map(img => img.src);
     top: 68%;
   }
 
-  /* Invisible hover zone — extends hit area for horizontal fan */
-  #polaroid-stack.settled::after {
-    content: '';
-    position: absolute;
-    inset: -100px -1100px;
-    z-index: -1;
+  /* Invisible hover zone — extends hit area for horizontal fan (mouse devices only) */
+  @media (hover: hover) and (pointer: fine) {
+    #polaroid-stack.settled::after {
+      content: '';
+      position: absolute;
+      inset: -100px -1100px;
+      z-index: -1;
+    }
   }
 
   /* ── Scale wrapper: shrink animation ── */
@@ -398,10 +400,22 @@ const photoUrls = optimized.map(img => img.src);
     line-height: 1;
   }
 
+  /* ── Short viewport fix (Windows 150% scaling) ── */
+  @media (min-width: 768px) and (max-height: 760px) {
+    #polaroid-stack.shifted {
+      top: 58%; /* pulls card up so it doesn't clip below the fold at 720px height */
+    }
+  }
+
   /* ── Mobile ── */
   @media (max-width: 767px) {
     #polaroid-stack {
       --card-w: clamp(220px, 78vw, 380px);
+    }
+
+    /* Shift stack slightly less far down so it stays clear of the bottom edge */
+    #polaroid-stack.shifted {
+      top: 65%;
     }
 
     #text-wrapper {
@@ -410,16 +424,18 @@ const photoUrls = optimized.map(img => img.src);
       padding: 0 16px;
     }
 
+    /* Move badge to bottom-right — avoids collision with the title text at the top */
     #class-badge {
       --ring-r: -48px;
-      width: 128px;
-      height: 128px;
-      top: 88px;
-      right: 3%;
+      width: 120px;
+      height: 120px;
+      top: auto;
+      bottom: 6%;
+      right: 5%;
     }
 
-    .badge-year-num { font-size: 22px; }
-    .badge-dot { font-size: 14px; }
+    .badge-year-num { font-size: 20px; }
+    .badge-dot { font-size: 13px; }
   }
 </style>
 
@@ -525,26 +541,121 @@ const photoUrls = optimized.map(img => img.src);
       }
     }, 3200);
 
-    // ── 2.6s: settled — start breathing + enable fan ──
+    // ── 2.6s: settled — start breathing + enable fan (desktop) or swipe (mobile) ──
     setTimeout(() => {
       stackEl.classList.add('settled');
       breatheEl.classList.add('breathing');
 
-      stackEl.addEventListener('mouseenter', () => {
-        breatheEl.classList.add('fanned');
-        cards.forEach((card, i) => {
-          card.style.transition = `transform 0.45s cubic-bezier(0.34, 1.15, 0.64, 1) ${i * 30}ms`;
-          card.style.transform  = fanTransform(i);
-        });
-      });
+      const isMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-      stackEl.addEventListener('mouseleave', () => {
-        breatheEl.classList.remove('fanned');
-        cards.forEach((card) => {
-          card.style.transition = 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-          card.style.transform  = card.dataset.stack!;
+      if (isMouse) {
+        // ── Desktop: hover to fan ──
+        stackEl.addEventListener('mouseenter', () => {
+          breatheEl.classList.add('fanned');
+          cards.forEach((card, i) => {
+            card.style.transition = `transform 0.45s cubic-bezier(0.34, 1.15, 0.64, 1) ${i * 30}ms`;
+            card.style.transform  = fanTransform(i);
+          });
         });
-      });
+
+        stackEl.addEventListener('mouseleave', () => {
+          breatheEl.classList.remove('fanned');
+          cards.forEach((card) => {
+            card.style.transition = 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            card.style.transform  = card.dataset.stack!;
+          });
+        });
+      } else {
+        // ── Mobile: swipe to cycle through cards ──
+        // order[0] = bottom card, order[last] = top card
+        const order: number[] = cards.map((_, i) => i);
+
+        const setZIndices = () => {
+          order.forEach((cardIdx, slot) => {
+            cards[cardIdx].style.zIndex = String(slot + 1);
+          });
+        };
+        setZIndices();
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isDragging  = false;
+        let isAnimating = false;
+        const THRESHOLD = 80;
+
+        const snapBack = () => {
+          const topCard = cards[order[order.length - 1]];
+          topCard.style.transition = 'transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1)';
+          topCard.style.transform  = topCard.dataset.stack!;
+          breatheEl.classList.remove('fanned');
+        };
+
+        stackEl.addEventListener('touchstart', (e: TouchEvent) => {
+          if (isAnimating) return;
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+          isDragging  = false;
+        }, { passive: true });
+
+        stackEl.addEventListener('touchmove', (e: TouchEvent) => {
+          if (isAnimating) return;
+          const dx = e.touches[0].clientX - touchStartX;
+          const dy = e.touches[0].clientY - touchStartY;
+
+          // Let vertical scrolls pass through untouched
+          if (!isDragging && Math.abs(dy) > Math.abs(dx)) return;
+
+          isDragging = true;
+          e.preventDefault();
+
+          breatheEl.classList.add('fanned'); // pause breathing while dragging
+          const topCard = cards[order[order.length - 1]];
+          const rot = dx * 0.07;
+          topCard.style.transition = 'none';
+          topCard.style.transform  = `translate(${dx}px, ${Math.abs(dx) * 0.05}px) rotate(${rot}deg)`;
+        }, { passive: false });
+
+        stackEl.addEventListener('touchcancel', () => {
+          if (!isDragging) return;
+          isDragging = false;
+          snapBack();
+        }, { passive: true });
+
+        stackEl.addEventListener('touchend', (e: TouchEvent) => {
+          if (!isDragging) return;
+          isDragging = false;
+
+          const dx      = e.changedTouches[0].clientX - touchStartX;
+          const topCard = cards[order[order.length - 1]];
+
+          if (Math.abs(dx) >= THRESHOLD) {
+            isAnimating = true;
+            const dir   = dx > 0 ? 1 : -1;
+
+            // Flick the card off screen
+            topCard.style.transition = 'transform 0.36s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.36s ease';
+            topCard.style.transform  = `translate(${dir * 520}px, 24px) rotate(${dir * 22}deg)`;
+            topCard.style.opacity    = '0';
+
+            setTimeout(() => {
+              // Silently reset card, then move it to the bottom of the stack
+              topCard.style.transition = 'none';
+              topCard.style.transform  = topCard.dataset.stack!;
+              topCard.style.opacity    = '1';
+
+              // Cycle: top card becomes bottom card
+              const popped = order.pop()!;
+              order.unshift(popped);
+              setZIndices();
+
+              breatheEl.classList.remove('fanned');
+              isAnimating = false;
+            }, 400);
+          } else {
+            snapBack();
+          }
+        }, { passive: true });
+      }
     }, 2600);
   });
 </script>

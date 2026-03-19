@@ -10,8 +10,14 @@ import Footer from '../components/Footer.astro';
 
     <!-- Easter announcement banner -->
     <div class="announcement-banner">
-      <span class="banner-text">🐣 EASTER SUNDAY · APR 6 · THE KINGS ACADEMY · SUNNYVALE</span>
-      <button class="easter-btn" aria-label="Switch to Easter Sunday service details"><span class="btn-default">CLICK HERE FOR INFO</span><span class="btn-reset">← BACK TO REGULAR</span></button>
+      <span class="banner-text">
+        <span class="label-full">🐣 EASTER SUNDAY · APR 6 · THE KINGS ACADEMY · SUNNYVALE</span>
+        <span class="label-short">🐣 EASTER · APR 6</span>
+      </span>
+      <button class="easter-btn" aria-label="Switch to Easter Sunday service details">
+        <span class="btn-default"><span class="label-full">CLICK HERE FOR INFO</span><span class="label-short">INFO →</span></span>
+        <span class="btn-reset"><span class="label-full">← BACK TO REGULAR</span><span class="label-short">← BACK</span></span>
+      </button>
     </div>
 
     <!-- Hero -->
@@ -408,7 +414,10 @@ import Footer from '../components/Footer.astro';
     color: #F5F5F0;
   }
 
-  /* ── Mobile: stack when/where ── */
+  /* ── Short/full label switching ── */
+  .label-short { display: none; }
+
+  /* ── Mobile: stack when/where + compact banner ── */
   @media (max-width: 640px) {
     .when-where {
       grid-template-columns: 1fr;
@@ -420,6 +429,30 @@ import Footer from '../components/Footer.astro';
       width: 100%;
       height: 1px;
       background: rgb(10 10 10 / 0.1);
+    }
+
+    /* Banner: slim single row with condensed text */
+    .announcement-banner {
+      gap: 0.6rem;
+      padding: 0.7rem 1rem;
+    }
+
+    .banner-text .label-full { display: none; }
+    .banner-text .label-short { display: inline; }
+
+    .easter-btn .label-full { display: none; }
+    .easter-btn .label-short { display: inline; }
+
+    .banner-text {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+    }
+
+    .easter-btn {
+      font-size: 0.68rem;
+      padding: 0.45rem 0.85rem;
+      letter-spacing: 0.14em;
+      flex-shrink: 0;
     }
   }
 </style>

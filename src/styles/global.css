@@ -17,6 +17,14 @@
 }
 
 @layer utilities {
+  /* Short viewport fix — reduce main offset to match compressed nav height.
+     Targets Windows 150% scaling (1280×720) without touching Mac (900px+ height). */
+  @media (min-width: 768px) and (max-height: 760px) {
+    main.min-h-screen {
+      padding-top: 5rem; /* 80px — matches the compressed nav height */
+    }
+  }
+
   /* Scroll animation base states — triggered by IntersectionObserver adding .is-visible */
   [data-animate] {
     opacity: 0;

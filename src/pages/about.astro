@@ -222,6 +222,12 @@ import mentors from '../assets/images/mentors.png';
     min-height: 75vh;
   }
 
+  @media (max-width: 640px) {
+    .hero-section {
+      min-height: 55vh;
+    }
+  }
+
   /* Word-by-word reveal */
   .hero-word {
     display: inline-block;
@@ -282,6 +288,13 @@ import mentors from '../assets/images/mentors.png';
     align-items: center;
     justify-content: center;
     padding: 6rem 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .reveal-section {
+      min-height: unset;
+      padding: 4rem 1.5rem;
+    }
   }
 
   .reveal-inner {
