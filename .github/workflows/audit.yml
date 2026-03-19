@@ -1,0 +1,171 @@
+name: Site Audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
+
+  accessibility:
+    name: Accessibility
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install tools
+        run: npm install --no-save serve playwright @axe-core/playwright
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Audit all pages
+        run: |
+          npx serve dist -l 4321 &
+          sleep 3
+
+          # Auto-discover every page from the build output
+          PAGES=$(find dist -name 'index.html' | sed 's|^dist||;s|/index.html$||' | sed 's|^$|/|' | sort)
+          echo "Discovered pages:"
+          echo "$PAGES"
+
+          node -e "
+          const { chromium } = require('playwright');
+          const AxeBuilder = require('@axe-core/playwright').default;
+
+          (async () => {
+            const browser = await chromium.launch();
+            const pages = process.argv.slice(1);
+            let failed = false;
+
+            for (const path of pages) {
+              const context = await browser.newContext();
+              const page = await context.newPage();
+              await page.goto('http://localhost:4321' + path, { waitUntil: 'load' });
+
+              const results = await new AxeBuilder({ page }).analyze();
+
+              if (results.violations.length > 0) {
+                failed = true;
+                console.log('\n❌ ' + path);
+                for (const v of results.violations) {
+                  console.log('  [' + v.impact + '] ' + v.id + ': ' + v.description + ' (' + v.nodes.length + ' elements)');
+                }
+              } else {
+                console.log('✅ ' + path);
+              }
+              await context.close();
+            }
+
+            await browser.close();
+            process.exit(failed ? 1 : 0);
+          })();
+          " $PAGES
+
+  links:
+    name: Link Check
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check internal links
+        run: |
+          npm install --no-save serve linkinator
+          npx serve dist -l 4321 &
+          sleep 3
+          npx linkinator http://localhost:4321 \
+            --recurse \
+            --timeout 30000 \
+            --skip "^(?!http://localhost:4321)"
+
+  lighthouse:
+    name: Lighthouse
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Audit with Lighthouse
+        run: |
+          npm install --no-save @lhci/cli puppeteer
+
+          # Auto-discover pages and build a JSON array of URL paths
+          URLS=$(find dist -name 'index.html' \
+            | sed 's|^dist||;s|/index.html$||' \
+            | sed 's|^$|/|' \
+            | sort \
+            | jq -R . | jq -s .)
+
+          # Generate Lighthouse CI config with discovered pages
+          cat > /tmp/lighthouserc.json <<LHEOF
+          {
+            "ci": {
+              "collect": {
+                "staticDistDir": "./dist",
+                "url": $URLS,
+                "numberOfRuns": 1,
+                "settings": {
+                  "chromeFlags": "--no-sandbox --headless"
+                }
+              },
+              "assert": {
+                "preset": "lighthouse:no-pwa",
+                "assertions": {
+                  "categories:performance": ["warn", {"minScore": 0.8}],
+                  "categories:accessibility": ["error", {"minScore": 0.9}],
+                  "categories:best-practices": ["warn", {"minScore": 0.8}],
+                  "categories:seo": ["warn", {"minScore": 0.9}]
+                }
+              }
+            }
+          }
+          LHEOF
+
+          echo "Lighthouse config:"
+          cat /tmp/lighthouserc.json
+
+          npx lhci autorun --config=/tmp/lighthouserc.json
