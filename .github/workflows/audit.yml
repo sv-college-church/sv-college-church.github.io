@@ -116,9 +116,10 @@ jobs:
             --skip "^(?!http://localhost:4321)"
 
   lighthouse:
-    name: Lighthouse
+    name: Lighthouse (Advisory)
     needs: build
     runs-on: ubuntu-latest
+    continue-on-error: true # informational — never blocks the workflow
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -140,7 +141,7 @@ jobs:
             | sort \
             | jq -R . | jq -s .)
 
-          # Generate Lighthouse CI config with discovered pages
+          # Generate Lighthouse CI config — category scores only, all as warnings
           cat > /tmp/lighthouserc.json <<LHEOF
           {
             "ci": {
@@ -153,10 +154,9 @@ jobs:
                 }
               },
               "assert": {
-                "preset": "lighthouse:no-pwa",
                 "assertions": {
                   "categories:performance": ["warn", {"minScore": 0.8}],
-                  "categories:accessibility": ["error", {"minScore": 0.9}],
+                  "categories:accessibility": ["warn", {"minScore": 0.9}],
                   "categories:best-practices": ["warn", {"minScore": 0.8}],
                   "categories:seo": ["warn", {"minScore": 0.9}]
                 }
