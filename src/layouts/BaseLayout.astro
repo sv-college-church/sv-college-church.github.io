@@ -35,6 +35,7 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+    <meta property="og:site_name" content="Silicon Valley College Church" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -42,8 +43,37 @@ const {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />
 
+    <!-- Mobile browser chrome -->
+    <meta name="theme-color" content="#0A0A0A" />
+    <link rel="apple-touch-icon" href="/images/svc-logo-black.png" />
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Church",
+      "name": "Silicon Valley College Church",
+      "alternateName": "SVC",
+      "description": "A church for college students and young adults in Silicon Valley.",
+      "url": Astro.site?.href,
+      "logo": new URL('/images/svc-logo-black.png', Astro.site).href,
+      "sameAs": [
+        "https://www.instagram.com/sv.collegechurch",
+        "https://open.spotify.com/show/22GK3NSUnfEpNWD7GC9GmM"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Santa Clara",
+        "addressRegion": "CA",
+        "addressCountry": "US"
+      }
+    })} />
 
     <ViewTransitions />
   </head>
