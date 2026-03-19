@@ -5,7 +5,6 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://sv-college-church.github.io',
-  base: '/svc/',
   integrations: [tailwind({ applyBaseStyles: false }), sitemap()],
   output: 'static',
 });
