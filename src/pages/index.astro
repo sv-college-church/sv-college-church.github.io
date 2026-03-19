@@ -2,6 +2,19 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { getImage } from 'astro:assets';
+import churchBeach from '../assets/images/church-beach.jpg';
+import churchCliff from '../assets/images/church-cliff.jpg';
+import churchEaster from '../assets/images/church-easter.jpg';
+import churchTrain from '../assets/images/church-train.jpg';
+
+const optimized = await Promise.all([
+  getImage({ src: churchBeach, width: 1200, format: 'webp' }),
+  getImage({ src: churchCliff, width: 1200, format: 'webp' }),
+  getImage({ src: churchEaster, width: 1200, format: 'webp' }),
+  getImage({ src: churchTrain, width: 1200, format: 'webp' }),
+]);
+const photoUrls = optimized.map(img => img.src);
 ---
 
 <BaseLayout title="Silicon Valley College Church" description="A church for young adults and college students in Silicon Valley.">
@@ -21,7 +34,7 @@ import Footer from '../components/Footer.astro';
       </div>
 
       <!-- Stack container: stays centered -->
-      <div id="polaroid-stack">
+      <div id="polaroid-stack" data-photos={JSON.stringify(photoUrls)}>
         <!-- Scale container: handles shrink -->
         <div id="polaroid-scale">
           <!-- Breathe container: handles idle ebb & flow -->
@@ -411,13 +424,10 @@ import Footer from '../components/Footer.astro';
 </style>
 
 <script>
-  // ── Photo pool — add new photos here, 4 random ones are picked each load ──
-  const ALL_PHOTOS = [
-    '/images/church-beach.jpg',
-    '/images/church-cliff.jpg',
-    '/images/church-easter.jpg',
-    '/images/church-train.jpg',
-  ];
+  // ── Photo pool — read optimized URLs from the data attribute ──
+  const ALL_PHOTOS: string[] = JSON.parse(
+    document.getElementById('polaroid-stack')!.dataset.photos!
+  );
 
   // Fisher-Yates shuffle
   function shuffle<T>(arr: T[]): T[] {

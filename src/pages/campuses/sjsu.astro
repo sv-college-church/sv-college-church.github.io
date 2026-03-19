@@ -2,6 +2,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import { Image } from 'astro:assets';
+import klesisSjsu from '../../assets/images/campuses/logos/klesis-sjsu.png';
+import fourCorners from '../../assets/images/campuses/logos/4corners.png';
 ---
 
 <BaseLayout title="SJSU — Campuses" description="Campus ministries at San José State University.">
@@ -18,13 +21,13 @@ import Footer from '../../components/Footer.astro';
     <!-- Group selectors -->
     <section class="selectors">
       <button class="selector-btn" data-target="klesis" aria-expanded="false">
-        <img src="/images/campuses/logos/klesis-sjsu.png" alt="" class="selector-logo" aria-hidden="true" />
+        <Image src={klesisSjsu} alt="" class="selector-logo" aria-hidden="true" />
         <span class="selector-name">Klesis</span>
         <span class="selector-arrow">↓</span>
       </button>
       <div class="selector-divider" aria-hidden="true"></div>
       <button class="selector-btn" data-target="fourcorners" aria-expanded="false">
-        <img src="/images/campuses/logos/4corners.png" alt="" class="selector-logo" aria-hidden="true" />
+        <Image src={fourCorners} alt="" class="selector-logo" aria-hidden="true" />
         <span class="selector-name">4Corners</span>
         <span class="selector-arrow">↓</span>
       </button>

@@ -2,6 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { Image } from 'astro:assets';
+import suhfam from '../assets/images/suhfam.png';
+import mentors from '../assets/images/mentors.png';
 ---
 
 <BaseLayout title="About" description="Launching kingdom workers from every college town.">
@@ -40,7 +43,7 @@ import Footer from '../components/Footer.astro';
       <div class="reveal-inner content-col" data-animate>
         <div class="section-rule"></div>
         <p class="section-label">Leadership</p>
-        <img src="/images/suhfam.png" alt="SVC directors Steve and Suzanne with their family" class="section-photo" />
+        <Image src={suhfam} alt="SVC directors Steve and Suzanne with their family" class="section-photo" />
         <p class="display-name">Steve & Suzanne</p>
         <p class="body-text">
           Steve and Suzanne met at UC Berkeley — Steve studying architecture, Suzanne climbing the ranks at a Big Four firm. Both had their plans rerouted when they encountered Jesus during college, and they've spent the years since pouring into students. They lead SVC, founded Area Youth Ministry, and have two kids: a Purdue grad and a UCSB freshman. Their mission is simple — engage the next generation of students for Christ.
@@ -53,7 +56,7 @@ import Footer from '../components/Footer.astro';
       <div class="reveal-inner content-col" data-animate>
         <div class="section-rule"></div>
         <p class="section-label">The Team</p>
-        <img src="/images/mentors.png" alt="SVC staff group photo" class="section-photo" />
+        <Image src={mentors} alt="SVC staff group photo" class="section-photo" />
         <p class="body-text">
           Our staff work as teachers, engineers, product managers, and finance professionals — but share a common story of transformation from their college years. Our passion is inviting current students to experience the same life change through Jesus. Reach out to any of us — we'd love to share our stories with you.
         </p>

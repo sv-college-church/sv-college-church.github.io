@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import svcLogo from '../assets/images/svc-logo-black.png';
 ---
 
 <header class="fixed left-0 right-0 top-0 z-50 bg-paper/95 backdrop-blur-sm">
@@ -29,9 +31,9 @@
     <a href="/" id="logo-link" class="logo-wrap absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
       <div id="logo-inner" class="logo-inner">
         <!-- Depth layer: blurred ghost that moves opposite the tilt for parallax depth -->
-        <img id="logo-depth" src="/images/svc-logo-black.png" alt="" aria-hidden="true" class="logo-depth" width="96" height="96" />
+        <Image id="logo-depth" src={svcLogo} alt="" aria-hidden="true" class="logo-depth" width={96} height={96} />
         <!-- Main logo -->
-        <img src="/images/svc-logo-black.png" alt="SVC" class="logo-main h-16 w-auto object-contain md:h-24" width="96" height="96" />
+        <Image src={svcLogo} alt="SVC" class="logo-main h-16 w-auto object-contain md:h-24" width={96} height={96} />
       </div>
     </a>
 
