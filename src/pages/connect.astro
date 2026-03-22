@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 
 <BaseLayout title="Connect" description="Get connected with Silicon Valley College Church — find community, small groups, and ways to get involved.">
   <Nav />
-  <main class="min-h-screen bg-paper pt-20 md:pt-32">
+  <main class="min-h-screen bg-paper pt-20 md:pt-32 page-enter">
     <section class="py-16 text-center">
       <h1 class="font-sans font-black uppercase leading-none" style="font-size: clamp(3rem, 8vw, 8rem);">
         Connect
@@ -30,3 +30,20 @@ import Footer from '../components/Footer.astro';
   </main>
   <Footer />
 </BaseLayout>
+
+<style>
+  .page-enter {
+    animation: pageEnter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  @keyframes pageEnter {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

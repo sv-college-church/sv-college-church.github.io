@@ -64,7 +64,7 @@ import Footer from '../components/Footer.astro';
 
     <!-- Scroll hint -->
     <div class="scroll-hint border-t border-ink/10" aria-hidden="true">
-      <a href="#what" class="scroll-arrow">↓</a>
+      <a href="#what" class="scroll-arrow" tabindex="-1">↓</a>
     </div>
 
     <!-- WHAT -->
@@ -210,7 +210,7 @@ import Footer from '../components/Footer.astro';
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgb(10 10 10 / 0.4);
+    color: rgb(10 10 10 / 0.62);
     background: none;
     border: none;
     cursor: pointer;
@@ -260,18 +260,17 @@ import Footer from '../components/Footer.astro';
   /* ── Section label ── */
   .section-label {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    color: rgb(10 10 10 / 0.32);
+    color: rgb(10 10 10 / 0.60);
     margin-bottom: 1.75rem;
   }
 
   .what-inner .section-label {
-    font-size: 0.85rem;
     letter-spacing: 0.18em;
-    color: rgb(10 10 10 / 0.5);
+    color: rgb(10 10 10 / 0.65);
     margin-bottom: 2rem;
   }
 
@@ -309,7 +308,7 @@ import Footer from '../components/Footer.astro';
     font-style: italic;
     line-height: 1;
     letter-spacing: -0.01em;
-    color: rgb(10 10 10 / 0.45);
+    color: rgb(10 10 10 / 0.65);
     margin-top: 0.35em;
   }
 
@@ -320,7 +319,7 @@ import Footer from '../components/Footer.astro';
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgb(10 10 10 / 0.4);
+    color: rgb(10 10 10 / 0.62);
     text-decoration: none;
     margin-top: 2rem;
     transition: color 0.2s ease;

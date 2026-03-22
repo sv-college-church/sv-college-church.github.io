@@ -3,24 +3,62 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { getImage } from 'astro:assets';
-import churchBeach from '../assets/images/church-beach.jpg';
-import churchCliff from '../assets/images/church-cliff.jpg';
-import churchEaster from '../assets/images/church-easter.jpg';
-import churchTrain from '../assets/images/church-train.jpg';
 
-const optimized = await Promise.all([
-  getImage({ src: churchBeach, width: 1200, format: 'webp' }),
-  getImage({ src: churchCliff, width: 1200, format: 'webp' }),
-  getImage({ src: churchEaster, width: 1200, format: 'webp' }),
-  getImage({ src: churchTrain, width: 1200, format: 'webp' }),
-]);
+// Community photos — all 23 imported, Astro optimises at build time.
+// JS picks a random 4 per page load via the existing shuffle logic.
+import svc01 from '../assets/images/community/svc-01.webp';
+import svc02 from '../assets/images/community/svc-02.webp';
+import svc03 from '../assets/images/community/svc-03.webp';
+import svc04 from '../assets/images/community/svc-04.webp';
+import svc05 from '../assets/images/community/svc-05.webp';
+import svc06 from '../assets/images/community/svc-06.webp';
+import svc07 from '../assets/images/community/svc-07.webp';
+import svc08 from '../assets/images/community/svc-08.webp';
+import svc09 from '../assets/images/community/svc-09.webp';
+import svc10 from '../assets/images/community/svc-10.webp';
+import svc11 from '../assets/images/community/svc-11.webp';
+import svc12 from '../assets/images/community/svc-12.webp';
+import svc13 from '../assets/images/community/svc-13.webp';
+import svc14 from '../assets/images/community/svc-14.webp';
+import svc15 from '../assets/images/community/svc-15.webp';
+import svc16 from '../assets/images/community/svc-16.webp';
+import svc17 from '../assets/images/community/svc-17.webp';
+import svc18 from '../assets/images/community/svc-18.webp';
+import svc19 from '../assets/images/community/svc-19.webp';
+import svc20 from '../assets/images/community/svc-20.webp';
+import svc21 from '../assets/images/community/svc-21.webp';
+import svc22 from '../assets/images/community/svc-22.webp';
+import svc23 from '../assets/images/community/svc-23.webp';
+
+const allSources = [
+  svc01, svc02, svc03, svc04, svc05, svc06, svc07, svc08,
+  svc09, svc10, svc11, svc12, svc13, svc14, svc15, svc16,
+  svc17, svc18, svc19, svc20, svc21, svc22, svc23,
+];
+
+const optimized = await Promise.all(
+  allSources.map(src => getImage({ src, width: 800, format: 'webp' }))
+);
 const photoUrls = optimized.map(img => img.src);
 ---
 
 <BaseLayout title="Silicon Valley College Church" description="A church for young adults and college students in Silicon Valley.">
   <Nav />
 
-  <main>
+  <main class="pt-20 md:pt-32">
+
+    <!-- Easter announcement banner -->
+    <div class="announcement-banner">
+      <span class="banner-text">
+        <span class="label-full">🐣 EASTER SUNDAY · APR 6 · THE KINGS ACADEMY · SUNNYVALE</span>
+        <span class="label-short">🐣 EASTER · APR 6</span>
+      </span>
+      <a href="/church" class="easter-link">
+        <span class="label-full">SEE DETAILS →</span>
+        <span class="label-short">INFO →</span>
+      </a>
+    </div>
+
     <section id="hero" class="bg-paper">
 
       <!-- Text: fades in above photos after shrink -->
@@ -100,6 +138,73 @@ const photoUrls = optimized.map(img => img.src);
 </style>
 
 <style>
+  /* ── Easter announcement banner ── */
+  .announcement-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    background: #0A0A0A;
+    padding: 1.1rem 2rem;
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .announcement-banner.is-visible {
+    opacity: 1;
+  }
+
+  .banner-text {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #F5F5F0;
+    line-height: 1;
+  }
+
+  .easter-link {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: 1;
+    color: #F5F5F0;
+    background: #D91C2A;
+    padding: 0.65rem 1.6rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+  }
+
+  .easter-link:hover { background: #b51623; }
+
+  .label-short { display: none; }
+
+  @media (max-width: 640px) {
+    .announcement-banner {
+      gap: 0.6rem;
+      padding: 0.7rem 1rem;
+    }
+    .banner-text .label-full { display: none; }
+    .banner-text .label-short { display: inline; }
+    .easter-link .label-full { display: none; }
+    .easter-link .label-short { display: inline; }
+    .banner-text {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+    }
+    .easter-link {
+      font-size: 0.68rem;
+      padding: 0.45rem 0.85rem;
+      letter-spacing: 0.14em;
+      flex-shrink: 0;
+    }
+  }
+
   #hero {
     position: relative;
     min-height: 100svh;
@@ -109,9 +214,11 @@ const photoUrls = optimized.map(img => img.src);
     overflow: visible;
   }
 
-  /* Prevent horizontal scrollbar from fan animation */
+  /* Prevent horizontal scrollbar from fan animation.
+     Use `clip` (not `hidden`) so <html> does NOT become a scroll container,
+     which would otherwise require two scroll attempts to reach the top/bottom. */
   :global(html) {
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   /* ── Stack: centered, no slide ── */
@@ -132,7 +239,7 @@ const photoUrls = optimized.map(img => img.src);
 
   /* After text appears, shift stack down so it clears the title */
   #polaroid-stack.shifted {
-    top: 68%;
+    top: 58%;
   }
 
   /* Invisible hover zone — extends hit area for horizontal fan (mouse devices only) */
@@ -141,7 +248,6 @@ const photoUrls = optimized.map(img => img.src);
       content: '';
       position: absolute;
       inset: -100px -1100px;
-      z-index: -1;
     }
   }
 
@@ -208,7 +314,7 @@ const photoUrls = optimized.map(img => img.src);
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: 14%;
+    top: 3%;
     pointer-events: none;
     text-align: center;
     width: max-content;
@@ -415,7 +521,7 @@ const photoUrls = optimized.map(img => img.src);
 
     /* Shift stack slightly less far down so it stays clear of the bottom edge */
     #polaroid-stack.shifted {
-      top: 65%;
+      top: 57%;
     }
 
     #text-wrapper {
@@ -481,6 +587,8 @@ const photoUrls = optimized.map(img => img.src);
     document.querySelectorAll<HTMLElement>('.hero-word, .hero-line2').forEach(el => el.classList.remove('visible'));
     const badge = document.getElementById('class-badge');
     if (badge) badge.classList.remove('is-live', 'is-breathing');
+    const banner = document.querySelector<HTMLElement>('.announcement-banner');
+    if (banner) banner.classList.remove('is-visible');
 
     // Assign shuffled photos to the 4 static cards
     const picked = shuffle(ALL_PHOTOS).slice(0, cards.length);
@@ -533,12 +641,14 @@ const photoUrls = optimized.map(img => img.src);
       line2.classList.add('visible');
     }, 2200);
 
-    // ── 3.2s: class-of-2030 badge pops in ──
+    // ── 3.2s: class-of-2030 badge pops in + banner fades in ──
     setTimeout(() => {
       if (badge) {
         badge.classList.add('is-live');
         setTimeout(() => badge.classList.add('is-breathing'), 1100);
       }
+      const banner = document.querySelector('.announcement-banner');
+      if (banner) banner.classList.add('is-visible');
     }, 3200);
 
     // ── 2.6s: settled — start breathing + enable fan (desktop) or swipe (mobile) ──
@@ -550,7 +660,10 @@ const photoUrls = optimized.map(img => img.src);
 
       if (isMouse) {
         // ── Desktop: hover to fan ──
+        let leaveTimer: ReturnType<typeof setTimeout> | null = null;
+
         stackEl.addEventListener('mouseenter', () => {
+          if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
           breatheEl.classList.add('fanned');
           cards.forEach((card, i) => {
             card.style.transition = `transform 0.45s cubic-bezier(0.34, 1.15, 0.64, 1) ${i * 30}ms`;
@@ -559,11 +672,13 @@ const photoUrls = optimized.map(img => img.src);
         });
 
         stackEl.addEventListener('mouseleave', () => {
-          breatheEl.classList.remove('fanned');
-          cards.forEach((card) => {
-            card.style.transition = 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            card.style.transform  = card.dataset.stack!;
-          });
+          leaveTimer = setTimeout(() => {
+            breatheEl.classList.remove('fanned');
+            cards.forEach((card) => {
+              card.style.transition = 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+              card.style.transform  = card.dataset.stack!;
+            });
+          }, 80);
         });
       } else {
         // ── Mobile: swipe to cycle through cards ──

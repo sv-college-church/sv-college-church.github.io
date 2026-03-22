@@ -12,101 +12,34 @@ import fourCorners from '../../assets/images/campuses/logos/4corners.png';
 
   <main>
 
-    <!-- Hero -->
     <section class="hero-section" style="view-transition-name: campus-sjsu">
       <a href="/campuses" class="back-link">← Campuses</a>
       <h1 class="school-name">San José State<br/>University</h1>
     </section>
 
-    <!-- Group selectors -->
-    <section class="selectors">
-      <button class="selector-btn" data-target="klesis" aria-expanded="false">
-        <Image src={klesisSjsu} alt="" class="selector-logo" aria-hidden="true" />
-        <span class="selector-name">Klesis</span>
-        <span class="selector-arrow">↓</span>
-      </button>
-      <div class="selector-divider" aria-hidden="true"></div>
-      <button class="selector-btn" data-target="fourcorners" aria-expanded="false">
-        <Image src={fourCorners} alt="" class="selector-logo" aria-hidden="true" />
-        <span class="selector-name">4Corners</span>
-        <span class="selector-arrow">↓</span>
-      </button>
+    <section class="groups-section">
+      <div class="group-col">
+        <Image src={klesisSjsu} alt="Klesis SJSU" class="group-logo" />
+        <p class="group-label">Klesis · SJSU</p>
+        <p class="group-body">Klesis SJSU is a place for friendships, purpose, sports, nerf battles, investigating the Christian faith, and being there for one another. Modeled after the Acts 2 church and open to all students regardless of background.</p>
+        <a href="https://www.instagram.com/klesis.sjsu/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
+      </div>
+      <div class="col-divider" aria-hidden="true"></div>
+      <div class="group-col">
+        <Image src={fourCorners} alt="4Corners" class="group-logo" />
+        <p class="group-label">4Corners · SJSU</p>
+        <p class="group-body">4Corners is a fellowship for international students at SJSU — a place to find community, explore the Christian faith, and feel at home in a new country. Open to all international and domestic students.</p>
+        <a href="https://www.instagram.com/4corners.sjsu/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
+      </div>
     </section>
-
-    <!-- Klesis panel -->
-    <div class="group-panel" id="panel-klesis" aria-hidden="true">
-      <div class="panel-inner">
-        <div class="section-rule"></div>
-        <p class="panel-label">Klesis · SJSU</p>
-        <p class="panel-body">
-          Klesis SJSU is a place for friendships, purpose, sports, nerf battles, investigating the Christian faith, and being there for one another. Modeled after the Acts 2 church and open to all students regardless of background.
-        </p>
-        <p class="panel-body">
-          We've been at SJSU since 2021 and meet weekly throughout the semester — Bible studies, Sunday service, meals, and community events.
-        </p>
-        <div class="panel-details">
-          <div class="detail-item">
-            <p class="detail-label">Weekly Devo</p>
-            <p class="detail-value">On campus · Small groups over coffee</p>
-          </div>
-          <div class="detail-item">
-            <p class="detail-label">Sunday Service</p>
-            <p class="detail-value">12 PM · 2346 Walsh Ave, Santa Clara</p>
-          </div>
-          <div class="detail-item">
-            <p class="detail-label">Rides from SJSU</p>
-            <p class="detail-value">Washburn Hall · 11:30 AM</p>
-          </div>
-          <div class="detail-item">
-            <p class="detail-label">Since</p>
-            <p class="detail-value">2021</p>
-          </div>
-        </div>
-        <div class="panel-links">
-          <a href="https://sjsu.klesis.org" target="_blank" rel="noopener noreferrer" class="panel-link">Website ↗</a>
-          <a href="https://www.instagram.com/klesis.sjsu/" target="_blank" rel="noopener noreferrer" class="panel-link">@klesis.sjsu ↗</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4Corners panel -->
-    <div class="group-panel" id="panel-fourcorners" aria-hidden="true">
-      <div class="panel-inner">
-        <div class="section-rule"></div>
-        <p class="panel-label">4Corners International Ministry · SJSU</p>
-        <p class="panel-body">
-          4Corners is a fellowship for international students at SJSU — a place to find community, explore the Christian faith, and feel at home in a new country. Open to all international and domestic students.
-        </p>
-        <p class="panel-body">
-          We meet weekly for Bible study, share meals, and spend time together as a community navigating college life far from home.
-        </p>
-        <div class="panel-details">
-          <div class="detail-item">
-            <p class="detail-label">Weekly Meeting</p>
-            <p class="detail-value">On campus · Bible study &amp; dinner</p>
-          </div>
-          <div class="detail-item">
-            <p class="detail-label">Sunday Service</p>
-            <p class="detail-value">12 PM · 2346 Walsh Ave, Santa Clara</p>
-          </div>
-          <div class="detail-item">
-            <p class="detail-label">Open to</p>
-            <p class="detail-value">All students, international &amp; domestic</p>
-          </div>
-        </div>
-        <div class="panel-links">
-          <a href="https://www.instagram.com/4corners.sjsu/" target="_blank" rel="noopener noreferrer" class="panel-link">@4corners.sjsu ↗</a>
-        </div>
-      </div>
-    </div>
 
   </main>
   <Footer />
 </BaseLayout>
 
-<!-- Full-page SJSU theme override -->
 <style is:global>
   html, body { background: #003874 !important; }
+  body { display: flex; flex-direction: column; min-height: 100svh; }
 
   header {
     background: rgba(0, 40, 100, 0.96) !important;
@@ -133,27 +66,27 @@ import fourCorners from '../../assets/images/campuses/logos/4corners.png';
   footer p { color: rgba(229,168,35,0.4) !important; }
   footer a { color: rgba(229,168,35,0.4) !important; }
   footer a:hover { color: rgba(229,168,35,0.9) !important; }
+  footer .network-logo { filter: none !important; }
 </style>
 
 <style>
-  main { min-height: 100svh; }
+  main { flex: 1; display: flex; flex-direction: column; }
 
-  /* ── Hero ── */
   .hero-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-height: 60vh;
-    padding: 5rem 2rem 4rem;
+    min-height: 40vh;
+    padding: 12rem 2rem 4rem;
     position: relative;
     border-bottom: 1px solid rgba(229, 168, 35, 0.15);
   }
 
   .back-link {
     position: absolute;
-    top: 1.5rem;
+    top: 9rem;
     left: 2rem;
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.65rem;
@@ -176,163 +109,82 @@ import fourCorners from '../../assets/images/campuses/logos/4corners.png';
     color: #E5A823;
   }
 
-  /* ── Selectors ── */
-  .selectors {
+  .groups-section {
+    flex: 1;
     display: grid;
     grid-template-columns: 1fr 1px 1fr;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
 
-  .selector-divider { background: rgba(255,255,255,0.08); align-self: stretch; }
-
-  .selector-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.25rem;
-    padding: 2.5rem 3rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    transition: background 0.2s ease;
-  }
-  .selector-btn:hover { background: rgba(255,255,255,0.05); }
-  .selector-btn[aria-expanded="true"] { background: rgba(229,168,35,0.08); }
-  .selector-btn[aria-expanded="true"] .selector-arrow { transform: rotate(180deg); color: #E5A823; }
-
-  .selector-logo {
-    width: 2.25rem; height: 2.25rem;
-    object-fit: contain; flex-shrink: 0;
-    opacity: 0.4; filter: invert(1);
-    transition: opacity 0.2s ease, filter 0.2s ease;
-  }
-  .selector-btn:hover .selector-logo,
-  .selector-btn[aria-expanded="true"] .selector-logo { opacity: 0.9; filter: invert(1); }
-
-  .selector-name {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: rgba(255,255,255,0.6);
-    transition: color 0.2s ease;
-  }
-  .selector-btn:hover .selector-name,
-  .selector-btn[aria-expanded="true"] .selector-name { color: #E5A823; }
-
-  .selector-arrow {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.25);
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.2s ease;
-    flex-shrink: 0;
+  .col-divider {
+    background: rgba(229, 168, 35, 0.15);
+    align-self: stretch;
   }
 
-  /* ── Panels ── */
-  .group-panel {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  .group-panel.is-open { max-height: 1200px; }
-
-  .panel-inner {
+  .group-col {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 5rem 2rem 6rem;
-    max-width: 56rem;
-    margin: 0 auto;
-    gap: 1.5rem;
+    padding: 5rem 3rem;
+    gap: 1.25rem;
   }
 
-  .section-rule {
-    width: 2px; height: 3.5rem;
+  .group-logo {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.55;
+    filter: invert(1);
+    margin-bottom: 0.25rem;
+  }
+
+  .group-label {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgba(229, 168, 35, 0.9);
+  }
+
+  .group-body {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 36ch;
+  }
+
+  .group-link {
+    display: inline-block;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #003874;
     background: #E5A823;
-    margin-bottom: 0.5rem; flex-shrink: 0;
-  }
-
-  .panel-label {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.62rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.22em;
-    color: rgba(229,168,35,0.7);
-  }
-
-  .panel-body {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
-    font-weight: 500; line-height: 1.75;
-    color: rgba(255,255,255,0.65);
-    max-width: 48ch;
-  }
-
-  .panel-details {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-    width: 100%;
-    border: 1px solid rgba(229,168,35,0.2);
-    margin-top: 1rem;
-  }
-  .detail-item {
-    padding: 1.5rem 2rem; text-align: left;
-    border-right: 1px solid rgba(229,168,35,0.15);
-    border-bottom: 1px solid rgba(229,168,35,0.15);
-    background: rgba(255,255,255,0.02);
-  }
-  .detail-item:last-child { border-right: none; }
-
-  .detail-label {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.6rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em;
-    color: #E5A823; opacity: 0.7; margin-bottom: 0.5rem;
-  }
-  .detail-value {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.85rem; font-weight: 600; line-height: 1.4;
-    color: rgba(255,255,255,0.75);
-  }
-
-  .panel-links { display: flex; gap: 2rem; align-items: center; margin-top: 0.5rem; }
-  .panel-link {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.7rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.15em;
-    color: #E5A823; opacity: 0.5;
     text-decoration: none;
-    transition: opacity 0.2s ease;
+    padding: 0.75rem 2.25rem;
+    margin-top: 0.75rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .panel-link:hover { opacity: 1; }
+  .group-link:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  }
 
   @media (max-width: 640px) {
-    .selectors { grid-template-columns: 1fr; grid-template-rows: auto 1px auto; }
-    .selector-divider { width: 100%; height: 1px; }
-    .selector-btn { padding: 2rem 1.5rem; justify-content: flex-start; }
-    .panel-details { grid-template-columns: 1fr 1fr; }
-    .detail-item:nth-child(even) { border-right: none; }
+    .groups-section {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1px auto;
+    }
+    .col-divider {
+      width: 100%;
+      height: 1px;
+    }
+    .group-col { padding: 3.5rem 2rem; }
   }
 </style>
-
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const btns = document.querySelectorAll<HTMLButtonElement>('.selector-btn');
-    if (!btns.length) return;
-    btns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.target;
-        const panel = document.getElementById(`panel-${target}`);
-        const isOpen = btn.getAttribute('aria-expanded') === 'true';
-        btns.forEach((b) => b.setAttribute('aria-expanded', 'false'));
-        document.querySelectorAll('.group-panel').forEach((p) => p.classList.remove('is-open'));
-        if (!isOpen) {
-          btn.setAttribute('aria-expanded', 'true');
-          panel?.classList.add('is-open');
-          setTimeout(() => panel?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-        }
-      });
-    });
-  });
-</script>

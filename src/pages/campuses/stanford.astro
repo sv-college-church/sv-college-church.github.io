@@ -17,63 +17,21 @@ import momentIntl from '../../assets/images/campuses/logos/moment-intl.png';
       <h1 class="school-name">Stanford<br/>University</h1>
     </section>
 
-    <section class="selectors">
-      <button class="selector-btn" data-target="moment" aria-expanded="false">
-        <Image src={momentLogo} alt="" class="selector-logo" aria-hidden="true" />
-        <span class="selector-name">Moment</span>
-        <span class="selector-arrow">↓</span>
-      </button>
-      <div class="selector-divider" aria-hidden="true"></div>
-      <button class="selector-btn" data-target="moment-intl" aria-expanded="false">
-        <Image src={momentIntl} alt="" class="selector-logo" aria-hidden="true" />
-        <span class="selector-name">Moment International</span>
-        <span class="selector-arrow">↓</span>
-      </button>
+    <section class="groups-section">
+      <div class="group-col">
+        <Image src={momentLogo} alt="Moment Stanford" class="group-logo" />
+        <p class="group-label">Moment · Stanford</p>
+        <p class="group-body">A Christian fellowship for Stanford students built around community, Bible study, and discipleship. Modeled after the Acts 2 church and open to all.</p>
+        <a href="https://www.instagram.com/moment.stanford/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
+      </div>
+      <div class="col-divider" aria-hidden="true"></div>
+      <div class="group-col">
+        <Image src={momentIntl} alt="Moment International" class="group-logo" />
+        <p class="group-label">Moment International · Stanford</p>
+        <p class="group-body">Moment International reaches international students at Stanford with the gospel — a community for those navigating a new country and a new chapter of life.</p>
+        <a href="https://www.instagram.com/moment.intl/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
+      </div>
     </section>
-
-    <div class="group-panel" id="panel-moment" aria-hidden="true">
-      <div class="panel-inner">
-        <div class="section-rule"></div>
-        <p class="panel-label">Moment · Stanford</p>
-        <p class="panel-body">A Christian fellowship for Stanford students built around community, Bible study, and discipleship. Modeled after the Acts 2 church and open to all.</p>
-        <p class="panel-body">We gather weekly to study scripture, share meals, and pursue genuine friendship rooted in faith.</p>
-        <div class="panel-details">
-          <div class="detail-item">
-            <p class="detail-label">Weekly Meeting</p>
-            <p class="detail-value">On campus · Bible study &amp; fellowship</p>
-          </div>
-          <div class="detail-item">
-            <p class="detail-label">Sunday Service</p>
-            <p class="detail-value">12 PM · 2346 Walsh Ave, Santa Clara</p>
-          </div>
-        </div>
-        <div class="panel-links">
-          <a href="https://www.instagram.com/moment.stanford/" target="_blank" rel="noopener noreferrer" class="panel-link">@moment.stanford ↗</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="group-panel" id="panel-moment-intl" aria-hidden="true">
-      <div class="panel-inner">
-        <div class="section-rule"></div>
-        <p class="panel-label">Moment International · Stanford</p>
-        <p class="panel-body">Moment International reaches international students at Stanford with the gospel — a community for those navigating a new country and a new chapter of life.</p>
-        <p class="panel-body">We meet weekly for Bible study and community, and connect with Sunday service at SVC.</p>
-        <div class="panel-details">
-          <div class="detail-item">
-            <p class="detail-label">Weekly Meeting</p>
-            <p class="detail-value">On campus · International students welcome</p>
-          </div>
-          <div class="detail-item">
-            <p class="detail-label">Sunday Service</p>
-            <p class="detail-value">12 PM · 2346 Walsh Ave, Santa Clara</p>
-          </div>
-        </div>
-        <div class="panel-links">
-          <a href="https://www.instagram.com/moment.intl/" target="_blank" rel="noopener noreferrer" class="panel-link">@moment.intl ↗</a>
-        </div>
-      </div>
-    </div>
 
   </main>
   <Footer />
@@ -81,6 +39,7 @@ import momentIntl from '../../assets/images/campuses/logos/moment-intl.png';
 
 <style is:global>
   html, body { background: #6B0F0F !important; }
+  body { display: flex; flex-direction: column; min-height: 100svh; }
 
   header {
     background: rgba(90, 10, 10, 0.97) !important;
@@ -107,160 +66,125 @@ import momentIntl from '../../assets/images/campuses/logos/moment-intl.png';
   footer p { color: rgba(255,255,255,0.3) !important; }
   footer a { color: rgba(255,255,255,0.3) !important; }
   footer a:hover { color: rgba(255,255,255,0.7) !important; }
+  footer .network-logo { filter: none !important; }
 </style>
 
 <style>
-  main { min-height: 100svh; }
+  main { flex: 1; display: flex; flex-direction: column; }
 
   .hero-section {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; min-height: 60vh;
-    padding: 5rem 2rem 4rem; position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 40vh;
+    padding: 12rem 2rem 4rem;
+    position: relative;
     border-bottom: 1px solid rgba(255,255,255,0.1);
   }
 
   .back-link {
-    position: absolute; top: 1.5rem; left: 2rem;
+    position: absolute;
+    top: 9rem;
+    left: 2rem;
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.65rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
     color: rgba(255,255,255,0.4);
-    text-decoration: none; transition: color 0.2s ease;
+    text-decoration: none;
+    transition: color 0.2s ease;
   }
   .back-link:hover { color: #ffffff; }
 
   .school-name {
     font-family: 'Unbounded', sans-serif;
     font-size: clamp(2rem, 6vw, 6rem);
-    font-weight: 900; text-transform: uppercase;
-    letter-spacing: -0.01em; line-height: 0.9;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
     color: #ffffff;
   }
 
-  .selectors {
-    display: grid; grid-template-columns: 1fr 1px 1fr;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+  .groups-section {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
   }
-  .selector-divider { background: rgba(255,255,255,0.08); align-self: stretch; }
 
-  .selector-btn {
-    display: flex; align-items: center; justify-content: center;
-    gap: 1.25rem; padding: 2.5rem 3rem;
-    background: none; border: none; cursor: pointer; width: 100%;
-    transition: background 0.2s ease;
+  .col-divider {
+    background: rgba(255,255,255,0.1);
+    align-self: stretch;
   }
-  .selector-btn:hover { background: rgba(255,255,255,0.05); }
-  .selector-btn[aria-expanded="true"] { background: rgba(255,255,255,0.07); }
-  .selector-btn[aria-expanded="true"] .selector-arrow { transform: rotate(180deg); color: #ffffff; }
 
-  .selector-logo {
-    width: 2.25rem; height: 2.25rem;
-    object-fit: contain; flex-shrink: 0;
-    opacity: 0.4; filter: invert(1);
-    transition: opacity 0.2s ease;
+  .group-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 3rem;
+    gap: 1.25rem;
   }
-  .selector-btn:hover .selector-logo,
-  .selector-btn[aria-expanded="true"] .selector-logo { opacity: 0.9; }
 
-  .selector-name {
+  .group-logo {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.55;
+    filter: invert(1);
+    margin-bottom: 0.25rem;
+  }
+
+  .group-label {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
-    font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
-    color: rgba(255,255,255,0.55); transition: color 0.2s ease;
-  }
-  .selector-btn:hover .selector-name,
-  .selector-btn[aria-expanded="true"] .selector-name { color: #ffffff; }
-
-  .selector-arrow {
-    font-size: 1rem; color: rgba(255,255,255,0.25);
-    transition: transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94), color 0.2s ease;
-    flex-shrink: 0;
-  }
-
-  .group-panel { overflow: hidden; max-height: 0; transition: max-height 0.55s cubic-bezier(0.25,0.46,0.45,0.94); }
-  .group-panel.is-open { max-height: 1200px; }
-
-  .panel-inner {
-    display: flex; flex-direction: column; align-items: center;
-    text-align: center; padding: 5rem 2rem 6rem;
-    max-width: 56rem; margin: 0 auto; gap: 1.5rem;
-  }
-
-  .section-rule { width: 2px; height: 3.5rem; background: rgba(255,255,255,0.4); margin-bottom: 0.5rem; flex-shrink: 0; }
-
-  .panel-label {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.62rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.22em;
-    color: rgba(255,255,255,0.5);
-  }
-
-  .panel-body {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
-    font-weight: 500; line-height: 1.75;
-    color: rgba(255,255,255,0.65); max-width: 48ch;
-  }
-
-  .panel-details {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-    width: 100%; border: 1px solid rgba(255,255,255,0.12); margin-top: 1rem;
-  }
-  .detail-item {
-    padding: 1.5rem 2rem; text-align: left;
-    border-right: 1px solid rgba(255,255,255,0.1);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.03);
-  }
-  .detail-item:last-child { border-right: none; }
-
-  .detail-label {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.6rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em;
-    color: rgba(255,255,255,0.4); margin-bottom: 0.5rem;
-  }
-  .detail-value {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.85rem; font-weight: 600; line-height: 1.4;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
     color: rgba(255,255,255,0.75);
   }
 
-  .panel-links { display: flex; gap: 2rem; align-items: center; margin-top: 0.5rem; }
-  .panel-link {
+  .group-body {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.7rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.9); opacity: 0.45;
-    text-decoration: none; transition: opacity 0.2s ease;
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.6);
+    max-width: 36ch;
   }
-  .panel-link:hover { opacity: 1; }
+
+  .group-link {
+    display: inline-block;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #6B0F0F;
+    background: #ffffff;
+    text-decoration: none;
+    padding: 0.75rem 2.25rem;
+    margin-top: 0.75rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .group-link:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  }
 
   @media (max-width: 640px) {
-    .selectors { grid-template-columns: 1fr; grid-template-rows: auto 1px auto; }
-    .selector-divider { width: 100%; height: 1px; }
-    .selector-btn { padding: 2rem 1.5rem; justify-content: flex-start; }
+    .groups-section {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1px auto;
+    }
+    .col-divider {
+      width: 100%;
+      height: 1px;
+    }
+    .group-col { padding: 3.5rem 2rem; }
   }
 </style>
-
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const btns = document.querySelectorAll<HTMLButtonElement>('.selector-btn');
-    if (!btns.length) return;
-    btns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.target;
-        const panel = document.getElementById(`panel-${target}`);
-        const isOpen = btn.getAttribute('aria-expanded') === 'true';
-        btns.forEach((b) => b.setAttribute('aria-expanded', 'false'));
-        document.querySelectorAll('.group-panel').forEach((p) => p.classList.remove('is-open'));
-        if (!isOpen) {
-          btn.setAttribute('aria-expanded', 'true');
-          panel?.classList.add('is-open');
-          setTimeout(() => panel?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-        }
-      });
-    });
-  });
-</script>

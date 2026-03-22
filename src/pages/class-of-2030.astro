@@ -2,6 +2,27 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { getImage } from 'astro:assets';
+
+// Community photos for the ghost background collage
+import svc01 from '../assets/images/community/svc-01.webp';
+import svc02 from '../assets/images/community/svc-02.webp';
+import svc03 from '../assets/images/community/svc-03.webp';
+import svc04 from '../assets/images/community/svc-04.webp';
+import svc05 from '../assets/images/community/svc-05.webp';
+import svc06 from '../assets/images/community/svc-06.webp';
+import svc07 from '../assets/images/community/svc-07.webp';
+import svc08 from '../assets/images/community/svc-08.webp';
+import svc09 from '../assets/images/community/svc-09.webp';
+import svc10 from '../assets/images/community/svc-10.webp';
+import svc11 from '../assets/images/community/svc-11.webp';
+import svc12 from '../assets/images/community/svc-12.webp';
+
+// Optimise at build — small size since they're just ghost bg
+const bgPhotos = await Promise.all(
+  [svc01, svc02, svc03, svc04, svc05, svc06, svc07, svc08, svc09, svc10, svc11, svc12]
+    .map(src => getImage({ src, width: 480, format: 'webp', quality: 40 }))
+);
 ---
 
 <BaseLayout
@@ -16,6 +37,19 @@ import Footer from '../components/Footer.astro';
 
       <!-- Noise texture overlay -->
       <div class="c30-noise" aria-hidden="true"></div>
+
+      <!-- Scrolling photo banner — sits between nav and title -->
+      <div class="c30-photo-banner" aria-hidden="true">
+        <div class="c30-photo-track">
+          {bgPhotos.map((img) => (
+            <img src={img.src} alt="" loading="lazy" class="c30-banner-img" />
+          ))}
+          {/* Duplicate for seamless loop */}
+          {bgPhotos.map((img) => (
+            <img src={img.src} alt="" loading="lazy" class="c30-banner-img" />
+          ))}
+        </div>
+      </div>
 
       <!-- Red glow behind video -->
       <div class="c30-glow" aria-hidden="true"></div>
@@ -168,6 +202,60 @@ import Footer from '../components/Footer.astro';
     pointer-events: none;
     z-index: 0;
     opacity: 0.6;
+  }
+
+  /* ── SCROLLING PHOTO BANNER — behind hero title ── */
+  .c30-photo-banner {
+    position: absolute;
+    /* Start just below the fixed header (md:h-32 = 128px, mobile h-20 = 80px) */
+    top: 128px;
+    left: 0;
+    right: 0;
+    height: clamp(200px, 30vw, 420px);
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.3;
+    /* Fade all edges into the dark background */
+    mask-image:
+      linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    mask-composite: intersect;
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    -webkit-mask-composite: source-in;
+  }
+
+  .c30-photo-track {
+    display: flex;
+    gap: 14px;
+    height: 100%;
+    width: max-content;
+    animation: c30BannerScroll 50s linear infinite;
+  }
+
+  .c30-banner-img {
+    height: 100%;
+    width: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 8px;
+    filter: grayscale(0.4);
+    flex-shrink: 0;
+  }
+
+  @keyframes c30BannerScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 768px) {
+    .c30-photo-banner {
+      top: 80px; /* mobile header h-20 = 80px */
+      height: 140px;
+      opacity: 0.22;
+    }
   }
 
   /* Red atmospheric glow */

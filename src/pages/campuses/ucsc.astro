@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import { Image } from 'astro:assets';
+import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
 ---
 
 <BaseLayout title="UCSC — Campuses" description="Campus ministries at UC Santa Cruz.">
@@ -14,26 +16,11 @@ import Footer from '../../components/Footer.astro';
       <h1 class="school-name">UC Santa Cruz</h1>
     </section>
 
-    <section class="single-section" data-animate>
-      <div class="panel-inner">
-        <div class="section-rule"></div>
-        <p class="panel-label">Klesis · UC Santa Cruz</p>
-        <p class="panel-body">Klesis UC Santa Cruz is a Christian fellowship for UCSC students built on Bible study, community, and doing life together. Modeled after the Acts 2 church and open to all students.</p>
-        <p class="panel-body">We meet weekly on campus for devo groups and connect with the broader SVC community on Sundays.</p>
-        <div class="panel-details">
-          <div class="detail-item">
-            <p class="detail-label">Weekly Devo</p>
-            <p class="detail-value">On campus · Small group Bible study</p>
-          </div>
-          <div class="detail-item">
-            <p class="detail-label">Sunday Service</p>
-            <p class="detail-value">12 PM · 2346 Walsh Ave, Santa Clara</p>
-          </div>
-        </div>
-        <div class="panel-links">
-          <a href="https://www.instagram.com/klesis.ucsc/" target="_blank" rel="noopener noreferrer" class="panel-link">@klesis.ucsc ↗</a>
-        </div>
-      </div>
+    <section class="group-section">
+      <Image src={klesisUcsc} alt="Klesis UCSC" class="group-logo" />
+      <p class="group-label">Klesis · UC Santa Cruz</p>
+      <p class="group-body">Klesis UC Santa Cruz is a Christian fellowship for UCSC students built on Bible study, community, and doing life together. Modeled after the Acts 2 church and open to all students.</p>
+      <a href="https://heywhatsup.app/groups/klesis-at-ucsc" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
     </section>
 
   </main>
@@ -42,6 +29,7 @@ import Footer from '../../components/Footer.astro';
 
 <style is:global>
   html, body { background: #002A4E !important; }
+  body { display: flex; flex-direction: column; min-height: 100svh; }
 
   header {
     background: rgba(0, 36, 68, 0.97) !important;
@@ -68,91 +56,103 @@ import Footer from '../../components/Footer.astro';
   footer p { color: rgba(253,199,0,0.35) !important; }
   footer a { color: rgba(253,199,0,0.35) !important; }
   footer a:hover { color: rgba(253,199,0,0.85) !important; }
+  footer .network-logo { filter: none !important; }
 </style>
 
 <style>
-  main { min-height: 100svh; }
+  main { flex: 1; display: flex; flex-direction: column; }
 
   .hero-section {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center; min-height: 60vh;
-    padding: 5rem 2rem 4rem; position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 40vh;
+    padding: 12rem 2rem 4rem;
+    position: relative;
     border-bottom: 1px solid rgba(253,199,0,0.15);
   }
 
   .back-link {
-    position: absolute; top: 1.5rem; left: 2rem;
+    position: absolute;
+    top: 9rem;
+    left: 2rem;
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.65rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em;
-    color: rgba(253,199,0,0.45); text-decoration: none; transition: color 0.2s ease;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(253,199,0,0.45);
+    text-decoration: none;
+    transition: color 0.2s ease;
   }
   .back-link:hover { color: #FDC700; }
 
   .school-name {
     font-family: 'Unbounded', sans-serif;
     font-size: clamp(2rem, 6vw, 6rem);
-    font-weight: 900; text-transform: uppercase;
-    letter-spacing: -0.01em; line-height: 0.9;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
     color: #FDC700;
   }
 
-  .single-section { display: flex; align-items: center; justify-content: center; }
-
-  .panel-inner {
-    display: flex; flex-direction: column; align-items: center;
-    text-align: center; padding: 5rem 2rem 6rem;
-    max-width: 56rem; margin: 0 auto; gap: 1.5rem; width: 100%;
+  .group-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 2rem 6rem;
+    gap: 1.25rem;
   }
 
-  .section-rule { width: 2px; height: 3.5rem; background: #FDC700; margin-bottom: 0.5rem; flex-shrink: 0; }
+  .group-logo {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.55;
+    filter: invert(1);
+    margin-bottom: 0.25rem;
+  }
 
-  .panel-label {
+  .group-label {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.62rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.22em;
-    color: rgba(253,199,0,0.65);
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgba(253,199,0,0.9);
   }
 
-  .panel-body {
+  .group-body {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
-    font-weight: 500; line-height: 1.75;
-    color: rgba(255,255,255,0.65); max-width: 48ch;
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.65);
+    max-width: 44ch;
   }
 
-  .panel-details {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-    width: 100%; border: 1px solid rgba(253,199,0,0.2); margin-top: 1rem;
-  }
-  .detail-item {
-    padding: 1.5rem 2rem; text-align: left;
-    border-right: 1px solid rgba(253,199,0,0.15);
-    border-bottom: 1px solid rgba(253,199,0,0.15);
-    background: rgba(255,255,255,0.02);
-  }
-  .detail-item:last-child { border-right: none; }
-
-  .detail-label {
+  .group-link {
+    display: inline-block;
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.6rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em;
-    color: #FDC700; opacity: 0.65; margin-bottom: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #002A4E;
+    background: #FDC700;
+    text-decoration: none;
+    padding: 0.75rem 2.25rem;
+    margin-top: 0.75rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .detail-value {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.85rem; font-weight: 600; line-height: 1.4;
-    color: rgba(255,255,255,0.75);
+  .group-link:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
   }
-
-  .panel-links { display: flex; gap: 2rem; align-items: center; margin-top: 0.5rem; }
-  .panel-link {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.7rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.15em;
-    color: #FDC700; opacity: 0.5;
-    text-decoration: none; transition: opacity 0.2s ease;
-  }
-  .panel-link:hover { opacity: 1; }
 </style>

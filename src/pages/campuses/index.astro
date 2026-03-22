@@ -31,6 +31,42 @@ const campuses = [
         </a>
       ))}
     </div>
+
+    <!-- Class of 2030 badge -->
+    <a href="/class-of-2030" id="class-badge" aria-label="Class of 2030 — welcome">
+      <div class="badge-ring" aria-hidden="true">
+        <span style="--a:0">✦</span>
+        <span style="--a:24">W</span>
+        <span style="--a:36">E</span>
+        <span style="--a:48">L</span>
+        <span style="--a:60">C</span>
+        <span style="--a:72">O</span>
+        <span style="--a:84">M</span>
+        <span style="--a:96">E</span>
+        <span style="--a:120">✦</span>
+        <span style="--a:144">W</span>
+        <span style="--a:156">E</span>
+        <span style="--a:168">L</span>
+        <span style="--a:180">C</span>
+        <span style="--a:192">O</span>
+        <span style="--a:204">M</span>
+        <span style="--a:216">E</span>
+        <span style="--a:240">✦</span>
+        <span style="--a:264">W</span>
+        <span style="--a:276">E</span>
+        <span style="--a:288">L</span>
+        <span style="--a:300">C</span>
+        <span style="--a:312">O</span>
+        <span style="--a:324">M</span>
+        <span style="--a:336">E</span>
+      </div>
+      <div class="badge-center-content">
+        <span class="badge-classof">CLASS</span>
+        <span class="badge-dot">·</span>
+        <span class="badge-year-num">2030</span>
+      </div>
+    </a>
+
   </main>
 
   <Footer />
@@ -42,6 +78,7 @@ const campuses = [
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
   }
 
   .hero-section {
@@ -111,4 +148,181 @@ const campuses = [
   @media (max-width: 640px) {
     .campus-name { font-size: clamp(1.4rem, 6vw, 2.2rem); }
   }
+
+  /* ── Class of 2030 Badge ── */
+  #class-badge {
+    --ring-r: -65px;
+    position: absolute;
+    top: 148px;
+    right: 5%;
+    width: 172px;
+    height: 172px;
+    border-radius: 50%;
+    background: #0A0A0A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 20;
+    opacity: 0;
+    cursor: pointer;
+    box-shadow:
+      0 4px 20px rgba(0, 0, 0, 0.3),
+      0 0 0 0px rgba(217, 28, 42, 0);
+  }
+
+  #class-badge::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border-radius: 50%;
+    border: 1px solid rgba(245, 245, 240, 0.12);
+    pointer-events: none;
+  }
+
+  #class-badge::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid rgba(217, 28, 42, 0.55);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #class-badge.is-live {
+    animation: badgePopIn 0.65s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+  }
+
+  #class-badge.is-breathing {
+    opacity: 1;
+    transform: scale(1);
+    animation: badgeBreathe 2.8s ease-in-out infinite;
+    transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
+  }
+
+  #class-badge:hover {
+    transform: scale(1.13) !important;
+  }
+
+  #class-badge.is-breathing::after {
+    animation: badgePulseRing 2.8s ease-out infinite;
+  }
+
+  @keyframes badgePopIn {
+    0%   { opacity: 0; transform: scale(0.72) rotate(-8deg); }
+    65%  { opacity: 1; transform: scale(1.08) rotate(2deg); }
+    82%  { transform: scale(0.97) rotate(0deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+
+  @keyframes badgeBreathe {
+    0%, 100% {
+      box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        0 0 0 0px rgba(217, 28, 42, 0.45);
+    }
+    50% {
+      box-shadow:
+        0 6px 32px rgba(0, 0, 0, 0.2),
+        0 0 0 14px rgba(217, 28, 42, 0);
+    }
+  }
+
+  @keyframes badgePulseRing {
+    0%   { opacity: 0.65; transform: scale(1); }
+    100% { opacity: 0;    transform: scale(1.4); }
+  }
+
+  @keyframes badgeRingRotate {
+    to { transform: rotate(360deg); }
+  }
+
+  .badge-ring {
+    position: absolute;
+    inset: 0;
+    animation: badgeRingRotate 18s linear infinite;
+  }
+
+  .badge-ring span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -0.5em 0 0 -0.5em;
+    width: 1em;
+    height: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #F5F5F0;
+    text-transform: uppercase;
+    line-height: 1;
+    transform-origin: center center;
+    transform: rotate(calc(var(--a) * 1deg)) translateY(var(--ring-r, -65px));
+  }
+
+  .badge-center-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .badge-classof {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: rgba(245, 245, 240, 0.6);
+    text-transform: uppercase;
+  }
+
+  .badge-dot {
+    color: #D91C2A;
+    font-size: 18px;
+    line-height: 0.8;
+  }
+
+  .badge-year-num {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 30px;
+    font-weight: 700;
+    font-style: italic;
+    color: #F5F5F0;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  @media (max-width: 767px) {
+    #class-badge {
+      --ring-r: -48px;
+      width: 120px;
+      height: 120px;
+      top: auto;
+      bottom: 6%;
+      right: 5%;
+    }
+    .badge-year-num { font-size: 20px; }
+    .badge-dot { font-size: 13px; }
+  }
 </style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const badge = document.getElementById('class-badge');
+    if (!badge) return;
+    badge.classList.remove('is-live', 'is-breathing');
+    setTimeout(() => {
+      badge.classList.add('is-live');
+      setTimeout(() => badge.classList.add('is-breathing'), 1100);
+    }, 400);
+  });
+</script>
