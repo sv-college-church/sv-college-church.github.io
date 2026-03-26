@@ -598,6 +598,7 @@ const photoUrls = optimized.map(img => img.src);
 
     // Reset DOM state (View Transitions preserves classes/styles from previous visit)
     scaleEl.style.transform = '';
+    stackEl.style.top = '';
     stackEl.classList.remove('shifted', 'settled');
     breatheEl.classList.remove('breathing', 'fanned');
     textWrap.classList.remove('visible');
@@ -648,6 +649,21 @@ const photoUrls = optimized.map(img => img.src);
       textWrap.classList.add('visible');
       stackEl.classList.add('shifted');
       words[0]?.classList.add('visible');
+
+      // On shorter viewports (e.g. 15" MacBook), the CSS 58% shift isn't enough
+      // to clear the hero text. Measure actual positions and nudge the stack down
+      // only when needed, letting the CSS value stand on tall screens.
+      requestAnimationFrame(() => {
+        const heroEl = stackEl.parentElement as HTMLElement;
+        const heroH  = heroEl.getBoundingClientRect().height;
+        const textBottom = textWrap.getBoundingClientRect().bottom
+                         - heroEl.getBoundingClientRect().top;
+        const visualHalf = (stackEl.offsetHeight * 0.55) / 2;
+        const minCenter  = textBottom + visualHalf + 48;
+        if (minCenter > heroH * 0.58) {
+          stackEl.style.top = (Math.min(minCenter, heroH * 0.78) / heroH * 100) + '%';
+        }
+      });
     }, 1500);
 
     setTimeout(() => {
