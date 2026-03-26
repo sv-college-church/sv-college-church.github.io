@@ -13,16 +13,15 @@ import Footer from '../components/Footer.astro';
       </h1>
     </section>
     <section class="mx-auto max-w-2xl px-4 pb-24 flex justify-center">
-      <iframe
-        src="https://docs.google.com/forms/d/e/1FAIpQLSc5JIcrm7n63HnFrO2Xv2EqAKDQQOqSnZxF4nhUwFPacNCybw/viewform?embedded=true"
-        width="640"
-        height="1547"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
-        title="SVC Connect"
-        loading="lazy"
-      >Loading…</iframe>
+      <div class="w-full max-w-[640px]">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSc5JIcrm7n63HnFrO2Xv2EqAKDQQOqSnZxF4nhUwFPacNCybw/viewform?embedded=true"
+          class="w-full border-0"
+          height="1547"
+          title="SVC Connect"
+          loading="lazy"
+        >Loading…</iframe>
+      </div>
     </section>
   </main>
   <Footer />
