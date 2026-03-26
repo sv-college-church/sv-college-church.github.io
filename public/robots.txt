@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+# TODO: update to https://svcollegechurch.org/sitemap-index.xml when domain is live
 Sitemap: https://svcc.church/sitemap-index.xml
