@@ -72,9 +72,19 @@ const campuses = [
   <Footer />
 </BaseLayout>
 
+<style is:global>
+  /* Campuses page: fit everything in the viewport, no scrolling needed */
+  body {
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+
 <style>
   .campuses-main {
-    min-height: 100svh;
+    flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     align-items: center;

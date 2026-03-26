@@ -135,6 +135,13 @@ const photoUrls = optimized.map(img => img.src);
     from { opacity: 0; }
     to   { opacity: 1; }
   }
+
+  /* Homepage: fit everything in the viewport, no scrolling needed */
+  body {
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
 </style>
 
 <style>
@@ -205,9 +212,17 @@ const photoUrls = optimized.map(img => img.src);
     }
   }
 
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
   #hero {
     position: relative;
-    min-height: 100svh;
+    flex: 1;
+    min-height: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -358,7 +373,7 @@ const photoUrls = optimized.map(img => img.src);
   #class-badge {
     --ring-r: -65px;
     position: absolute;
-    top: 148px;
+    bottom: 5%;
     right: 5%;
     width: 172px;
     height: 172px;
@@ -530,14 +545,16 @@ const photoUrls = optimized.map(img => img.src);
       padding: 0 16px;
     }
 
-    /* Move badge to bottom-right — avoids collision with the title text at the top */
+    /* Move badge to bottom-center on mobile */
     #class-badge {
       --ring-r: -48px;
       width: 120px;
       height: 120px;
       top: auto;
       bottom: 6%;
-      right: 5%;
+      right: auto;
+      left: 50%;
+      margin-left: -60px;
     }
 
     .badge-year-num { font-size: 20px; }

@@ -13,14 +13,25 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
 
     <section class="hero-section" style="view-transition-name: campus-deanza">
       <a href="/campuses" class="back-link">← Campuses</a>
+      <Image src={ismpLogo} alt="ISMP" class="hero-logo" />
+      <p class="hero-fellowship">ISMP</p>
       <h1 class="school-name">De Anza<br/>Community College</h1>
+      <a href="#" class="mentor-btn">Meet the Mentors</a>
     </section>
 
-    <section class="group-section">
-      <Image src={ismpLogo} alt="ISMP" class="group-logo" />
-      <p class="group-label">ISMP · De Anza College</p>
-      <p class="group-body">International Student Mentorship Program provides one-on-one mentorship for international students at De Anza — helping students navigate college life, build community, and explore faith.</p>
-      <a href="https://internationalmentorship.org/deanza" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
+    <section class="info-grid">
+      <div class="info-col">
+        <h2 class="info-label">Established</h2>
+        <p class="info-value">2015</p>
+      </div>
+      <div class="info-col">
+        <h2 class="info-label">About</h2>
+        <p class="info-value">Coming soon</p>
+      </div>
+      <div class="info-col">
+        <h2 class="info-label">Events</h2>
+        <a href="https://internationalmentorship.org/deanza" target="_blank" rel="noopener noreferrer" class="events-btn">ISMP ↗</a>
+      </div>
     </section>
 
   </main>
@@ -71,7 +82,6 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     min-height: 40vh;
     padding: 12rem 2rem 4rem;
     position: relative;
-    border-bottom: 1px solid rgba(196,160,50,0.2);
   }
 
   .back-link {
@@ -89,6 +99,25 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
   }
   .back-link:hover { color: #C4A032; }
 
+  .hero-logo {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.45;
+    filter: invert(1);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-fellowship {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 1.25rem;
+  }
+
   .school-name {
     font-family: 'Unbounded', sans-serif;
     font-size: clamp(2rem, 6vw, 6rem);
@@ -99,45 +128,7 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     color: #C4A032;
   }
 
-  .group-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 5rem 2rem 6rem;
-    gap: 1.25rem;
-  }
-
-  .group-logo {
-    height: 52px;
-    width: auto;
-    object-fit: contain;
-    opacity: 0.55;
-    filter: invert(1);
-    margin-bottom: 0.25rem;
-  }
-
-  .group-label {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.62rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: rgba(196,160,50,0.9);
-  }
-
-  .group-body {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
-    font-weight: 500;
-    line-height: 1.8;
-    color: rgba(255,255,255,0.6);
-    max-width: 44ch;
-  }
-
-  .group-link {
+  .mentor-btn {
     display: inline-block;
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.72rem;
@@ -148,11 +139,74 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     background: #C4A032;
     text-decoration: none;
     padding: 0.75rem 2.25rem;
-    margin-top: 0.75rem;
+    margin-top: 2rem;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .group-link:hover {
+  .mentor-btn:hover {
     transform: scale(1.04);
     box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  }
+
+  .info-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 1rem 3rem 6rem;
+  }
+
+  .info-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    gap: 1rem;
+  }
+
+  .info-label {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: #C4A032;
+    margin: 0;
+  }
+
+  .info-value {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1;
+    color: #ffffff;
+  }
+
+  .events-btn {
+    display: inline-block;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #2E0E0E;
+    background: #C4A032;
+    text-decoration: none;
+    padding: 0.85rem 2.5rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .events-btn:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  }
+
+  @media (max-width: 768px) {
+    .info-grid {
+      grid-template-columns: 1fr;
+      padding: 0 2rem 4rem;
+    }
+    .info-col {
+      padding: 2rem 1rem;
+    }
   }
 </style>
