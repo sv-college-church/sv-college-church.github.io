@@ -127,27 +127,44 @@ const bgPhotos = await Promise.all(
 
         <!-- Video -->
         <div class="c30-video-wrap">
-          <!-- Replace src with your actual video file or use a YouTube embed -->
           <video
+            id="c30-vid"
             class="c30-video"
             autoplay
             muted
             loop
             playsinline
-            poster=""
+            poster="/videos/svc-welcome-2030-cover.jpg"
           >
-            <!-- <source src="/videos/church-highlight.mp4" type="video/mp4" /> -->
+            <source src="/videos/svc-welcome-2030.mp4" type="video/mp4" />
           </video>
-          <!-- Placeholder shown when no video source -->
-          <div class="c30-video-placeholder" aria-hidden="true">
-            <div class="c30-play-icon">
-              <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="30" cy="30" r="29" stroke="rgba(240,237,232,0.2)" stroke-width="1"/>
-                <path d="M25 20L42 30L25 40V20Z" fill="rgba(240,237,232,0.5)"/>
-              </svg>
-            </div>
-            <p class="c30-placeholder-label">Your video here</p>
-          </div>
+          <button id="c30-mute-btn" class="c30-mute-btn" aria-label="Unmute video">
+            <svg class="c30-icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <line x1="23" y1="9" x2="17" y2="15"/>
+              <line x1="17" y1="9" x2="23" y2="15"/>
+            </svg>
+            <svg class="c30-icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            </svg>
+          </button>
+          <!-- Skip buttons (visible on hover) -->
+          <button class="c30-skip-btn c30-skip-back" aria-label="Rewind 5 seconds">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1 4 1 10 7 10"/>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+            </svg>
+            <span>5</span>
+          </button>
+          <button class="c30-skip-btn c30-skip-fwd" aria-label="Forward 5 seconds">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"/>
+              <path d="M20.49 15a9 9 0 1 1-2.13-9.36L23 10"/>
+            </svg>
+            <span>5</span>
+          </button>
         </div>
 
         <!-- CTA buttons -->
@@ -477,6 +494,107 @@ const bgPhotos = await Promise.all(
     display: block;
   }
 
+  /* Mute button — starts large & centred, shrinks to corner on unmute */
+  .c30-mute-btn {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    z-index: 10;
+    width: 80px;
+    height: 80px;
+    border: 1px solid rgba(240, 237, 232, 0.15);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+    color: rgba(240, 237, 232, 0.7);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .c30-mute-btn:hover {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: rgba(240, 237, 232, 0.25);
+    color: rgba(240, 237, 232, 0.95);
+    transform: scale(1.06);
+  }
+  .c30-mute-btn svg {
+    width: 32px;
+    height: 32px;
+    transition: width 0.4s, height 0.4s;
+  }
+
+  /* Once unmuted — shrink to bottom-right corner */
+  .c30-mute-btn.is-unmuted {
+    inset: auto 1rem 1rem auto;
+    margin: 0;
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.55);
+    border-color: transparent;
+    color: rgba(240, 237, 232, 0.85);
+  }
+  .c30-mute-btn.is-unmuted svg {
+    width: 18px;
+    height: 18px;
+  }
+  .c30-mute-btn.is-unmuted:hover {
+    background: rgba(0, 0, 0, 0.75);
+    transform: scale(1.08);
+  }
+
+  /* Show/hide the correct icon based on muted state */
+  .c30-mute-btn .c30-icon-unmuted { display: none; }
+  .c30-mute-btn.is-unmuted .c30-icon-muted { display: none; }
+  .c30-mute-btn.is-unmuted .c30-icon-unmuted { display: block; }
+
+  /* ── Skip buttons ── */
+  .c30-skip-btn {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    z-index: 10;
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(240, 237, 232, 0.12);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    color: rgba(240, 237, 232, 0.7);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .c30-skip-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  .c30-skip-btn span {
+    position: absolute;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: rgba(240, 237, 232, 0.7);
+    margin-top: 1px;
+  }
+  .c30-skip-back { left: 1.2rem; }
+  .c30-skip-fwd  { right: 1.2rem; }
+
+  /* Show on hover */
+  .c30-video-wrap:hover .c30-skip-btn {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .c30-skip-btn:hover {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: rgba(240, 237, 232, 0.25);
+    color: rgba(240, 237, 232, 0.95);
+  }
+
   /* Placeholder (shown when no video source) */
   .c30-video-placeholder {
     position: absolute;
@@ -698,6 +816,26 @@ const bgPhotos = await Promise.all(
 
 <script>
   document.addEventListener('astro:page-load', () => {
+    // ── Mute / Unmute toggle ──
+    const vid = document.getElementById('c30-vid') as HTMLVideoElement | null;
+    const muteBtn = document.getElementById('c30-mute-btn');
+    if (vid && muteBtn) {
+      muteBtn.addEventListener('click', () => {
+        vid.muted = !vid.muted;
+        muteBtn.classList.toggle('is-unmuted', !vid.muted);
+        muteBtn.setAttribute('aria-label', vid.muted ? 'Unmute video' : 'Mute video');
+      });
+    }
+
+    // ── Skip back / forward 5s ──
+    if (vid) {
+      const skipBack = document.querySelector('.c30-skip-back');
+      const skipFwd = document.querySelector('.c30-skip-fwd');
+      skipBack?.addEventListener('click', () => { vid.currentTime = Math.max(0, vid.currentTime - 5); });
+      skipFwd?.addEventListener('click', () => { vid.currentTime = Math.min(vid.duration, vid.currentTime + 5); });
+    }
+
+    // ── Sparkle canvas ──
     const canvas = document.getElementById('c30-sparkle-canvas') as HTMLCanvasElement | null;
     const hero = document.getElementById('c30-hero');
     if (!canvas || !hero) return;
