@@ -8,15 +8,15 @@ import Footer from '../components/Footer.astro';
   <Nav />
   <main class="min-h-screen bg-paper pt-20 md:pt-32">
 
-    <!-- Easter announcement banner -->
+    <!-- Regular service banner (shown while Easter is default) -->
     <div class="announcement-banner">
       <span class="banner-text">
-        <span class="label-full">🐣 EASTER SUNDAY · APR 6 · THE KINGS ACADEMY · SUNNYVALE</span>
-        <span class="label-short">🐣 EASTER · APR 6</span>
+        <span class="label-full">☀️ REGULAR SERVICE · SUNDAYS · 12 PM · SANTA CLARA</span>
+        <span class="label-short">☀️ SUNDAYS · 12 PM</span>
       </span>
-      <button class="easter-btn" aria-label="Switch to Easter Sunday service details">
-        <span class="btn-default"><span class="label-full">CLICK HERE FOR INFO</span><span class="label-short">INFO →</span></span>
-        <span class="btn-reset"><span class="label-full">← BACK TO REGULAR</span><span class="label-short">← BACK</span></span>
+      <button class="easter-btn" aria-label="Switch to regular Sunday service details">
+        <span class="btn-default"><span class="label-full">SEE REGULAR SERVICE</span><span class="label-short">REGULAR →</span></span>
+        <span class="btn-reset"><span class="label-full">← BACK TO EASTER</span><span class="label-short">← EASTER</span></span>
       </button>
     </div>
 
@@ -33,9 +33,9 @@ import Footer from '../components/Footer.astro';
       <div class="info-col" data-animate>
         <p class="section-label">When</p>
         <div class="info-content">
-          <p class="display-primary" id="when-primary">Sundays</p>
+          <p class="display-primary" id="when-primary">April 6</p>
           <p class="display-bold" id="when-bold">12 PM</p>
-          <button class="easter-inline-btn" id="easter-inline"><span class="inline-default">🐣 Easter Sunday? →</span><span class="inline-reset">← Back to regular</span></button>
+          <button class="easter-inline-btn" id="easter-inline"><span class="inline-default">Regular Sundays? →</span><span class="inline-reset">← Back to Easter</span></button>
         </div>
       </div>
 
@@ -46,10 +46,10 @@ import Footer from '../components/Footer.astro';
       <div class="info-col" data-animate>
         <p class="section-label">Where</p>
         <div class="info-content">
-          <p class="display-primary" id="where-primary">2346 Walsh Ave</p>
-          <p class="display-secondary" id="where-secondary">Santa Clara, CA</p>
+          <p class="display-primary" id="where-primary">The Kings Academy</p>
+          <p class="display-secondary" id="where-secondary">562 N Britton Ave</p>
           <a
-            href="https://maps.app.goo.gl/XnKMeboUpYpEXNxB8"
+            href="https://maps.app.goo.gl/Qxu9AUFbXdcRdcSY7"
             target="_blank"
             rel="noopener noreferrer"
             class="directions-link"
@@ -61,9 +61,9 @@ import Footer from '../components/Footer.astro';
       </div>
     </section>
 
-    <!-- Easter reset (appears when Easter mode is active) -->
+    <!-- Reset pill (appears when toggled away from Easter default) -->
     <div class="easter-reset" id="easter-reset" aria-live="polite">
-      <button id="reset-btn">← Back to regular service</button>
+      <button id="reset-btn">← Back to Easter service</button>
     </div>
 
     <!-- Scroll hint -->
@@ -550,7 +550,7 @@ import Footer from '../components/Footer.astro';
     var inlineBtn = document.getElementById('easter-inline');
     if (!easterBtn || !inlineBtn) return;
 
-    var isEaster = false;
+    var isEaster = true;
 
     function applyState(data) {
       scramble(document.getElementById('when-primary'), data.whenPrimary);
@@ -566,12 +566,12 @@ import Footer from '../components/Footer.astro';
       applyState(isEaster ? EASTER : REGULAR);
 
       document.querySelectorAll('.easter-btn').forEach(function (btn) {
-        btn.classList.toggle('is-reset', isEaster);
+        btn.classList.toggle('is-reset', !isEaster);
       });
-      if (inlineBtn) inlineBtn.classList.toggle('is-reset', isEaster);
+      if (inlineBtn) inlineBtn.classList.toggle('is-reset', !isEaster);
 
       var reset = document.getElementById('easter-reset');
-      if (reset) reset.classList.toggle('visible', isEaster);
+      if (reset) reset.classList.toggle('visible', !isEaster);
     }
 
     easterBtn.addEventListener('click', function () {
@@ -585,7 +585,7 @@ import Footer from '../components/Footer.astro';
     var resetBtn = document.getElementById('reset-btn');
     if (resetBtn) {
       resetBtn.addEventListener('click', function () {
-        if (isEaster) toggleEaster();
+        if (!isEaster) toggleEaster();
       });
     }
   });

@@ -30,6 +30,7 @@ const {
     <link rel="canonical" href={canonicalUrl} />
 
     <!-- Open Graph -->
+    <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
@@ -69,9 +70,17 @@ const {
       ],
       "address": {
         "@type": "PostalAddress",
+        "streetAddress": "2346 Walsh Ave",
         "addressLocality": "Santa Clara",
         "addressRegion": "CA",
+        "postalCode": "95051",
         "addressCountry": "US"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Sunday",
+        "opens": "12:00",
+        "closes": "14:00"
       }
     })} />
 

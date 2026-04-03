@@ -45,7 +45,7 @@ const photoUrls = optimized.map(img => img.src);
 <BaseLayout title="Silicon Valley College Church" description="A church for young adults and college students in Silicon Valley.">
   <Nav />
 
-  <main class="pt-20 md:pt-32">
+  <main class="pt-20 md:pt-32 main-content">
 
     <!-- Easter announcement banner -->
     <div class="announcement-banner">
@@ -131,6 +131,13 @@ const photoUrls = optimized.map(img => img.src);
   header {
     animation: navFadeIn 0.4s ease 2.8s both;
   }
+  footer {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  footer.is-visible {
+    opacity: 1;
+  }
   @keyframes navFadeIn {
     from { opacity: 0; }
     to   { opacity: 1; }
@@ -152,7 +159,7 @@ const photoUrls = optimized.map(img => img.src);
     justify-content: center;
     gap: 1.5rem;
     background: #0A0A0A;
-    padding: 1.1rem 2rem;
+    padding: clamp(0.6rem, 1.4vh, 1.1rem) 2rem;
     position: relative;
     opacity: 0;
     transition: opacity 0.4s ease;
@@ -219,6 +226,13 @@ const photoUrls = optimized.map(img => img.src);
     min-height: 0;
   }
 
+  /* Match Nav's short-viewport height reduction */
+  @media (min-width: 768px) and (max-height: 760px) {
+    .main-content {
+      padding-top: 5rem; /* matches Nav's 5rem height on short viewports */
+    }
+  }
+
   #hero {
     position: relative;
     flex: 1;
@@ -252,10 +266,7 @@ const photoUrls = optimized.map(img => img.src);
     cursor: default;
   }
 
-  /* After text appears, shift stack down so it clears the title */
-  #polaroid-stack.shifted {
-    top: 58%;
-  }
+  /* Position set dynamically by JS based on available space */
 
   /* Invisible hover zone — extends hit area for horizontal fan (mouse devices only) */
   @media (hover: hover) and (pointer: fine) {
@@ -348,7 +359,7 @@ const photoUrls = optimized.map(img => img.src);
 
   .hero-word {
     display: inline-block;
-    font-size: clamp(1.5rem, 4vw, 4rem);
+    font-size: clamp(1.5rem, min(4vw, 6vh), 4rem);
     letter-spacing: 0.15em;
     opacity: 0;
     transform: translateY(0.2em);
@@ -357,7 +368,7 @@ const photoUrls = optimized.map(img => img.src);
 
   .hero-line2 {
     display: block;
-    font-size: clamp(2.5rem, 7.5vw, 7.5rem);
+    font-size: clamp(2.5rem, min(7.5vw, 11vh), 7.5rem);
     opacity: 0;
     transform: translateY(0.15em);
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -371,12 +382,13 @@ const photoUrls = optimized.map(img => img.src);
 
   /* ── Class of 2030 Badge ── */
   #class-badge {
-    --ring-r: -65px;
+    --badge-size: clamp(120px, 22vh, 172px);
+    --ring-r: calc(var(--badge-size) / -2.65);
     position: absolute;
     bottom: 5%;
     right: 5%;
-    width: 172px;
-    height: 172px;
+    width: var(--badge-size);
+    height: var(--badge-size);
     border-radius: 50%;
     background: #0A0A0A;
     display: flex;
@@ -475,7 +487,7 @@ const photoUrls = optimized.map(img => img.src);
     align-items: center;
     justify-content: center;
     font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 10px;
+    font-size: clamp(7px, 1.3vh, 10px);
     font-weight: 600;
     color: #F5F5F0;
     text-transform: uppercase;
@@ -498,7 +510,7 @@ const photoUrls = optimized.map(img => img.src);
 
   .badge-classof {
     font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 9px;
+    font-size: clamp(6px, 1.2vh, 9px);
     font-weight: 600;
     letter-spacing: 0.22em;
     color: rgba(245, 245, 240, 0.6);
@@ -507,13 +519,13 @@ const photoUrls = optimized.map(img => img.src);
 
   .badge-dot {
     color: #D91C2A;
-    font-size: 18px;
+    font-size: clamp(11px, 2.3vh, 18px);
     line-height: 0.8;
   }
 
   .badge-year-num {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 30px;
+    font-size: clamp(17px, 3.8vh, 30px);
     font-weight: 700;
     font-style: italic;
     color: #F5F5F0;
@@ -521,22 +533,12 @@ const photoUrls = optimized.map(img => img.src);
     line-height: 1;
   }
 
-  /* ── Short viewport fix (Windows 150% scaling) ── */
-  @media (min-width: 768px) and (max-height: 760px) {
-    #polaroid-stack.shifted {
-      top: 58%; /* pulls card up so it doesn't clip below the fold at 720px height */
-    }
-  }
+  /* Short viewport / high-DPI scaling handled dynamically by JS */
 
   /* ── Mobile ── */
   @media (max-width: 767px) {
     #polaroid-stack {
       --card-w: clamp(220px, 78vw, 380px);
-    }
-
-    /* Shift stack slightly less far down so it stays clear of the bottom edge */
-    #polaroid-stack.shifted {
-      top: 57%;
     }
 
     #text-wrapper {
@@ -545,20 +547,22 @@ const photoUrls = optimized.map(img => img.src);
       padding: 0 16px;
     }
 
-    /* Move badge to bottom-center on mobile */
+    /* Smaller badge at bottom-right on mobile */
     #class-badge {
-      --ring-r: -48px;
-      width: 120px;
-      height: 120px;
+      --ring-r: -38px;
+      width: 96px;
+      height: 96px;
       top: auto;
-      bottom: 6%;
-      right: auto;
-      left: 50%;
-      margin-left: -60px;
+      bottom: 4%;
+      right: 4%;
+      left: auto;
+      margin-left: 0;
     }
 
-    .badge-year-num { font-size: 20px; }
-    .badge-dot { font-size: 13px; }
+    .badge-ring span { font-size: 8px; }
+    .badge-classof { font-size: 7px; }
+    .badge-year-num { font-size: 17px; }
+    .badge-dot { font-size: 11px; }
   }
 </style>
 
@@ -599,7 +603,8 @@ const photoUrls = optimized.map(img => img.src);
     // Reset DOM state (View Transitions preserves classes/styles from previous visit)
     scaleEl.style.transform = '';
     stackEl.style.top = '';
-    stackEl.classList.remove('shifted', 'settled');
+    stackEl.classList.remove('settled');
+    delete stackEl.dataset.dynScale;
     breatheEl.classList.remove('breathing', 'fanned');
     textWrap.classList.remove('visible');
     document.querySelectorAll<HTMLElement>('.hero-word, .hero-line2').forEach(el => el.classList.remove('visible'));
@@ -607,6 +612,8 @@ const photoUrls = optimized.map(img => img.src);
     if (badge) badge.classList.remove('is-live', 'is-breathing');
     const banner = document.querySelector<HTMLElement>('.announcement-banner');
     if (banner) banner.classList.remove('is-visible');
+    const footer = document.querySelector('footer');
+    if (footer) footer.classList.remove('is-visible');
 
     // Assign shuffled photos to the 4 static cards
     const picked = shuffle(ALL_PHOTOS).slice(0, cards.length);
@@ -636,33 +643,53 @@ const photoUrls = optimized.map(img => img.src);
       }, i * 160 + 60);
     });
 
-    // ── 0.7s: shrink ──
+    // ── 0.7s: shrink — scale dynamically based on available viewport space ──
+    // The text is already in the DOM (opacity 0) so we can measure its height.
     setTimeout(() => {
-      scaleEl.style.transform = 'scale(0.55)';
+      const heroEl  = stackEl.parentElement as HTMLElement;
+      const heroH   = heroEl.getBoundingClientRect().height;
+      const heroTop = heroEl.getBoundingClientRect().top;
+      const textBottom = textWrap.getBoundingClientRect().bottom - heroTop;
+      const cardH   = stackEl.offsetHeight;
+      const gap     = 32;   // min space between text and card top edge
+      const bottomPad = 16; // min space above hero bottom edge
+
+      const availableH = heroH - textBottom - gap - bottomPad;
+      const scale = Math.min(0.55, Math.max(0.28, availableH / cardH));
+
+      scaleEl.style.transform = `scale(${scale})`;
+      stackEl.dataset.dynScale = String(scale);
     }, 700);
 
-    // ── 1.5s: text appears ──
+    // ── 1.5s: text appears, stack repositions to center in remaining space ──
     const words = Array.from(document.querySelectorAll<HTMLElement>('.hero-word'));
     const line2 = document.querySelector<HTMLElement>('.hero-line2')!;
 
     setTimeout(() => {
       textWrap.classList.add('visible');
-      stackEl.classList.add('shifted');
       words[0]?.classList.add('visible');
 
-      // On shorter viewports (e.g. 15" MacBook), the CSS 58% shift isn't enough
-      // to clear the hero text. Measure actual positions and nudge the stack down
-      // only when needed, letting the CSS value stand on tall screens.
       requestAnimationFrame(() => {
-        const heroEl = stackEl.parentElement as HTMLElement;
-        const heroH  = heroEl.getBoundingClientRect().height;
-        const textBottom = textWrap.getBoundingClientRect().bottom
-                         - heroEl.getBoundingClientRect().top;
-        const visualHalf = (stackEl.offsetHeight * 0.55) / 2;
-        const minCenter  = textBottom + visualHalf + 48;
-        if (minCenter > heroH * 0.58) {
-          stackEl.style.top = (Math.min(minCenter, heroH * 0.78) / heroH * 100) + '%';
-        }
+        const heroEl  = stackEl.parentElement as HTMLElement;
+        const heroRect = heroEl.getBoundingClientRect();
+        const heroH   = heroRect.height;
+        const textBottom = textWrap.getBoundingClientRect().bottom - heroRect.top;
+        const scale   = parseFloat(stackEl.dataset.dynScale || '0.55');
+        const visualH = stackEl.offsetHeight * scale;
+        const gap     = 24;
+        const bottomPad = 16;
+
+        // Center the scaled card in the space between text and hero bottom
+        const spaceTop    = textBottom + gap;
+        const spaceBottom = heroH - bottomPad;
+        const centerY     = (spaceTop + spaceBottom) / 2;
+
+        // Clamp: card top must clear text, card bottom must stay in hero
+        const minCenter = spaceTop + visualH / 2;
+        const maxCenter = spaceBottom - visualH / 2;
+        const finalCenter = Math.max(minCenter, Math.min(centerY, maxCenter));
+
+        stackEl.style.top = (finalCenter / heroH * 100) + '%';
       });
     }, 1500);
 
@@ -682,6 +709,8 @@ const photoUrls = optimized.map(img => img.src);
       }
       const banner = document.querySelector('.announcement-banner');
       if (banner) banner.classList.add('is-visible');
+      const footer = document.querySelector('footer');
+      if (footer) footer.classList.add('is-visible');
     }, 3200);
 
     // ── 2.6s: settled — start breathing + enable fan (desktop) or swipe (mobile) ──

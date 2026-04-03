@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="Page Not Found | Silicon Valley College Church" description="The page you're looking for doesn't exist.">
+  <Nav />
+  <main class="min-h-screen bg-paper pt-20 md:pt-32 flex items-center">
+    <div class="mx-auto text-center px-6 py-24 relative w-full overflow-hidden">
+
+      <!-- Wandering sheep -->
+      <div class="sheep" aria-hidden="true">🐑</div>
+
+      <h1 class="font-sans font-black uppercase leading-none mb-4" style="font-size: clamp(2rem, 6vw, 5rem);">
+        Looks like this page<br />wandered off
+      </h1>
+      <p class="font-sans text-lg text-ink/60 mb-10">
+        But every lost sheep gets found eventually.
+      </p>
+      <a
+        href="/"
+        class="inline-block border border-ink px-8 py-3 font-sans text-xs font-bold uppercase tracking-widest text-ink transition-colors hover:bg-ink hover:text-paper"
+      >
+        Back to the Flock
+      </a>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .sheep {
+    font-size: 5rem;
+    position: absolute;
+    line-height: 1;
+    user-select: none;
+    pointer-events: auto;
+    cursor: pointer;
+    animation: bob 0.7s ease-in-out infinite;
+  }
+
+  @keyframes bob {
+    0%, 100% { margin-top: 0; }
+    50%      { margin-top: -6px; }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const sheep = document.querySelector('.sheep') as HTMLElement;
+    if (!sheep) return;
+
+    const container = sheep.parentElement!;
+    const BASE_SPEED = 1.2;
+    let currentSpeed = BASE_SPEED;
+    let fleeUntil = 0;
+    let x = Math.random() * 0.8;
+    let y = Math.random() * 0.8;
+    let angle = Math.random() * Math.PI * 2;
+    let targetAngle = angle;
+    let nextTurn = 60 + Math.random() * 120;
+    let frame = 0;
+
+    sheep.addEventListener('click', (e) => {
+      // Flee away from click position
+      const rect = container.getBoundingClientRect();
+      const clickX = (e.clientX - rect.left) / rect.width;
+      const clickY = (e.clientY - rect.top) / rect.height;
+      targetAngle = Math.atan2(y - clickY, x - clickX);
+      angle = targetAngle;
+      currentSpeed = 6;
+      fleeUntil = frame + 90;
+      sheep.style.animationDuration = '0.25s'; // faster bob when scared
+    });
+
+    function step() {
+      frame++;
+
+      // Slow down after fleeing
+      if (frame >= fleeUntil && currentSpeed > BASE_SPEED) {
+        currentSpeed *= 0.95;
+        if (currentSpeed < BASE_SPEED + 0.1) {
+          currentSpeed = BASE_SPEED;
+          sheep.style.animationDuration = '0.7s';
+        }
+      }
+
+      if (currentSpeed <= BASE_SPEED + 0.1 && frame >= nextTurn) {
+        targetAngle += (Math.random() - 0.5) * Math.PI * 1.2;
+        nextTurn = frame + 60 + Math.random() * 120;
+      }
+
+      // Smoothly steer toward target angle
+      let diff = targetAngle - angle;
+      angle += diff * 0.03;
+
+      x += Math.cos(angle) * currentSpeed / container.clientWidth;
+      y += Math.sin(angle) * currentSpeed / container.clientHeight;
+
+      // Bounce off edges
+      if (x < 0)    { x = 0;   targetAngle = Math.PI - targetAngle; angle = Math.PI - angle; }
+      if (x > 0.92) { x = 0.92; targetAngle = Math.PI - targetAngle; angle = Math.PI - angle; }
+      if (y < 0)    { y = 0;   targetAngle = -targetAngle; angle = -angle; }
+      if (y > 0.85) { y = 0.85; targetAngle = -targetAngle; angle = -angle; }
+
+      const facingRight = Math.cos(angle) > 0;
+      sheep.style.left = (x * 100) + '%';
+      sheep.style.top = (y * 100) + '%';
+      sheep.style.transform = facingRight ? 'scaleX(1)' : 'scaleX(-1)';
+
+      requestAnimationFrame(step);
+    }
+
+    sheep.style.position = 'absolute';
+    requestAnimationFrame(step);
+  });
+</script>
