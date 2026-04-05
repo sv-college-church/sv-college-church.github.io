@@ -43,8 +43,10 @@ import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
   body { display: flex; flex-direction: column; min-height: 100svh; }
 
   header {
-    background: rgba(0, 36, 68, 0.97) !important;
     border-bottom: 1px solid rgba(253,199,0,0.15);
+  }
+  header::before {
+    background: rgba(0, 36, 68, 0.97) !important;
   }
   header a { color: rgba(255,255,255,0.75) !important; }
   header a:hover { color: #FDC700 !important; }

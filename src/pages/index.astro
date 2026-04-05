@@ -161,6 +161,7 @@ const photoUrls = optimized.map(img => img.src);
     background: #0A0A0A;
     padding: clamp(0.6rem, 1.4vh, 1.1rem) 2rem;
     position: relative;
+    z-index: 10;
     opacity: 0;
     transition: opacity 0.4s ease;
   }
@@ -273,7 +274,7 @@ const photoUrls = optimized.map(img => img.src);
     #polaroid-stack.settled::after {
       content: '';
       position: absolute;
-      inset: -100px -1100px;
+      inset: 0 -1100px;
     }
   }
 

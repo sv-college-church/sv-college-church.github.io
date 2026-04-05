@@ -43,8 +43,10 @@ import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
   body { display: flex; flex-direction: column; min-height: 100svh; }
 
   header {
-    background: rgba(100, 4, 30, 0.97) !important;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  header::before {
+    background: rgba(100, 4, 30, 0.97) !important;
   }
   header a { color: rgba(255,255,255,0.75) !important; }
   header a:hover { color: #ffffff !important; }

@@ -43,8 +43,10 @@ import momentIntl from '../../assets/images/campuses/logos/moment-intl.png';
   body { display: flex; flex-direction: column; min-height: 100svh; }
 
   header {
-    background: rgba(90, 10, 10, 0.97) !important;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  header::before {
+    background: rgba(90, 10, 10, 0.97) !important;
   }
   header a { color: rgba(255,255,255,0.75) !important; }
   header a:hover { color: #ffffff !important; }

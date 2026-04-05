@@ -150,6 +150,15 @@ const bgPhotos = await Promise.all(
               <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
             </svg>
           </button>
+          <!-- Fullscreen button — mobile only -->
+          <button id="c30-fs-btn" class="c30-fs-btn" aria-label="Enter fullscreen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 3 21 3 21 9"/>
+              <polyline points="9 21 3 21 3 15"/>
+              <line x1="21" y1="3" x2="14" y2="10"/>
+              <line x1="3" y1="21" x2="10" y2="14"/>
+            </svg>
+          </button>
           <!-- Skip buttons (visible on hover) -->
           <button class="c30-skip-btn c30-skip-back" aria-label="Rewind 5 seconds">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -549,6 +558,29 @@ const bgPhotos = await Promise.all(
   .c30-mute-btn.is-unmuted .c30-icon-muted { display: none; }
   .c30-mute-btn.is-unmuted .c30-icon-unmuted { display: block; }
 
+  /* ── Fullscreen button — mobile only ── */
+  .c30-fs-btn {
+    display: none;
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 10;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(240, 237, 232, 0.15);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    color: rgba(240, 237, 232, 0.75);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+  .c30-fs-btn svg { width: 16px; height: 16px; }
+  @media (max-width: 768px) {
+    .c30-fs-btn { display: flex; }
+  }
+
   /* ── Skip buttons ── */
   .c30-skip-btn {
     position: absolute;
@@ -763,9 +795,11 @@ const bgPhotos = await Promise.all(
 
 <!-- Nav inversion for dark page -->
 <style is:global>
-  /* Background */
-  body:has(#c30-main) header.fixed {
+  /* Background — override the ::before pseudo that provides the visual backdrop */
+  body:has(#c30-main) .nav-header::before {
     background: rgba(8, 8, 8, 0.85) !important;
+  }
+  body:has(#c30-main) header.fixed {
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
@@ -820,8 +854,13 @@ const bgPhotos = await Promise.all(
     const vid = document.getElementById('c30-vid') as HTMLVideoElement | null;
     const muteBtn = document.getElementById('c30-mute-btn');
     if (vid && muteBtn) {
+      // Mobile browsers often block the autoplay attribute — kick-start playback
+      vid.play().catch(() => {});
+
       muteBtn.addEventListener('click', () => {
         vid.muted = !vid.muted;
+        // User gesture context — play() is always allowed here
+        vid.play().catch(() => {});
         muteBtn.classList.toggle('is-unmuted', !vid.muted);
         muteBtn.setAttribute('aria-label', vid.muted ? 'Unmute video' : 'Mute video');
       });
@@ -833,6 +872,22 @@ const bgPhotos = await Promise.all(
       const skipFwd = document.querySelector('.c30-skip-fwd');
       skipBack?.addEventListener('click', () => { vid.currentTime = Math.max(0, vid.currentTime - 5); });
       skipFwd?.addEventListener('click', () => { vid.currentTime = Math.min(vid.duration, vid.currentTime + 5); });
+    }
+
+    // ── Fullscreen toggle (mobile) ──
+    const fsBtn = document.getElementById('c30-fs-btn');
+    if (vid && fsBtn) {
+      fsBtn.addEventListener('click', () => {
+        // iOS Safari: webkitEnterFullscreen on the <video> element
+        if ((vid as any).webkitEnterFullscreen) {
+          (vid as any).webkitEnterFullscreen();
+        // Standard Fullscreen API (Android Chrome, etc.)
+        } else if (vid.requestFullscreen) {
+          vid.requestFullscreen();
+        } else if ((vid as any).webkitRequestFullscreen) {
+          (vid as any).webkitRequestFullscreen();
+        }
+      });
     }
 
     // ── Sparkle canvas ──

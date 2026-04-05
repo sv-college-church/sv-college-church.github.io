@@ -2,7 +2,7 @@
 const svcLogo = '/images/svc-logo.svg';
 ---
 
-<header class="fixed left-0 right-0 top-0 z-50 bg-paper/95 backdrop-blur-sm">
+<header class="nav-header fixed left-0 right-0 top-0 z-50">
   <!-- Nav bar -->
   <nav class="relative flex h-20 w-full items-center px-6 md:h-32 md:justify-between md:px-12">
 
@@ -83,6 +83,23 @@ const svcLogo = '/images/svc-logo.svg';
 </header>
 
 <style>
+  /* ── Header backdrop — pseudo-element avoids backdrop-filter
+       clipping emoji children on Windows/Chromium ── */
+  .nav-header {
+    overflow: visible;
+  }
+
+  .nav-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(245 245 240 / 0.95);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: -1;
+    pointer-events: none;
+  }
+
   /* ── Shared pop keyframes ── */
   @keyframes emojiAppear {
     0%   { opacity: 0; transform: translateX(-50%) scale(0) rotate(-20deg); }

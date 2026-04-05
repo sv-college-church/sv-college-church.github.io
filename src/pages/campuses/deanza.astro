@@ -43,8 +43,10 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
   body { display: flex; flex-direction: column; min-height: 100svh; }
 
   header {
-    background: rgba(36, 8, 8, 0.97) !important;
     border-bottom: 1px solid rgba(196,160,50,0.2);
+  }
+  header::before {
+    background: rgba(36, 8, 8, 0.97) !important;
   }
   header a { color: rgba(255,255,255,0.7) !important; }
   header a:hover { color: #C4A032 !important; }

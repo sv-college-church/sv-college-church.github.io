@@ -73,9 +73,9 @@ const campuses = [
 </BaseLayout>
 
 <style is:global>
-  /* Campuses page: fit everything in the viewport, no scrolling needed */
+  /* Campuses page: fill the viewport, but allow scrolling on short viewports */
   body {
-    height: 100svh;
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
   }
@@ -156,6 +156,7 @@ const campuses = [
 
   /* ── Mobile ── */
   @media (max-width: 640px) {
+    .campus-list { gap: 1.25rem; }
     .campus-name { font-size: clamp(1.4rem, 6vw, 2.2rem); }
   }
 

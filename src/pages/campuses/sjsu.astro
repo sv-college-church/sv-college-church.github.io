@@ -43,8 +43,10 @@ import fourCorners from '../../assets/images/campuses/logos/4corners.png';
   body { display: flex; flex-direction: column; min-height: 100svh; }
 
   header {
-    background: rgba(0, 40, 100, 0.96) !important;
     border-bottom: 1px solid rgba(229, 168, 35, 0.15);
+  }
+  header::before {
+    background: rgba(0, 40, 100, 0.96) !important;
   }
   header a { color: rgba(255,255,255,0.75) !important; }
   header a:hover { color: #E5A823 !important; }
