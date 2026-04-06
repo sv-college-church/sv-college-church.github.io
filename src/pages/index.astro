@@ -47,18 +47,6 @@ const photoUrls = optimized.map(img => img.src);
 
   <main class="pt-20 md:pt-32 main-content">
 
-    <!-- Easter announcement banner -->
-    <div class="announcement-banner">
-      <span class="banner-text">
-        <span class="label-full">🐣 EASTER SUNDAY · APR 5 · THE KINGS ACADEMY · SUNNYVALE</span>
-        <span class="label-short">🐣 EASTER · APR 5</span>
-      </span>
-      <a href="/church" class="easter-link">
-        <span class="label-full">SEE DETAILS →</span>
-        <span class="label-short">INFO →</span>
-      </a>
-    </div>
-
     <section id="hero" class="bg-paper">
 
       <!-- Text: fades in above photos after shrink -->
@@ -152,74 +140,6 @@ const photoUrls = optimized.map(img => img.src);
 </style>
 
 <style>
-  /* ── Easter announcement banner ── */
-  .announcement-banner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    background: #0A0A0A;
-    padding: clamp(0.6rem, 1.4vh, 1.1rem) 2rem;
-    position: relative;
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-
-  .announcement-banner.is-visible {
-    opacity: 1;
-  }
-
-  .banner-text {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #F5F5F0;
-    line-height: 1;
-  }
-
-  .easter-link {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    line-height: 1;
-    color: #F5F5F0;
-    background: #D91C2A;
-    padding: 0.65rem 1.6rem;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background 0.15s ease;
-  }
-
-  .easter-link:hover { background: #b51623; }
-
-  .label-short { display: none; }
-
-  @media (max-width: 640px) {
-    .announcement-banner {
-      gap: 0.6rem;
-      padding: 0.7rem 1rem;
-    }
-    .banner-text .label-full { display: none; }
-    .banner-text .label-short { display: inline; }
-    .easter-link .label-full { display: none; }
-    .easter-link .label-short { display: inline; }
-    .banner-text {
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-    }
-    .easter-link {
-      font-size: 0.68rem;
-      padding: 0.45rem 0.85rem;
-      letter-spacing: 0.14em;
-      flex-shrink: 0;
-    }
-  }
-
   main {
     flex: 1;
     display: flex;
@@ -611,8 +531,6 @@ const photoUrls = optimized.map(img => img.src);
     document.querySelectorAll<HTMLElement>('.hero-word, .hero-line2').forEach(el => el.classList.remove('visible'));
     const badge = document.getElementById('class-badge');
     if (badge) badge.classList.remove('is-live', 'is-breathing');
-    const banner = document.querySelector<HTMLElement>('.announcement-banner');
-    if (banner) banner.classList.remove('is-visible');
     const footer = document.querySelector('footer');
     if (footer) footer.classList.remove('is-visible');
 
@@ -702,14 +620,12 @@ const photoUrls = optimized.map(img => img.src);
       line2.classList.add('visible');
     }, 2200);
 
-    // ── 3.2s: class-of-2030 badge pops in + banner fades in ──
+    // ── 3.2s: class-of-2030 badge pops in ──
     setTimeout(() => {
       if (badge) {
         badge.classList.add('is-live');
         setTimeout(() => badge.classList.add('is-breathing'), 1100);
       }
-      const banner = document.querySelector('.announcement-banner');
-      if (banner) banner.classList.add('is-visible');
       const footer = document.querySelector('footer');
       if (footer) footer.classList.add('is-visible');
     }, 3200);

@@ -8,18 +8,6 @@ import Footer from '../components/Footer.astro';
   <Nav />
   <main class="min-h-screen bg-paper pt-20 md:pt-32">
 
-    <!-- Regular service banner (shown while Easter is default) -->
-    <div class="announcement-banner">
-      <span class="banner-text">
-        <span class="label-full">☀️ REGULAR SERVICE · SUNDAYS · 12 PM · SANTA CLARA</span>
-        <span class="label-short">☀️ SUNDAYS · 12 PM</span>
-      </span>
-      <button class="easter-btn" aria-label="Switch to regular Sunday service details">
-        <span class="btn-default"><span class="label-full">SEE REGULAR SERVICE</span><span class="label-short">REGULAR →</span></span>
-        <span class="btn-reset"><span class="label-full">← BACK TO EASTER</span><span class="label-short">← EASTER</span></span>
-      </button>
-    </div>
-
     <!-- Hero -->
     <section class="py-12 text-center md:py-16">
       <h1 class="font-sans font-black uppercase leading-none" style="font-size: clamp(3rem, 8vw, 8rem);">
@@ -33,9 +21,8 @@ import Footer from '../components/Footer.astro';
       <div class="info-col" data-animate>
         <p class="section-label">When</p>
         <div class="info-content">
-          <p class="display-primary" id="when-primary">April 5</p>
+          <p class="display-primary" id="when-primary">Sundays</p>
           <p class="display-bold" id="when-bold">12 PM</p>
-          <button class="easter-inline-btn" id="easter-inline"><span class="inline-default">Regular Sundays? →</span><span class="inline-reset">← Back to Easter</span></button>
         </div>
       </div>
 
@@ -46,10 +33,10 @@ import Footer from '../components/Footer.astro';
       <div class="info-col" data-animate>
         <p class="section-label">Where</p>
         <div class="info-content">
-          <p class="display-primary" id="where-primary">The Kings Academy</p>
-          <p class="display-secondary" id="where-secondary">562 N Britton Ave</p>
+          <p class="display-primary" id="where-primary">2346 Walsh Ave</p>
+          <p class="display-secondary" id="where-secondary">Santa Clara, CA</p>
           <a
-            href="https://maps.app.goo.gl/Qxu9AUFbXdcRdcSY7"
+            href="https://maps.app.goo.gl/XnKMeboUpYpEXNxB8"
             target="_blank"
             rel="noopener noreferrer"
             class="directions-link"
@@ -60,11 +47,6 @@ import Footer from '../components/Footer.astro';
         </div>
       </div>
     </section>
-
-    <!-- Reset pill (appears when toggled away from Easter default) -->
-    <div class="easter-reset" id="easter-reset" aria-live="polite">
-      <button id="reset-btn">← Back to Easter service</button>
-    </div>
 
     <!-- Scroll hint -->
     <div class="scroll-hint border-t border-ink/10" aria-hidden="true">
@@ -95,136 +77,6 @@ import Footer from '../components/Footer.astro';
 </BaseLayout>
 
 <style>
-  /* ── Announcement banner ── */
-  .announcement-banner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    background: #0A0A0A;
-    padding: 1.1rem 2rem;
-  }
-
-  .banner-text {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #F5F5F0;
-    line-height: 1;
-  }
-
-  .easter-btn {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    line-height: 1;
-    color: #F5F5F0;
-    background: #D91C2A;
-    border: 1px solid transparent;
-    padding: 0.65rem 1.6rem;
-    cursor: pointer;
-    white-space: nowrap;
-    position: relative;
-    transition: background 0.15s ease, border-color 0.15s ease;
-  }
-
-  .easter-btn:hover { background: #b51623; }
-
-  .easter-btn.is-reset {
-    background: transparent;
-    border-color: rgb(245 245 240 / 0.5);
-  }
-
-  .easter-btn.is-reset:hover { background: rgb(245 245 240 / 0.1); }
-
-  .btn-default, .btn-reset {
-    display: block;
-    white-space: nowrap;
-    transition: opacity 0.15s ease;
-  }
-
-  .btn-reset {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-  }
-
-  .easter-btn.is-reset .btn-default { opacity: 0; }
-  .easter-btn.is-reset .btn-reset { opacity: 1; }
-
-  /* ── Easter inline trigger (below 12 PM) ── */
-  .easter-inline-btn {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    color: #D91C2A;
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-top: 1.5rem;
-    padding: 0;
-    position: relative;
-    transition: opacity 0.2s ease;
-  }
-
-  .easter-inline-btn:hover { opacity: 0.7; }
-
-  .inline-default, .inline-reset {
-    transition: opacity 0.15s ease;
-  }
-
-  .inline-reset {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-  }
-
-  .easter-inline-btn.is-reset .inline-default { opacity: 0; }
-  .easter-inline-btn.is-reset .inline-reset { opacity: 1; }
-
-  /* ── Easter reset pill ── */
-  .easter-reset {
-    display: flex;
-    justify-content: center;
-    padding: 0.75rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .easter-reset.visible {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  #reset-btn {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: rgb(10 10 10 / 0.62);
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.2s ease;
-  }
-
-  #reset-btn:hover {
-    color: rgb(10 10 10 / 0.8);
-  }
-
   /* ── WHEN + WHERE side by side ── */
   .when-where {
     display: grid;
@@ -472,121 +324,6 @@ import Footer from '../components/Footer.astro';
       background: rgb(10 10 10 / 0.1);
     }
 
-    /* Banner: slim single row with condensed text */
-    .announcement-banner {
-      gap: 0.6rem;
-      padding: 0.7rem 1rem;
-    }
-
-    .banner-text .label-full { display: none; }
-    .banner-text .label-short { display: inline; }
-
-    .easter-btn .label-full { display: none; }
-    .easter-btn .label-short { display: inline; }
-
-    .banner-text {
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-    }
-
-    .easter-btn {
-      font-size: 0.68rem;
-      padding: 0.45rem 0.85rem;
-      letter-spacing: 0.14em;
-      flex-shrink: 0;
-    }
   }
 </style>
 
-<script>
-  var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-  var REGULAR = {
-    whenPrimary: 'Sundays',
-    wherePrimary: '2346 Walsh Ave',
-    whereSecondary: 'Santa Clara, CA',
-    mapsUrl: 'https://maps.app.goo.gl/XnKMeboUpYpEXNxB8',
-  };
-
-  var EASTER = {
-    whenPrimary: 'April 5',
-    wherePrimary: 'The Kings Academy',
-    whereSecondary: '562 N Britton Ave',
-    mapsUrl: 'https://maps.app.goo.gl/Qxu9AUFbXdcRdcSY7',
-  };
-
-  function scramble(el, target) {
-    var INTERVAL = 28;
-    var STEPS = 18;
-    var step = 0;
-    var scrambleLen = el.textContent.length;
-
-    var run = setInterval(function () {
-      step++;
-      var progress = step / STEPS;
-      var result = '';
-
-      for (var i = 0; i < scrambleLen; i++) {
-        var resolveThreshold = (i / scrambleLen) * 0.65 + 0.35;
-        if (progress >= resolveThreshold) {
-          result += (target[i] !== undefined ? target[i] : '');
-        } else {
-          result += CHARS[Math.floor(Math.random() * CHARS.length)];
-        }
-      }
-
-      el.textContent = result;
-
-      if (step >= STEPS) {
-        clearInterval(run);
-        el.textContent = target;
-      }
-    }, INTERVAL);
-  }
-
-  document.addEventListener('astro:page-load', () => {
-    // Only run on the church page
-    var easterBtn = document.querySelector('.easter-btn');
-    var inlineBtn = document.getElementById('easter-inline');
-    if (!easterBtn || !inlineBtn) return;
-
-    var isEaster = true;
-
-    function applyState(data) {
-      scramble(document.getElementById('when-primary'), data.whenPrimary);
-      scramble(document.getElementById('where-primary'), data.wherePrimary);
-      scramble(document.getElementById('where-secondary'), data.whereSecondary);
-
-      var link = document.getElementById('directions-link');
-      setTimeout(function () { link.href = data.mapsUrl; }, 300);
-    }
-
-    function toggleEaster() {
-      isEaster = !isEaster;
-      applyState(isEaster ? EASTER : REGULAR);
-
-      document.querySelectorAll('.easter-btn').forEach(function (btn) {
-        btn.classList.toggle('is-reset', !isEaster);
-      });
-      if (inlineBtn) inlineBtn.classList.toggle('is-reset', !isEaster);
-
-      var reset = document.getElementById('easter-reset');
-      if (reset) reset.classList.toggle('visible', !isEaster);
-    }
-
-    easterBtn.addEventListener('click', function () {
-      toggleEaster();
-    });
-
-    inlineBtn.addEventListener('click', function () {
-      toggleEaster();
-    });
-
-    var resetBtn = document.getElementById('reset-btn');
-    if (resetBtn) {
-      resetBtn.addEventListener('click', function () {
-        if (!isEaster) toggleEaster();
-      });
-    }
-  });
-</script>
