@@ -12,7 +12,7 @@ import Footer from '../components/Footer.astro';
     <!-- Hero -->
     <section class="py-12 text-center md:py-16">
       <h1 class="font-sans font-black uppercase leading-none" style="font-size: clamp(3rem, 8vw, 8rem);">
-        Sundays at SVC
+        SVC Sundays
       </h1>
     </section>
 
@@ -34,8 +34,8 @@ import Footer from '../components/Footer.astro';
       <div class="info-col" data-animate>
         <p class="section-label">Where</p>
         <div class="info-content">
-          <p class="display-primary" id="where-primary">2346 Walsh Ave</p>
-          <p class="display-secondary" id="where-secondary">Santa Clara, CA</p>
+          <p class="display-primary" id="where-primary">SVC Student Center<span class="where-asterisk" aria-hidden="true">*</span></p>
+          <p class="display-secondary" id="where-secondary">2346 Walsh Ave, Santa Clara</p>
           <a
             href="https://maps.app.goo.gl/XnKMeboUpYpEXNxB8"
             target="_blank"
@@ -45,6 +45,7 @@ import Footer from '../components/Footer.astro';
           >
             Get Directions →
           </a>
+          <p class="where-footnote">* we also gather at other spots across the South Bay</p>
         </div>
       </div>
     </section>
@@ -148,12 +149,7 @@ import Footer from '../components/Footer.astro';
     color: rgb(10 10 10);
   }
 
-  #where-primary {
-    font-size: clamp(1.6rem, 3vw, 3.4rem);
-    white-space: nowrap;
-  }
-
-  .display-bold {
+.display-bold {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(3.5rem, 8vw, 9rem);
     font-weight: 700;
@@ -190,6 +186,27 @@ import Footer from '../components/Footer.astro';
 
   .directions-link:hover {
     color: rgb(10 10 10);
+  }
+
+  .where-asterisk {
+    font-family: 'Instrument Sans', sans-serif;
+    font-style: normal;
+    font-size: 0.5em;
+    font-weight: 600;
+    vertical-align: super;
+    color: rgb(10 10 10 / 0.55);
+    margin-left: 0.15em;
+  }
+
+  .where-footnote {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    font-style: italic;
+    color: rgb(10 10 10 / 0.55);
+    margin-top: 1rem;
+    max-width: 22rem;
+    line-height: 1.4;
   }
 
   /* ── Scroll hint ── */
