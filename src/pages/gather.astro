@@ -5,8 +5,9 @@ import Footer from '../components/Footer.astro';
 ---
 
 <BaseLayout title="Gathering | Silicon Valley College Church" description="Join us Sundays at 12 PM in Santa Clara. A college church gathering young adults and students from across Silicon Valley.">
+  <div class="page-shell">
   <Nav />
-  <main class="bg-paper pt-20 md:pt-32">
+  <main class="bg-paper pt-20 md:pt-32 flex-1">
 
     <!-- Hero -->
     <section class="py-12 text-center md:py-16">
@@ -50,15 +51,22 @@ import Footer from '../components/Footer.astro';
 
   </main>
   <Footer />
+  </div>
 </BaseLayout>
 
 <style>
+  .page-shell {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
   /* ── WHEN + WHERE side by side ── */
   .when-where {
     display: grid;
     grid-template-columns: 1fr 1px 1fr;
     grid-template-rows: 1fr auto auto 1fr;
-    min-height: 50vh;
+    min-height: 40vh;
   }
 
   .info-col {
