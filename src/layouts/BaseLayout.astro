@@ -1,6 +1,7 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
+import EventBanner from '../components/EventBanner.astro';
 
 interface Props {
   title: string;
@@ -87,6 +88,7 @@ const {
     <ViewTransitions />
   </head>
   <body>
+    <EventBanner />
     <slot />
 
     <!-- Scroll animation observer — re-runs on View Transitions navigation -->

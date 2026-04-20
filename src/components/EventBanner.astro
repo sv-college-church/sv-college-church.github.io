@@ -1,0 +1,109 @@
+---
+import { getActiveBannerEvent } from '../lib/events';
+
+const event = await getActiveBannerEvent();
+const banner = event?.data.banner;
+---
+
+{banner && (
+  <div class="announcement-banner" id="event-banner" data-event-banner>
+    <span class="banner-text">
+      <span class="label-full">{banner.emoji ? `${banner.emoji} ` : ''}{banner.text}</span>
+      <span class="label-short">{banner.emoji ? `${banner.emoji} ` : ''}{banner.shortText}</span>
+    </span>
+    {banner.cta && (
+      <a href={banner.cta.url} class="event-banner-link">
+        <span class="label-full">{banner.cta.label} →</span>
+        <span class="label-short">{banner.cta.shortLabel} →</span>
+      </a>
+    )}
+  </div>
+)}
+
+<script>
+  // The banner is fixed above the nav. We measure its height and offset
+  // both the body (so page content clears it) and the fixed nav header.
+  function applyBannerOffset() {
+    const banner = document.querySelector<HTMLElement>('[data-event-banner]');
+    const nav = document.querySelector<HTMLElement>('.nav-header');
+    const h = banner ? banner.offsetHeight : 0;
+    document.body.style.paddingTop = h ? `${h}px` : '';
+    if (nav) nav.style.top = h ? `${h}px` : '';
+  }
+
+  document.addEventListener('astro:page-load', applyBannerOffset);
+  // ViewTransitions: reset before swap so the new page doesn't inherit stale offsets
+  document.addEventListener('astro:before-swap', () => {
+    document.body.style.paddingTop = '';
+    const nav = document.querySelector<HTMLElement>('.nav-header');
+    if (nav) nav.style.top = '';
+  });
+  window.addEventListener('resize', applyBannerOffset);
+</script>
+
+<style>
+  /* Visual parity with the original Easter banner (commit 0b9bf93 / removed in ded431f). */
+  .announcement-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    background: #0A0A0A;
+    padding: clamp(0.6rem, 1.4vh, 1.1rem) 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 60; /* above .nav-header (z-50) */
+  }
+
+  .banner-text {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #F5F5F0;
+    line-height: 1;
+  }
+
+  .event-banner-link {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: 1;
+    color: #F5F5F0;
+    background: #D91C2A;
+    padding: 0.65rem 1.6rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+  }
+
+  .event-banner-link:hover { background: #b51623; }
+
+  .label-short { display: none; }
+
+  @media (max-width: 640px) {
+    .announcement-banner {
+      gap: 0.6rem;
+      padding: 0.7rem 1rem;
+    }
+    .banner-text .label-full { display: none; }
+    .banner-text .label-short { display: inline; }
+    .event-banner-link .label-full { display: none; }
+    .event-banner-link .label-short { display: inline; }
+    .banner-text {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+    }
+    .event-banner-link {
+      font-size: 0.68rem;
+      padding: 0.45rem 0.85rem;
+      letter-spacing: 0.14em;
+      flex-shrink: 0;
+    }
+  }
+</style>
