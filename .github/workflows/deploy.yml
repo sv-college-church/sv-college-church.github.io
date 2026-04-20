@@ -3,6 +3,12 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    # Daily at 08:00 UTC = 00:00 PST / 01:00 PDT.
+    # Rebuilds the site so date-driven content (event banner, upcoming
+    # events) reflects the current day without needing a code push.
+    # GitHub may delay scheduled runs by 5–15 min on shared infrastructure.
+    - cron: '0 8 * * *'
   workflow_dispatch:
 
 permissions:
