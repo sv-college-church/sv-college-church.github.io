@@ -14,6 +14,10 @@ banner:
   text: "DOES SCIENCE DISPROVE GOD? · WED APR 22 · 7 PM · SVC STUDENT CENTER"
   shortText: "SCIENCE & GOD · WED APR 22 · 7 PM"
   emoji: "🔬"
+  cta:
+    label: "Details"
+    shortLabel: "Details"
+    url: "/gather#upcoming-events"
 ---
 
 A special talk by **Dr. Brian Miller** — *A Physicist's Reason for Faith*.
