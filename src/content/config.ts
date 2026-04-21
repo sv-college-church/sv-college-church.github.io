@@ -6,6 +6,7 @@ const events = defineCollection({
     title: z.string(),
     date: z.date(),
     endDate: z.date().optional(),
+    time: z.string().optional(),
     tier: z.enum(['banner', 'featured', 'listed']),
     location: z.string().optional(),
     address: z.string().optional(),
