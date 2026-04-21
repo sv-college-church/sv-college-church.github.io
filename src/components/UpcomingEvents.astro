@@ -1,0 +1,87 @@
+---
+import { getHighlightedEvents } from '../lib/events';
+
+const events = await getHighlightedEvents();
+
+function fmtMonth(d: Date) {
+  return d.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }).toUpperCase();
+}
+function fmtDay(d: Date) {
+  return d.getUTCDate().toString();
+}
+function fmtWeekday(d: Date) {
+  return d.toLocaleDateString('en-US', { weekday: 'long', timeZone: 'UTC' }).toUpperCase();
+}
+---
+
+{events.length > 0 && (
+  <section
+    id="upcoming-events"
+    class:list={['upcoming-section', 'border-t', 'border-ink/10', { 'is-single': events.length === 1 }]}
+  >
+    <div class="upcoming-grid">
+      {events.map((e) => (
+        <article class="upcoming-card">
+          <div class="upcoming-stamp">
+            <div class="upcoming-month">{fmtMonth(e.data.date)}</div>
+            <div class="upcoming-day">{fmtDay(e.data.date)}</div>
+            <div class="upcoming-weekday">{fmtWeekday(e.data.date)}</div>
+            {e.data.time && <div class="upcoming-time">{e.data.time}</div>}
+          </div>
+          <div class="upcoming-content">
+            <h3 class="upcoming-title">{e.data.title}</h3>
+            {e.data.location && (
+              <div class="upcoming-loc">
+                {e.data.location}
+                {e.data.address && <span class="upcoming-addr"> · {e.data.address}</span>}
+              </div>
+            )}
+            {e.data.summary && <p class="upcoming-summary">{e.data.summary}</p>}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .upcoming-section { padding: 6rem 2rem; max-width: 80rem; margin: 0 auto; scroll-margin-top: calc(8rem + var(--banner-height, 0px)); }
+  @media (max-width: 768px) {
+    .upcoming-section { scroll-margin-top: calc(5rem + var(--banner-height, 0px)); }
+  }
+
+  .upcoming-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+
+  .upcoming-card { display: grid; grid-template-columns: auto 1fr; gap: 2rem; padding: 2rem; border: 1px solid rgba(10,10,10,0.12); color: rgb(10,10,10); transition: border-color 0.2s ease, transform 0.2s ease; background: transparent; }
+  .upcoming-card:hover { border-color: rgb(10,10,10); transform: translateY(-2px); }
+
+  .upcoming-stamp { text-align: center; border-right: 1px solid rgba(10,10,10,0.12); padding-right: 2rem; min-width: 5rem; }
+  .upcoming-month { font-family: 'Instrument Sans', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.18em; color: #D91C2A; }
+  .upcoming-day { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 700; line-height: 1; margin-top: 0.25rem; }
+  .upcoming-weekday { font-family: 'Instrument Sans', sans-serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; color: rgba(10,10,10,0.5); margin-top: 0.5rem; }
+  .upcoming-time { font-family: 'Instrument Sans', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; color: rgb(10,10,10); margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid rgba(10,10,10,0.12); }
+
+  .upcoming-content { display: flex; flex-direction: column; }
+  .upcoming-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; margin: 0; }
+  .upcoming-loc { font-family: 'Instrument Sans', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; color: rgba(10,10,10,0.65); margin-top: 0.5rem; }
+  .upcoming-addr { color: rgba(10,10,10,0.45); font-weight: 400; }
+  .upcoming-summary { font-family: 'Instrument Sans', sans-serif; font-size: 0.92rem; font-weight: 400; line-height: 1.5; color: rgba(10,10,10,0.7); margin: 1rem 0 0; }
+
+  @media (max-width: 640px) {
+    .upcoming-section { padding: 4rem 1.5rem; }
+    .upcoming-card { grid-template-columns: 1fr; gap: 1rem; padding: 1.5rem; }
+    .upcoming-stamp { display: flex; align-items: baseline; gap: 0.75rem; border-right: none; border-bottom: 1px solid rgba(10,10,10,0.12); padding-right: 0; padding-bottom: 0.75rem; text-align: left; }
+    .upcoming-day { font-size: 1.8rem; margin-top: 0; }
+    .upcoming-weekday { margin-top: 0; }
+    .upcoming-time { margin-top: 0; padding-top: 0; border-top: none; border-left: 1px solid rgba(10,10,10,0.12); padding-left: 0.75rem; }
+  }
+
+  /* Single-event layout: center, narrower, roomier card. */
+  .upcoming-section.is-single .upcoming-grid { grid-template-columns: 1fr; max-width: 48rem; margin: 0 auto; }
+  .upcoming-section.is-single .upcoming-card { padding: 2.5rem 3rem; gap: 3rem; }
+  .upcoming-section.is-single .upcoming-day { font-size: 4.5rem; }
+  @media (max-width: 640px) {
+    .upcoming-section.is-single .upcoming-card { padding: 1.5rem; gap: 1rem; }
+    .upcoming-section.is-single .upcoming-day { font-size: 1.8rem; }
+  }
+</style>

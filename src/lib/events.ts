@@ -6,7 +6,7 @@ const DEFAULT_BANNER_LEAD_DAYS = 21;
 
 function startOfDay(d: Date): Date {
   const out = new Date(d);
-  out.setHours(0, 0, 0, 0);
+  out.setUTCHours(0, 0, 0, 0);
   return out;
 }
 
@@ -19,7 +19,7 @@ export function eventEndDay(event: EventEntry): Date {
 export function bannerStartDay(event: EventEntry): Date {
   if (event.data.bannerStartsAt) return startOfDay(event.data.bannerStartsAt);
   const start = new Date(event.data.date);
-  start.setDate(start.getDate() - DEFAULT_BANNER_LEAD_DAYS);
+  start.setUTCDate(start.getUTCDate() - DEFAULT_BANNER_LEAD_DAYS);
   return startOfDay(start);
 }
 

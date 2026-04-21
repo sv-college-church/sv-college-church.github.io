@@ -2,12 +2,18 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import UpcomingEvents from '../components/UpcomingEvents.astro';
+import { getHighlightedEvents } from '../lib/events';
+
+const hasUpcoming = (await getHighlightedEvents()).length > 0;
 ---
 
 <BaseLayout title="Gathering | Silicon Valley College Church" description="Join us Sundays at 12 PM in Santa Clara. A college church gathering young adults and students from across Silicon Valley.">
   <div class="page-shell">
   <Nav />
   <main class="bg-paper pt-20 md:pt-32 flex-1">
+
+    <div class="hero-fill">
 
     <!-- Hero -->
     <section class="py-12 text-center md:py-16">
@@ -50,6 +56,17 @@ import Footer from '../components/Footer.astro';
       </div>
     </section>
 
+    {hasUpcoming && (
+      <a href="#upcoming-events" class="coming-up-trigger">
+        <span class="coming-up-label">Coming Up</span>
+        <span class="coming-up-arrow" aria-hidden="true">↓</span>
+      </a>
+    )}
+
+    </div>
+
+    <UpcomingEvents />
+
   </main>
   <Footer />
   </div>
@@ -60,6 +77,49 @@ import Footer from '../components/Footer.astro';
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+  }
+
+  /* Fill the viewport with the hero/info above the fold;
+     the "Coming Up" trigger sits at the bottom (margin-top: auto).
+     --banner-height is set on :root by EventBanner.astro (0 when no banner). */
+  .hero-fill {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 8rem - var(--banner-height, 0px)); /* nav clearance: pt-32 on md+ */
+  }
+  /* On mobile the hero/when/where naturally exceeds the viewport,
+     so we don't try to glue the trigger to the bottom — it just sits
+     after the content. */
+  @media (max-width: 768px) {
+    .hero-fill { min-height: 0; }
+  }
+
+  .coming-up-trigger {
+    margin-top: auto;
+    padding: 1.5rem 0 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: rgb(10 10 10);
+    transition: opacity 0.2s ease;
+  }
+  .coming-up-trigger:hover { opacity: 0.7; }
+  .coming-up-label {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgba(10,10,10,0.55);
+  }
+  .coming-up-arrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.75rem;
+    line-height: 1;
+    color: #D91C2A;
+    animation: nudge 2.4s ease-in-out infinite;
   }
 
   /* ── WHEN + WHERE side by side ── */
