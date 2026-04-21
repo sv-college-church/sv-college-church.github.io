@@ -28,6 +28,7 @@ const banner = event?.data.banner;
     const nav = document.querySelector<HTMLElement>('.nav-header');
     const h = banner ? banner.offsetHeight : 0;
     document.body.style.paddingTop = h ? `${h}px` : '';
+    document.documentElement.style.setProperty('--banner-height', `${h}px`);
     if (nav) nav.style.top = h ? `${h}px` : '';
   }
 
@@ -35,6 +36,7 @@ const banner = event?.data.banner;
   // ViewTransitions: reset before swap so the new page doesn't inherit stale offsets
   document.addEventListener('astro:before-swap', () => {
     document.body.style.paddingTop = '';
+    document.documentElement.style.setProperty('--banner-height', '0px');
     const nav = document.querySelector<HTMLElement>('.nav-header');
     if (nav) nav.style.top = '';
   });

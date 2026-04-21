@@ -15,11 +15,10 @@ function fmtWeekday(d: Date) {
 ---
 
 {events.length > 0 && (
-  <section class="upcoming-section border-t border-ink/10">
-    <div class="upcoming-header">
-      <div class="upcoming-rule"></div>
-      <p class="upcoming-eyebrow">Coming Up</p>
-    </div>
+  <section
+    id="upcoming-events"
+    class:list={['upcoming-section', 'border-t', 'border-ink/10', { 'is-single': events.length === 1 }]}
+  >
     <div class="upcoming-grid">
       {events.map((e) => (
         <article class="upcoming-card">
@@ -46,10 +45,10 @@ function fmtWeekday(d: Date) {
 )}
 
 <style>
-  .upcoming-section { padding: 6rem 2rem; max-width: 80rem; margin: 0 auto; }
-  .upcoming-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 3rem; }
-  .upcoming-rule { width: 1px; height: 3rem; background: rgb(10 10 10 / 0.18); margin-bottom: 1.5rem; }
-  .upcoming-eyebrow { font-family: 'Instrument Sans', sans-serif; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.22em; color: rgba(10,10,10,0.55); }
+  .upcoming-section { padding: 6rem 2rem; max-width: 80rem; margin: 0 auto; scroll-margin-top: calc(8rem + var(--banner-height, 0px)); }
+  @media (max-width: 768px) {
+    .upcoming-section { scroll-margin-top: calc(5rem + var(--banner-height, 0px)); }
+  }
 
   .upcoming-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
 
@@ -75,5 +74,14 @@ function fmtWeekday(d: Date) {
     .upcoming-day { font-size: 1.8rem; margin-top: 0; }
     .upcoming-weekday { margin-top: 0; }
     .upcoming-time { margin-top: 0; padding-top: 0; border-top: none; border-left: 1px solid rgba(10,10,10,0.12); padding-left: 0.75rem; }
+  }
+
+  /* Single-event layout: center, narrower, roomier card. */
+  .upcoming-section.is-single .upcoming-grid { grid-template-columns: 1fr; max-width: 48rem; margin: 0 auto; }
+  .upcoming-section.is-single .upcoming-card { padding: 2.5rem 3rem; gap: 3rem; }
+  .upcoming-section.is-single .upcoming-day { font-size: 4.5rem; }
+  @media (max-width: 640px) {
+    .upcoming-section.is-single .upcoming-card { padding: 1.5rem; gap: 1rem; }
+    .upcoming-section.is-single .upcoming-day { font-size: 1.8rem; }
   }
 </style>
