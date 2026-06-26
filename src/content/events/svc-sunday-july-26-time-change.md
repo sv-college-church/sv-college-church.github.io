@@ -6,7 +6,7 @@ tier: 'banner'
 location: 'SVC Student Center'
 address: '2346 Walsh Ave, Santa Clara'
 mapUrl: 'https://maps.app.goo.gl/XnKMeboUpYpEXNxB8'
-summary: 'Due to trips that weekend, SVC will meet at 4 PM instead of the usual 12 PM on Sunday, July 26.'
+summary: 'For this Sunday only, SVC will meet at 4 PM instead of the usual 12 PM.'
 campus: 'all'
 bannerStartsAt: 2026-07-12
 banner:
@@ -19,4 +19,4 @@ banner:
     url: '/gather#upcoming-events'
 ---
 
-For this Sunday only, SVC will meet at **4 PM** instead of the usual 12 PM because of trips happening that weekend.
+For this Sunday only, SVC will meet at **4 PM** instead of the usual 12 PM.
