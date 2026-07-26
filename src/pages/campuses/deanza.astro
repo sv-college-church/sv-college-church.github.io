@@ -21,16 +21,18 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     <section class="info-grid">
       <div class="info-col">
         <h2 class="info-label">Established</h2>
-        <p class="info-value">2015</p>
-      </div>
-      <div class="info-col">
-        <h2 class="info-label">About</h2>
-        <p class="info-value">Coming soon</p>
+        <p class="info-value">2025</p>
       </div>
       <div class="info-col">
         <h2 class="info-label">Events</h2>
         <a href="https://internationalmentorship.org/deanza" target="_blank" rel="noopener noreferrer" class="events-btn">ISMP ↗</a>
       </div>
+    </section>
+
+    <section class="about-section">
+      <h2 class="info-label">About</h2>
+      <p class="about-body">ISMP is a nonprofit mentorship program designed for international students. We offer enriching workshops and small group or personal mentorship sessions that cover practical topics such as English skills, study habits, and personal development areas like relationships, character, and leadership.</p>
+      <p class="about-body">Our mentorship is based on Christian values and virtues. However, the content is largely non-religious and open to all international students, regardless of their religious or cultural backgrounds. We welcome everyone, ensuring a safe and supportive environment for all our students.</p>
     </section>
 
   </main>
@@ -130,10 +132,9 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
   }
 
   .info-grid {
-    flex: 1;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    padding: 1rem 3rem 6rem;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1rem 3rem 2rem;
   }
 
   .info-col {
@@ -182,13 +183,39 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     box-shadow: 0 6px 24px rgba(0,0,0,0.3);
   }
 
+  .about-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+    padding: 4rem 3rem 7rem;
+    border-top: 1px solid rgba(196,160,50,0.15);
+    margin: 0 3rem;
+  }
+
+  .about-body {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.6);
+    max-width: 62ch;
+    margin: 0;
+  }
+
   @media (max-width: 768px) {
     .info-grid {
       grid-template-columns: 1fr;
-      padding: 0 2rem 4rem;
+      padding: 0 2rem 1rem;
     }
     .info-col {
       padding: 2rem 1rem;
+    }
+    .about-section {
+      padding: 3rem 2rem 4rem;
+      margin: 0 2rem;
     }
   }
 </style>
