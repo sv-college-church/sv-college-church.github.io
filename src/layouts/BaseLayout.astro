@@ -98,6 +98,7 @@ const {
           (entries) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
+                entry.target.classList.remove('not-yet-visible');
                 entry.target.classList.add('is-visible');
                 observer.unobserve(entry.target);
               }
@@ -107,7 +108,12 @@ const {
         );
 
         document.querySelectorAll('[data-animate]').forEach((el) => {
-          el.classList.remove('is-visible');
+          el.classList.remove('is-visible', 'not-yet-visible');
+          const rect = el.getBoundingClientRect();
+          const alreadyInView = rect.top < window.innerHeight && rect.bottom > 0;
+          if (!alreadyInView) {
+            el.classList.add('not-yet-visible');
+          }
           observer.observe(el);
         });
       });

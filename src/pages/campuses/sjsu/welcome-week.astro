@@ -4,23 +4,24 @@ import Nav from '../../../components/Nav.astro';
 import Footer from '../../../components/Footer.astro';
 import { getImage } from 'astro:assets';
 
-import svc02 from '../../../assets/images/community/svc-02.webp';
 import svc04 from '../../../assets/images/community/svc-04.webp';
 import svc07 from '../../../assets/images/community/svc-07.webp';
 import svc09 from '../../../assets/images/community/svc-09.webp';
 import svc11 from '../../../assets/images/community/svc-11.webp';
 import svc13 from '../../../assets/images/community/svc-13.webp';
 import svc16 from '../../../assets/images/community/svc-16.webp';
-import svc19 from '../../../assets/images/community/svc-19.webp';
+import laserTag from '../../../assets/images/community-new/laser-tag.jpg';
+import beachGroup from '../../../assets/images/community-new/beach-group.jpg';
 
 const bgPhotos = await Promise.all(
-  [svc02, svc04, svc07, svc09, svc11, svc13, svc16, svc19].map((src) =>
+  [laserTag, svc04, svc07, svc09, beachGroup, svc11, svc13, svc16].map((src) =>
     getImage({ src, width: 480, format: 'webp', quality: 45 })
   )
 );
 
-// NOTE: all times default to 6:00–9:00 PM per John. Locations marked TBA
-// are intentional — to be chosen later.
+// NOTE: times default to 6:00–9:00 PM per John except where overridden below.
+// Locations marked TBA are intentional — to be chosen later.
+const horaceMannMapUrl = 'https://maps.app.goo.gl/62onxaD35UY9wsYT6';
 const schedule = [
   {
     day: 'SAT',
@@ -29,14 +30,17 @@ const schedule = [
     sub: 'Move-In Day kickoff',
     location: 'Washburn Hall',
     note: null,
+    time: '5:30 – 7:30 PM',
   },
   {
     day: 'SUN',
     date: 'AUG 16',
     name: 'Silicon Valley Church',
     sub: 'Worship together',
-    location: 'TBA',
+    location: 'Horace Mann',
+    mapUrl: horaceMannMapUrl,
     note: null,
+    time: '12:00 – 1:30 PM',
   },
   {
     day: 'MON',
@@ -45,6 +49,7 @@ const schedule = [
     sub: 'Event Center',
     location: 'SJSU Event Center',
     note: 'Open campus space — no sign-up, just show up',
+    time: '7:30 – 9:30 PM',
   },
   {
     day: 'TUE',
@@ -53,6 +58,7 @@ const schedule = [
     sub: 'Meet your class',
     location: 'The Place',
     note: null,
+    time: '6:00 – 8:00 PM',
   },
   {
     day: 'WED',
@@ -61,6 +67,7 @@ const schedule = [
     sub: 'New Student Welcome Night',
     location: 'SU Room 3',
     note: null,
+    time: '6:30 – 8:30 PM',
   },
   {
     day: 'FRI',
@@ -69,14 +76,17 @@ const schedule = [
     sub: "Stories, s'mores, worship",
     location: 'TBA',
     note: null,
+    time: '5:30 – 7:30 PM',
   },
   {
     day: 'SUN',
     date: 'AUG 23',
     name: 'Silicon Valley Church',
     sub: 'Worship together',
-    location: 'TBA',
+    location: 'Horace Mann',
+    mapUrl: horaceMannMapUrl,
     note: null,
+    time: '12:00 – 1:30 PM',
   },
 ];
 ---
@@ -119,7 +129,7 @@ const schedule = [
     <section id="schedule" class="ww-schedule">
       <div class="ww-schedule-inner">
         <p class="ww-section-label" data-animate>The Lineup</p>
-        <p class="ww-schedule-note" data-animate>All events run 6:00 – 9:00 PM unless noted otherwise.</p>
+        <p class="ww-schedule-note" data-animate>Times below, one week only — August 15–23.</p>
 
         <ol class="ww-list" data-animate>
           {schedule.map((ev) => (
@@ -134,21 +144,19 @@ const schedule = [
                 {ev.note && <p class="ww-row-flag">{ev.note}</p>}
               </div>
               <div class="ww-row-meta">
-                <p class="ww-row-time">6:00 – 9:00 PM</p>
-                <p class="ww-row-loc">{ev.location}</p>
+                <p class="ww-row-time">{ev.time}</p>
+                <p class="ww-row-loc">
+                  {ev.mapUrl ? (
+                    <a href={ev.mapUrl} target="_blank" rel="noopener noreferrer" class="ww-row-loc-link">{ev.location}</a>
+                  ) : (
+                    ev.location
+                  )}
+                </p>
               </div>
             </li>
           ))}
         </ol>
       </div>
-    </section>
-
-    <!-- ── CLOSING CTA ── -->
-    <section class="ww-cta">
-      <p class="ww-cta-label" data-animate>Don't do Welcome Week alone</p>
-      <a href="/connect" class="ww-btn ww-btn-primary ww-btn-large" data-animate data-animate-delay="1">
-        Get Connected
-      </a>
     </section>
 
   </main>
@@ -173,8 +181,8 @@ const schedule = [
 
   body:has(.ww-main) footer { background: #002D6B !important; border-color: rgba(229, 168, 35, 0.15) !important; }
   body:has(.ww-main) footer p,
-  body:has(.ww-main) footer a { color: rgba(229, 168, 35, 0.65) !important; }
-  body:has(.ww-main) footer a:hover { color: rgba(229, 168, 35, 0.9) !important; }
+  body:has(.ww-main) footer a { color: rgba(229, 168, 35, 0.85) !important; }
+  body:has(.ww-main) footer a:hover { color: #E5A823 !important; }
   body:has(.ww-main) footer .network-logo { filter: none !important; }
 </style>
 
@@ -257,11 +265,11 @@ const schedule = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgba(229, 168, 35, 0.85);
+    color: #E5A823;
     text-decoration: none;
     transition: color 0.2s ease;
   }
-  .ww-back-link:hover { color: #E5A823; }
+  .ww-back-link:hover { color: #f4c860; }
 
   .ww-hero-content {
     position: relative;
@@ -483,6 +491,15 @@ const schedule = [
     margin-top: 0.15rem;
     white-space: nowrap;
   }
+
+  .ww-row-loc-link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+    transition: color 0.2s ease;
+  }
+  .ww-row-loc-link:hover { color: #E5A823; }
 
   /* ── CLOSING CTA ── */
   .ww-cta {

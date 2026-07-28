@@ -309,18 +309,17 @@ import mentors from '../assets/images/mentors.png';
     max-width: 55rem;
   }
 
-  /* ── data-animate ── */
+  /* ── data-animate — visible by default; see global.css for the
+     .not-yet-visible gating that BaseLayout.astro applies via JS. ── */
   [data-animate] {
-    opacity: 0;
-    transform: translateY(28px);
     transition:
       opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
       transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
-  [data-animate].is-visible {
-    opacity: 1;
-    transform: translateY(0);
+  [data-animate].not-yet-visible {
+    opacity: 0;
+    transform: translateY(28px);
   }
 
   /* ── Shared elements ── */

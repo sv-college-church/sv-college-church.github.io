@@ -25,18 +25,27 @@
     }
   }
 
-  /* Scroll animation base states — triggered by IntersectionObserver adding .is-visible */
+  /* Scroll animation base states — visible by default so content never disappears
+     without JS. The observer script (BaseLayout.astro) adds .not-yet-visible only to
+     elements confirmed to be below the fold at load, then swaps it for .is-visible
+     once they scroll into view. */
   [data-animate] {
-    opacity: 0;
-    transform: translateY(28px);
     transition:
       opacity 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94),
       transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
-  [data-animate].is-visible {
-    opacity: 1;
-    transform: translateY(0);
+  [data-animate].not-yet-visible {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-animate].not-yet-visible {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   [data-animate-delay='1'] {
