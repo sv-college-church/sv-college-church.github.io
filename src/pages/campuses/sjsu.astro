@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import klesisSjsu from '../../assets/images/campuses/logos/klesis-sjsu.png';
 import fourCorners from '../../assets/images/campuses/logos/4corners.png';
+import { CONNECT_GROUPS_LIVE } from '../../config/flags';
 ---
 
 <BaseLayout title="San José State | Silicon Valley College Church" description="Silicon Valley College Church at San José State University — campus ministry for SJSU students in San Jose.">
@@ -22,6 +23,13 @@ import fourCorners from '../../assets/images/campuses/logos/4corners.png';
       <span class="ww-banner-dates">Aug 15 – 23</span>
       <span class="ww-banner-arrow" aria-hidden="true">→</span>
     </a>
+
+    {CONNECT_GROUPS_LIVE && (
+      <a href="/campuses/sjsu/connect-groups" class="connect-groups-banner">
+        <span class="ww-banner-label">Sign Up for Connect Groups</span>
+        <span class="ww-banner-arrow" aria-hidden="true">→</span>
+      </a>
+    )}
 
     <section class="groups-section">
       <div class="group-col">
@@ -130,6 +138,25 @@ import fourCorners from '../../assets/images/campuses/logos/4corners.png';
     transition: background 0.15s ease;
   }
   .welcome-week-banner:hover { background: #f0b632; }
+
+  .connect-groups-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: transparent;
+    color: #E5A823;
+    text-decoration: none;
+    padding: 0.85rem 2rem;
+    font-family: 'Instrument Sans', sans-serif;
+    border-bottom: 1px solid rgba(229, 168, 35, 0.15);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .connect-groups-banner:hover { background: rgba(229, 168, 35, 0.08); color: #f4c860; }
+
+  @media (max-width: 480px) {
+    .connect-groups-banner { padding: 0.7rem 1.25rem; gap: 0.6rem; }
+  }
 
   .ww-banner-label {
     font-size: 0.85rem;

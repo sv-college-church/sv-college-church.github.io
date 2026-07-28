@@ -12,6 +12,10 @@ import svc13 from '../../../assets/images/community/svc-13.webp';
 import svc16 from '../../../assets/images/community/svc-16.webp';
 import laserTag from '../../../assets/images/community-new/laser-tag.jpg';
 import beachGroup from '../../../assets/images/community-new/beach-group.jpg';
+import { CONNECT_GROUPS_LIVE } from '../../../config/flags';
+
+const connectHref = CONNECT_GROUPS_LIVE ? '/campuses/sjsu/connect-groups' : '/connect';
+const connectLabel = CONNECT_GROUPS_LIVE ? 'Sign Up for Connect Groups' : 'Get Connected';
 
 const bgPhotos = await Promise.all(
   [laserTag, svc04, svc07, svc09, beachGroup, svc11, svc13, svc16].map((src) =>
@@ -119,7 +123,7 @@ const schedule = [
           Welcome, Class of 2030 — your mentors at Klesis can't wait to meet you. Sports, pizza, laser tag, and a bonfire: this is where it starts.
         </p>
         <div class="ww-ctas" data-animate data-animate-delay="4">
-          <a href="/connect" class="ww-btn ww-btn-primary">Get Connected</a>
+          <a href={connectHref} class="ww-btn ww-btn-primary">{connectLabel}</a>
           <a href="#schedule" class="ww-btn ww-btn-ghost">See the Schedule ↓</a>
         </div>
       </div>
@@ -155,6 +159,14 @@ const schedule = [
         </ol>
       </div>
     </section>
+
+    <!-- ── CLOSING CTA ── -->
+    {CONNECT_GROUPS_LIVE && (
+      <section class="ww-cta">
+        <p class="ww-cta-label" data-animate>Don't do freshman year alone.</p>
+        <a href="/campuses/sjsu/connect-groups" class="ww-btn ww-btn-primary ww-btn-large" data-animate data-animate-delay="1">Sign Up for Connect Groups</a>
+      </section>
+    )}
 
   </main>
 

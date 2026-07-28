@@ -1,0 +1,308 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/Nav.astro';
+import Footer from '../../../components/Footer.astro';
+import { CONNECT_GROUPS_LIVE } from '../../../config/flags';
+
+if (!CONNECT_GROUPS_LIVE) {
+  return Astro.redirect('/404', 404);
+}
+
+// DRAFT — groups are still forming, not yet publicly announced. Leads listed are provisional.
+const groups = [
+  {
+    leads: 'Sharon & Maggy',
+    consultant: null,
+    name: null,
+    idea: null,
+    format: null,
+  },
+  {
+    leads: 'SUPS-led Bros',
+    consultant: 'Jon & Tim',
+    name: null,
+    idea: null,
+    format: null,
+  },
+  {
+    leads: 'SUPS-led Sis',
+    consultant: 'Tran & Gabby',
+    name: null,
+    idea: null,
+    format: null,
+  },
+  {
+    leads: 'Justin & Estevan',
+    consultant: null,
+    name: null,
+    idea: null,
+    format: null,
+  },
+  {
+    leads: 'Jordan & Luc',
+    consultant: null,
+    name: 'Bible and Biceps',
+    idea: 'Bible and Biceps',
+    format: '4-week sprint + 5th-week PR session',
+  },
+];
+---
+
+<BaseLayout
+  title="Connect Groups | SJSU | Silicon Valley College Church"
+  description="Sign up for a Connect Group at San José State — small groups to grow in faith and friendship with your class."
+  noindex
+>
+  <Nav />
+
+  <main class="cg-main">
+
+    <!-- ── HERO ── -->
+    <section class="cg-hero">
+      <a href="/campuses/sjsu/welcome-week" class="cg-back-link">← Welcome Week</a>
+
+      <div class="cg-hero-content">
+        <p class="cg-eyebrow">SJSU · CONNECT GROUPS</p>
+        <h1 class="cg-title">Connect<br />Groups</h1>
+        <p class="cg-blurb">
+          Small groups of students, meeting weekly to grow in faith and friendship. Sign up now — groups form during Welcome Week.
+        </p>
+        <div class="cg-ctas">
+          <a href="/connect" class="cg-btn cg-btn-primary">Sign Up</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── GROUPS ── -->
+    <section class="cg-groups">
+      <div class="cg-groups-inner">
+        <p class="cg-section-label">Fall Groups — Draft</p>
+        <ol class="cg-list">
+          {groups.map((g) => (
+            <li class="cg-row">
+              <div class="cg-row-main">
+                <p class="cg-row-leads">{g.leads}</p>
+                {g.consultant && <p class="cg-row-consultant">Consultant: {g.consultant}</p>}
+                {g.name && <p class="cg-row-name">{g.name}</p>}
+              </div>
+              {g.format && <p class="cg-row-format">{g.format}</p>}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  body:has(.cg-main) { background: #003874 !important; }
+  body:has(.cg-main) { display: flex; flex-direction: column; min-height: 100svh; }
+
+  body:has(.cg-main) header.fixed { border-bottom: 1px solid rgba(229, 168, 35, 0.15); }
+  body:has(.cg-main) .nav-header::before { background: rgba(0, 40, 100, 0.96) !important; }
+  body:has(.cg-main) header.fixed nav a { color: rgba(255, 255, 255, 0.75) !important; }
+  body:has(.cg-main) header.fixed nav a:hover { color: #E5A823 !important; }
+  body:has(.cg-main) .hamburger-bar { background-color: rgba(255, 255, 255, 0.8) !important; }
+  body:has(.cg-main) .logo-main,
+  body:has(.cg-main) .logo-depth { filter: invert(1) brightness(1.1) !important; }
+
+  body:has(.cg-main) #mobile-menu nav { background: #002D6B !important; border-color: rgba(229, 168, 35, 0.15) !important; }
+  body:has(.cg-main) #mobile-menu a { color: rgba(255, 255, 255, 0.75) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
+
+  body:has(.cg-main) footer { background: #002D6B !important; border-color: rgba(229, 168, 35, 0.15) !important; }
+  body:has(.cg-main) footer p,
+  body:has(.cg-main) footer a { color: rgba(229, 168, 35, 0.85) !important; }
+  body:has(.cg-main) footer a:hover { color: #E5A823 !important; }
+  body:has(.cg-main) footer .network-logo { filter: none !important; }
+</style>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@1,350&display=swap');
+
+  .cg-main { flex: 1; display: flex; flex-direction: column; }
+
+  /* ── HERO ── */
+  .cg-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 60vh;
+    padding: 12rem 2rem 4rem;
+    border-bottom: 1px solid rgba(229, 168, 35, 0.15);
+  }
+
+  .cg-back-link {
+    position: absolute;
+    top: 9rem;
+    left: 2rem;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #E5A823;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .cg-back-link:hover { color: #f4c860; }
+
+  .cg-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 44rem;
+  }
+
+  .cg-eyebrow {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: rgba(229, 168, 35, 0.75);
+    margin-bottom: 1.25rem;
+  }
+
+  .cg-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(3rem, 9vw, 7.5rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.92;
+    color: #E5A823;
+  }
+
+  .cg-blurb {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.72);
+    max-width: 34ch;
+    margin-top: 1.5rem;
+  }
+
+  .cg-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .cg-btn {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    text-decoration: none;
+    padding: 0.9rem 2.25rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .cg-btn-primary {
+    background: #E5A823;
+    color: #003874;
+  }
+  .cg-btn-primary:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ── GROUPS ── */
+  .cg-groups {
+    padding: 5rem 2rem 6rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cg-groups-inner {
+    width: 100%;
+    max-width: 44rem;
+  }
+
+  .cg-section-label {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgba(229, 168, 35, 0.85);
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .cg-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid rgba(229, 168, 35, 0.18);
+  }
+
+  .cg-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.75rem 0.5rem;
+    border-bottom: 1px solid rgba(229, 168, 35, 0.18);
+  }
+
+  .cg-row-leads {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+    color: #F5F5F0;
+  }
+
+  .cg-row-consultant {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.55);
+    margin-top: 0.3rem;
+  }
+
+  .cg-row-name {
+    font-family: 'Bitter', Georgia, serif;
+    font-weight: 350;
+    font-style: italic;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: #E5A823;
+    margin-top: 0.4rem;
+  }
+
+  .cg-row-format {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .cg-hero { padding: 9rem 1.5rem 3rem; }
+    .cg-back-link { top: 6.5rem; left: 1.25rem; }
+
+    .cg-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+    .cg-row-format { text-align: left; }
+  }
+</style>

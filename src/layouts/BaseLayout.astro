@@ -8,6 +8,7 @@ interface Props {
   description: string;
   ogImage?: string;
   canonicalUrl?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   description,
   ogImage = '/images/og-image.png',
   canonicalUrl = Astro.url.href,
+  noindex = false,
 } = Astro.props;
 ---
 
@@ -29,6 +31,7 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <!-- Open Graph -->
     <meta property="og:locale" content="en_US" />
