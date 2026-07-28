@@ -2,22 +2,6 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Nav from '../../../components/Nav.astro';
 import Footer from '../../../components/Footer.astro';
-import { getImage } from 'astro:assets';
-
-import svc04 from '../../../assets/images/community/svc-04.webp';
-import svc07 from '../../../assets/images/community/svc-07.webp';
-import svc09 from '../../../assets/images/community/svc-09.webp';
-import svc11 from '../../../assets/images/community/svc-11.webp';
-import svc13 from '../../../assets/images/community/svc-13.webp';
-import svc16 from '../../../assets/images/community/svc-16.webp';
-import laserTag from '../../../assets/images/community-new/laser-tag.jpg';
-import beachGroup from '../../../assets/images/community-new/beach-group.jpg';
-
-const bgPhotos = await Promise.all(
-  [laserTag, svc04, svc07, svc09, beachGroup, svc11, svc13, svc16].map((src) =>
-    getImage({ src, width: 480, format: 'webp', quality: 45 })
-  )
-);
 
 // NOTE: times default to 6:00–9:00 PM per John except where overridden below.
 // Locations marked TBA are intentional — to be chosen later.
@@ -101,14 +85,6 @@ const schedule = [
 
     <!-- ── HERO ── -->
     <section class="ww-hero">
-      <div class="ww-photo-strip" aria-hidden="true">
-        <div class="ww-photo-track">
-          {bgPhotos.map((img) => <img src={img.src} alt="" loading="lazy" class="ww-photo-img" />)}
-          {bgPhotos.map((img) => <img src={img.src} alt="" loading="lazy" class="ww-photo-img" />)}
-        </div>
-        <div class="ww-photo-overlay"></div>
-      </div>
-
       <a href="/campuses/sjsu" class="ww-back-link">← San José State</a>
 
       <div class="ww-hero-content">
@@ -203,56 +179,6 @@ const schedule = [
     padding: 12rem 2rem 5rem;
     overflow: hidden;
     border-bottom: 1px solid rgba(229, 168, 35, 0.15);
-  }
-
-  .ww-photo-strip {
-    position: absolute;
-    top: 128px;
-    left: 0;
-    right: 0;
-    height: clamp(180px, 26vw, 360px);
-    overflow: hidden;
-    opacity: 0.4;
-    pointer-events: none;
-    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
-      linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
-    mask-composite: intersect;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
-      linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
-    -webkit-mask-composite: source-in;
-  }
-
-  .ww-photo-track {
-    display: flex;
-    gap: 12px;
-    height: 100%;
-    width: max-content;
-    animation: wwScroll 46s linear infinite;
-  }
-
-  .ww-photo-img {
-    height: 100%;
-    width: auto;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
-    border-radius: 6px;
-    filter: grayscale(0.5) brightness(0.85);
-    flex-shrink: 0;
-  }
-
-  .ww-photo-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0, 56, 116, 0.55), rgba(0, 56, 116, 0.85));
-  }
-
-  @keyframes wwScroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  @media (max-width: 768px) {
-    .ww-photo-strip { top: 80px; height: 140px; opacity: 0.3; }
   }
 
   .ww-back-link {
