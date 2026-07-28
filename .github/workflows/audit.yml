@@ -72,7 +72,17 @@ jobs:
               const page = await context.newPage();
               await page.goto('http://localhost:4321' + path, { waitUntil: 'load' });
 
-              const results = await new AxeBuilder({ page }).analyze();
+              // Let the [data-animate] scroll-reveal transitions settle before
+              // scanning — otherwise axe can sample colors mid-fade and report
+              // false-positive contrast failures on below-the-fold content.
+              await page.waitForTimeout(1500);
+
+              // The embedded Google Form on /connect injects its own markup
+              // (including a heading-order quirk) inside this iframe — that's
+              // Google's DOM, not ours, so it's excluded from the scan.
+              const results = await new AxeBuilder({ page })
+                .exclude('#connect-form')
+                .analyze();
 
               if (results.violations.length > 0) {
                 failed = true;
