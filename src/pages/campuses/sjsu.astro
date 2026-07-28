@@ -17,6 +17,12 @@ import fourCorners from '../../assets/images/campuses/logos/4corners.png';
       <h1 class="school-name">San José State<br/>University</h1>
     </section>
 
+    <a href="/campuses/sjsu/welcome-week" class="welcome-week-banner">
+      <span class="ww-banner-label">Welcome Week</span>
+      <span class="ww-banner-dates">Aug 15 – 23</span>
+      <span class="ww-banner-arrow" aria-hidden="true">→</span>
+    </a>
+
     <section class="groups-section">
       <div class="group-col">
         <Image src={klesisSjsu} alt="Klesis SJSU" class="group-logo" />
@@ -109,6 +115,44 @@ import fourCorners from '../../assets/images/campuses/logos/4corners.png';
     letter-spacing: -0.01em;
     line-height: 0.9;
     color: #E5A823;
+  }
+
+  .welcome-week-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: #E5A823;
+    color: #003874;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    font-family: 'Instrument Sans', sans-serif;
+    transition: background 0.15s ease;
+  }
+  .welcome-week-banner:hover { background: #f0b632; }
+
+  .ww-banner-label {
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+
+  .ww-banner-dates {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .ww-banner-arrow {
+    font-weight: 700;
+  }
+
+  @media (max-width: 480px) {
+    .welcome-week-banner { padding: 0.85rem 1.25rem; gap: 0.6rem; }
+    .ww-banner-label { font-size: 0.7rem; }
+    .ww-banner-dates { font-size: 0.95rem; }
   }
 
   .groups-section {
