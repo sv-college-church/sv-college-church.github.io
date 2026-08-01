@@ -204,6 +204,15 @@ const svcLogo = '/images/svc-logo.svg';
     nav.flex       { height: 5rem; }   /* 80px instead of 128px */
     .logo-main     { height: 4rem; }   /* match mobile logo size */
     .logo-depth    { height: 4rem; }
+
+    /* Keep hover emojis inside the compressed nav — default -top-8 clears the viewport top */
+    #church-cross,
+    #connect-emoji,
+    #about-emoji,
+    .campus-emoji {
+      top: -1.25rem;
+      font-size: 1rem; /* text-base — scale(1.2) peak still fits */
+    }
   }
 
   /* Hamburger → X */
