@@ -4,7 +4,6 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import momentLogo from '../../assets/images/campuses/logos/moment.png';
-import momentIntl from '../../assets/images/campuses/logos/moment-intl.png';
 ---
 
 <BaseLayout title="Stanford | Silicon Valley College Church" description="Silicon Valley College Church at Stanford University — campus ministry for Stanford students in Palo Alto.">
@@ -14,23 +13,25 @@ import momentIntl from '../../assets/images/campuses/logos/moment-intl.png';
 
     <section class="hero-section" style="view-transition-name: campus-stanford">
       <a href="/campuses" class="back-link">← Campuses</a>
+      <Image src={momentLogo} alt="Moment" class="hero-logo" />
+      <p class="hero-fellowship">Moment</p>
       <h1 class="school-name">Stanford<br/>University</h1>
     </section>
 
-    <section class="groups-section">
-      <div class="group-col">
-        <Image src={momentLogo} alt="Moment Stanford" class="group-logo" />
-        <p class="group-label">Moment · Stanford</p>
-        <p class="group-body">A Christian fellowship for Stanford students built around community, Bible study, and discipleship. Modeled after the Acts 2 church and open to all.</p>
-        <a href="https://www.instagram.com/moment.stanford/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
+    <section class="info-grid">
+      <div class="info-col">
+        <h2 class="info-label">Established</h2>
+        <p class="info-value">2021</p>
       </div>
-      <div class="col-divider" aria-hidden="true"></div>
-      <div class="group-col">
-        <Image src={momentIntl} alt="Moment International" class="group-logo" />
-        <p class="group-label">Moment International · Stanford</p>
-        <p class="group-body">Moment International reaches international students at Stanford with the gospel — a community for those navigating a new country and a new chapter of life.</p>
-        <a href="https://www.instagram.com/moment.intl/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
+      <div class="info-col">
+        <h2 class="info-label">Events</h2>
+        <a href="https://www.instagram.com/moment.stanford/" target="_blank" rel="noopener noreferrer" class="events-btn">Instagram ↗</a>
       </div>
+    </section>
+
+    <section class="about-section">
+      <h2 class="info-label">About</h2>
+      <p class="about-body">Moment reaches international students at Stanford with the gospel — a community for those navigating a new country and a new chapter of life.</p>
     </section>
 
   </main>
@@ -83,7 +84,6 @@ import momentIntl from '../../assets/images/campuses/logos/moment-intl.png';
     min-height: 40vh;
     padding: 12rem 2rem 4rem;
     position: relative;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
 
   .back-link {
@@ -95,11 +95,30 @@ import momentIntl from '../../assets/images/campuses/logos/moment-intl.png';
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgba(255,255,255,0.7);
+    color: rgba(210,194,149,0.85);
     text-decoration: none;
     transition: color 0.2s ease;
   }
-  .back-link:hover { color: #ffffff; }
+  .back-link:hover { color: #D2C295; }
+
+  .hero-logo {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.45;
+    filter: invert(1);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-fellowship {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 1.25rem;
+  }
 
   .school-name {
     font-family: 'Unbounded', sans-serif;
@@ -108,85 +127,92 @@ import momentIntl from '../../assets/images/campuses/logos/moment-intl.png';
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 0.9;
-    color: #ffffff;
+    color: #D2C295;
   }
 
-  .groups-section {
-    flex: 1;
+  .info-grid {
     display: grid;
-    grid-template-columns: 1fr 1px 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1rem 3rem 2rem;
   }
 
-  .col-divider {
-    background: rgba(255,255,255,0.1);
-    align-self: stretch;
-  }
-
-  .group-col {
+  .info-col {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
-    padding: 5rem 3rem;
-    gap: 1.25rem;
+    padding: 3rem 2rem;
+    gap: 1rem;
   }
 
-  .group-logo {
-    height: 52px;
-    width: auto;
-    object-fit: contain;
-    opacity: 0.55;
-    filter: invert(1);
-    margin-bottom: 0.25rem;
-  }
-
-  .group-label {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.62rem;
-    font-weight: 700;
+  .info-label {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+    font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: rgba(255,255,255,0.75);
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: #D2C295;
+    margin: 0;
   }
 
-  .group-body {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
-    font-weight: 500;
-    line-height: 1.8;
-    color: rgba(255,255,255,0.6);
-    max-width: 36ch;
+  .info-value {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1;
+    color: #ffffff;
   }
 
-  .group-link {
+  .events-btn {
     display: inline-block;
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.72rem;
+    font-size: 0.78rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.2em;
     color: #6B0F0F;
     background: #ffffff;
     text-decoration: none;
-    padding: 0.75rem 2.25rem;
-    margin-top: 0.75rem;
+    padding: 0.85rem 2.5rem;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .group-link:hover {
+  .events-btn:hover {
     transform: scale(1.04);
     box-shadow: 0 6px 24px rgba(0,0,0,0.3);
   }
 
-  @media (max-width: 640px) {
-    .groups-section {
+  .about-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+    padding: 4rem 3rem 7rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin: 0 3rem;
+  }
+
+  .about-body {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.6);
+    max-width: 62ch;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .info-grid {
       grid-template-columns: 1fr;
-      grid-template-rows: auto 1px auto;
+      padding: 0 2rem 1rem;
     }
-    .col-divider {
-      width: 100%;
-      height: 1px;
+    .info-col { padding: 2rem 1rem; }
+    .about-section {
+      padding: 3rem 2rem 4rem;
+      margin: 0 2rem;
     }
-    .group-col { padding: 3.5rem 2rem; }
   }
 </style>
