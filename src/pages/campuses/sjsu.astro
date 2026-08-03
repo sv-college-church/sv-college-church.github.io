@@ -6,9 +6,99 @@ import { Image } from 'astro:assets';
 import klesisSjsu from '../../assets/images/campuses/logos/klesis-sjsu.png';
 import fourCorners from '../../assets/images/campuses/logos/4corners.png';
 import { CONNECT_GROUPS_LIVE } from '../../config/flags';
+
+const pageUrl = new URL('/campuses/sjsu', Astro.site).href;
+const sundayLocation = 'Horace Mann Elementary School, 55 N 7th St, San Jose, CA 95112';
+
+const faqs = [
+  {
+    q: 'Is there a Christian club at SJSU?',
+    a: 'Yes. Klesis Christian Fellowship and 4Corners Christian Fellowship are both officially recognized student organizations at San José State, and both are part of Silicon Valley College Church. Klesis is open to every student on campus. 4Corners is built around international students.',
+  },
+  {
+    q: 'Where can I find a Bible study near San José State?',
+    a: `Klesis and 4Corners read the Bible together in small groups on and around campus during the week, and the whole church gathers on Sundays at 12 PM at ${sundayLocation}, a short walk from campus. Weekly times are posted on each club's Instagram.`,
+  },
+  {
+    q: 'Do I have to be a Christian to come?',
+    a: 'No. Both clubs are open to any SJSU student, including students who are not Christian and students who are still working out what they believe. Nobody has to sign anything or believe anything to show up.',
+  },
+  {
+    q: 'How much does it cost to join?',
+    a: 'Nothing. There are no dues and no membership fee. Most weeks there is free food.',
+  },
+  {
+    q: 'How do I get connected during Welcome Week?',
+    a: 'Welcome Week at SJSU runs August 15 to 23, with sports, pizza, laser tag, a frosh BBQ, and a bonfire. The full schedule is on the Welcome Week page, and no sign-up is needed for the open campus events.',
+    link: { href: '/campuses/sjsu/welcome-week', text: 'See the Welcome Week schedule' },
+  },
+];
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+      { '@type': 'ListItem', position: 2, name: 'Campuses', item: new URL('/campuses', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: 'San José State University', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${pageUrl}#klesis`,
+    name: 'Klesis Christian Fellowship at SJSU',
+    alternateName: ['Klesis SJSU', 'Klesis Christian Fellowship'],
+    description:
+      'A Christian club and campus fellowship for students at San José State University, part of Silicon Valley College Church. Open to all students.',
+    url: pageUrl,
+    sameAs: ['https://www.instagram.com/klesis_sjsu/'],
+    parentOrganization: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
+    areaServed: { '@type': 'CollegeOrUniversity', name: 'San José State University' },
+    location: {
+      '@type': 'Place',
+      name: 'San José State University',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '1 Washington Sq',
+        addressLocality: 'San Jose',
+        addressRegion: 'CA',
+        postalCode: '95192',
+        addressCountry: 'US',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${pageUrl}#4corners`,
+    name: '4Corners Christian Fellowship at SJSU',
+    alternateName: ['4Corners SJSU', 'Four Corners SJSU'],
+    description:
+      'A Christian fellowship for international students at San José State University, part of Silicon Valley College Church.',
+    url: pageUrl,
+    sameAs: ['https://www.instagram.com/4corners_sjsu/'],
+    parentOrganization: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
+    areaServed: { '@type': 'CollegeOrUniversity', name: 'San José State University' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
 ---
 
-<BaseLayout title="San José State | Silicon Valley College Church" description="Silicon Valley College Church at San José State University — campus ministry for SJSU students in San Jose.">
+<BaseLayout
+  title="Klesis SJSU | Christian Club & Bible Study at San José State"
+  description="Klesis and 4Corners are Christian clubs at San José State University. Bible study, free food, and real friendships for SJSU students. Everyone is welcome."
+  structuredData={structuredData}
+>
   <Nav />
 
   <main>
@@ -16,6 +106,7 @@ import { CONNECT_GROUPS_LIVE } from '../../config/flags';
     <section class="hero-section" style="view-transition-name: campus-sjsu">
       <a href="/campuses" class="back-link">← Campuses</a>
       <h1 class="school-name">San José State<br/>University</h1>
+      <p class="hero-tagline">Christian clubs, Bible study, and community for SJSU students</p>
     </section>
 
     <a href="/campuses/sjsu/welcome-week" class="welcome-week-banner">
@@ -33,18 +124,51 @@ import { CONNECT_GROUPS_LIVE } from '../../config/flags';
 
     <section class="groups-section">
       <div class="group-col">
-        <Image src={klesisSjsu} alt="Klesis SJSU" class="group-logo" />
-        <p class="group-label">Klesis · SJSU</p>
-        <p class="group-body">Klesis SJSU is a place for friendships, purpose, sports, nerf battles, investigating the Christian faith, and being there for one another. Modeled after the Acts 2 church and open to all students regardless of background.</p>
+        <Image src={klesisSjsu} alt="Klesis Christian Fellowship logo, San José State University" class="group-logo" />
+        <h2 class="group-label">Klesis Christian Fellowship · SJSU</h2>
+        <p class="group-body">Klesis is a Christian club at San José State built for friendships, purpose, sports, nerf battles, investigating the Christian faith, and being there for one another. It is modeled after the Acts 2 church and open to every SJSU student, whatever you believe right now.</p>
         <a href="https://www.instagram.com/klesis_sjsu/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
       </div>
       <div class="col-divider" aria-hidden="true"></div>
       <div class="group-col">
-        <Image src={fourCorners} alt="4Corners" class="group-logo" />
-        <p class="group-label">4Corners · SJSU</p>
-        <p class="group-body">4Corners is a fellowship for international students at SJSU — a place to find community, explore the Christian faith, and feel at home in a new country. Open to all international and domestic students.</p>
+        <Image src={fourCorners} alt="4Corners Christian Fellowship logo, San José State University" class="group-logo" />
+        <h2 class="group-label">4Corners Christian Fellowship · SJSU</h2>
+        <p class="group-body">4Corners is a fellowship for international students at SJSU. It is a place to find community, explore the Christian faith, and feel at home in a new country. International and domestic students are both welcome.</p>
         <a href="https://www.instagram.com/4corners_sjsu/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
       </div>
+    </section>
+
+    <section class="facts-section">
+      <h2 class="section-heading">Christian life at San José State</h2>
+      <div class="facts-grid">
+        <div class="fact">
+          <p class="fact-label">Recognized student orgs</p>
+          <p class="fact-body">Klesis Christian Fellowship and 4Corners Christian Fellowship are both officially recognized student organizations at San José State.</p>
+        </div>
+        <div class="fact">
+          <p class="fact-label">Sundays together</p>
+          <p class="fact-body">The whole church gathers Sundays at 12 PM at Horace Mann Elementary School, 55 N 7th St, a short walk from campus. <a href="/gather">See the Sunday gathering</a>.</p>
+        </div>
+        <div class="fact">
+          <p class="fact-label">What it costs</p>
+          <p class="fact-body">Nothing. No dues, no membership, no sign-up to visit. Most weeks there is free food. <a href="/connect">Get connected</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2 class="section-heading">Common questions from SJSU students</h2>
+      <dl class="faq-list">
+        {faqs.map((f) => (
+          <div class="faq-item">
+            <dt class="faq-q">{f.q}</dt>
+            <dd class="faq-a">
+              {f.a}
+              {f.link && <> <a href={f.link.href}>{f.link.text}</a>.</>}
+            </dd>
+          </div>
+        ))}
+      </dl>
     </section>
 
   </main>
@@ -123,6 +247,16 @@ import { CONNECT_GROUPS_LIVE } from '../../config/flags';
     letter-spacing: -0.01em;
     line-height: 0.9;
     color: #E5A823;
+  }
+
+  .hero-tagline {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    font-weight: 500;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 56ch;
+    margin-top: 1.5rem;
   }
 
   .welcome-week-banner {
@@ -249,6 +383,100 @@ import { CONNECT_GROUPS_LIVE } from '../../config/flags';
     box-shadow: 0 6px 24px rgba(0,0,0,0.3);
   }
 
+  /* ── FACTS + FAQ ── */
+  .section-heading {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.2rem, 2.6vw, 1.9rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    color: #E5A823;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .facts-section,
+  .faq-section {
+    padding: 5rem 2rem;
+    border-top: 1px solid rgba(229, 168, 35, 0.15);
+  }
+
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    max-width: 62rem;
+    margin: 0 auto;
+  }
+
+  .fact-label {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: rgba(229, 168, 35, 0.9);
+    margin-bottom: 0.9rem;
+  }
+
+  .fact-body {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .fact-body a {
+    color: #E5A823;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    text-decoration-color: rgba(229, 168, 35, 0.4);
+    transition: text-decoration-color 0.2s ease;
+  }
+  .fact-body a:hover { text-decoration-color: #E5A823; }
+
+  .faq-list {
+    max-width: 46rem;
+    margin: 0 auto;
+    border-top: 1px solid rgba(229, 168, 35, 0.18);
+  }
+
+  .faq-item {
+    padding: 1.75rem 0;
+    border-bottom: 1px solid rgba(229, 168, 35, 0.18);
+  }
+
+  .faq-q {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    font-weight: 800;
+    color: #F5F5F0;
+  }
+
+  .faq-a {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.62);
+    margin-top: 0.6rem;
+  }
+
+  .faq-a a {
+    color: #E5A823;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    text-decoration-color: rgba(229, 168, 35, 0.4);
+    transition: text-decoration-color 0.2s ease;
+  }
+  .faq-a a:hover { text-decoration-color: #E5A823; }
+
+  @media (max-width: 860px) {
+    .facts-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+
   @media (max-width: 640px) {
     .groups-section {
       grid-template-columns: 1fr;
@@ -259,5 +487,9 @@ import { CONNECT_GROUPS_LIVE } from '../../config/flags';
       height: 1px;
     }
     .group-col { padding: 3.5rem 2rem; }
+
+    .facts-section,
+    .faq-section { padding: 3.5rem 1.5rem; }
+    .section-heading { margin-bottom: 2rem; }
   }
 </style>

@@ -26,6 +26,9 @@ const bgPhotos = await Promise.all(
 // NOTE: times default to 6:00–9:00 PM per John except where overridden below.
 // Locations marked TBA are intentional — to be chosen later.
 const horaceMannMapUrl = 'https://maps.app.goo.gl/62onxaD35UY9wsYT6';
+
+// `start`/`end` are ISO-8601 with the Pacific offset, used only for the Event
+// JSON-LD below. The visible schedule still renders from `date`/`time`.
 const schedule = [
   {
     day: 'SAT',
@@ -35,6 +38,8 @@ const schedule = [
     location: 'Washburn Hall',
     note: null,
     time: '5:30 – 7:30 PM',
+    start: '2026-08-15T17:30:00-07:00',
+    end: '2026-08-15T19:30:00-07:00',
   },
   {
     day: 'SUN',
@@ -45,6 +50,8 @@ const schedule = [
     mapUrl: horaceMannMapUrl,
     note: null,
     time: '12:00 – 1:30 PM',
+    start: '2026-08-16T12:00:00-07:00',
+    end: '2026-08-16T13:30:00-07:00',
   },
   {
     day: 'MON',
@@ -52,8 +59,10 @@ const schedule = [
     name: 'Laser Tag & Floats',
     sub: 'Event Center',
     location: 'SJSU Event Center',
-    note: 'Open campus space — no sign-up, just show up',
+    note: 'Open campus space, no sign-up, show up',
     time: '7:30 – 9:30 PM',
+    start: '2026-08-17T19:30:00-07:00',
+    end: '2026-08-17T21:30:00-07:00',
   },
   {
     day: 'TUE',
@@ -63,6 +72,8 @@ const schedule = [
     location: 'The Place',
     note: null,
     time: '6:00 – 8:00 PM',
+    start: '2026-08-18T18:00:00-07:00',
+    end: '2026-08-18T20:00:00-07:00',
   },
   {
     day: 'WED',
@@ -72,6 +83,8 @@ const schedule = [
     location: 'SU Room 3',
     note: null,
     time: '6:30 – 8:30 PM',
+    start: '2026-08-19T18:30:00-07:00',
+    end: '2026-08-19T20:30:00-07:00',
   },
   {
     day: 'FRI',
@@ -81,6 +94,8 @@ const schedule = [
     location: 'TBA',
     note: null,
     time: '5:30 – 7:30 PM',
+    start: '2026-08-21T17:30:00-07:00',
+    end: '2026-08-21T19:30:00-07:00',
   },
   {
     day: 'SUN',
@@ -91,13 +106,89 @@ const schedule = [
     mapUrl: horaceMannMapUrl,
     note: null,
     time: '12:00 – 1:30 PM',
+    start: '2026-08-23T12:00:00-07:00',
+    end: '2026-08-23T13:30:00-07:00',
   },
+];
+
+const pageUrl = new URL('/campuses/sjsu/welcome-week', Astro.site).href;
+
+const sjsuPlace = {
+  '@type': 'Place',
+  name: 'San José State University',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '1 Washington Sq',
+    addressLocality: 'San Jose',
+    addressRegion: 'CA',
+    postalCode: '95192',
+    addressCountry: 'US',
+  },
+};
+
+const horaceMannPlace = {
+  '@type': 'Place',
+  name: 'Horace Mann Elementary School',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '55 N 7th St',
+    addressLocality: 'San Jose',
+    addressRegion: 'CA',
+    postalCode: '95112',
+    addressCountry: 'US',
+  },
+};
+
+const organizer = {
+  '@type': 'Organization',
+  name: 'Klesis Christian Fellowship at SJSU',
+  url: new URL('/campuses/sjsu', Astro.site).href,
+};
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+      { '@type': 'ListItem', position: 2, name: 'Campuses', item: new URL('/campuses', Astro.site).href },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'San José State University',
+        item: new URL('/campuses/sjsu', Astro.site).href,
+      },
+      { '@type': 'ListItem', position: 4, name: 'Welcome Week', item: pageUrl },
+    ],
+  },
+  ...schedule.map((ev) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: `${ev.name} · SJSU Welcome Week`,
+    description: `${ev.sub}. Part of Welcome Week at San José State University, hosted by Klesis and Silicon Valley College Church.`,
+    startDate: ev.start,
+    endDate: ev.end,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    location: ev.location === 'Horace Mann' ? horaceMannPlace : sjsuPlace,
+    organizer,
+    url: pageUrl,
+    isAccessibleForFree: true,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+    },
+  })),
 ];
 ---
 
 <BaseLayout
-  title="Welcome Week | SJSU | Silicon Valley College Church"
-  description="Welcome Week at San José State — a week of events from move-in through the first Sunday, hosted by Silicon Valley College Church."
+  title="SJSU Welcome Week 2026 | Klesis Christian Fellowship Events"
+  description="Welcome Week at San José State, August 15 to 23, 2026. Sports, pizza, laser tag, a frosh BBQ, and a bonfire with Klesis and Silicon Valley College Church. Free, no sign-up."
+  structuredData={structuredData}
 >
   <Nav />
 
@@ -120,7 +211,7 @@ const schedule = [
         <h1 class="ww-title" data-animate data-animate-delay="1">Welcome<br />Week</h1>
         <p class="ww-dates" data-animate data-animate-delay="2">August 15 – 23</p>
         <p class="ww-blurb" data-animate data-animate-delay="3">
-          Welcome, Class of 2030 — your mentors at Klesis can't wait to meet you. Sports, pizza, laser tag, and a bonfire: this is where it starts.
+          Welcome, Class of 2030. Your mentors at Klesis can't wait to meet you. Sports, pizza, laser tag, and a bonfire at San José State: this is where it starts.
         </p>
         <div class="ww-ctas" data-animate data-animate-delay="4">
           <a href={connectHref} class="ww-btn ww-btn-primary">{connectLabel}</a>

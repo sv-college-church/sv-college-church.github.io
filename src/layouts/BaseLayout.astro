@@ -9,6 +9,11 @@ interface Props {
   ogImage?: string;
   canonicalUrl?: string;
   noindex?: boolean;
+  /**
+   * Extra JSON-LD blocks for this page (breadcrumbs, events, FAQs, campus orgs).
+   * Rendered after the sitewide Church schema, one <script> per entry.
+   */
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
@@ -17,7 +22,14 @@ const {
   ogImage = '/images/og-image.png',
   canonicalUrl = Astro.url.href,
   noindex = false,
+  structuredData,
 } = Astro.props;
+
+const extraSchemas = structuredData
+  ? Array.isArray(structuredData)
+    ? structuredData
+    : [structuredData]
+  : [];
 ---
 
 <!doctype html>
@@ -31,7 +43,11 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {noindex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    )}
 
     <!-- Open Graph -->
     <meta property="og:locale" content="en_US" />
@@ -72,6 +88,19 @@ const {
         "https://www.instagram.com/sv.collegechurch",
         "https://open.spotify.com/show/22GK3NSUnfEpNWD7GC9GmM"
       ],
+      "areaServed": [
+        "San Jose, CA",
+        "Santa Clara, CA",
+        "Palo Alto, CA",
+        "Cupertino, CA",
+        "Santa Cruz, CA"
+      ],
+      "knowsAbout": [
+        "College ministry",
+        "Campus ministry",
+        "Christian student clubs",
+        "Bible study"
+      ],
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "2346 Walsh Ave",
@@ -87,6 +116,10 @@ const {
         "closes": "14:00"
       }
     })} />
+
+    {extraSchemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
 
     <ViewTransitions />
   </head>
