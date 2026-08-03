@@ -4,18 +4,50 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
+
+const pageUrl = new URL('/campuses/ucsc', Astro.site).href;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+      { '@type': 'ListItem', position: 2, name: 'Campuses', item: new URL('/campuses', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: 'UC Santa Cruz', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${pageUrl}#klesis`,
+    name: 'Klesis Christian Fellowship at UC Santa Cruz',
+    alternateName: 'Klesis UCSC',
+    description: 'A Christian fellowship at UC Santa Cruz, open to all incoming and current UCSC students. Part of Silicon Valley College Church.',
+    url: pageUrl,
+    sameAs: ['https://www.instagram.com/klesis.ucsc/'],
+    parentOrganization: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
+    areaServed: { '@type': 'CollegeOrUniversity', name: 'UC Santa Cruz' },
+    foundingDate: '2015',
+  },
+];
 ---
 
-<BaseLayout title="UC Santa Cruz | Silicon Valley College Church" description="Silicon Valley College Church at UC Santa Cruz — campus ministry for UCSC students in Santa Cruz.">
+<BaseLayout
+  title="Klesis UCSC | Christian Fellowship & Bible Study at UC Santa Cruz"
+  description="Klesis is a Christian fellowship at UC Santa Cruz. Bible study and community, open to all UCSC students, Christian or not."
+  structuredData={structuredData}
+>
   <Nav />
 
   <main>
 
     <section class="hero-section" style="view-transition-name: campus-ucsc">
       <a href="/campuses" class="back-link">← Campuses</a>
-      <Image src={klesisUcsc} alt="Klesis UCSC" class="hero-logo" />
+      <Image src={klesisUcsc} alt="Klesis Christian Fellowship logo, UC Santa Cruz" class="hero-logo" />
       <p class="hero-fellowship">Klesis</p>
       <h1 class="school-name">UC Santa Cruz</h1>
+      <p class="hero-tagline">A Christian fellowship and Bible study at UC Santa Cruz</p>
     </section>
 
     <section class="info-grid">
@@ -25,7 +57,7 @@ import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
       </div>
       <div class="info-col">
         <h2 class="info-label">About</h2>
-        <p class="info-value">Coming soon</p>
+        <p class="about-value">Open to all incoming and current UCSC students, Christian or not.</p>
       </div>
       <div class="info-col">
         <h2 class="info-label">Events</h2>
@@ -127,6 +159,24 @@ import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
     letter-spacing: 0.3em;
     color: rgba(255,255,255,0.7);
     margin-bottom: 1.25rem;
+  }
+
+  .hero-tagline {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    font-weight: 500;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 56ch;
+    margin-top: 1.5rem;
+  }
+
+  .about-value {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.9rem, 1.3vw, 1rem);
+    font-weight: 500;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.7);
   }
 
   .info-grid {

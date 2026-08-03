@@ -4,9 +4,40 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
+
+const pageUrl = new URL('/campuses/deanza', Astro.site).href;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+      { '@type': 'ListItem', position: 2, name: 'Campuses', item: new URL('/campuses', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: 'De Anza College', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${pageUrl}#ismp`,
+    name: 'ISMP at De Anza College',
+    alternateName: 'International Student Mentorship Program',
+    description: 'A mentorship program for international students at De Anza College, offering workshops and small group or personal mentorship on English skills, study habits, and personal development. Content is largely non-religious and open to all backgrounds.',
+    url: pageUrl,
+    sameAs: ['https://internationalmentorship.org/deanza'],
+    parentOrganization: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
+    areaServed: { '@type': 'CollegeOrUniversity', name: 'De Anza College' },
+    foundingDate: '2025',
+  },
+];
 ---
 
-<BaseLayout title="De Anza | Silicon Valley College Church" description="Silicon Valley College Church at De Anza College — campus ministry for De Anza students in Cupertino.">
+<BaseLayout
+  title="ISMP at De Anza | International Student Mentorship Program"
+  description="ISMP offers mentorship for international students at De Anza College: English skills, study habits, and personal development. Open to all backgrounds."
+  structuredData={structuredData}
+>
   <Nav />
 
   <main>
@@ -16,6 +47,7 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
       <Image src={ismpLogo} alt="ISMP" class="hero-logo" />
       <p class="hero-fellowship">ISMP</p>
       <h1 class="school-name">De Anza<br/>Community College</h1>
+      <p class="hero-tagline">Mentorship for international students at De Anza College</p>
     </section>
 
     <section class="info-grid">
@@ -119,6 +151,16 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     letter-spacing: 0.3em;
     color: rgba(255,255,255,0.7);
     margin-bottom: 1.25rem;
+  }
+
+  .hero-tagline {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    font-weight: 500;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 56ch;
+    margin-top: 1.5rem;
   }
 
   .school-name {
