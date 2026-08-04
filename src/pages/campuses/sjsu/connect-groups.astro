@@ -84,17 +84,19 @@ const groups = [
       <p class="cg-section-label">Fall Groups — Draft</p>
       <div class="cg-grid">
         {groups.map((g) => (
-          <div class="cg-card">
-            <Image src={g.photo} alt={`${g.name} — ${g.leads}`} class="cg-card-photo" width={640} height={640} />
-            <p class="cg-card-name">{g.name}</p>
-            <p class="cg-card-leads">{g.leads}</p>
-            {g.consultant && <p class="cg-card-consultant">Consultant: {g.consultant}</p>}
-            <p class="cg-card-time">{g.meetingTime}</p>
-            <p class:list={['cg-card-blurb', { 'is-placeholder': !g.blurb }]}>
-              {g.blurb ?? 'Blurb coming soon.'}
+          <div class="cg-col">
+            <Image src={g.photo} alt={`${g.name} — ${g.leads}`} class="cg-photo" width={480} height={480} />
+            <h2 class="cg-label">{g.name} · {g.leads}</h2>
+            {g.consultant && <p class="cg-consultant">Consultant: {g.consultant}</p>}
+            <p class="cg-body">
+              {g.meetingTime}
+              {' — '}
+              <span class:list={{ 'is-placeholder': !g.blurb }}>{g.blurb ?? 'Blurb coming soon.'}</span>
             </p>
           </div>
         ))}
+        <div class="cg-divider-v" aria-hidden="true"></div>
+        <div class="cg-divider-h" aria-hidden="true"></div>
       </div>
     </section>
 
@@ -212,10 +214,8 @@ const groups = [
 
   /* ── GROUPS ── */
   .cg-groups {
-    padding: 5rem 2rem 6rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding-top: 5rem;
+    border-top: 1px solid rgba(10, 10, 10, 0.08);
   }
 
   .cg-section-label {
@@ -231,85 +231,92 @@ const groups = [
 
   .cg-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 44rem;
+    grid-template-columns: 1fr 1px 1fr;
+    grid-template-rows: auto 1px auto;
   }
 
-  .cg-card {
+  .cg-col {
     display: flex;
     flex-direction: column;
-    padding: 1.25rem;
-    background: #ffffff;
-    border: 1px solid rgba(10, 10, 10, 0.08);
-    border-radius: 14px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 3rem;
+    gap: 1.25rem;
   }
 
-  .cg-card-photo {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
+  .cg-col:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .cg-col:nth-child(2) { grid-column: 3; grid-row: 1; }
+  .cg-col:nth-child(3) { grid-column: 1; grid-row: 3; }
+  .cg-col:nth-child(4) { grid-column: 3; grid-row: 3; }
+
+  .cg-divider-v {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    background: rgba(10, 10, 10, 0.08);
+  }
+
+  .cg-divider-h {
+    grid-column: 1 / 4;
+    grid-row: 2;
+    background: rgba(10, 10, 10, 0.08);
+  }
+
+  .cg-photo {
+    height: 96px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 0.25rem;
     border-radius: 10px;
   }
 
-  .cg-card-name {
-    font-family: 'Bitter', Georgia, serif;
-    font-weight: 350;
-    font-style: italic;
-    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
-    color: #004A8A;
-    margin-top: 0.9rem;
-  }
-
-  .cg-card-leads {
+  .cg-label {
     font-family: 'Instrument Sans', sans-serif;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 0.8rem;
-    color: #1A1A1A;
-    margin-top: 0.3rem;
-  }
-
-  .cg-card-consultant {
-    font-family: 'Instrument Sans', sans-serif;
-    font-weight: 500;
-    font-size: 0.85rem;
-    color: rgba(10, 10, 10, 0.55);
-    margin-top: 0.5rem;
-  }
-
-  .cg-card-time {
-    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.62rem;
     font-weight: 700;
-    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.22em;
     color: #805E13;
-    margin-top: 0.75rem;
   }
 
-  .cg-card-blurb {
+  .cg-consultant {
     font-family: 'Instrument Sans', sans-serif;
-    font-weight: 500;
     font-size: 0.85rem;
-    line-height: 1.6;
-    color: rgba(10, 10, 10, 0.62);
-    margin-top: 0.6rem;
+    font-weight: 500;
+    color: rgba(10, 10, 10, 0.55);
   }
 
-  .cg-card-blurb.is-placeholder {
+  .cg-body {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.9rem, 1.3vw, 1rem);
+    font-weight: 500;
+    line-height: 1.8;
+    color: rgba(10, 10, 10, 0.62);
+    max-width: 32ch;
+  }
+
+  .cg-body .is-placeholder {
     font-style: italic;
-    color: rgba(10, 10, 10, 0.35);
+    color: rgba(10, 10, 10, 0.4);
   }
 
   @media (max-width: 640px) {
     .cg-hero { padding: 9rem 1.5rem 3rem; }
     .cg-back-link { top: 6.5rem; left: 1.25rem; }
 
-    .cg-grid { grid-template-columns: 1fr; }
-    .cg-groups { padding: 3.5rem 1.5rem 4rem; }
+    .cg-groups { padding-top: 3.5rem; }
+
+    .cg-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+    }
+    .cg-divider-v, .cg-divider-h { display: none; }
+    .cg-col {
+      grid-column: 1 !important;
+      grid-row: auto !important;
+      padding: 3.5rem 2rem;
+      border-top: 1px solid rgba(10, 10, 10, 0.08);
+    }
+    .cg-col:first-child { border-top: none; }
   }
 </style>
