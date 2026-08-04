@@ -15,7 +15,7 @@ if (!CONNECT_GROUPS_LIVE) {
 
 // DRAFT — groups are still forming, not yet publicly announced. Leads listed are provisional.
 // Default meeting time for groups that haven't set their own yet.
-const DEFAULT_MEETING = 'Every Wednesday · 6:00 – 7:00 PM, starting Wed, Aug 24';
+const DEFAULT_MEETING = 'Every Wednesday · 6:00 – 7:00 PM, starting Wed, Aug 26';
 
 // Ordered girl / guy / guy / girl so the 2x2 grid pairs same-gender groups diagonally.
 const groups = [
@@ -25,7 +25,6 @@ const groups = [
     name: 'Charcuterie Chats',
     photo: sharonMaggy,
     meetingTime: DEFAULT_MEETING,
-    blurb: null,
   },
   {
     leads: 'Justin & Estevan',
@@ -33,7 +32,6 @@ const groups = [
     name: 'Iron Men',
     photo: justinEstevan,
     meetingTime: DEFAULT_MEETING,
-    blurb: null,
   },
   {
     leads: 'Jordan & Luc',
@@ -41,7 +39,6 @@ const groups = [
     name: 'Bible & Biceps',
     photo: jordanLuc,
     meetingTime: DEFAULT_MEETING,
-    blurb: null,
   },
   {
     leads: 'Tran & Gabby',
@@ -49,7 +46,6 @@ const groups = [
     name: "Women's Wellness (WW)",
     photo: tranGabby,
     meetingTime: DEFAULT_MEETING,
-    blurb: null,
   },
 ];
 ---
@@ -85,14 +81,10 @@ const groups = [
       <div class="cg-grid">
         {groups.map((g) => (
           <div class="cg-col">
-            <Image src={g.photo} alt={`${g.name} — ${g.leads}`} class="cg-photo" width={480} height={480} />
+            <Image src={g.photo} alt={`${g.name} — ${g.leads}`} class="cg-photo" width={960} height={960} />
             <h2 class="cg-label">{g.name} · {g.leads}</h2>
             {g.consultant && <p class="cg-consultant">Consultant: {g.consultant}</p>}
-            <p class="cg-body">
-              {g.meetingTime}
-              {' — '}
-              <span class:list={{ 'is-placeholder': !g.blurb }}>{g.blurb ?? 'Blurb coming soon.'}</span>
-            </p>
+            <p class="cg-body">{g.meetingTime}</p>
           </div>
         ))}
         <div class="cg-divider-v" aria-hidden="true"></div>
@@ -263,7 +255,7 @@ const groups = [
   }
 
   .cg-photo {
-    height: 96px;
+    height: 288px;
     width: auto;
     object-fit: contain;
     margin-bottom: 0.25rem;
@@ -293,11 +285,6 @@ const groups = [
     line-height: 1.8;
     color: rgba(10, 10, 10, 0.62);
     max-width: 32ch;
-  }
-
-  .cg-body .is-placeholder {
-    font-style: italic;
-    color: rgba(10, 10, 10, 0.4);
   }
 
   @media (max-width: 640px) {
