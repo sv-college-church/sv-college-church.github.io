@@ -64,6 +64,8 @@ paper:  #F5F5F0  — background
 accent: #D91C2A  — red; used sparingly (arrows, CTAs, hover states)
 ```
 
+**Background rule:** every page uses the same `paper` (`#F5F5F0`) off-white/beige background. Do not give individual campus pages their own pastel tint — the beige stays constant site-wide so the brand reads as one system, not five different palettes.
+
 Use opacity for hierarchy — never add new colors. Examples:
 - `rgb(10 10 10 / 0.32)` — section labels
 - `rgb(10 10 10 / 0.78)` — body text
@@ -102,6 +104,12 @@ border-t border-ink/10
     section-label ("OUR STORY", 0.65rem, 32% ink)
     ... content ...
 ```
+
+---
+
+## Corner Radius
+
+Logos, buttons, and any square-ish tile share **one radius value: `10px`.** When a page has a logo tile and a CTA button side by side (e.g. campus pages), both get the same `border-radius: 10px` so they read as one shape language, not mismatched elements. Don't introduce a second radius value on the same page — no `8px` button next to a `12px` logo.
 
 ---
 

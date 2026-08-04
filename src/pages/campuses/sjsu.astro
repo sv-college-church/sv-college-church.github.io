@@ -127,7 +127,7 @@ const structuredData = [
       </div>
       <div class="col-divider" aria-hidden="true"></div>
       <div class="group-col">
-        <Image src={fourCorners} alt="4Corners Christian Fellowship logo, San José State University" class="group-logo" />
+        <Image src={fourCorners} alt="4Corners Christian Fellowship logo, San José State University" class="group-logo group-logo--large" />
         <h2 class="group-label">4Corners Christian Fellowship · SJSU</h2>
         <p class="group-body">4Corners is a fellowship for international students at SJSU. It is a place to find community, explore the Christian faith, and feel at home in a new country. International and domestic students are both welcome.</p>
         <a href="https://www.instagram.com/4corners_sjsu/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
@@ -168,7 +168,7 @@ const structuredData = [
 </BaseLayout>
 
 <style is:global>
-  html, body { background: #D9E6F1; }
+  html, body { background: #F5F5F0; }
   body { display: flex; flex-direction: column; min-height: 100svh; }
 </style>
 
@@ -304,8 +304,13 @@ const structuredData = [
     height: 52px;
     width: auto;
     object-fit: contain;
-    opacity: 0.75;
     margin-bottom: 0.25rem;
+    border-radius: 10px;
+  }
+
+  .group-logo--large {
+    height: 78px;
+    object-fit: contain;
   }
 
   .group-label {
@@ -338,6 +343,7 @@ const structuredData = [
     text-decoration: none;
     padding: 0.75rem 2.25rem;
     margin-top: 0.75rem;
+    border-radius: 10px;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
   .group-link:hover {
