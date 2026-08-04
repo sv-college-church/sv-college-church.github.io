@@ -14,34 +14,42 @@ if (!CONNECT_GROUPS_LIVE) {
 }
 
 // DRAFT — groups are still forming, not yet publicly announced. Leads listed are provisional.
+// Default meeting time for groups that haven't set their own yet.
+const DEFAULT_MEETING = 'Every Wednesday · 6:00 – 7:00 PM, starting Wed, Aug 24';
+
+// Ordered girl / guy / guy / girl so the 2x2 grid pairs same-gender groups diagonally.
 const groups = [
   {
     leads: 'Sharon & Maggy',
     consultant: null,
     name: 'Charcuterie Chats',
-    format: null,
     photo: sharonMaggy,
-  },
-  {
-    leads: 'Tran & Gabby',
-    consultant: null,
-    name: "Women's Wellness (WW)",
-    format: null,
-    photo: tranGabby,
+    meetingTime: DEFAULT_MEETING,
+    blurb: null,
   },
   {
     leads: 'Justin & Estevan',
     consultant: null,
     name: 'Iron Men',
-    format: null,
     photo: justinEstevan,
+    meetingTime: DEFAULT_MEETING,
+    blurb: null,
   },
   {
     leads: 'Jordan & Luc',
     consultant: null,
     name: 'Bible & Biceps',
-    format: '4-week sprint + 5th-week PR session',
     photo: jordanLuc,
+    meetingTime: DEFAULT_MEETING,
+    blurb: null,
+  },
+  {
+    leads: 'Tran & Gabby',
+    consultant: null,
+    name: "Women's Wellness (WW)",
+    photo: tranGabby,
+    meetingTime: DEFAULT_MEETING,
+    blurb: null,
   },
 ];
 ---
@@ -78,8 +86,13 @@ const groups = [
         {groups.map((g) => (
           <div class="cg-card">
             <Image src={g.photo} alt={`${g.name} — ${g.leads}`} class="cg-card-photo" width={640} height={640} />
+            <p class="cg-card-name">{g.name}</p>
+            <p class="cg-card-leads">{g.leads}</p>
             {g.consultant && <p class="cg-card-consultant">Consultant: {g.consultant}</p>}
-            {g.format && <p class="cg-card-format">{g.format}</p>}
+            <p class="cg-card-time">{g.meetingTime}</p>
+            <p class:list={['cg-card-blurb', { 'is-placeholder': !g.blurb }]}>
+              {g.blurb ?? 'Blurb coming soon.'}
+            </p>
           </div>
         ))}
       </div>
@@ -241,20 +254,55 @@ const groups = [
     border-radius: 10px;
   }
 
+  .cg-card-name {
+    font-family: 'Bitter', Georgia, serif;
+    font-weight: 350;
+    font-style: italic;
+    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+    color: #004A8A;
+    margin-top: 0.9rem;
+  }
+
+  .cg-card-leads {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    color: #1A1A1A;
+    margin-top: 0.3rem;
+  }
+
   .cg-card-consultant {
     font-family: 'Instrument Sans', sans-serif;
     font-weight: 500;
     font-size: 0.85rem;
     color: rgba(10, 10, 10, 0.55);
+    margin-top: 0.5rem;
+  }
+
+  .cg-card-time {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #805E13;
     margin-top: 0.75rem;
   }
 
-  .cg-card-format {
+  .cg-card-blurb {
     font-family: 'Instrument Sans', sans-serif;
     font-weight: 500;
-    font-size: 0.8rem;
-    color: #805E13;
-    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: rgba(10, 10, 10, 0.62);
+    margin-top: 0.6rem;
+  }
+
+  .cg-card-blurb.is-placeholder {
+    font-style: italic;
+    color: rgba(10, 10, 10, 0.35);
   }
 
   @media (max-width: 640px) {
