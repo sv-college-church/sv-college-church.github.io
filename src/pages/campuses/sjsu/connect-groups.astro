@@ -15,7 +15,10 @@ if (!CONNECT_GROUPS_LIVE) {
 
 // DRAFT — groups are still forming, not yet publicly announced. Leads listed are provisional.
 // Default meeting time for groups that haven't set their own yet.
-const DEFAULT_MEETING = 'Every Wednesday · 6:00 – 7:00 PM, starting Wed, Aug 26';
+const DEFAULT_MEETING = {
+  time: 'Every Wednesday, 6 – 7 PM',
+  start: 'First session on Wed, Aug 26',
+};
 
 // Ordered girl / guy / guy / girl so the 2x2 grid pairs same-gender groups diagonally.
 const groups = [
@@ -83,7 +86,7 @@ const groups = [
             <Image src={g.photo} alt={`${g.name} — ${g.leads}`} class="cg-photo" width={960} height={960} />
             <h2 class="cg-label">{g.name} · {g.leads}</h2>
             {g.consultant && <p class="cg-consultant">Consultant: {g.consultant}</p>}
-            <p class="cg-body">{g.meetingTime}</p>
+            <p class="cg-body">{g.meetingTime.time}<br />{g.meetingTime.start}</p>
           </div>
         ))}
         <div class="cg-divider-v" aria-hidden="true"></div>
