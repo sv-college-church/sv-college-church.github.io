@@ -97,11 +97,11 @@ const structuredData = [
 >
   <Nav />
 
-  <main>
+  <main id="main-content">
 
     <section class="hero-section" style="view-transition-name: campus-sjsu">
       <a href="/campuses" class="back-link">← Campuses</a>
-      <h1 class="school-name">San José State<br/>University</h1>
+      <h1 class="school-name">San José State <br/>University</h1>
       <p class="hero-tagline">Christian clubs, Bible study, and community for SJSU students</p>
     </section>
 
@@ -151,12 +151,12 @@ const structuredData = [
     <section class="faq-section">
       <h2 class="section-heading">Common questions from SJSU students</h2>
       <div class="faq-accordion">
-        {faqs.map((f) => (
+        {faqs.map((f, i) => (
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls={`sjsu-faq-${i + 1}`}>
               <span>{f.q}</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id={`sjsu-faq-${i + 1}`}>
               <p>
                 {f.a}
                 {f.link && <> <a href={f.link.href}>{f.link.text}</a>.</>}

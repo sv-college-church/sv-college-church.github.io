@@ -220,6 +220,12 @@ const svcLogo = '/images/svc-logo.svg';
   #menu-toggle[aria-expanded="true"] .hamburger-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
   #menu-toggle[aria-expanded="true"] .hamburger-bar:nth-child(2) { opacity: 0; }
   #menu-toggle[aria-expanded="true"] .hamburger-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-inner {
+      animation: none;
+    }
+  }
 </style>
 
 <script>

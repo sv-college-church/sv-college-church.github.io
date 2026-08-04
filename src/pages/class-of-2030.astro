@@ -31,7 +31,7 @@ const bgPhotos = await Promise.all(
 >
   <Nav />
 
-  <main id="c30-main">
+  <main id="main-content">
 
     <section id="c30-hero">
 
@@ -201,7 +201,7 @@ const bgPhotos = await Promise.all(
   /* Bebas Neue / Plus Jakarta Sans are loaded sitewide via src/styles/global.css */
 
   /* ── PAGE BASE ── */
-  #c30-main {
+  #main-content {
     overflow-x: hidden;
     background: #080808;
   }
@@ -750,6 +750,22 @@ const bgPhotos = await Promise.all(
     .c30-orb { transform: scale(0.7); }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .c30-photo-track,
+    .c30-orb-1,
+    .c30-orb-2,
+    .c30-orb-3,
+    .c30-orb-4,
+    .c30-orb-5,
+    .c30-orb-6,
+    .c30-orb-7,
+    .c30-orb-8,
+    .c30-orb-9,
+    .c30-orb-10 {
+      animation: none;
+    }
+  }
+
   /* Mobile */
   @media (max-width: 480px) {
     #c30-hero {
@@ -795,54 +811,54 @@ const bgPhotos = await Promise.all(
 <!-- Nav inversion for dark page -->
 <style is:global>
   /* Background — override the ::before pseudo that provides the visual backdrop */
-  body:has(#c30-main) .nav-header::before {
+  body:has(#main-content) .nav-header::before {
     background: rgba(8, 8, 8, 0.85) !important;
   }
-  body:has(#c30-main) header.fixed {
+  body:has(#main-content) header.fixed {
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
 
   /* Desktop nav links */
-  body:has(#c30-main) header.fixed nav a {
+  body:has(#main-content) header.fixed nav a {
     color: rgba(240, 237, 232, 0.75) !important;
   }
-  body:has(#c30-main) header.fixed nav a:hover {
+  body:has(#main-content) header.fixed nav a:hover {
     color: #D91C2A !important;
   }
 
   /* Hamburger bars */
-  body:has(#c30-main) header.fixed .hamburger-bar {
+  body:has(#main-content) header.fixed .hamburger-bar {
     background: #F0EDE8 !important;
   }
 
   /* Mobile dropdown */
-  body:has(#c30-main) #mobile-menu nav {
+  body:has(#main-content) #mobile-menu nav {
     background: #0d0d0d !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
   }
-  body:has(#c30-main) #mobile-menu a {
+  body:has(#main-content) #mobile-menu a {
     color: rgba(240, 237, 232, 0.8) !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
   }
 
   /* Footer inversion */
-  body:has(#c30-main) footer {
+  body:has(#main-content) footer {
     background: #080808 !important;
     border-color: rgba(255, 255, 255, 0.06) !important;
   }
-  body:has(#c30-main) footer p {
+  body:has(#main-content) footer p {
     color: rgba(240, 237, 232, 0.7) !important;
   }
-  body:has(#c30-main) footer a {
+  body:has(#main-content) footer a {
     color: rgba(240, 237, 232, 0.7) !important;
   }
-  body:has(#c30-main) footer a:hover {
+  body:has(#main-content) footer a:hover {
     color: #F0EDE8 !important;
   }
 
   /* Logo — invert black logo to white */
-  body:has(#c30-main) .logo-main,
-  body:has(#c30-main) .logo-depth {
+  body:has(#main-content) .logo-main,
+  body:has(#main-content) .logo-depth {
     filter: brightness(0) invert(1) !important;
   }
 </style>

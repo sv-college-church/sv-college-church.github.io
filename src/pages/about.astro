@@ -30,7 +30,7 @@ const structuredData = [
 
 <BaseLayout title="About | Silicon Valley College Church" description="Silicon Valley College Church launches kingdom workers from college campuses across the South Bay — Stanford, SJSU, SCU, UCSC, and De Anza." structuredData={structuredData}>
   <Nav />
-  <main class="min-h-screen bg-paper pt-20 md:pt-32">
+  <main id="main-content" class="min-h-screen bg-paper pt-20 md:pt-32">
 
     <!-- Hero -->
     <section class="hero-section flex flex-col items-center justify-center px-6 text-center">
@@ -52,7 +52,7 @@ const structuredData = [
     <section id="story" class="reveal-section border-t border-ink/10">
       <div class="reveal-inner content-col" data-animate>
         <div class="section-rule"></div>
-        <p class="section-label">Our Story</p>
+        <h2 class="section-label">Our Story</h2>
         <p class="body-text">
           In 2021, a team of college friends moved to Silicon Valley to start a church for students, modeled after the early church in Acts 2. We want to be a place where every student can come to know Jesus — a place to belong, believe, and become more like him.
         </p>
@@ -63,7 +63,7 @@ const structuredData = [
     <section class="reveal-section border-t border-ink/10">
       <div class="reveal-inner content-col" data-animate>
         <div class="section-rule"></div>
-        <p class="section-label">Leadership</p>
+        <h2 class="section-label">Leadership</h2>
         <Image src={lofam} alt="SVC directors Roy and Kaitlyn with their family" class="section-photo" />
         <p class="display-name">Roy & Kaitlyn</p>
         <p class="body-text">
@@ -76,7 +76,7 @@ const structuredData = [
     <section class="reveal-section border-t border-ink/10">
       <div class="reveal-inner content-col" data-animate>
         <div class="section-rule"></div>
-        <p class="section-label">The Team</p>
+        <h2 class="section-label">The Team</h2>
         <Image src={mentors} alt="SVC staff group photo" class="section-photo" />
         <p class="body-text">
           Our staff work as teachers, engineers, product managers, finance professionals, day jobs all over the map. But every one of us met Jesus in college, and that's why we're here. Reach out to any of us. We'd love to tell you our story.
@@ -88,95 +88,95 @@ const structuredData = [
     <section id="statement" class="compact-section border-t border-ink/10">
       <div class="compact-inner" data-animate>
         <div class="section-rule"></div>
-        <p class="section-label">Statement of Faith</p>
+        <h2 class="section-label">Statement of Faith</h2>
         <p class="compact-note">Silicon Valley College Church is a member of the Southern Baptist Convention and SEND Network.</p>
 
         <div class="accordion">
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faith-item-1">
               <span>The Bible</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="faith-item-1">
               <p>The Bible is God's Holy Word, without error, and is the sole authority for life.</p>
               <p class="belief-refs">2 Tim. 3:16–17 · 2 Pet. 1:20–21 · Heb. 4:12 · Psalm 119:105 · John 1:1 · Isa. 40:8</p>
             </div>
           </div>
 
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faith-item-2">
               <span>The Godhead (Trinity)</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="faith-item-2">
               <p>There is one God: The Father, the Son, and the Holy Spirit; who subsist in unity, and also as three separate distinct Persons.</p>
               <p class="belief-refs">Deut. 6:4 · Matt. 28:19 · John 10:30 · 2 Cor. 13:14</p>
             </div>
           </div>
 
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faith-item-3">
               <span>God the Father</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="faith-item-3">
               <p>God is the first person of the Trinity and is the eternal, all-powerful, all-loving, just and perfectly holy, sovereign Ruler and Sustainer of the universe.</p>
               <p class="belief-refs">Gen. 1:1 · Eph. 4:6 · John 3:16 · Isa. 40:21–28</p>
             </div>
           </div>
 
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faith-item-4">
               <span>God the Son</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="faith-item-4">
               <p>Jesus Christ is the second person of the Trinity and God's Son. He was born of a virgin as both God and man, lived a sinless life, died to atone for the sins of human beings, was buried, arose from the grave, ascended into heaven, and will literally return to earth.</p>
               <p class="belief-refs">John 1:1 · John 1:14 · Luke 1:30–35 · Phil. 2:5–8 · Acts 2:22–24 · John 20:20 · Acts 1:11</p>
             </div>
           </div>
 
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faith-item-5">
               <span>God the Holy Spirit</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="faith-item-5">
               <p>The Holy Spirit is the divine helper, assistant, counselor and instructor. His work is to reveal Christ, convict of sin, lead to repentance, guide believers, comfort, strengthen, and sanctify the soul.</p>
               <p class="belief-refs">John 16:7–8 · 1 Cor. 6:19 · Gal. 5:22–23 · Rom. 8:26–28</p>
             </div>
           </div>
 
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faith-item-6">
               <span>Man</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="faith-item-6">
               <p>Man is the special creation of God, made in His image. Man was created to glorify God, worship and serve Him. Man fell through sin by disobeying God, incurring both physical and spiritual death. All men are sinners, utterly lost, and totally incapable of saving himself by his own merit or effort.</p>
               <p class="belief-refs">Gen. 1:26 · Gen. 3:17–24 · Rom. 3:23 · Rom. 5:8 · Eph. 2:13</p>
             </div>
           </div>
 
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faith-item-7">
               <span>Salvation</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="faith-item-7">
               <p>Salvation is a gift through repentance toward God and faith in Jesus Christ. Every person who truly is saved is eternally secure in the Lord Jesus Christ and will spend eternity in heaven, while those who die in their sins will spend eternity in hell.</p>
               <p class="belief-refs">Eph. 2:8–10 · John 3:14–16 · Rom. 10:9–10 · John 10:27–29 · John 14:6</p>
             </div>
           </div>
 
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faith-item-8">
               <span>The Church</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="faith-item-8">
               <p>The church is a local body of baptized believers with the Lord Jesus Christ as the Head. The purpose of the church is to make Christ known to lost men and to make disciples, and glorify God on earth.</p>
               <p class="belief-refs">Matt. 28:18–20 · Eph. 4:11–16 · 1 Cor. 12:12–27 · Col. 1:24–29</p>
             </div>
           </div>
 
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls="faith-item-9">
               <span>The Christian Life</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="faith-item-9">
               <p>Every Christian should live for Christ to God's glory. By obedience to the Word of God, each believer should mature and progressively become more like Jesus. In the power of the Spirit, each believer should live a holy life; be part of a Christian community; and be personally involved in making disciples to fulfill the great commission.</p>
               <p class="belief-refs">Gal. 2:20 · 1 Pet. 1:15–16 · Matt. 28:18–20 · Acts 1:8 · John 15:8</p>
             </div>
@@ -189,7 +189,7 @@ const structuredData = [
     <section id="resources" class="compact-section border-t border-ink/10">
       <div class="compact-inner" data-animate>
         <div class="section-rule"></div>
-        <p class="section-label">Resources</p>
+        <h2 class="section-label">Resources</h2>
 
         <div class="resource-list">
           <a href="https://www.course101.online/" target="_blank" rel="noopener noreferrer" class="resource-row">
@@ -223,7 +223,7 @@ const structuredData = [
         </div>
 
         <div class="network-links">
-          <p class="section-label" style="margin-bottom: 1rem;">Network</p>
+          <h2 class="section-label" style="margin-bottom: 1rem;">Network</h2>
           <p class="network-row">
             <a href="https://acts2.network/" target="_blank" rel="noopener noreferrer">Acts2 Network ↗</a>
             <a href="https://www.acts2college.org/" target="_blank" rel="noopener noreferrer">Acts2 College ↗</a>
@@ -564,14 +564,19 @@ const structuredData = [
   document.querySelectorAll('.accordion-trigger').forEach(function (trigger) {
     trigger.addEventListener('click', function () {
       var item = trigger.parentElement;
-      var content = item.querySelector('.accordion-content');
+      if (!item) return;
+      var content = item.querySelector<HTMLElement>('.accordion-content');
+      if (!content) return;
       var isOpen = item.classList.contains('is-open');
 
       // Close all
       document.querySelectorAll('.accordion-item').forEach(function (el) {
+        var elTrigger = el.querySelector('.accordion-trigger');
+        var elContent = el.querySelector<HTMLElement>('.accordion-content');
+        if (!elTrigger || !elContent) return;
         el.classList.remove('is-open');
-        el.querySelector('.accordion-trigger').setAttribute('aria-expanded', 'false');
-        el.querySelector('.accordion-content').style.maxHeight = null;
+        elTrigger.setAttribute('aria-expanded', 'false');
+        elContent.style.maxHeight = '';
       });
 
       // Open clicked (if it was closed)

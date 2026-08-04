@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import EventBanner from '../components/EventBanner.astro';
 
@@ -76,7 +76,7 @@ const extraSchemas = structuredData
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Church",
       "name": "Silicon Valley College Church",
@@ -118,12 +118,13 @@ const extraSchemas = structuredData
     })} />
 
     {extraSchemas.map((schema) => (
-      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
     ))}
 
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <EventBanner />
     <slot />
 
@@ -156,3 +157,23 @@ const extraSchemas = structuredData
     </script>
   </body>
 </html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: #0A0A0A;
+    color: #F5F5F0;
+    padding: 0.75rem 1.25rem;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .skip-link:focus {
+    left: 0;
+  }
+</style>
