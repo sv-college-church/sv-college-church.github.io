@@ -6,9 +6,29 @@ import { Image } from 'astro:assets';
 import suhfam from '../assets/images/suhfam.png';
 import lofam from '../assets/images/lofam-display.jpeg';
 import mentors from '../assets/images/mentors.png';
+
+const pageUrl = new URL('/about', Astro.site).href;
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+      { '@type': 'ListItem', position: 2, name: 'About', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    '@id': `${pageUrl}#aboutpage`,
+    name: 'About Silicon Valley College Church',
+    url: pageUrl,
+    mainEntity: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
+  },
+];
 ---
 
-<BaseLayout title="About | Silicon Valley College Church" description="Silicon Valley College Church launches kingdom workers from college campuses across the South Bay — Stanford, SJSU, SCU, UCSC, and De Anza.">
+<BaseLayout title="About | Silicon Valley College Church" description="Silicon Valley College Church launches kingdom workers from college campuses across the South Bay — Stanford, SJSU, SCU, UCSC, and De Anza." structuredData={structuredData}>
   <Nav />
   <main class="min-h-screen bg-paper pt-20 md:pt-32">
 

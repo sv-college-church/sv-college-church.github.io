@@ -7,6 +7,21 @@ import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
 
 const pageUrl = new URL('/campuses/scu', Astro.site).href;
 
+const faqs = [
+  {
+    q: 'Is there a Christian club at Santa Clara University?',
+    a: 'Yes. Klesis is a recognized, non-denominational Christian club at Santa Clara University, part of Silicon Valley College Church.',
+  },
+  {
+    q: 'Where can I find a Bible study near SCU?',
+    a: 'Klesis meets weekly on campus for Bible study on Thursdays at 7:00 PM. Times and locations are posted on the Klesis Instagram.',
+  },
+  {
+    q: 'Do I have to be a Christian to come?',
+    a: "No. Klesis is open to any SCU student, whether you've been a Christian your whole life or you're checking it out for the first time.",
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -29,6 +44,15 @@ const structuredData = [
     parentOrganization: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
     areaServed: { '@type': 'CollegeOrUniversity', name: 'Santa Clara University' },
     foundingDate: '2015',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
   },
 ];
 ---
@@ -68,6 +92,22 @@ const structuredData = [
     <section class="about-section">
       <h2 class="info-label">About</h2>
       <p class="about-body">Klesis is a recognized, non-denominational Christian club at Santa Clara University. Klesis is Greek for "divine invitation," and the group is a safe space to seek God, study the Bible, and find friendship, whether you've been a Christian your whole life or you're checking it out for the first time.</p>
+    </section>
+
+    <section class="faq-section">
+      <h2 class="section-heading">Common questions from SCU students</h2>
+      <div class="faq-accordion">
+        {faqs.map((f) => (
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+              <span>{f.q}</span><span class="accordion-icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <p>{f.a}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
 
   </main>
@@ -241,5 +281,92 @@ const structuredData = [
       padding: 3rem 2rem 4rem;
       margin: 0 2rem;
     }
+    .faq-section { padding: 3.5rem 1.5rem; }
+    .section-heading { margin-bottom: 2rem; }
+  }
+
+  /* ── FAQ ── */
+  .faq-section {
+    padding: 5rem 2rem;
+    border-top: 1px solid rgba(10, 10, 10, 0.08);
+  }
+
+  .section-heading {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.2rem, 2.6vw, 1.9rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    color: #A32035;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .faq-accordion {
+    max-width: 46rem;
+    margin: 0 auto;
+    border-top: 1px solid rgba(10, 10, 10, 0.1);
+  }
+
+  .accordion-item {
+    border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  }
+
+  .accordion-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    font-weight: 800;
+    color: #1A1A1A;
+    transition: color 0.2s ease;
+  }
+  .accordion-trigger:hover { color: #A32035; }
+
+  .accordion-icon {
+    flex-shrink: 0;
+    font-size: 1.4rem;
+    font-weight: 300;
+    line-height: 1;
+    color: #A32035;
+    transition: transform 0.25s ease;
+  }
+  .accordion-item.is-open .accordion-icon { transform: rotate(45deg); }
+
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .accordion-content p {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.8;
+    color: rgba(10, 10, 10, 0.6);
+    padding-bottom: 1.5rem;
   }
 </style>
+
+<script>
+  document.querySelectorAll('.accordion-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const item = trigger.parentElement!;
+      const content = item.querySelector('.accordion-content') as HTMLElement;
+      const isOpen = item.classList.contains('is-open');
+      item.classList.toggle('is-open', !isOpen);
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      content.style.maxHeight = !isOpen ? content.scrollHeight + 'px' : '';
+    });
+  });
+</script>

@@ -150,17 +150,21 @@ const structuredData = [
 
     <section class="faq-section">
       <h2 class="section-heading">Common questions from SJSU students</h2>
-      <dl class="faq-list">
+      <div class="faq-accordion">
         {faqs.map((f) => (
-          <div class="faq-item">
-            <dt class="faq-q">{f.q}</dt>
-            <dd class="faq-a">
-              {f.a}
-              {f.link && <> <a href={f.link.href}>{f.link.text}</a>.</>}
-            </dd>
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+              <span>{f.q}</span><span class="accordion-icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <p>
+                {f.a}
+                {f.link && <> <a href={f.link.href}>{f.link.text}</a>.</>}
+              </p>
+            </div>
           </div>
         ))}
-      </dl>
+      </div>
     </section>
 
   </main>
@@ -405,41 +409,68 @@ const structuredData = [
   }
   .fact-body a:hover { text-decoration-color: #004A8A; }
 
-  .faq-list {
+  .faq-accordion {
     max-width: 46rem;
     margin: 0 auto;
     border-top: 1px solid rgba(10, 10, 10, 0.1);
   }
 
-  .faq-item {
-    padding: 1.75rem 0;
+  .accordion-item {
     border-bottom: 1px solid rgba(10, 10, 10, 0.1);
   }
 
-  .faq-q {
+  .accordion-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
     font-family: 'Instrument Sans', sans-serif;
     font-size: clamp(1rem, 1.8vw, 1.15rem);
     font-weight: 800;
     color: #1A1A1A;
+    transition: color 0.2s ease;
+  }
+  .accordion-trigger:hover { color: #004A8A; }
+
+  .accordion-icon {
+    flex-shrink: 0;
+    font-size: 1.4rem;
+    font-weight: 300;
+    line-height: 1;
+    color: #004A8A;
+    transition: transform 0.25s ease;
+  }
+  .accordion-item.is-open .accordion-icon { transform: rotate(45deg); }
+
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
-  .faq-a {
+  .accordion-content p {
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.95rem;
     font-weight: 500;
     line-height: 1.8;
     color: rgba(10, 10, 10, 0.6);
-    margin-top: 0.6rem;
+    padding-bottom: 1.5rem;
   }
 
-  .faq-a a {
+  .accordion-content a {
     color: #004A8A;
     text-decoration: underline;
     text-underline-offset: 0.18em;
     text-decoration-color: rgba(0, 74, 138, 0.35);
     transition: text-decoration-color 0.2s ease;
   }
-  .faq-a a:hover { text-decoration-color: #004A8A; }
+  .accordion-content a:hover { text-decoration-color: #004A8A; }
 
   @media (max-width: 860px) {
     .facts-grid { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -461,3 +492,16 @@ const structuredData = [
     .section-heading { margin-bottom: 2rem; }
   }
 </style>
+
+<script>
+  document.querySelectorAll('.accordion-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const item = trigger.parentElement!;
+      const content = item.querySelector('.accordion-content') as HTMLElement;
+      const isOpen = item.classList.contains('is-open');
+      item.classList.toggle('is-open', !isOpen);
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      content.style.maxHeight = !isOpen ? content.scrollHeight + 'px' : '';
+    });
+  });
+</script>
