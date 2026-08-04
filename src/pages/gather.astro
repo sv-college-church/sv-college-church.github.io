@@ -6,9 +6,50 @@ import UpcomingEvents from '../components/UpcomingEvents.astro';
 import { getHighlightedEvents } from '../lib/events';
 
 const hasUpcoming = (await getHighlightedEvents()).length > 0;
+const pageUrl = new URL('/gather', Astro.site).href;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+      { '@type': 'ListItem', position: 2, name: 'Gathering', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    '@id': `${pageUrl}#sunday-gathering`,
+    name: 'SVC Sunday Gathering',
+    description: 'Weekly Sunday gathering for college students and young adults from across Silicon Valley.',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventSchedule: {
+      '@type': 'Schedule',
+      byDay: 'https://schema.org/Sunday',
+      startTime: '12:00',
+      endTime: '13:30',
+      repeatFrequency: 'P1W',
+    },
+    location: {
+      '@type': 'Place',
+      name: 'Horace Mann Elementary School',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '55 N 7th St',
+        addressLocality: 'San Jose',
+        addressRegion: 'CA',
+        postalCode: '95112',
+        addressCountry: 'US',
+      },
+    },
+    organizer: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
+  },
+];
 ---
 
-<BaseLayout title="Gathering | Silicon Valley College Church" description="Join us Sundays at 12 PM in Santa Clara. A college church gathering young adults and students from across Silicon Valley.">
+<BaseLayout title="Gathering | Silicon Valley College Church" description="Join us Sundays at 12 PM in Santa Clara. A college church gathering young adults and students from across Silicon Valley." structuredData={structuredData}>
   <div class="page-shell">
   <Nav />
   <main class="bg-paper pt-20 md:pt-32 flex-1">

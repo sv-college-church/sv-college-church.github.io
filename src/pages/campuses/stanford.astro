@@ -8,6 +8,21 @@ import momentGrad from '../../assets/images/campuses/logos/moment-grad.png';
 
 const pageUrl = new URL('/campuses/stanford', Astro.site).href;
 
+const faqs = [
+  {
+    q: 'Is there a Christian fellowship at Stanford?',
+    a: 'Yes. Moment is a Christian fellowship at Stanford University, part of Silicon Valley College Church. It is open to every Stanford student, whatever you believe right now.',
+  },
+  {
+    q: 'Is there a group for Stanford graduate students?',
+    a: 'Yes. Moment Grad is a fellowship for graduate students at Stanford, focused on genuine community in the context of Christian faith.',
+  },
+  {
+    q: 'Do I have to be a Christian to come?',
+    a: 'No. Moment is open to any Stanford student, including students who are not Christian and students who are still working out what they believe.',
+  },
+];
+
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -41,6 +56,15 @@ const structuredData = [
     parentOrganization: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
     areaServed: { '@type': 'CollegeOrUniversity', name: 'Stanford University' },
   },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
 ];
 ---
 
@@ -72,6 +96,22 @@ const structuredData = [
         <h2 class="group-label">Moment Grad · Stanford</h2>
         <p class="group-body">Moment Grad is a graduate student group at Stanford focused on building genuine connections in the context of Christian community.</p>
         <a href="https://www.instagram.com/moment.stanford/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2 class="section-heading">Common questions from Stanford students</h2>
+      <div class="faq-accordion">
+        {faqs.map((f) => (
+          <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+              <span>{f.q}</span><span class="accordion-icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <p>{f.a}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
 
@@ -212,4 +252,94 @@ const structuredData = [
     }
     .group-col { padding: 3.5rem 2rem; }
   }
+
+  /* ── FAQ ── */
+  .faq-section {
+    padding: 5rem 2rem;
+    border-top: 1px solid rgba(10, 10, 10, 0.08);
+  }
+
+  .section-heading {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.2rem, 2.6vw, 1.9rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    color: #8C1515;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .faq-accordion {
+    max-width: 46rem;
+    margin: 0 auto;
+    border-top: 1px solid rgba(10, 10, 10, 0.1);
+  }
+
+  .accordion-item {
+    border-bottom: 1px solid rgba(10, 10, 10, 0.1);
+  }
+
+  .accordion-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(1rem, 1.8vw, 1.15rem);
+    font-weight: 800;
+    color: #1A1A1A;
+    transition: color 0.2s ease;
+  }
+  .accordion-trigger:hover { color: #8C1515; }
+
+  .accordion-icon {
+    flex-shrink: 0;
+    font-size: 1.4rem;
+    font-weight: 300;
+    line-height: 1;
+    color: #8C1515;
+    transition: transform 0.25s ease;
+  }
+  .accordion-item.is-open .accordion-icon { transform: rotate(45deg); }
+
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .accordion-content p {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.8;
+    color: rgba(10, 10, 10, 0.6);
+    padding-bottom: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .faq-section { padding: 3.5rem 1.5rem; }
+    .section-heading { margin-bottom: 2rem; }
+  }
 </style>
+
+<script>
+  document.querySelectorAll('.accordion-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const item = trigger.parentElement!;
+      const content = item.querySelector('.accordion-content') as HTMLElement;
+      const isOpen = item.classList.contains('is-open');
+      item.classList.toggle('is-open', !isOpen);
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+      content.style.maxHeight = !isOpen ? content.scrollHeight + 'px' : '';
+    });
+  });
+</script>
