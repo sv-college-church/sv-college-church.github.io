@@ -80,37 +80,8 @@ const structuredData = [
 </BaseLayout>
 
 <style is:global>
-  html, body { background: #6B0F0F !important; }
+  html, body { background: #FBF1F1; }
   body { display: flex; flex-direction: column; min-height: 100svh; }
-
-  header {
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  header::before {
-    background: rgba(90, 10, 10, 0.97) !important;
-  }
-  header a { color: rgba(255,255,255,0.75) !important; }
-  header a:hover { color: #ffffff !important; }
-  .hamburger-bar { background-color: rgba(255,255,255,0.8) !important; }
-  .logo-main, .logo-depth { filter: invert(1) brightness(1.1) !important; }
-
-  #mobile-menu nav {
-    background: #5A0A0A !important;
-    border-color: rgba(255,255,255,0.08) !important;
-  }
-  #mobile-menu a {
-    color: rgba(255,255,255,0.75) !important;
-    border-color: rgba(255,255,255,0.08) !important;
-  }
-
-  footer {
-    background: #5A0A0A !important;
-    border-color: rgba(255,255,255,0.1) !important;
-  }
-  footer p { color: rgba(255,255,255,0.6) !important; }
-  footer a { color: rgba(255,255,255,0.6) !important; }
-  footer a:hover { color: rgba(255,255,255,0.85) !important; }
-  footer .network-logo { filter: none !important; }
 </style>
 
 <style>
@@ -125,7 +96,7 @@ const structuredData = [
     min-height: 40vh;
     padding: 12rem 2rem 4rem;
     position: relative;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(10, 10, 10, 0.08);
   }
 
   .back-link {
@@ -137,11 +108,11 @@ const structuredData = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgba(255,255,255,0.7);
+    color: #A85252;
     text-decoration: none;
     transition: color 0.2s ease;
   }
-  .back-link:hover { color: #ffffff; }
+  .back-link:hover { color: #833F3F; }
 
   .school-name {
     font-family: 'Unbounded', sans-serif;
@@ -150,7 +121,7 @@ const structuredData = [
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 0.9;
-    color: #ffffff;
+    color: #A85252;
   }
 
   .hero-tagline {
@@ -158,7 +129,7 @@ const structuredData = [
     font-size: clamp(0.85rem, 1.5vw, 1.05rem);
     font-weight: 500;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(10, 10, 10, 0.55);
     max-width: 56ch;
     margin-top: 1.5rem;
   }
@@ -170,7 +141,7 @@ const structuredData = [
   }
 
   .col-divider {
-    background: rgba(255,255,255,0.1);
+    background: rgba(10, 10, 10, 0.08);
     align-self: stretch;
   }
 
@@ -188,8 +159,7 @@ const structuredData = [
     height: 52px;
     width: auto;
     object-fit: contain;
-    opacity: 0.55;
-    filter: invert(1);
+    opacity: 0.75;
     margin-bottom: 0.25rem;
   }
 
@@ -199,7 +169,7 @@ const structuredData = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    color: rgba(255,255,255,0.75);
+    color: #A85252;
   }
 
   .group-body {
@@ -207,7 +177,7 @@ const structuredData = [
     font-size: clamp(0.95rem, 1.4vw, 1.1rem);
     font-weight: 500;
     line-height: 1.8;
-    color: rgba(255,255,255,0.6);
+    color: rgba(10, 10, 10, 0.62);
     max-width: 36ch;
   }
 
@@ -218,8 +188,8 @@ const structuredData = [
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: #6B0F0F;
-    background: #ffffff;
+    color: #ffffff;
+    background: #A85252;
     text-decoration: none;
     padding: 0.75rem 2.25rem;
     margin-top: 0.75rem;

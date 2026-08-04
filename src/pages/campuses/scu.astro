@@ -75,37 +75,8 @@ const structuredData = [
 </BaseLayout>
 
 <style is:global>
-  html, body { background: #7A0525 !important; }
+  html, body { background: #FBEDF1; }
   body { display: flex; flex-direction: column; min-height: 100svh; }
-
-  header {
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  header::before {
-    background: rgba(100, 4, 30, 0.97) !important;
-  }
-  header a { color: rgba(255,255,255,0.75) !important; }
-  header a:hover { color: #ffffff !important; }
-  .hamburger-bar { background-color: rgba(255,255,255,0.8) !important; }
-  .logo-main, .logo-depth { filter: invert(1) brightness(1.1) !important; }
-
-  #mobile-menu nav {
-    background: #640420 !important;
-    border-color: rgba(255,255,255,0.08) !important;
-  }
-  #mobile-menu a {
-    color: rgba(255,255,255,0.75) !important;
-    border-color: rgba(255,255,255,0.08) !important;
-  }
-
-  footer {
-    background: #640420 !important;
-    border-color: rgba(255,255,255,0.1) !important;
-  }
-  footer p { color: rgba(255,255,255,0.6) !important; }
-  footer a { color: rgba(255,255,255,0.6) !important; }
-  footer a:hover { color: rgba(255,255,255,0.85) !important; }
-  footer .network-logo { filter: none !important; }
 </style>
 
 <style>
@@ -131,16 +102,18 @@ const structuredData = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgba(255,255,255,0.7);
+    color: #9C3355;
     text-decoration: none;
     transition: color 0.2s ease;
   }
-  .back-link:hover { color: #ffffff; }
+  .back-link:hover { color: #7A2542; }
 
   .hero-logo {
     height: 90px;
     width: auto;
     object-fit: contain;
+    opacity: 0.85;
+    filter: invert(1);
     margin-bottom: 0.5rem;
   }
 
@@ -150,7 +123,7 @@ const structuredData = [
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.3em;
-    color: rgba(255,255,255,0.7);
+    color: rgba(10, 10, 10, 0.5);
     margin-bottom: 1.25rem;
   }
 
@@ -161,7 +134,7 @@ const structuredData = [
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 0.9;
-    color: #ffffff;
+    color: #9C3355;
   }
 
   .hero-tagline {
@@ -169,7 +142,7 @@ const structuredData = [
     font-size: clamp(0.85rem, 1.5vw, 1.05rem);
     font-weight: 500;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(10, 10, 10, 0.55);
     max-width: 56ch;
     margin-top: 1.5rem;
   }
@@ -197,7 +170,7 @@ const structuredData = [
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 1;
-    color: #ffffff;
+    color: #9C3355;
     margin: 0;
   }
 
@@ -206,7 +179,7 @@ const structuredData = [
     font-size: clamp(2rem, 4vw, 3.5rem);
     font-weight: 900;
     line-height: 1;
-    color: rgba(255,255,255,0.7);
+    color: rgba(10, 10, 10, 0.7);
   }
 
   .info-value-small {
@@ -214,7 +187,7 @@ const structuredData = [
     font-size: clamp(1.1rem, 2vw, 1.5rem);
     font-weight: 700;
     line-height: 1.3;
-    color: rgba(255,255,255,0.7);
+    color: rgba(10, 10, 10, 0.7);
   }
 
   .about-section {
@@ -224,7 +197,7 @@ const structuredData = [
     text-align: center;
     gap: 1.5rem;
     padding: 4rem 3rem 7rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(10, 10, 10, 0.08);
     margin: 0 3rem;
   }
 
@@ -233,7 +206,7 @@ const structuredData = [
     font-size: clamp(0.95rem, 1.4vw, 1.1rem);
     font-weight: 500;
     line-height: 1.8;
-    color: rgba(255,255,255,0.6);
+    color: rgba(10, 10, 10, 0.62);
     max-width: 62ch;
     margin: 0;
   }
@@ -245,8 +218,8 @@ const structuredData = [
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: #7A0525;
-    background: #ffffff;
+    color: #ffffff;
+    background: #9C3355;
     text-decoration: none;
     padding: 0.85rem 2.5rem;
     transition: transform 0.15s ease, box-shadow 0.15s ease;

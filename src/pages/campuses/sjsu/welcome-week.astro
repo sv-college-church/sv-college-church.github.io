@@ -265,25 +265,8 @@ const structuredData = [
 </BaseLayout>
 
 <style is:global>
-  body:has(.ww-main) { background: #003874 !important; }
+  body:has(.ww-main) { background: #F2F6FB; }
   body:has(.ww-main) { display: flex; flex-direction: column; min-height: 100svh; }
-
-  body:has(.ww-main) header.fixed { border-bottom: 1px solid rgba(229, 168, 35, 0.15); }
-  body:has(.ww-main) .nav-header::before { background: rgba(0, 40, 100, 0.96) !important; }
-  body:has(.ww-main) header.fixed nav a { color: rgba(255, 255, 255, 0.75) !important; }
-  body:has(.ww-main) header.fixed nav a:hover { color: #E5A823 !important; }
-  body:has(.ww-main) .hamburger-bar { background-color: rgba(255, 255, 255, 0.8) !important; }
-  body:has(.ww-main) .logo-main,
-  body:has(.ww-main) .logo-depth { filter: invert(1) brightness(1.1) !important; }
-
-  body:has(.ww-main) #mobile-menu nav { background: #002D6B !important; border-color: rgba(229, 168, 35, 0.15) !important; }
-  body:has(.ww-main) #mobile-menu a { color: rgba(255, 255, 255, 0.75) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
-
-  body:has(.ww-main) footer { background: #002D6B !important; border-color: rgba(229, 168, 35, 0.15) !important; }
-  body:has(.ww-main) footer p,
-  body:has(.ww-main) footer a { color: rgba(229, 168, 35, 0.85) !important; }
-  body:has(.ww-main) footer a:hover { color: #E5A823 !important; }
-  body:has(.ww-main) footer .network-logo { filter: none !important; }
 </style>
 
 <style>
@@ -302,7 +285,8 @@ const structuredData = [
     min-height: 85vh;
     padding: 12rem 2rem 5rem;
     overflow: hidden;
-    border-bottom: 1px solid rgba(229, 168, 35, 0.15);
+    background: linear-gradient(180deg, #33608C, #2A517A);
+    border-bottom: 1px solid rgba(10, 10, 10, 0.08);
   }
 
   .ww-photo-strip {
@@ -343,7 +327,7 @@ const structuredData = [
   .ww-photo-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0, 56, 116, 0.55), rgba(0, 56, 116, 0.85));
+    background: linear-gradient(180deg, rgba(47, 90, 130, 0.55), rgba(47, 90, 130, 0.82));
   }
 
   @keyframes wwScroll {
@@ -365,11 +349,11 @@ const structuredData = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: #E5A823;
+    color: #EAC77E;
     text-decoration: none;
     transition: color 0.2s ease;
   }
-  .ww-back-link:hover { color: #f4c860; }
+  .ww-back-link:hover { color: #F5DCA0; }
 
   .ww-hero-content {
     position: relative;
@@ -386,7 +370,7 @@ const structuredData = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.28em;
-    color: rgba(229, 168, 35, 0.75);
+    color: rgba(234, 199, 126, 0.85);
     margin-bottom: 1.25rem;
   }
 
@@ -397,7 +381,7 @@ const structuredData = [
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 0.92;
-    color: #E5A823;
+    color: #EAC77E;
   }
 
   .ww-dates {
@@ -442,8 +426,8 @@ const structuredData = [
   }
 
   .ww-btn-primary {
-    background: #E5A823;
-    color: #003874;
+    background: #E9C77E;
+    color: #2F5A82;
   }
   .ww-btn-primary:hover {
     transform: scale(1.04);
@@ -452,12 +436,12 @@ const structuredData = [
 
   .ww-btn-ghost {
     background: transparent;
-    color: rgba(255, 255, 255, 0.75);
-    border: 1.5px solid rgba(229, 168, 35, 0.35);
+    color: rgba(255, 255, 255, 0.85);
+    border: 1.5px solid rgba(234, 199, 126, 0.45);
   }
   .ww-btn-ghost:hover {
-    color: #E5A823;
-    border-color: #E5A823;
+    color: #EAC77E;
+    border-color: #EAC77E;
   }
 
   .ww-btn-large {
@@ -483,7 +467,7 @@ const structuredData = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    color: rgba(229, 168, 35, 0.85);
+    color: #B8862E;
     text-align: center;
   }
 
@@ -492,7 +476,7 @@ const structuredData = [
     font-weight: 350;
     font-style: italic;
     font-size: clamp(1.1rem, 2vw, 1.4rem);
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(10, 10, 10, 0.55);
     text-align: center;
     margin-top: 0.75rem;
     margin-bottom: 3.5rem;
@@ -502,7 +486,7 @@ const structuredData = [
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 1px solid rgba(229, 168, 35, 0.18);
+    border-top: 1px solid rgba(10, 10, 10, 0.1);
   }
 
   .ww-row {
@@ -511,13 +495,13 @@ const structuredData = [
     align-items: center;
     gap: 1.5rem;
     padding: 1.75rem 0.5rem;
-    border-bottom: 1px solid rgba(229, 168, 35, 0.18);
+    border-bottom: 1px solid rgba(10, 10, 10, 0.1);
     transition: opacity 0.3s ease, background 0.2s ease;
   }
 
   @media (hover: hover) and (pointer: fine) {
     .ww-list:hover .ww-row { opacity: 0.4; }
-    .ww-list:hover .ww-row:hover { opacity: 1; background: rgba(229, 168, 35, 0.06); }
+    .ww-list:hover .ww-row:hover { opacity: 1; background: rgba(184, 134, 46, 0.06); }
   }
 
   .ww-row-date {
@@ -531,7 +515,7 @@ const structuredData = [
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.12em;
-    color: rgba(229, 168, 35, 0.75);
+    color: #B8862E;
   }
 
   .ww-row-datenum {
@@ -539,7 +523,7 @@ const structuredData = [
     font-weight: 350;
     font-style: italic;
     font-size: clamp(1.15rem, 2vw, 1.4rem);
-    color: #F5F5F0;
+    color: #1A1A1A;
   }
 
   .ww-row-name {
@@ -548,14 +532,14 @@ const structuredData = [
     text-transform: uppercase;
     letter-spacing: 0.01em;
     font-size: clamp(1.15rem, 2.4vw, 1.6rem);
-    color: #F5F5F0;
+    color: #1A1A1A;
   }
 
   .ww-row-sub {
     font-family: 'Instrument Sans', sans-serif;
     font-weight: 500;
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(10, 10, 10, 0.5);
     margin-top: 0.2rem;
   }
 
@@ -565,7 +549,7 @@ const structuredData = [
     font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: #E5A823;
+    color: #B8862E;
     margin-top: 0.4rem;
   }
 
@@ -579,7 +563,7 @@ const structuredData = [
     font-weight: 350;
     font-style: italic;
     font-size: clamp(1rem, 1.8vw, 1.2rem);
-    color: #F5F5F0;
+    color: #1A1A1A;
     white-space: nowrap;
   }
 
@@ -587,7 +571,7 @@ const structuredData = [
     font-family: 'Instrument Sans', sans-serif;
     font-weight: 500;
     font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(10, 10, 10, 0.45);
     margin-top: 0.15rem;
     white-space: nowrap;
   }
@@ -596,10 +580,10 @@ const structuredData = [
     color: inherit;
     text-decoration: underline;
     text-underline-offset: 0.15em;
-    text-decoration-color: rgba(255, 255, 255, 0.3);
+    text-decoration-color: rgba(10, 10, 10, 0.25);
     transition: color 0.2s ease;
   }
-  .ww-row-loc-link:hover { color: #E5A823; }
+  .ww-row-loc-link:hover { color: #2F5A82; }
 
   /* ── CLOSING CTA ── */
   .ww-cta {
@@ -608,7 +592,7 @@ const structuredData = [
     align-items: center;
     gap: 2rem;
     padding: 6rem 2rem 7rem;
-    border-top: 1px solid rgba(229, 168, 35, 0.15);
+    border-top: 1px solid rgba(10, 10, 10, 0.08);
   }
 
   .ww-cta-label {
@@ -616,7 +600,7 @@ const structuredData = [
     font-weight: 350;
     font-style: italic;
     font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: #F5F5F0;
+    color: #1A1A1A;
     text-align: center;
   }
 
