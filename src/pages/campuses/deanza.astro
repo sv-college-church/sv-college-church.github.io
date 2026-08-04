@@ -4,9 +4,40 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
+
+const pageUrl = new URL('/campuses/deanza', Astro.site).href;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+      { '@type': 'ListItem', position: 2, name: 'Campuses', item: new URL('/campuses', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: 'De Anza College', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${pageUrl}#ismp`,
+    name: 'ISMP at De Anza College',
+    alternateName: 'International Student Mentorship Program',
+    description: 'A mentorship program for international students at De Anza College, offering workshops and small group or personal mentorship on English skills, study habits, and personal development. Content is largely non-religious and open to all backgrounds.',
+    url: pageUrl,
+    sameAs: ['https://internationalmentorship.org/deanza'],
+    parentOrganization: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
+    areaServed: { '@type': 'CollegeOrUniversity', name: 'De Anza College' },
+    foundingDate: '2025',
+  },
+];
 ---
 
-<BaseLayout title="De Anza | Silicon Valley College Church" description="Silicon Valley College Church at De Anza College — campus ministry for De Anza students in Cupertino.">
+<BaseLayout
+  title="ISMP at De Anza | International Student Mentorship Program"
+  description="ISMP offers mentorship for international students at De Anza College: English skills, study habits, and personal development. Open to all backgrounds."
+  structuredData={structuredData}
+>
   <Nav />
 
   <main>
@@ -16,6 +47,7 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
       <Image src={ismpLogo} alt="ISMP" class="hero-logo" />
       <p class="hero-fellowship">ISMP</p>
       <h1 class="school-name">De Anza<br/>Community College</h1>
+      <p class="hero-tagline">Mentorship for international students at De Anza College</p>
     </section>
 
     <section class="info-grid">
@@ -40,37 +72,8 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
 </BaseLayout>
 
 <style is:global>
-  html, body { background: #2E0E0E !important; }
+  html, body { background: #FAF3E4; }
   body { display: flex; flex-direction: column; min-height: 100svh; }
-
-  header {
-    border-bottom: 1px solid rgba(196,160,50,0.2);
-  }
-  header::before {
-    background: rgba(36, 8, 8, 0.97) !important;
-  }
-  header a { color: rgba(255,255,255,0.7) !important; }
-  header a:hover { color: #C4A032 !important; }
-  .hamburger-bar { background-color: rgba(255,255,255,0.8) !important; }
-  .logo-main, .logo-depth { filter: invert(1) brightness(1.1) !important; }
-
-  #mobile-menu nav {
-    background: #240808 !important;
-    border-color: rgba(196,160,50,0.15) !important;
-  }
-  #mobile-menu a {
-    color: rgba(255,255,255,0.7) !important;
-    border-color: rgba(255,255,255,0.08) !important;
-  }
-
-  footer {
-    background: #240808 !important;
-    border-color: rgba(196,160,50,0.2) !important;
-  }
-  footer p { color: rgba(196,160,50,0.8) !important; }
-  footer a { color: rgba(196,160,50,0.8) !important; }
-  footer a:hover { color: #C4A032 !important; }
-  footer .network-logo { filter: none !important; }
 </style>
 
 <style>
@@ -96,18 +99,17 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgba(196,160,50,0.85);
+    color: #896920;
     text-decoration: none;
     transition: color 0.2s ease;
   }
-  .back-link:hover { color: #C4A032; }
+  .back-link:hover { color: #6E551A; }
 
   .hero-logo {
     height: 90px;
     width: auto;
     object-fit: contain;
-    opacity: 0.45;
-    filter: invert(1);
+    opacity: 0.8;
     margin-bottom: 0.5rem;
   }
 
@@ -117,8 +119,18 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.3em;
-    color: rgba(255,255,255,0.7);
+    color: rgba(10, 10, 10, 0.62);
     margin-bottom: 1.25rem;
+  }
+
+  .hero-tagline {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    font-weight: 500;
+    line-height: 1.6;
+    color: rgba(10, 10, 10, 0.62);
+    max-width: 56ch;
+    margin-top: 1.5rem;
   }
 
   .school-name {
@@ -128,7 +140,7 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 0.9;
-    color: #C4A032;
+    color: #896920;
   }
 
   .info-grid {
@@ -153,7 +165,7 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 1;
-    color: #C4A032;
+    color: #896920;
     margin: 0;
   }
 
@@ -162,7 +174,7 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     font-size: clamp(2rem, 4vw, 3.5rem);
     font-weight: 900;
     line-height: 1;
-    color: #ffffff;
+    color: rgba(10, 10, 10, 0.75);
   }
 
   .events-btn {
@@ -172,8 +184,8 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: #2E0E0E;
-    background: #C4A032;
+    color: #ffffff;
+    background: #896920;
     text-decoration: none;
     padding: 0.85rem 2.5rem;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -191,7 +203,7 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     text-align: center;
     gap: 1.5rem;
     padding: 4rem 3rem 7rem;
-    border-top: 1px solid rgba(196,160,50,0.15);
+    border-top: 1px solid rgba(10, 10, 10, 0.08);
     margin: 0 3rem;
   }
 
@@ -200,7 +212,7 @@ import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
     font-size: clamp(0.95rem, 1.4vw, 1.1rem);
     font-weight: 500;
     line-height: 1.8;
-    color: rgba(255,255,255,0.6);
+    color: rgba(10, 10, 10, 0.62);
     max-width: 62ch;
     margin: 0;
   }

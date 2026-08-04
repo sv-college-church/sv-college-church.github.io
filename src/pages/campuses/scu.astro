@@ -4,18 +4,50 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
+
+const pageUrl = new URL('/campuses/scu', Astro.site).href;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+      { '@type': 'ListItem', position: 2, name: 'Campuses', item: new URL('/campuses', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: 'Santa Clara University', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${pageUrl}#klesis`,
+    name: 'Klesis Christian Fellowship at Santa Clara University',
+    alternateName: 'Klesis SCU',
+    description: 'A recognized non-denominational Christian club at Santa Clara University, meeting weekly for Bible study and community. Part of Silicon Valley College Church.',
+    url: pageUrl,
+    sameAs: ['https://www.instagram.com/klesis.scu/'],
+    parentOrganization: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
+    areaServed: { '@type': 'CollegeOrUniversity', name: 'Santa Clara University' },
+    foundingDate: '2015',
+  },
+];
 ---
 
-<BaseLayout title="Santa Clara University | Silicon Valley College Church" description="Silicon Valley College Church at Santa Clara University — campus ministry for SCU students in Santa Clara.">
+<BaseLayout
+  title="Klesis SCU | Christian Club & Bible Study at Santa Clara University"
+  description="Klesis is a recognized Christian club at Santa Clara University. Weekly Bible study, Thursdays at 7 PM. Open to all SCU students."
+  structuredData={structuredData}
+>
   <Nav />
 
   <main>
 
     <section class="hero-section" style="view-transition-name: campus-scu">
       <a href="/campuses" class="back-link">← Campuses</a>
-      <Image src={klesisScu} alt="Klesis SCU" class="hero-logo" />
+      <Image src={klesisScu} alt="Klesis Christian Fellowship logo, Santa Clara University" class="hero-logo" />
       <p class="hero-fellowship">Klesis</p>
       <h1 class="school-name">Santa Clara<br/>University</h1>
+      <p class="hero-tagline">A Christian club and Bible study at Santa Clara University</p>
     </section>
 
     <section class="info-grid">
@@ -24,8 +56,8 @@ import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
         <p class="info-value">2015</p>
       </div>
       <div class="info-col">
-        <h2 class="info-label">About</h2>
-        <p class="info-value">Coming soon</p>
+        <h2 class="info-label">Bible Study</h2>
+        <p class="info-value-small">Thursdays<br/>7:00 PM</p>
       </div>
       <div class="info-col">
         <h2 class="info-label">Events</h2>
@@ -33,42 +65,18 @@ import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
       </div>
     </section>
 
+    <section class="about-section">
+      <h2 class="info-label">About</h2>
+      <p class="about-body">Klesis is a recognized, non-denominational Christian club at Santa Clara University. Klesis is Greek for "divine invitation," and the group is a safe space to seek God, study the Bible, and find friendship, whether you've been a Christian your whole life or you're checking it out for the first time.</p>
+    </section>
+
   </main>
   <Footer />
 </BaseLayout>
 
 <style is:global>
-  html, body { background: #7A0525 !important; }
+  html, body { background: #F6E9EB; }
   body { display: flex; flex-direction: column; min-height: 100svh; }
-
-  header {
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  header::before {
-    background: rgba(100, 4, 30, 0.97) !important;
-  }
-  header a { color: rgba(255,255,255,0.75) !important; }
-  header a:hover { color: #ffffff !important; }
-  .hamburger-bar { background-color: rgba(255,255,255,0.8) !important; }
-  .logo-main, .logo-depth { filter: invert(1) brightness(1.1) !important; }
-
-  #mobile-menu nav {
-    background: #640420 !important;
-    border-color: rgba(255,255,255,0.08) !important;
-  }
-  #mobile-menu a {
-    color: rgba(255,255,255,0.75) !important;
-    border-color: rgba(255,255,255,0.08) !important;
-  }
-
-  footer {
-    background: #640420 !important;
-    border-color: rgba(255,255,255,0.1) !important;
-  }
-  footer p { color: rgba(255,255,255,0.6) !important; }
-  footer a { color: rgba(255,255,255,0.6) !important; }
-  footer a:hover { color: rgba(255,255,255,0.85) !important; }
-  footer .network-logo { filter: none !important; }
 </style>
 
 <style>
@@ -94,16 +102,18 @@ import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgba(255,255,255,0.7);
+    color: #A32035;
     text-decoration: none;
     transition: color 0.2s ease;
   }
-  .back-link:hover { color: #ffffff; }
+  .back-link:hover { color: #7A1828; }
 
   .hero-logo {
     height: 90px;
     width: auto;
     object-fit: contain;
+    opacity: 0.85;
+    filter: invert(1);
     margin-bottom: 0.5rem;
   }
 
@@ -113,7 +123,7 @@ import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.3em;
-    color: rgba(255,255,255,0.7);
+    color: rgba(10, 10, 10, 0.62);
     margin-bottom: 1.25rem;
   }
 
@@ -124,14 +134,24 @@ import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 0.9;
-    color: #ffffff;
+    color: #A32035;
+  }
+
+  .hero-tagline {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    font-weight: 500;
+    line-height: 1.6;
+    color: rgba(10, 10, 10, 0.62);
+    max-width: 56ch;
+    margin-top: 1.5rem;
   }
 
   .info-grid {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    padding: 1rem 3rem 6rem;
+    padding: 1rem 3rem 3rem;
   }
 
   .info-col {
@@ -150,7 +170,7 @@ import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 1;
-    color: #ffffff;
+    color: #A32035;
     margin: 0;
   }
 
@@ -159,7 +179,36 @@ import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
     font-size: clamp(2rem, 4vw, 3.5rem);
     font-weight: 900;
     line-height: 1;
-    color: rgba(255,255,255,0.7);
+    color: rgba(10, 10, 10, 0.7);
+  }
+
+  .info-value-small {
+    font-family: 'Unbounded', sans-serif;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.3;
+    color: rgba(10, 10, 10, 0.7);
+  }
+
+  .about-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+    padding: 4rem 3rem 7rem;
+    border-top: 1px solid rgba(10, 10, 10, 0.08);
+    margin: 0 3rem;
+  }
+
+  .about-body {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.8;
+    color: rgba(10, 10, 10, 0.62);
+    max-width: 62ch;
+    margin: 0;
   }
 
   .events-btn {
@@ -169,8 +218,8 @@ import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.2em;
-    color: #7A0525;
-    background: #ffffff;
+    color: #ffffff;
+    background: #A32035;
     text-decoration: none;
     padding: 0.85rem 2.5rem;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -187,6 +236,10 @@ import klesisScu from '../../assets/images/campuses/logos/klesis-scu.png';
     }
     .info-col {
       padding: 2rem 1rem;
+    }
+    .about-section {
+      padding: 3rem 2rem 4rem;
+      margin: 0 2rem;
     }
   }
 </style>

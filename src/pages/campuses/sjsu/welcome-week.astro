@@ -26,6 +26,9 @@ const bgPhotos = await Promise.all(
 // NOTE: times default to 6:00–9:00 PM per John except where overridden below.
 // Locations marked TBA are intentional — to be chosen later.
 const horaceMannMapUrl = 'https://maps.app.goo.gl/62onxaD35UY9wsYT6';
+
+// `start`/`end` are ISO-8601 with the Pacific offset, used only for the Event
+// JSON-LD below. The visible schedule still renders from `date`/`time`.
 const schedule = [
   {
     day: 'SAT',
@@ -35,6 +38,8 @@ const schedule = [
     location: 'Washburn Hall',
     note: null,
     time: '5:30 – 7:30 PM',
+    start: '2026-08-15T17:30:00-07:00',
+    end: '2026-08-15T19:30:00-07:00',
   },
   {
     day: 'SUN',
@@ -45,6 +50,8 @@ const schedule = [
     mapUrl: horaceMannMapUrl,
     note: null,
     time: '12:00 – 1:30 PM',
+    start: '2026-08-16T12:00:00-07:00',
+    end: '2026-08-16T13:30:00-07:00',
   },
   {
     day: 'MON',
@@ -52,8 +59,10 @@ const schedule = [
     name: 'Laser Tag & Floats',
     sub: 'Event Center',
     location: 'SJSU Event Center',
-    note: 'Open campus space — no sign-up, just show up',
+    note: 'Open campus space, no sign-up, show up',
     time: '7:30 – 9:30 PM',
+    start: '2026-08-17T19:30:00-07:00',
+    end: '2026-08-17T21:30:00-07:00',
   },
   {
     day: 'TUE',
@@ -63,6 +72,8 @@ const schedule = [
     location: 'The Place',
     note: null,
     time: '6:00 – 8:00 PM',
+    start: '2026-08-18T18:00:00-07:00',
+    end: '2026-08-18T20:00:00-07:00',
   },
   {
     day: 'WED',
@@ -72,6 +83,8 @@ const schedule = [
     location: 'SU Room 3',
     note: null,
     time: '6:30 – 8:30 PM',
+    start: '2026-08-19T18:30:00-07:00',
+    end: '2026-08-19T20:30:00-07:00',
   },
   {
     day: 'FRI',
@@ -81,6 +94,8 @@ const schedule = [
     location: 'TBA',
     note: null,
     time: '5:30 – 7:30 PM',
+    start: '2026-08-21T17:30:00-07:00',
+    end: '2026-08-21T19:30:00-07:00',
   },
   {
     day: 'SUN',
@@ -91,13 +106,89 @@ const schedule = [
     mapUrl: horaceMannMapUrl,
     note: null,
     time: '12:00 – 1:30 PM',
+    start: '2026-08-23T12:00:00-07:00',
+    end: '2026-08-23T13:30:00-07:00',
   },
+];
+
+const pageUrl = new URL('/campuses/sjsu/welcome-week', Astro.site).href;
+
+const sjsuPlace = {
+  '@type': 'Place',
+  name: 'San José State University',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '1 Washington Sq',
+    addressLocality: 'San Jose',
+    addressRegion: 'CA',
+    postalCode: '95192',
+    addressCountry: 'US',
+  },
+};
+
+const horaceMannPlace = {
+  '@type': 'Place',
+  name: 'Horace Mann Elementary School',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '55 N 7th St',
+    addressLocality: 'San Jose',
+    addressRegion: 'CA',
+    postalCode: '95112',
+    addressCountry: 'US',
+  },
+};
+
+const organizer = {
+  '@type': 'Organization',
+  name: 'Klesis Christian Fellowship at SJSU',
+  url: new URL('/campuses/sjsu', Astro.site).href,
+};
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+      { '@type': 'ListItem', position: 2, name: 'Campuses', item: new URL('/campuses', Astro.site).href },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: 'San José State University',
+        item: new URL('/campuses/sjsu', Astro.site).href,
+      },
+      { '@type': 'ListItem', position: 4, name: 'Welcome Week', item: pageUrl },
+    ],
+  },
+  ...schedule.map((ev) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: `${ev.name} · SJSU Welcome Week`,
+    description: `${ev.sub}. Part of Welcome Week at San José State University, hosted by Klesis and Silicon Valley College Church.`,
+    startDate: ev.start,
+    endDate: ev.end,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    location: ev.location === 'Horace Mann' ? horaceMannPlace : sjsuPlace,
+    organizer,
+    url: pageUrl,
+    isAccessibleForFree: true,
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      url: pageUrl,
+    },
+  })),
 ];
 ---
 
 <BaseLayout
-  title="Welcome Week | SJSU | Silicon Valley College Church"
-  description="Welcome Week at San José State — a week of events from move-in through the first Sunday, hosted by Silicon Valley College Church."
+  title="SJSU Welcome Week 2026 | Klesis Christian Fellowship Events"
+  description="Welcome Week at San José State, August 15 to 23, 2026. Sports, pizza, laser tag, a frosh BBQ, and a bonfire with Klesis and Silicon Valley College Church. Free, no sign-up."
+  structuredData={structuredData}
 >
   <Nav />
 
@@ -120,7 +211,7 @@ const schedule = [
         <h1 class="ww-title" data-animate data-animate-delay="1">Welcome<br />Week</h1>
         <p class="ww-dates" data-animate data-animate-delay="2">August 15 – 23</p>
         <p class="ww-blurb" data-animate data-animate-delay="3">
-          Welcome, Class of 2030 — your mentors at Klesis can't wait to meet you. Sports, pizza, laser tag, and a bonfire: this is where it starts.
+          Welcome, Class of 2030. Your mentors at Klesis can't wait to meet you. Sports, pizza, laser tag, and a bonfire at San José State: this is where it starts.
         </p>
         <div class="ww-ctas" data-animate data-animate-delay="4">
           <a href={connectHref} class="ww-btn ww-btn-primary">{connectLabel}</a>
@@ -174,25 +265,8 @@ const schedule = [
 </BaseLayout>
 
 <style is:global>
-  body:has(.ww-main) { background: #003874 !important; }
+  body:has(.ww-main) { background: #D9E6F1; }
   body:has(.ww-main) { display: flex; flex-direction: column; min-height: 100svh; }
-
-  body:has(.ww-main) header.fixed { border-bottom: 1px solid rgba(229, 168, 35, 0.15); }
-  body:has(.ww-main) .nav-header::before { background: rgba(0, 40, 100, 0.96) !important; }
-  body:has(.ww-main) header.fixed nav a { color: rgba(255, 255, 255, 0.75) !important; }
-  body:has(.ww-main) header.fixed nav a:hover { color: #E5A823 !important; }
-  body:has(.ww-main) .hamburger-bar { background-color: rgba(255, 255, 255, 0.8) !important; }
-  body:has(.ww-main) .logo-main,
-  body:has(.ww-main) .logo-depth { filter: invert(1) brightness(1.1) !important; }
-
-  body:has(.ww-main) #mobile-menu nav { background: #002D6B !important; border-color: rgba(229, 168, 35, 0.15) !important; }
-  body:has(.ww-main) #mobile-menu a { color: rgba(255, 255, 255, 0.75) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
-
-  body:has(.ww-main) footer { background: #002D6B !important; border-color: rgba(229, 168, 35, 0.15) !important; }
-  body:has(.ww-main) footer p,
-  body:has(.ww-main) footer a { color: rgba(229, 168, 35, 0.85) !important; }
-  body:has(.ww-main) footer a:hover { color: #E5A823 !important; }
-  body:has(.ww-main) footer .network-logo { filter: none !important; }
 </style>
 
 <style>
@@ -211,7 +285,8 @@ const schedule = [
     min-height: 85vh;
     padding: 12rem 2rem 5rem;
     overflow: hidden;
-    border-bottom: 1px solid rgba(229, 168, 35, 0.15);
+    background: linear-gradient(180deg, #0F5DA0, #00396E);
+    border-bottom: 1px solid rgba(10, 10, 10, 0.08);
   }
 
   .ww-photo-strip {
@@ -252,7 +327,7 @@ const schedule = [
   .ww-photo-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0, 56, 116, 0.55), rgba(0, 56, 116, 0.85));
+    background: linear-gradient(180deg, rgba(0, 74, 138, 0.55), rgba(0, 74, 138, 0.82));
   }
 
   @keyframes wwScroll {
@@ -274,11 +349,11 @@ const schedule = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: #E5A823;
+    color: #EAC77E;
     text-decoration: none;
     transition: color 0.2s ease;
   }
-  .ww-back-link:hover { color: #f4c860; }
+  .ww-back-link:hover { color: #F5DCA0; }
 
   .ww-hero-content {
     position: relative;
@@ -295,7 +370,7 @@ const schedule = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.28em;
-    color: rgba(229, 168, 35, 0.75);
+    color: rgba(234, 199, 126, 0.85);
     margin-bottom: 1.25rem;
   }
 
@@ -306,7 +381,7 @@ const schedule = [
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 0.92;
-    color: #E5A823;
+    color: #EAC77E;
   }
 
   .ww-dates {
@@ -351,8 +426,8 @@ const schedule = [
   }
 
   .ww-btn-primary {
-    background: #E5A823;
-    color: #003874;
+    background: #E9C77E;
+    color: #004A8A;
   }
   .ww-btn-primary:hover {
     transform: scale(1.04);
@@ -361,12 +436,12 @@ const schedule = [
 
   .ww-btn-ghost {
     background: transparent;
-    color: rgba(255, 255, 255, 0.75);
-    border: 1.5px solid rgba(229, 168, 35, 0.35);
+    color: rgba(255, 255, 255, 0.85);
+    border: 1.5px solid rgba(234, 199, 126, 0.45);
   }
   .ww-btn-ghost:hover {
-    color: #E5A823;
-    border-color: #E5A823;
+    color: #EAC77E;
+    border-color: #EAC77E;
   }
 
   .ww-btn-large {
@@ -392,7 +467,7 @@ const schedule = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    color: rgba(229, 168, 35, 0.85);
+    color: #805E13;
     text-align: center;
   }
 
@@ -401,7 +476,7 @@ const schedule = [
     font-weight: 350;
     font-style: italic;
     font-size: clamp(1.1rem, 2vw, 1.4rem);
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(10, 10, 10, 0.62);
     text-align: center;
     margin-top: 0.75rem;
     margin-bottom: 3.5rem;
@@ -411,7 +486,7 @@ const schedule = [
     list-style: none;
     margin: 0;
     padding: 0;
-    border-top: 1px solid rgba(229, 168, 35, 0.18);
+    border-top: 1px solid rgba(10, 10, 10, 0.1);
   }
 
   .ww-row {
@@ -420,13 +495,13 @@ const schedule = [
     align-items: center;
     gap: 1.5rem;
     padding: 1.75rem 0.5rem;
-    border-bottom: 1px solid rgba(229, 168, 35, 0.18);
+    border-bottom: 1px solid rgba(10, 10, 10, 0.1);
     transition: opacity 0.3s ease, background 0.2s ease;
   }
 
   @media (hover: hover) and (pointer: fine) {
     .ww-list:hover .ww-row { opacity: 0.4; }
-    .ww-list:hover .ww-row:hover { opacity: 1; background: rgba(229, 168, 35, 0.06); }
+    .ww-list:hover .ww-row:hover { opacity: 1; background: rgba(128, 94, 19, 0.06); }
   }
 
   .ww-row-date {
@@ -440,7 +515,7 @@ const schedule = [
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.12em;
-    color: rgba(229, 168, 35, 0.75);
+    color: #805E13;
   }
 
   .ww-row-datenum {
@@ -448,7 +523,7 @@ const schedule = [
     font-weight: 350;
     font-style: italic;
     font-size: clamp(1.15rem, 2vw, 1.4rem);
-    color: #F5F5F0;
+    color: #1A1A1A;
   }
 
   .ww-row-name {
@@ -457,14 +532,14 @@ const schedule = [
     text-transform: uppercase;
     letter-spacing: 0.01em;
     font-size: clamp(1.15rem, 2.4vw, 1.6rem);
-    color: #F5F5F0;
+    color: #1A1A1A;
   }
 
   .ww-row-sub {
     font-family: 'Instrument Sans', sans-serif;
     font-weight: 500;
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(10, 10, 10, 0.5);
     margin-top: 0.2rem;
   }
 
@@ -474,7 +549,7 @@ const schedule = [
     font-size: 0.72rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: #E5A823;
+    color: #805E13;
     margin-top: 0.4rem;
   }
 
@@ -488,7 +563,7 @@ const schedule = [
     font-weight: 350;
     font-style: italic;
     font-size: clamp(1rem, 1.8vw, 1.2rem);
-    color: #F5F5F0;
+    color: #1A1A1A;
     white-space: nowrap;
   }
 
@@ -496,7 +571,7 @@ const schedule = [
     font-family: 'Instrument Sans', sans-serif;
     font-weight: 500;
     font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(10, 10, 10, 0.45);
     margin-top: 0.15rem;
     white-space: nowrap;
   }
@@ -505,10 +580,10 @@ const schedule = [
     color: inherit;
     text-decoration: underline;
     text-underline-offset: 0.15em;
-    text-decoration-color: rgba(255, 255, 255, 0.3);
+    text-decoration-color: rgba(10, 10, 10, 0.25);
     transition: color 0.2s ease;
   }
-  .ww-row-loc-link:hover { color: #E5A823; }
+  .ww-row-loc-link:hover { color: #004A8A; }
 
   /* ── CLOSING CTA ── */
   .ww-cta {
@@ -517,7 +592,7 @@ const schedule = [
     align-items: center;
     gap: 2rem;
     padding: 6rem 2rem 7rem;
-    border-top: 1px solid rgba(229, 168, 35, 0.15);
+    border-top: 1px solid rgba(10, 10, 10, 0.08);
   }
 
   .ww-cta-label {
@@ -525,7 +600,7 @@ const schedule = [
     font-weight: 350;
     font-style: italic;
     font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: #F5F5F0;
+    color: #1A1A1A;
     text-align: center;
   }
 
