@@ -43,7 +43,7 @@ const groups = [
   {
     leads: 'Tran & Gabby',
     consultant: null,
-    name: "Women's Wellness (WW)",
+    name: "Women's Wellness",
     photo: tranGabby,
     meetingTime: DEFAULT_MEETING,
   },
@@ -70,14 +70,13 @@ const groups = [
           Small groups of students, meeting weekly to grow in faith and friendship. Sign up now — groups form during Welcome Week.
         </p>
         <div class="cg-ctas">
-          <a href="/connect" class="cg-btn cg-btn-primary">Sign Up</a>
+          <a href="https://forms.gle/sCgeEGwaT2qhaVab9" target="_blank" rel="noopener noreferrer" class="cg-btn cg-btn-primary">Sign Up</a>
         </div>
       </div>
     </section>
 
     <!-- ── GROUPS ── -->
     <section class="cg-groups">
-      <p class="cg-section-label">Fall Groups — Draft</p>
       <div class="cg-grid">
         {groups.map((g) => (
           <div class="cg-col">
@@ -210,17 +209,6 @@ const groups = [
     border-top: 1px solid rgba(10, 10, 10, 0.08);
   }
 
-  .cg-section-label {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: #805E13;
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
   .cg-grid {
     display: grid;
     grid-template-columns: 1fr 1px 1fr;
@@ -264,7 +252,7 @@ const groups = [
 
   .cg-label {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.62rem;
+    font-size: 0.93rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.22em;
@@ -273,14 +261,14 @@ const groups = [
 
   .cg-consultant {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.85rem;
+    font-size: 1.275rem;
     font-weight: 500;
     color: rgba(10, 10, 10, 0.55);
   }
 
   .cg-body {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(0.9rem, 1.3vw, 1rem);
+    font-size: clamp(1.35rem, 1.95vw, 1.5rem);
     font-weight: 500;
     line-height: 1.8;
     color: rgba(10, 10, 10, 0.62);
