@@ -251,14 +251,6 @@ const structuredData = [
       </div>
     </section>
 
-    <!-- ── CLOSING CTA ── -->
-    {CONNECT_GROUPS_LIVE && (
-      <section class="ww-cta">
-        <p class="ww-cta-label" data-animate>Don't do freshman year alone.</p>
-        <a href="/campuses/sjsu/connect-groups" class="ww-btn ww-btn-primary ww-btn-large" data-animate data-animate-delay="1">Sign Up for Connect Groups</a>
-      </section>
-    )}
-
   </main>
 
   <Footer />
@@ -445,11 +437,6 @@ const structuredData = [
     border-color: #EAC77E;
   }
 
-  .ww-btn-large {
-    padding: 1.15rem 3rem;
-    font-size: 0.8rem;
-  }
-
   /* ── SCHEDULE ── */
   .ww-schedule {
     padding: 5rem 2rem 6rem;
@@ -585,25 +572,6 @@ const structuredData = [
     transition: color 0.2s ease;
   }
   .ww-row-loc-link:hover { color: #004A8A; }
-
-  /* ── CLOSING CTA ── */
-  .ww-cta {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    padding: 6rem 2rem 7rem;
-    border-top: 1px solid rgba(10, 10, 10, 0.08);
-  }
-
-  .ww-cta-label {
-    font-family: 'Bitter', Georgia, serif;
-    font-weight: 350;
-    font-style: italic;
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
-    color: #1A1A1A;
-    text-align: center;
-  }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 640px) {

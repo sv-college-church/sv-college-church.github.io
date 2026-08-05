@@ -111,19 +111,16 @@ const structuredData = [
       <span class="ww-banner-arrow" aria-hidden="true">→</span>
     </a>
 
-    {CONNECT_GROUPS_LIVE && (
-      <a href="/campuses/sjsu/connect-groups" class="connect-groups-banner">
-        <span class="ww-banner-label">Sign Up for Connect Groups</span>
-        <span class="ww-banner-arrow" aria-hidden="true">→</span>
-      </a>
-    )}
-
     <section class="groups-section">
       <div class="group-col">
         <Image src={klesisSjsu} alt="Klesis Christian Fellowship logo, San José State University" class="group-logo" />
         <h2 class="group-label">Klesis Christian Fellowship · SJSU</h2>
         <p class="group-body">Klesis is a Christian club at San José State built for friendships, purpose, sports, nerf battles, investigating the Christian faith, and being there for one another. It is modeled after the Acts 2 church and open to every SJSU student, whatever you believe right now.</p>
-        <a href="https://www.instagram.com/klesis_sjsu/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
+        {CONNECT_GROUPS_LIVE ? (
+          <a href="/campuses/sjsu/connect-groups" class="group-link">Connect Groups ↗</a>
+        ) : (
+          <a href="https://www.instagram.com/klesis_sjsu/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
+        )}
       </div>
       <div class="col-divider" aria-hidden="true"></div>
       <div class="group-col">
@@ -239,25 +236,6 @@ const structuredData = [
     transition: background 0.15s ease;
   }
   .welcome-week-banner:hover { background: #E0B85E; }
-
-  .connect-groups-banner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    background: transparent;
-    color: #805E13;
-    text-decoration: none;
-    padding: 0.85rem 2rem;
-    font-family: 'Instrument Sans', sans-serif;
-    border-bottom: 1px solid rgba(10, 10, 10, 0.08);
-    transition: background 0.15s ease, color 0.15s ease;
-  }
-  .connect-groups-banner:hover { background: rgba(128, 94, 19, 0.08); color: #6B4D10; }
-
-  @media (max-width: 480px) {
-    .connect-groups-banner { padding: 0.7rem 1.25rem; gap: 0.6rem; }
-  }
 
   .ww-banner-label {
     font-size: 0.85rem;
