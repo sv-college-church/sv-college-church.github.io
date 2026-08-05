@@ -12,9 +12,9 @@ import svc13 from '../../../assets/images/community/svc-13.webp';
 import svc16 from '../../../assets/images/community/svc-16.webp';
 import laserTag from '../../../assets/images/community-new/laser-tag.jpg';
 import beachGroup from '../../../assets/images/community-new/beach-group.jpg';
-import { CONNECT_GROUPS_LIVE } from '../../../config/flags';
+import { CONNECT_GROUPS_LIVE, CONNECT_GROUPS_FORM_URL } from '../../../config/flags';
 
-const connectHref = CONNECT_GROUPS_LIVE ? '/campuses/sjsu/connect-groups' : '/connect';
+const connectHref = CONNECT_GROUPS_LIVE ? CONNECT_GROUPS_FORM_URL : '/connect';
 const connectLabel = CONNECT_GROUPS_LIVE ? 'Sign Up for Connect Groups' : 'Get Connected';
 
 const bgPhotos = await Promise.all(
@@ -214,7 +214,12 @@ const structuredData = [
           Welcome, Class of 2030. Your mentors at Klesis can't wait to meet you. Sports, pizza, laser tag, and a bonfire at San José State: this is where it starts.
         </p>
         <div class="ww-ctas" data-animate data-animate-delay="4">
-          <a href={connectHref} class="ww-btn ww-btn-primary">{connectLabel}</a>
+          <a
+            href={connectHref}
+            class="ww-btn ww-btn-primary"
+            target={CONNECT_GROUPS_LIVE ? '_blank' : undefined}
+            rel={CONNECT_GROUPS_LIVE ? 'noopener noreferrer' : undefined}
+          >{connectLabel}</a>
           <a href="#schedule" class="ww-btn ww-btn-ghost">See the Schedule ↓</a>
         </div>
       </div>
@@ -232,7 +237,6 @@ const structuredData = [
               </div>
               <div class="ww-row-main">
                 <p class="ww-row-name">{ev.name}</p>
-                <p class="ww-row-sub">{ev.sub}</p>
                 {ev.note && <p class="ww-row-flag">{ev.note}</p>}
               </div>
               <div class="ww-row-meta">
@@ -521,14 +525,6 @@ const structuredData = [
     letter-spacing: 0.01em;
     font-size: clamp(1.15rem, 2.4vw, 1.6rem);
     color: #805E13;
-  }
-
-  .ww-row-sub {
-    font-family: 'Instrument Sans', sans-serif;
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: rgba(10, 10, 10, 0.5);
-    margin-top: 0.2rem;
   }
 
   .ww-row-flag {
