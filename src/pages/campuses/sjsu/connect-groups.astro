@@ -27,21 +27,30 @@ const groups = [
     consultant: null,
     name: 'Charcuterie Chats',
     photo: sharonMaggy,
-    meetingTime: DEFAULT_MEETING,
+    meetingTime: {
+      time: 'Every Wednesday, 7 – 8 PM',
+      start: 'First session on Wed, Aug 26',
+    },
   },
   {
     leads: 'Justin & Estevan',
     consultant: null,
     name: 'Iron Men',
     photo: justinEstevan,
-    meetingTime: DEFAULT_MEETING,
+    meetingTime: {
+      time: 'Every Thursday, 7 – 8 PM',
+      start: 'First session on Thu, Aug 27',
+    },
   },
   {
     leads: 'Jordan & Luc',
     consultant: null,
     name: 'Bible & Biceps',
     photo: jordanLuc,
-    meetingTime: DEFAULT_MEETING,
+    meetingTime: {
+      time: 'Every Thursday, 6 – 7 PM',
+      start: 'First session on Thu, Aug 27',
+    },
   },
   {
     leads: 'Tran & Gabby',
@@ -70,7 +79,7 @@ const groups = [
         <p class="cg-eyebrow">SJSU · CONNECT GROUPS</p>
         <h1 class="cg-title">Connect<br />Groups</h1>
         <p class="cg-blurb">
-          Small groups of students, meeting weekly to grow in faith and friendship. Sign up now — groups form during Welcome Week.
+          Small groups of students, meeting weekly to grow in faith and friendship. Sign up now! Groups form during Welcome Week.
         </p>
         <div class="cg-ctas">
           <a href={CONNECT_GROUPS_FORM_URL} target="_blank" rel="noopener noreferrer" class="cg-btn cg-btn-primary">Sign Up</a>
