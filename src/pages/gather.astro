@@ -1,9 +1,23 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import UpcomingEvents from '../components/UpcomingEvents.astro';
 import { getHighlightedEvents } from '../lib/events';
+import sundayService from '../assets/images/gather/sunday-service.jpg';
+import friendsOutdoors from '../assets/images/gather/friends-outdoors.jpg';
+import birthdayCelebration from '../assets/images/gather/birthday-celebration.jpg';
+import frisbee from '../assets/images/gather/frisbee.jpg';
+import groupSmiling from '../assets/images/gather/group-smiling.jpg';
+
+const bannerPhotos = [
+  { src: sundayService, alt: 'Welcome to Sunday Service at SVC' },
+  { src: friendsOutdoors, alt: 'Students smiling together outdoors' },
+  { src: birthdayCelebration, alt: 'Celebrating a birthday together' },
+  { src: frisbee, alt: 'Playing frisbee after service' },
+  { src: groupSmiling, alt: 'Friends smiling together' },
+];
 
 const hasUpcoming = (await getHighlightedEvents()).length > 0;
 const pageUrl = new URL('/gather', Astro.site).href;
@@ -65,35 +79,45 @@ const structuredData = [
 
     <!-- WHEN + WHERE side by side -->
     <section class="when-where border-t border-ink/10">
-      <!-- When -->
-      <div class="info-col" data-animate>
-        <h2 class="section-label">When</h2>
-        <div class="info-content">
-          <p class="display-primary" id="when-primary">Sundays</p>
-          <p class="display-bold" id="when-bold">12 PM</p>
-        </div>
+      <!-- Map -->
+      <div class="map-col" data-animate>
+        <iframe
+          class="map-embed"
+          title="Map to Horace Mann Elementary School"
+          src="https://www.google.com/maps?q=55+N+7th+St,+San+Jose,+CA+95112&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
       </div>
 
-      <!-- Divider -->
-      <div class="col-divider" aria-hidden="true"></div>
-
-      <!-- Where -->
+      <!-- Info -->
       <div class="info-col" data-animate>
-        <h2 class="section-label">Where</h2>
         <div class="info-content">
-          <p class="display-primary" id="where-primary">Horace Mann Elementary School<span class="where-asterisk" aria-hidden="true">*</span></p>
-          <p class="display-secondary" id="where-secondary">55 N 7th St, San Jose, CA 95112</p>
+          <p class="info-lead">
+            SVC Sundays typically meets <strong>Sundays</strong> at <strong>12 PM</strong>
+            at <strong>Horace Mann Elementary School</strong>, 55 N 7th St, San Jose, CA 95112.
+          </p>
           <a
             href="https://maps.app.goo.gl/7XNDPqsATX3rs7LF7"
             target="_blank"
             rel="noopener noreferrer"
-            class="directions-link"
+            class="directions-button"
             id="directions-link"
           >
-            Get Directions →
+            Get Directions
           </a>
-          <p class="where-footnote">* we also gather at other spots across the South Bay</p>
         </div>
+      </div>
+    </section>
+
+    <!-- Rolling photo banner -->
+    <section class="photo-banner" aria-label="Photos from SVC Sundays">
+      <div class="photo-track">
+        {[...bannerPhotos, ...bannerPhotos].map((photo) => (
+          <div class="photo-item">
+            <Image src={photo.src} alt={photo.alt} width={640} height={427} />
+          </div>
+        ))}
       </div>
     </section>
 
@@ -166,36 +190,38 @@ const structuredData = [
   /* ── WHEN + WHERE side by side ── */
   .when-where {
     display: grid;
-    grid-template-columns: 1fr 1px 1fr;
-    grid-template-rows: 1fr auto auto 1fr;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    gap: 3rem;
     min-height: 40vh;
+    padding: 3rem;
+  }
+
+  .map-col {
+    height: 100%;
+    min-height: 320px;
+  }
+
+  .map-embed {
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    border: 0;
+    border-radius: 14px;
+    filter: grayscale(1) contrast(1.05);
   }
 
   .info-col {
-    display: grid;
-    grid-row: span 4;
-    grid-template-rows: subgrid;
+    display: flex;
     justify-items: center;
-    text-align: center;
-    padding: 0 3rem;
-  }
-
-  .info-col .section-label {
-    grid-row: 2;
-    align-self: end;
-    padding-bottom: 1rem;
-  }
-
-  .col-divider {
-    grid-row: span 4;
-    background: rgb(10 10 10 / 0.1);
+    text-align: left;
+    padding: 0 1rem;
   }
 
   .info-content {
-    grid-row: 3;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
 
   /* ── Reveal (data-animate) — visible by default; see global.css for the
@@ -238,75 +264,85 @@ const structuredData = [
     margin-bottom: 2rem;
   }
 
-  /* ── Display text ── */
-  .display-primary {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.5rem, 5.5vw, 6rem);
-    font-weight: 400;
-    font-style: italic;
-    line-height: 0.92;
-    letter-spacing: -0.02em;
-    color: rgb(10 10 10);
-  }
-
-.display-bold {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3.5rem, 8vw, 9rem);
-    font-weight: 700;
-    font-style: normal;
-    line-height: 0.88;
-    letter-spacing: -0.03em;
-    color: rgb(10 10 10);
-    margin-top: 0.1em;
-  }
-
-  .display-secondary {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.4rem, 3vw, 3.2rem);
-    font-weight: 400;
-    font-style: italic;
-    line-height: 1;
-    letter-spacing: -0.01em;
-    color: rgb(10 10 10 / 0.65);
-    margin-top: 0.35em;
-  }
-
-  /* ── Directions link ── */
-  .directions-link {
+  /* ── Info prose ── */
+  .info-lead {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: rgb(10 10 10 / 0.62);
-    text-decoration: none;
-    margin-top: 2rem;
-    transition: color 0.2s ease;
-  }
-
-  .directions-link:hover {
-    color: rgb(10 10 10);
-  }
-
-  .where-asterisk {
-    font-family: 'Instrument Sans', sans-serif;
-    font-style: normal;
-    font-size: 0.5em;
-    font-weight: 600;
-    vertical-align: super;
-    color: rgb(10 10 10 / 0.55);
-    margin-left: 0.15em;
-  }
-
-  .where-footnote {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.72rem;
+    font-size: clamp(1.15rem, 1.8vw, 1.6rem);
     font-weight: 500;
-    font-style: italic;
-    color: rgb(10 10 10 / 0.6);
-    margin-top: 1rem;
-    max-width: 22rem;
-    line-height: 1.4;
+    line-height: 1.55;
+    color: rgb(10 10 10 / 0.85);
+    max-width: 26rem;
+  }
+
+  .info-lead strong {
+    font-weight: 800;
+    color: rgb(10 10 10);
+  }
+
+  /* ── Directions button ── */
+  .directions-button {
+    display: inline-block;
+    background: rgb(10 10 10);
+    color: #F5F5F0;
+    border-radius: 6px;
+    padding: 0.9rem 2rem;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    text-decoration: none;
+    margin-top: 1.75rem;
+    transition: opacity 0.2s ease;
+  }
+
+  .directions-button:hover {
+    opacity: 0.8;
+  }
+
+  /* ── Rolling photo banner ── */
+  .photo-banner {
+    overflow: hidden;
+    padding: 2rem 0;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  }
+
+  .photo-track {
+    display: flex;
+    width: max-content;
+    gap: 1.25rem;
+    animation: scroll-photos 40s linear infinite;
+  }
+
+  .photo-banner:hover .photo-track {
+    animation-play-state: paused;
+  }
+
+  .photo-item {
+    flex: 0 0 auto;
+    width: 320px;
+    aspect-ratio: 3 / 2;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .photo-item :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  @keyframes scroll-photos {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (max-width: 640px) {
+    .photo-item {
+      width: 220px;
+    }
   }
 
   /* ── Scroll hint ── */
@@ -401,31 +437,27 @@ const structuredData = [
   @media (max-width: 640px) {
     .when-where {
       grid-template-columns: 1fr;
-      grid-template-rows: auto 1px auto;
       min-height: unset;
+      padding: 2rem 1.5rem;
+      gap: 2rem;
+    }
+
+    .map-col {
+      min-height: 220px;
     }
 
     .info-col {
-      grid-row: auto;
-      grid-template-rows: auto auto;
-      padding: 4rem 3rem;
-    }
-
-    .info-col .section-label {
-      grid-row: auto;
+      padding: 0;
+      text-align: center;
     }
 
     .info-content {
-      grid-row: auto;
+      align-items: center;
     }
 
-    .col-divider {
-      grid-row: auto;
-      width: 100%;
-      height: 1px;
-      background: rgb(10 10 10 / 0.1);
+    .info-lead {
+      max-width: none;
     }
-
   }
 </style>
 
