@@ -335,14 +335,15 @@ const photoUrls = optimized.map(img => img.src);
      than two equal-sized lines with a "Welcome to" eyebrow above them. ── */
   .hero-line1 {
     display: block;
-    /* Archivo Black, not Unbounded — the mockup's actual pixels were
-       rendered in an Arial/Helvetica Neue fallback (Artifact's CSP blocks
-       external font loading), and this is the closest real webfont match
-       to that sharper, flatter-cornered grotesque look. Unbounded is
-       rounder/chunkier and reads differently at this size. Only one
-       weight ships for this family, hence font-weight: 400 below. */
-    font-family: 'Archivo Black', system-ui, sans-serif;
-    font-weight: 400;
+    /* Archivo, not Unbounded — the mockup's actual pixels were rendered in
+       an Arial/Helvetica Neue fallback (Artifact's CSP blocks external
+       font loading), and Archivo is the closest real webfont match to
+       that sharper, flatter-cornered grotesque look. Unbounded is
+       rounder/chunkier and reads differently at this size. Using the
+       regular Archivo family (not Archivo Black, which only ships one
+       maxed-out weight) so it can sit at 700 instead of reading as shouty. */
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-weight: 700;
     font-size: clamp(2.4rem, min(7.2vw, 10.5vh), 7.2rem);
     line-height: 1.05;
     color: #23201D;
@@ -353,8 +354,8 @@ const photoUrls = optimized.map(img => img.src);
 
   .hero-line2 {
     display: block;
-    font-family: 'Archivo Black', system-ui, sans-serif;
-    font-weight: 400;
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-weight: 600;
     font-size: clamp(1.4rem, min(4.3vw, 6.3vh), 4.3rem);
     line-height: 1.05;
     color: #E2402F;
