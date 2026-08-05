@@ -90,7 +90,7 @@ const structuredData = [
         <iframe
           class="map-embed"
           title="Map to Horace Mann Elementary School"
-          src="https://www.google.com/maps?q=55+N+7th+St,+San+Jose,+CA+95112&output=embed"
+          src="https://www.google.com/maps?q=Horace+Mann+Elementary+School,+55+N+7th+St,+San+Jose,+CA+95112&output=embed"
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
@@ -195,10 +195,10 @@ const structuredData = [
 
   /* ── WHEN + WHERE side by side ── */
   .when-where {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 3rem;
+    gap: 2rem;
     min-height: 40vh;
     padding: 3rem;
   }
@@ -206,6 +206,8 @@ const structuredData = [
   .map-col {
     height: 100%;
     min-height: 320px;
+    max-width: 26rem;
+    flex: 1 1 26rem;
   }
 
   .map-embed {
@@ -214,7 +216,6 @@ const structuredData = [
     min-height: 320px;
     border: 0;
     border-radius: 14px;
-    filter: grayscale(1) contrast(1.05);
   }
 
   .info-col {
@@ -222,6 +223,8 @@ const structuredData = [
     justify-items: center;
     text-align: left;
     padding: 0 1rem;
+    max-width: 26rem;
+    flex: 1 1 26rem;
   }
 
   .info-content {
@@ -442,7 +445,7 @@ const structuredData = [
   /* ── Mobile: stack when/where + compact banner ── */
   @media (max-width: 640px) {
     .when-where {
-      grid-template-columns: 1fr;
+      flex-direction: column;
       min-height: unset;
       padding: 2rem 1.5rem;
       gap: 2rem;
@@ -450,6 +453,13 @@ const structuredData = [
 
     .map-col {
       min-height: 220px;
+      max-width: none;
+      flex-basis: auto;
+    }
+
+    .info-col {
+      max-width: none;
+      flex-basis: auto;
     }
 
     .info-col {
