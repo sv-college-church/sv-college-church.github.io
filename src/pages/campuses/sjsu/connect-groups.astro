@@ -84,7 +84,7 @@ const groups = [
         {groups.map((g) => (
           <div class="cg-col">
             <Image src={g.photo} alt={`${g.name} — ${g.leads}`} class="cg-photo" width={960} height={960} />
-            <h2 class="cg-label">{g.name} · {g.leads}</h2>
+            <h2 class="cg-label">{g.name}<br />{g.leads}</h2>
             {g.consultant && <p class="cg-consultant">Consultant: {g.consultant}</p>}
             <p class="cg-body">{g.meetingTime.time}<br />{g.meetingTime.start}</p>
           </div>
