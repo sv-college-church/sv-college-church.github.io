@@ -344,7 +344,11 @@ const photoUrls = optimized.map(img => img.src);
        maxed-out weight) so it can sit at 700 instead of reading as shouty. */
     font-family: 'Archivo', system-ui, sans-serif;
     font-weight: 700;
-    font-size: clamp(2.4rem, min(7.2vw, 10.5vh), 7.2rem);
+    /* Sized down from an earlier pass (was clamp(2.4rem, min(7.2vw,10.5vh),
+       7.2rem)) — at its old max this line ran ~1000px wide, well past the
+       580px photo stack cap, which read much louder than the mockup where
+       the headline sits closer to the photo's own width. */
+    font-size: clamp(2.1rem, min(4.6vw, 7vh), 4.6rem);
     line-height: 1.05;
     color: #23201D;
     opacity: 0;
@@ -356,7 +360,7 @@ const photoUrls = optimized.map(img => img.src);
     display: block;
     font-family: 'Archivo', system-ui, sans-serif;
     font-weight: 600;
-    font-size: clamp(1.4rem, min(4.3vw, 6.3vh), 4.3rem);
+    font-size: clamp(1.2rem, min(2.8vw, 4.2vh), 2.8rem);
     line-height: 1.05;
     color: #E2402F;
     margin-top: 0.25em;
@@ -382,7 +386,7 @@ const photoUrls = optimized.map(img => img.src);
      #photo-stickers, a sibling of #polaroid-scale (see markup) — JS mirrors
      the photo's scale value onto it so they still shrink with the photo. */
   .photo-sticker {
-    --sticker-size: clamp(78px, 14vh, 108px);
+    --sticker-size: clamp(92px, 16vh, 124px);
     position: absolute;
     width: var(--sticker-size);
     height: var(--sticker-size);
@@ -481,11 +485,13 @@ const photoUrls = optimized.map(img => img.src);
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: rgba(35, 32, 29, 0.6);
+    /* Was rgba(...,0.6) — too faint against the marigold/sky fills, bumped
+       up so the label reads instead of nearly disappearing. */
+    color: rgba(35, 32, 29, 0.88);
   }
 
   .sticker-est .sticker-line1 {
-    color: rgba(246, 241, 228, 0.75);
+    color: rgba(246, 241, 228, 0.95);
   }
 
   .sticker-line2 {
@@ -631,15 +637,15 @@ const photoUrls = optimized.map(img => img.src);
        naturally means a tight viewport softly wraps to a second line
        instead of clipping text off the edge. */
     .hero-line1 {
-      font-size: clamp(1.7rem, 7.6vw, 2.4rem);
+      font-size: clamp(1.1rem, 4.9vw, 1.5rem);
     }
 
     .hero-line2 {
-      font-size: clamp(1rem, 4.6vw, 1.5rem);
+      font-size: clamp(0.65rem, 2.9vw, 0.95rem);
     }
 
     .photo-sticker {
-      --sticker-size: clamp(64px, 11vh, 86px);
+      --sticker-size: clamp(76px, 13vh, 100px);
     }
 
     /* Keep the size hierarchy on mobile too — 2030 stays the biggest */
@@ -660,18 +666,18 @@ const photoUrls = optimized.map(img => img.src);
     }
 
     .hero-line1 {
-      font-size: clamp(1.5rem, 8vw, 2.2rem);
+      font-size: clamp(0.95rem, 5.1vw, 1.4rem);
     }
 
     .hero-line2 {
-      font-size: clamp(0.9rem, 4.8vw, 1.3rem);
+      font-size: clamp(0.58rem, 3.1vw, 0.83rem);
     }
 
     /* Smaller stickers on short viewports — the photo itself is already
        scaled down here (see the JS shrink math), so the corner stickers
        need to shrink to match instead of overwhelming it. */
     .photo-sticker {
-      --sticker-size: clamp(52px, 9vh, 72px);
+      --sticker-size: clamp(62px, 10vh, 84px);
     }
 
     .sticker-2030 {
