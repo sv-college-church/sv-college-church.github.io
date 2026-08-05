@@ -73,42 +73,58 @@ const photoUrls = optimized.map(img => img.src);
             <div class="polaroid-card"><div class="card-inner"><img src={photoUrls[3]} alt="Students at Silicon Valley College Church" draggable="false" width="800" height="800" /></div></div>
           </div>
         </div>
-      </div>
 
-      <!-- Class of 2030 badge -->
-      <a href="/class-of-2030" id="class-badge" aria-label="Class of 2030 — welcome">
-        <div class="badge-ring" aria-hidden="true">
-          <span style="--a:0">✦</span>
-          <span style="--a:24">W</span>
-          <span style="--a:36">E</span>
-          <span style="--a:48">L</span>
-          <span style="--a:60">C</span>
-          <span style="--a:72">O</span>
-          <span style="--a:84">M</span>
-          <span style="--a:96">E</span>
-          <span style="--a:120">✦</span>
-          <span style="--a:144">W</span>
-          <span style="--a:156">E</span>
-          <span style="--a:168">L</span>
-          <span style="--a:180">C</span>
-          <span style="--a:192">O</span>
-          <span style="--a:204">M</span>
-          <span style="--a:216">E</span>
-          <span style="--a:240">✦</span>
-          <span style="--a:264">W</span>
-          <span style="--a:276">E</span>
-          <span style="--a:288">L</span>
-          <span style="--a:300">C</span>
-          <span style="--a:312">O</span>
-          <span style="--a:324">M</span>
-          <span style="--a:336">E</span>
+        <!-- Corner stickers — true siblings of the scale wrapper (not nested
+             inside it) so they can't get caught behind #polaroid-stack's
+             ::after hover-zone or any stacking-context surprises from the
+             breathe/fan transforms. JS mirrors the same scale value onto
+             #photo-stickers directly, so they still shrink with the photo. -->
+        <div id="photo-stickers">
+          <a href="/class-of-2030" id="class-badge" class="photo-sticker sticker-2030" aria-label="Class of 2030 — welcome">
+            <div class="badge-ring" aria-hidden="true">
+              <span style="--a:0">✦</span>
+              <span style="--a:24">W</span>
+              <span style="--a:36">E</span>
+              <span style="--a:48">L</span>
+              <span style="--a:60">C</span>
+              <span style="--a:72">O</span>
+              <span style="--a:84">M</span>
+              <span style="--a:96">E</span>
+              <span style="--a:120">✦</span>
+              <span style="--a:144">W</span>
+              <span style="--a:156">E</span>
+              <span style="--a:168">L</span>
+              <span style="--a:180">C</span>
+              <span style="--a:192">O</span>
+              <span style="--a:204">M</span>
+              <span style="--a:216">E</span>
+              <span style="--a:240">✦</span>
+              <span style="--a:264">W</span>
+              <span style="--a:276">E</span>
+              <span style="--a:288">L</span>
+              <span style="--a:300">C</span>
+              <span style="--a:312">O</span>
+              <span style="--a:324">M</span>
+              <span style="--a:336">E</span>
+            </div>
+            <div class="badge-center-content">
+              <span class="badge-classof">CLASS</span>
+              <span class="badge-dot">·</span>
+              <span class="badge-year-num">2030</span>
+            </div>
+          </a>
+
+          <div id="sticker-sundays" class="photo-sticker sticker-sundays" aria-hidden="true">
+            <span class="sticker-line1">Sundays</span>
+            <span class="sticker-line2">12PM</span>
+          </div>
+
+          <div id="sticker-est" class="photo-sticker sticker-est" aria-hidden="true">
+            <span class="sticker-line1">Est.</span>
+            <span class="sticker-line2">2021</span>
+          </div>
         </div>
-        <div class="badge-center-content">
-          <span class="badge-classof">CLASS</span>
-          <span class="badge-dot">·</span>
-          <span class="badge-year-num">2030</span>
-        </div>
-      </a>
+      </div>
 
     </section>
   </main>
@@ -181,9 +197,7 @@ const photoUrls = optimized.map(img => img.src);
     overflow: visible;
     /* Warm cream, up from the site-wide cool paper tone — homepage-only for now */
     background-color: #F6F1E4;
-    /* 2px dots at 18% opacity — the original 1px/5% was too faint to read as
-       a corkboard texture at a glance; this is the visibility floor tested. */
-    background-image: radial-gradient(circle, rgba(35, 32, 29, 0.18) 2px, transparent 2px);
+    background-image: radial-gradient(circle, rgba(35, 32, 29, 0.01) 1px, transparent 1px);
     background-size: 16px 16px;
   }
 
@@ -227,6 +241,24 @@ const photoUrls = optimized.map(img => img.src);
     height: 100%;
     transform-origin: center center;
     transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  /* ── Sticker layer: sibling of the scale wrapper, not nested inside it —
+     see the comment in the markup above for why. JS mirrors the same scale
+     value here directly so the stickers still shrink with the photo. ── */
+  #photo-stickers {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 30;
+    pointer-events: none;
+  }
+
+  #photo-stickers .photo-sticker {
+    pointer-events: auto;
   }
 
   /* ── Breathe wrapper: idle ebb & flow ── */
@@ -343,30 +375,32 @@ const photoUrls = optimized.map(img => img.src);
     transform: translateY(0);
   }
 
-  /* ── Class of 2030 Badge ── */
-  #class-badge {
-    --badge-size: clamp(120px, 22vh, 172px);
-    --ring-r: calc(var(--badge-size) / -2.65);
+  /* ── Photo corner stickers (shared base) ──
+     Three stickers hang off the corners/edges of the photo stack, popping
+     in once it's settled: the existing Class of 2030 badge (bottom-right),
+     Sundays 12PM (left edge), and Est. 2021 (bottom-left). They live in
+     #photo-stickers, a sibling of #polaroid-scale (see markup) — JS mirrors
+     the photo's scale value onto it so they still shrink with the photo. */
+  .photo-sticker {
+    --sticker-size: clamp(78px, 14vh, 108px);
     position: absolute;
-    bottom: 5%;
-    right: 5%;
-    width: var(--badge-size);
-    height: var(--badge-size);
+    width: var(--sticker-size);
+    height: var(--sticker-size);
     border-radius: 50%;
-    background: #E2402F;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 1px;
     text-decoration: none;
-    z-index: 20;
+    z-index: 22;
     opacity: 0;
-    cursor: pointer;
     box-shadow:
       0 4px 20px rgba(0, 0, 0, 0.25),
-      0 0 0 0px rgba(240, 169, 61, 0);
+      0 0 0 0px rgba(0, 0, 0, 0);
   }
 
-  #class-badge::before {
+  .photo-sticker::before {
     content: '';
     position: absolute;
     inset: 5px;
@@ -375,52 +409,126 @@ const photoUrls = optimized.map(img => img.src);
     pointer-events: none;
   }
 
-  #class-badge::after {
+  .photo-sticker::after {
     content: '';
     position: absolute;
     inset: -3px;
     border-radius: 50%;
-    border: 2px solid rgba(240, 169, 61, 0.65);
+    border: 2px solid var(--pulse-a);
     opacity: 0;
     pointer-events: none;
   }
 
-  #class-badge.is-live {
+  .photo-sticker.is-live {
     animation: badgePopIn 0.65s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
   }
 
-  #class-badge.is-breathing {
+  .photo-sticker.is-breathing {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) var(--sticker-tilt, rotate(0deg));
     animation: badgeBreathe 2.8s ease-in-out infinite;
     transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
   }
 
-  #class-badge:hover {
-    transform: scale(1.13) !important;
+  .photo-sticker:hover {
+    transform: scale(1.13) var(--sticker-tilt, rotate(0deg)) !important;
   }
 
-  #class-badge.is-breathing::after {
+  .photo-sticker.is-breathing::after {
     animation: badgePulseRing 2.8s ease-out infinite;
   }
 
+  /* ── Class of 2030 (unchanged size/position/colors — now stack-relative) ── */
+  .sticker-2030 {
+    --sticker-size: clamp(120px, 22vh, 172px);
+    /* Recomputed from --sticker-size (not hardcoded) so the rotating ring
+       text stays proportional to the badge at every breakpoint — this was
+       missing after generalizing #class-badge's old --badge-size to the
+       shared --sticker-size var, which left the ring using its -65px
+       fallback at every size and badly overshooting on small badges. */
+    --ring-r: calc(var(--sticker-size) / -2.65);
+    --pulse-a: rgba(240, 169, 61, 0.65);
+    bottom: -8%;
+    right: -8%;
+    background: #E2402F;
+    cursor: pointer;
+  }
+
+  /* ── Sundays 12PM — left edge ── */
+  .sticker-sundays {
+    --pulse-a: rgba(111, 163, 176, 0.6);
+    --sticker-tilt: rotate(-6deg);
+    top: 42%;
+    left: -10%;
+    transform: translateY(-50%) var(--sticker-tilt);
+    background: #F0A93D;
+  }
+
+  .sticker-sundays.is-breathing {
+    transform: translateY(-50%) scale(1) var(--sticker-tilt);
+  }
+
+  /* ── Est. 2021 — bottom-left corner ── */
+  .sticker-est {
+    --pulse-a: rgba(226, 64, 47, 0.55);
+    --sticker-tilt: rotate(5deg);
+    bottom: -6%;
+    left: -8%;
+    background: #6FA3B0;
+  }
+
+  .sticker-line1 {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: clamp(7px, 1.3vh, 10px);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(35, 32, 29, 0.6);
+  }
+
+  .sticker-est .sticker-line1 {
+    color: rgba(246, 241, 228, 0.75);
+  }
+
+  .sticker-line2 {
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-size: clamp(15px, 3vh, 22px);
+    font-weight: 800;
+    line-height: 1;
+    color: #23201D;
+  }
+
+  .sticker-est .sticker-line2 {
+    color: #F6F1E4;
+  }
+
   @keyframes badgePopIn {
-    0%   { opacity: 0; transform: scale(0.72) rotate(-8deg); }
-    65%  { opacity: 1; transform: scale(1.08) rotate(2deg); }
-    82%  { transform: scale(0.97) rotate(0deg); }
-    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    0%   { opacity: 0; transform: scale(0.72) var(--sticker-tilt, rotate(-8deg)); }
+    65%  { opacity: 1; transform: scale(1.08) var(--sticker-tilt, rotate(2deg)); }
+    82%  { transform: scale(0.97) var(--sticker-tilt, rotate(0deg)); }
+    100% { opacity: 1; transform: scale(1) var(--sticker-tilt, rotate(0deg)); }
+  }
+
+  .sticker-sundays.is-live {
+    animation-name: badgePopInSundays;
+  }
+  @keyframes badgePopInSundays {
+    0%   { opacity: 0; transform: translateY(-50%) scale(0.72) var(--sticker-tilt); }
+    65%  { opacity: 1; transform: translateY(-50%) scale(1.08) var(--sticker-tilt); }
+    82%  { transform: translateY(-50%) scale(0.97) var(--sticker-tilt); }
+    100% { opacity: 1; transform: translateY(-50%) scale(1) var(--sticker-tilt); }
   }
 
   @keyframes badgeBreathe {
     0%, 100% {
       box-shadow:
         0 4px 20px rgba(0, 0, 0, 0.25),
-        0 0 0 0px rgba(240, 169, 61, 0.5);
+        0 0 0 0px var(--pulse-a);
     }
     50% {
       box-shadow:
         0 6px 32px rgba(0, 0, 0, 0.18),
-        0 0 0 14px rgba(240, 169, 61, 0);
+        0 0 0 14px transparent;
     }
   }
 
@@ -530,6 +638,13 @@ const photoUrls = optimized.map(img => img.src);
       font-size: clamp(1.45rem, 7.3vw, 1.8rem);
       white-space: nowrap;
     }
+
+    .photo-sticker {
+      --sticker-size: clamp(64px, 11vh, 86px);
+    }
+
+    .sticker-line1 { font-size: clamp(6px, 1.1vh, 8px); }
+    .sticker-line2 { font-size: clamp(12px, 2.4vh, 17px); }
   }
 
   /* Short mobile viewports (e.g. iPhone SE): the 4-line headline plus the
@@ -550,22 +665,19 @@ const photoUrls = optimized.map(img => img.src);
       font-size: clamp(1.3rem, 6.8vw, 1.9rem);
     }
 
-    /* Smaller badge at bottom-right on mobile */
-    #class-badge {
-      --ring-r: -38px;
-      width: 96px;
-      height: 96px;
-      top: auto;
-      bottom: 4%;
-      right: 4%;
-      left: auto;
-      margin-left: 0;
+    /* Smaller stickers on short viewports — the photo itself is already
+       scaled down here (see the JS shrink math), so the corner stickers
+       need to shrink to match instead of overwhelming it. */
+    .photo-sticker {
+      --sticker-size: clamp(52px, 9vh, 72px);
     }
 
     .badge-ring span { font-size: 8px; }
     .badge-classof { font-size: 7px; }
     .badge-year-num { font-size: 17px; }
     .badge-dot { font-size: 11px; }
+    .sticker-line1 { font-size: 6px; }
+    .sticker-line2 { font-size: 11px; }
   }
 </style>
 
@@ -594,25 +706,27 @@ const photoUrls = optimized.map(img => img.src);
 
   // Wrap in astro:page-load so it re-runs on View Transitions navigation
   document.addEventListener('astro:page-load', () => {
-    const cards     = Array.from(document.querySelectorAll<HTMLElement>('.polaroid-card'));
-    const scaleEl   = document.getElementById('polaroid-scale');
-    const breatheEl = document.getElementById('polaroid-breathe');
-    const stackEl   = document.getElementById('polaroid-stack');
-    const textWrap  = document.getElementById('text-wrapper');
+    const cards      = Array.from(document.querySelectorAll<HTMLElement>('.polaroid-card'));
+    const scaleEl    = document.getElementById('polaroid-scale');
+    const stickersEl = document.getElementById('photo-stickers');
+    const breatheEl  = document.getElementById('polaroid-breathe');
+    const stackEl    = document.getElementById('polaroid-stack');
+    const textWrap   = document.getElementById('text-wrapper');
 
     // Bail if we're not on the homepage
-    if (!cards.length || !scaleEl || !breatheEl || !stackEl || !textWrap) return;
+    if (!cards.length || !scaleEl || !stickersEl || !breatheEl || !stackEl || !textWrap) return;
 
     // Reset DOM state (View Transitions preserves classes/styles from previous visit)
     scaleEl.style.transform = '';
+    stickersEl.style.transform = '';
     stackEl.style.top = '';
     stackEl.classList.remove('settled');
     delete stackEl.dataset.dynScale;
     breatheEl.classList.remove('breathing', 'fanned');
     textWrap.classList.remove('visible');
     document.querySelectorAll<HTMLElement>('.hero-word, .hero-line2').forEach(el => el.classList.remove('visible'));
-    const badge = document.getElementById('class-badge');
-    if (badge) badge.classList.remove('is-live', 'is-breathing');
+    const stickers = Array.from(document.querySelectorAll<HTMLElement>('.photo-sticker'));
+    stickers.forEach(s => s.classList.remove('is-live', 'is-breathing'));
     const footer = document.querySelector('footer');
     if (footer) footer.classList.remove('is-visible');
 
@@ -663,6 +777,7 @@ const photoUrls = optimized.map(img => img.src);
       const scale = Math.min(0.55, Math.max(0.16, (availableH - 30) / cardH));
 
       scaleEl.style.transform = `scale(${scale})`;
+      stickersEl.style.transform = `scale(${scale})`;
       stackEl.dataset.dynScale = String(scale);
     }, 700);
 
@@ -709,12 +824,19 @@ const photoUrls = optimized.map(img => img.src);
       line2.classList.add('visible');
     }, 2200);
 
-    // ── 3.2s: class-of-2030 badge pops in ──
+    // ── 3.0s–3.4s: corner stickers pop in, staggered, once the photo has settled ──
+    const popSticker = (el: HTMLElement | null, delay: number) => {
+      if (!el) return;
+      setTimeout(() => {
+        el.classList.add('is-live');
+        setTimeout(() => el.classList.add('is-breathing'), 1100);
+      }, delay);
+    };
+    popSticker(document.getElementById('sticker-sundays'), 3000);
+    popSticker(document.getElementById('class-badge'), 3200);
+    popSticker(document.getElementById('sticker-est'), 3400);
+
     setTimeout(() => {
-      if (badge) {
-        badge.classList.add('is-live');
-        setTimeout(() => badge.classList.add('is-breathing'), 1100);
-      }
       const footer = document.querySelector('footer');
       if (footer) footer.classList.add('is-visible');
     }, 3200);
