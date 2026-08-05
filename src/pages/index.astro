@@ -52,12 +52,8 @@ const photoUrls = optimized.map(img => img.src);
       <!-- Text: fades in above photos after shrink -->
       <div id="text-wrapper">
         <h1 id="hero-text" class="uppercase leading-none">
-          <span class="hero-word" data-index="0">Welcome</span>
-          <span class="hero-word" data-index="1">to</span>
-          <br />
-          <span class="hero-line2"
-            ><span class="hero-line2-a">Silicon Valley</span> <span class="hero-line2-b">College Church</span></span
-          >
+          <span class="hero-line1">Silicon Valley</span>
+          <span class="hero-line2">College Church</span>
         </h1>
       </div>
 
@@ -330,49 +326,46 @@ const photoUrls = optimized.map(img => img.src);
   #hero-text {
     color: #23201D;
     margin: 0;
+    width: 100%;
     text-align: center;
   }
 
-  .hero-word {
-    display: inline-block;
+  /* ── Headline: one dominant line + a smaller, tilted second line —
+     matches the "Campus Bulletin" mockup's proportions directly rather
+     than two equal-sized lines with a "Welcome to" eyebrow above them. ── */
+  .hero-line1 {
+    display: block;
     font-family: 'Unbounded', system-ui, sans-serif;
-    font-weight: 700;
-    font-size: clamp(1.1rem, min(3.2vw, 4.8vh), 3rem);
-    letter-spacing: 0.15em;
-    margin-right: 0.35em;
-    color: rgba(35, 32, 29, 0.55);
+    font-weight: 900;
+    font-size: clamp(2.4rem, min(7.2vw, 10.5vh), 7.2rem);
+    line-height: 1.05;
+    color: #23201D;
     opacity: 0;
     transform: translateY(0.2em);
-    transition: opacity 0.45s ease, transform 0.45s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
   }
 
   .hero-line2 {
     display: block;
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.4rem, min(4.3vw, 6.3vh), 4.3rem);
+    line-height: 1.05;
+    color: #E2402F;
+    margin-top: 0.25em;
+    transform: rotate(-2deg) translateY(0.15em);
     opacity: 0;
-    transform: translateY(0.15em);
     transition: opacity 0.5s ease, transform 0.5s ease;
   }
 
-  .hero-line2-a,
-  .hero-line2-b {
-    font-family: 'Unbounded', system-ui, sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.2rem, min(6.8vw, 10vh), 6.8rem);
-    line-height: 1.05;
-  }
-
-  .hero-line2-a {
-    color: #23201D;
-  }
-
-  .hero-line2-b {
-    color: #E2402F;
-  }
-
-  .hero-word.visible,
+  .hero-line1.visible,
   .hero-line2.visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  .hero-line2.visible {
+    transform: rotate(-2deg) translateY(0);
   }
 
   /* ── Photo corner stickers (shared base) ──
@@ -440,7 +433,9 @@ const photoUrls = optimized.map(img => img.src);
 
   /* ── Class of 2030 (unchanged size/position/colors — now stack-relative) ── */
   .sticker-2030 {
-    --sticker-size: clamp(120px, 22vh, 172px);
+    /* Biggest of the three — it carries the most text and is the only
+       clickable sticker, so it should read as the primary one. */
+    --sticker-size: clamp(140px, 26vh, 200px);
     /* Recomputed from --sticker-size (not hardcoded) so the rotating ring
        text stays proportional to the badge at every breakpoint — this was
        missing after generalizing #class-badge's old --badge-size to the
@@ -462,10 +457,6 @@ const photoUrls = optimized.map(img => img.src);
     left: -10%;
     transform: translateY(-50%) var(--sticker-tilt);
     background: #F0A93D;
-  }
-
-  .sticker-sundays.is-breathing {
-    transform: translateY(-50%) scale(1) var(--sticker-tilt);
   }
 
   /* ── Est. 2021 — bottom-left corner ── */
@@ -622,32 +613,38 @@ const photoUrls = optimized.map(img => img.src);
       padding: 0 16px;
     }
 
-    /* Unbounded runs much wider per-character than the previous Instrument Sans
-       treatment — without this, "Silicon Valley" / "College Church" wrap to 4
-       lines instead of 2 and collide with the photo stack below. */
-    .hero-word {
-      font-size: clamp(0.8rem, 3.4vw, 1.2rem);
-      margin-right: 0.3em;
+    /* Unbounded runs much wider per-character than the previous Instrument
+       Sans treatment — sized so "Silicon Valley" / "College Church" each
+       fit one line at common phone widths. Deliberately no white-space:
+       nowrap here: combined with this span's auto/shrink-to-fit width, it
+       hit a real browser bug where the box width gets stuck at the
+       pre-font-swap (fallback font) measurement while the Unbounded text
+       itself renders at its full, wider size — box and content disagree,
+       and the overflow gets clipped instead of visible. Letting it wrap
+       naturally means a tight viewport softly wraps to a second line
+       instead of clipping text off the edge. */
+    .hero-line1 {
+      font-size: clamp(1.7rem, 7.6vw, 2.4rem);
     }
 
-    .hero-line2-a,
-    .hero-line2-b {
-      /* Sized so "Silicon Valley" / "College Church" each fit one nowrap
-         line at common phone widths without overflowing (measured against
-         Unbounded's actual glyph widths, not estimated). */
-      font-size: clamp(1.45rem, 7.3vw, 1.8rem);
-      white-space: nowrap;
+    .hero-line2 {
+      font-size: clamp(1rem, 4.6vw, 1.5rem);
     }
 
     .photo-sticker {
       --sticker-size: clamp(64px, 11vh, 86px);
     }
 
+    /* Keep the size hierarchy on mobile too — 2030 stays the biggest */
+    .sticker-2030 {
+      --sticker-size: clamp(88px, 15vh, 120px);
+    }
+
     .sticker-line1 { font-size: clamp(6px, 1.1vh, 8px); }
     .sticker-line2 { font-size: clamp(12px, 2.4vh, 17px); }
   }
 
-  /* Short mobile viewports (e.g. iPhone SE): the 4-line headline plus the
+  /* Short mobile viewports (e.g. iPhone SE): the headline plus the
      photo stack don't both fit even at the dynamic scale-down floor, so
      compress the headline further here rather than let them collide. */
   @media (max-width: 767px) and (max-height: 700px) {
@@ -655,14 +652,12 @@ const photoUrls = optimized.map(img => img.src);
       top: 1%;
     }
 
-    .hero-word {
-      font-size: clamp(0.6rem, 2.6vw, 0.85rem);
-      margin-right: 0.3em;
+    .hero-line1 {
+      font-size: clamp(1.5rem, 8vw, 2.2rem);
     }
 
-    .hero-line2-a,
-    .hero-line2-b {
-      font-size: clamp(1.3rem, 6.8vw, 1.9rem);
+    .hero-line2 {
+      font-size: clamp(0.9rem, 4.8vw, 1.3rem);
     }
 
     /* Smaller stickers on short viewports — the photo itself is already
@@ -670,6 +665,10 @@ const photoUrls = optimized.map(img => img.src);
        need to shrink to match instead of overwhelming it. */
     .photo-sticker {
       --sticker-size: clamp(52px, 9vh, 72px);
+    }
+
+    .sticker-2030 {
+      --sticker-size: clamp(70px, 12vh, 96px);
     }
 
     .badge-ring span { font-size: 8px; }
@@ -724,7 +723,7 @@ const photoUrls = optimized.map(img => img.src);
     delete stackEl.dataset.dynScale;
     breatheEl.classList.remove('breathing', 'fanned');
     textWrap.classList.remove('visible');
-    document.querySelectorAll<HTMLElement>('.hero-word, .hero-line2').forEach(el => el.classList.remove('visible'));
+    document.querySelectorAll<HTMLElement>('.hero-line1, .hero-line2').forEach(el => el.classList.remove('visible'));
     const stickers = Array.from(document.querySelectorAll<HTMLElement>('.photo-sticker'));
     stickers.forEach(s => s.classList.remove('is-live', 'is-breathing'));
     const footer = document.querySelector('footer');
@@ -782,12 +781,12 @@ const photoUrls = optimized.map(img => img.src);
     }, 700);
 
     // ── 1.5s: text appears, stack repositions to center in remaining space ──
-    const words = Array.from(document.querySelectorAll<HTMLElement>('.hero-word'));
+    const line1 = document.querySelector<HTMLElement>('.hero-line1')!;
     const line2 = document.querySelector<HTMLElement>('.hero-line2')!;
 
     setTimeout(() => {
       textWrap.classList.add('visible');
-      words[0]?.classList.add('visible');
+      line1.classList.add('visible');
 
       requestAnimationFrame(() => {
         const heroEl  = stackEl.parentElement as HTMLElement;
@@ -817,24 +816,22 @@ const photoUrls = optimized.map(img => img.src);
     }, 1500);
 
     setTimeout(() => {
-      words[1]?.classList.add('visible');
-    }, 1800);
-
-    setTimeout(() => {
       line2.classList.add('visible');
-    }, 2200);
+    }, 1850);
 
-    // ── 3.0s–3.4s: corner stickers pop in, staggered, once the photo has settled ──
-    const popSticker = (el: HTMLElement | null, delay: number) => {
+    // ── 3.0s–3.4s: corner stickers pop in, staggered, once the photo has
+    //    settled. Only Class of 2030 keeps pulsing afterward — it's the
+    //    clickable one; Sundays/Est. just pop in once and hold still. ──
+    const popSticker = (el: HTMLElement | null, delay: number, breathe: boolean) => {
       if (!el) return;
       setTimeout(() => {
         el.classList.add('is-live');
-        setTimeout(() => el.classList.add('is-breathing'), 1100);
+        if (breathe) setTimeout(() => el.classList.add('is-breathing'), 1100);
       }, delay);
     };
-    popSticker(document.getElementById('sticker-sundays'), 3000);
-    popSticker(document.getElementById('class-badge'), 3200);
-    popSticker(document.getElementById('sticker-est'), 3400);
+    popSticker(document.getElementById('sticker-sundays'), 3000, false);
+    popSticker(document.getElementById('class-badge'), 3200, true);
+    popSticker(document.getElementById('sticker-est'), 3400, false);
 
     setTimeout(() => {
       const footer = document.querySelector('footer');
