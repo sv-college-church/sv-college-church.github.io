@@ -3,7 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Nav from '../../../components/Nav.astro';
 import Footer from '../../../components/Footer.astro';
 import { Image } from 'astro:assets';
-import { CONNECT_GROUPS_LIVE } from '../../../config/flags';
+import { CONNECT_GROUPS_LIVE, CONNECT_GROUPS_FORM_URL } from '../../../config/flags';
 import sharonMaggy from '../../../assets/images/campuses/connect-groups/sharon-maggy.png';
 import tranGabby from '../../../assets/images/campuses/connect-groups/tran-gabby.png';
 import justinEstevan from '../../../assets/images/campuses/connect-groups/justin-estevan.png';
@@ -73,7 +73,7 @@ const groups = [
           Small groups of students, meeting weekly to grow in faith and friendship. Sign up now — groups form during Welcome Week.
         </p>
         <div class="cg-ctas">
-          <a href="https://forms.gle/sCgeEGwaT2qhaVab9" target="_blank" rel="noopener noreferrer" class="cg-btn cg-btn-primary">Sign Up</a>
+          <a href={CONNECT_GROUPS_FORM_URL} target="_blank" rel="noopener noreferrer" class="cg-btn cg-btn-primary">Sign Up</a>
         </div>
       </div>
     </section>
