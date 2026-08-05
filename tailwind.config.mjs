@@ -7,9 +7,16 @@ export default {
         ink: '#0A0A0A',
         paper: '#F5F5F0',
         accent: '#D91C2A',
+        // "Campus Bulletin" warmth palette — introduced on the homepage first,
+        // see design study: https://claude.ai/code/artifact/893d1c9f-68c8-45f2-ba3b-ac78da5df44f
+        cream: '#F6F1E4',
+        charcoal: '#23201D',
+        poppy: '#E2402F',
+        marigold: '#F0A93D',
+        sky: '#6FA3B0',
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        display: ['"Unbounded"', 'system-ui', 'sans-serif'],
         sans: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
       },
       transitionTimingFunction: {

@@ -51,11 +51,13 @@ const photoUrls = optimized.map(img => img.src);
 
       <!-- Text: fades in above photos after shrink -->
       <div id="text-wrapper">
-        <h1 id="hero-text" class="font-sans font-black uppercase leading-none">
+        <h1 id="hero-text" class="uppercase leading-none">
           <span class="hero-word" data-index="0">Welcome</span>
           <span class="hero-word" data-index="1">to</span>
           <br />
-          <span class="hero-line2">Silicon Valley College Church</span>
+          <span class="hero-line2"
+            ><span class="hero-line2-a">Silicon Valley</span> <span class="hero-line2-b">College Church</span></span
+          >
         </h1>
       </div>
 
@@ -162,6 +164,10 @@ const photoUrls = optimized.map(img => img.src);
     align-items: center;
     justify-content: center;
     overflow: visible;
+    /* Warm cream, up from the site-wide cool paper tone — homepage-only for now */
+    background-color: #F6F1E4;
+    background-image: radial-gradient(circle, rgba(35, 32, 29, 0.05) 1px, transparent 1px);
+    background-size: 16px 16px;
   }
 
   /* Prevent horizontal scrollbar from fan animation.
@@ -273,15 +279,19 @@ const photoUrls = optimized.map(img => img.src);
   }
 
   #hero-text {
-    color: var(--color-ink, #0A0A0A);
+    color: #23201D;
     margin: 0;
     text-align: center;
   }
 
   .hero-word {
     display: inline-block;
-    font-size: clamp(1.5rem, min(4vw, 6vh), 4rem);
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.1rem, min(3.2vw, 4.8vh), 3rem);
     letter-spacing: 0.15em;
+    margin-right: 0.35em;
+    color: rgba(35, 32, 29, 0.55);
     opacity: 0;
     transform: translateY(0.2em);
     transition: opacity 0.45s ease, transform 0.45s ease;
@@ -289,10 +299,25 @@ const photoUrls = optimized.map(img => img.src);
 
   .hero-line2 {
     display: block;
-    font-size: clamp(2.5rem, min(7.5vw, 11vh), 7.5rem);
     opacity: 0;
     transform: translateY(0.15em);
     transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .hero-line2-a,
+  .hero-line2-b {
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.2rem, min(6.8vw, 10vh), 6.8rem);
+    line-height: 1.05;
+  }
+
+  .hero-line2-a {
+    color: #23201D;
+  }
+
+  .hero-line2-b {
+    color: #E2402F;
   }
 
   .hero-word.visible,
@@ -311,7 +336,7 @@ const photoUrls = optimized.map(img => img.src);
     width: var(--badge-size);
     height: var(--badge-size);
     border-radius: 50%;
-    background: #0A0A0A;
+    background: #E2402F;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -320,8 +345,8 @@ const photoUrls = optimized.map(img => img.src);
     opacity: 0;
     cursor: pointer;
     box-shadow:
-      0 4px 20px rgba(0, 0, 0, 0.3),
-      0 0 0 0px rgba(217, 28, 42, 0);
+      0 4px 20px rgba(0, 0, 0, 0.25),
+      0 0 0 0px rgba(240, 169, 61, 0);
   }
 
   #class-badge::before {
@@ -338,7 +363,7 @@ const photoUrls = optimized.map(img => img.src);
     position: absolute;
     inset: -3px;
     border-radius: 50%;
-    border: 2px solid rgba(217, 28, 42, 0.55);
+    border: 2px solid rgba(240, 169, 61, 0.65);
     opacity: 0;
     pointer-events: none;
   }
@@ -372,13 +397,13 @@ const photoUrls = optimized.map(img => img.src);
   @keyframes badgeBreathe {
     0%, 100% {
       box-shadow:
-        0 4px 20px rgba(0, 0, 0, 0.3),
-        0 0 0 0px rgba(217, 28, 42, 0.45);
+        0 4px 20px rgba(0, 0, 0, 0.25),
+        0 0 0 0px rgba(240, 169, 61, 0.5);
     }
     50% {
       box-shadow:
-        0 6px 32px rgba(0, 0, 0, 0.2),
-        0 0 0 14px rgba(217, 28, 42, 0);
+        0 6px 32px rgba(0, 0, 0, 0.18),
+        0 0 0 14px rgba(240, 169, 61, 0);
     }
   }
 
@@ -410,7 +435,7 @@ const photoUrls = optimized.map(img => img.src);
     font-family: 'Instrument Sans', system-ui, sans-serif;
     font-size: clamp(7px, 1.3vh, 10px);
     font-weight: 600;
-    color: #F5F5F0;
+    color: #F6F1E4;
     text-transform: uppercase;
     line-height: 1;
     transform-origin: center center;
@@ -434,23 +459,23 @@ const photoUrls = optimized.map(img => img.src);
     font-size: clamp(6px, 1.2vh, 9px);
     font-weight: 600;
     letter-spacing: 0.22em;
-    color: rgba(245, 245, 240, 0.6);
+    color: rgba(246, 241, 228, 0.7);
     text-transform: uppercase;
   }
 
   .badge-dot {
-    color: #E8394A;
+    color: #F0A93D;
     font-size: clamp(11px, 2.3vh, 18px);
     line-height: 0.8;
   }
 
   .badge-year-num {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(17px, 3.8vh, 30px);
-    font-weight: 700;
-    font-style: italic;
-    color: #F5F5F0;
-    letter-spacing: 0.02em;
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-size: clamp(16px, 3.6vh, 28px);
+    font-weight: 800;
+    font-style: normal;
+    color: #F6F1E4;
+    letter-spacing: 0.01em;
     line-height: 1;
   }
 
@@ -463,9 +488,49 @@ const photoUrls = optimized.map(img => img.src);
     }
 
     #text-wrapper {
-      width: auto;
+      /* width:auto here shrink-to-fits absolutely-positioned content to
+         roughly one word wide instead of filling max-width, which forced
+         "Silicon Valley College Church" onto 4 cramped lines. Give it an
+         explicit width so wrapping is based on the real available space. */
+      width: 100%;
       max-width: 85vw;
       padding: 0 16px;
+    }
+
+    /* Unbounded runs much wider per-character than the previous Instrument Sans
+       treatment — without this, "Silicon Valley" / "College Church" wrap to 4
+       lines instead of 2 and collide with the photo stack below. */
+    .hero-word {
+      font-size: clamp(0.8rem, 3.4vw, 1.2rem);
+      margin-right: 0.3em;
+    }
+
+    .hero-line2-a,
+    .hero-line2-b {
+      /* Sized so "Silicon Valley" / "College Church" each fit one nowrap
+         line at common phone widths without overflowing (measured against
+         Unbounded's actual glyph widths, not estimated). */
+      font-size: clamp(1.45rem, 7.3vw, 1.8rem);
+      white-space: nowrap;
+    }
+  }
+
+  /* Short mobile viewports (e.g. iPhone SE): the 4-line headline plus the
+     photo stack don't both fit even at the dynamic scale-down floor, so
+     compress the headline further here rather than let them collide. */
+  @media (max-width: 767px) and (max-height: 700px) {
+    #text-wrapper {
+      top: 1%;
+    }
+
+    .hero-word {
+      font-size: clamp(0.6rem, 2.6vw, 0.85rem);
+      margin-right: 0.3em;
+    }
+
+    .hero-line2-a,
+    .hero-line2-b {
+      font-size: clamp(1.3rem, 6.8vw, 1.9rem);
     }
 
     /* Smaller badge at bottom-right on mobile */
@@ -574,7 +639,11 @@ const photoUrls = optimized.map(img => img.src);
       const bottomPad = 16; // min space above hero bottom edge
 
       const availableH = heroH - textBottom - gap - bottomPad;
-      const scale = Math.min(0.55, Math.max(0.28, availableH / cardH));
+      // -30px / floor lowered from 0.28: individual cards jitter beyond the
+      // base scaled size (see repositioning step below), and on short mobile
+      // viewports the headline can legitimately need the photo smaller than
+      // 0.28 to avoid overlapping it.
+      const scale = Math.min(0.55, Math.max(0.16, (availableH - 30) / cardH));
 
       scaleEl.style.transform = `scale(${scale})`;
       stackEl.dataset.dynScale = String(scale);
@@ -594,7 +663,10 @@ const photoUrls = optimized.map(img => img.src);
         const heroH   = heroRect.height;
         const textBottom = textWrap.getBoundingClientRect().bottom - heroRect.top;
         const scale   = parseFloat(stackEl.dataset.dynScale || '0.55');
-        const visualH = stackEl.offsetHeight * scale;
+        // +30px buffer: individual cards jitter up to ±8px translate / ±6deg
+        // rotate on top of the base scaled size, so the true visual footprint
+        // is a bit bigger than offsetHeight * scale alone accounts for.
+        const visualH = stackEl.offsetHeight * scale + 30;
         const gap     = 24;
         const bottomPad = 16;
 
