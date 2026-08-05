@@ -133,6 +133,21 @@ const photoUrls = optimized.map(img => img.src);
     to   { opacity: 1; }
   }
 
+  /* Warm cream carried into the shared Nav/Footer components, homepage-only.
+     Nav's actual bg lives on a ::before pseudo-element (see Nav.astro), and
+     Footer's is the Tailwind `bg-paper` utility — both overridden here with
+     an extra type-selector qualifier so specificity beats the shared
+     component styles without touching Nav.astro/Footer.astro directly. */
+  header.nav-header::before {
+    background: rgb(246 241 228 / 0.95);
+  }
+  footer.bg-paper {
+    background-color: #F6F1E4;
+  }
+  nav.bg-paper {
+    background-color: #F6F1E4;
+  }
+
   /* Homepage: fit everything in the viewport, no scrolling needed */
   body {
     height: 100svh;
@@ -166,7 +181,9 @@ const photoUrls = optimized.map(img => img.src);
     overflow: visible;
     /* Warm cream, up from the site-wide cool paper tone — homepage-only for now */
     background-color: #F6F1E4;
-    background-image: radial-gradient(circle, rgba(35, 32, 29, 0.05) 1px, transparent 1px);
+    /* 2px dots at 18% opacity — the original 1px/5% was too faint to read as
+       a corkboard texture at a glance; this is the visibility floor tested. */
+    background-image: radial-gradient(circle, rgba(35, 32, 29, 0.18) 2px, transparent 2px);
     background-size: 16px 16px;
   }
 
