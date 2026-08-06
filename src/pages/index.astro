@@ -248,13 +248,25 @@ const photoUrls = optimized.map(img => img.src);
     width: 100%;
     height: 100%;
     transform-origin: center center;
-    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.25s ease;
     z-index: 30;
     pointer-events: none;
   }
 
   #photo-stickers .photo-sticker {
     pointer-events: auto;
+  }
+
+  /* The stickers are positioned for the settled, stacked photo — once the
+     cards fan out horizontally (hover on desktop, swipe on mobile) they'd
+     otherwise just sit frozen in place, landing awkwardly on top of
+     whichever card fans out underneath them. `.fanned` is the one class
+     every fan-trigger path (hover/touch/drag) already toggles on
+     #polaroid-breathe, so react to it here with :has() instead of wiring
+     up sticker visibility at each call site. */
+  #polaroid-stack:has(#polaroid-breathe.fanned) #photo-stickers {
+    opacity: 0;
+    pointer-events: none;
   }
 
   /* ── Breathe wrapper: idle ebb & flow ── */
@@ -481,7 +493,9 @@ const photoUrls = optimized.map(img => img.src);
 
   .sticker-line1 {
     font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: clamp(7px, 1.3vh, 10px);
+    /* Floor raised to 13px (~10pt) — was clamp(7px,1.3vh,10px), which
+       never even reached 10pt at its max, let alone its floor. */
+    font-size: clamp(13px, 1.6vh, 15px);
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
@@ -496,7 +510,7 @@ const photoUrls = optimized.map(img => img.src);
 
   .sticker-line2 {
     font-family: 'Unbounded', system-ui, sans-serif;
-    font-size: clamp(15px, 3vh, 22px);
+    font-size: clamp(16px, 3.2vh, 24px);
     font-weight: 800;
     line-height: 1;
     color: #23201D;
@@ -653,8 +667,8 @@ const photoUrls = optimized.map(img => img.src);
       --sticker-size: clamp(88px, 15vh, 120px);
     }
 
-    .sticker-line1 { font-size: clamp(6px, 1.1vh, 8px); }
-    .sticker-line2 { font-size: clamp(12px, 2.4vh, 17px); }
+    .sticker-line1 { font-size: clamp(13px, 1.5vh, 14px); }
+    .sticker-line2 { font-size: clamp(14px, 2.6vh, 18px); }
   }
 
   /* Short mobile viewports (e.g. iPhone SE): the headline plus the
@@ -688,8 +702,8 @@ const photoUrls = optimized.map(img => img.src);
     .badge-classof { font-size: 7px; }
     .badge-year-num { font-size: 17px; }
     .badge-dot { font-size: 11px; }
-    .sticker-line1 { font-size: 6px; }
-    .sticker-line2 { font-size: 11px; }
+    .sticker-line1 { font-size: 13px; }
+    .sticker-line2 { font-size: 14px; }
   }
 </style>
 
@@ -814,14 +828,18 @@ const photoUrls = optimized.map(img => img.src);
         const gap     = 24;
         const bottomPad = 16;
 
-        // Center the scaled card in the space between text and hero bottom
+        // Position the scaled card in the space between text and hero bottom.
+        // Not a straight 50/50 center: a smaller headline (see hero-line1/2
+        // font-size) leaves a lot more slack here now, and centering that
+        // slack evenly reads as a big dead gap under "College Church".
+        // Bias toward the top of the available range instead.
         const spaceTop    = textBottom + gap;
         const spaceBottom = heroH - bottomPad;
-        const centerY     = (spaceTop + spaceBottom) / 2;
 
         // Clamp: card top must clear text, card bottom must stay in hero
         const minCenter = spaceTop + visualH / 2;
         const maxCenter = spaceBottom - visualH / 2;
+        const centerY   = minCenter + (maxCenter - minCenter) * 0.25;
         const finalCenter = Math.max(minCenter, Math.min(centerY, maxCenter));
 
         stackEl.style.top = (finalCenter / heroH * 100) + '%';
