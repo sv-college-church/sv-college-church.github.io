@@ -265,27 +265,18 @@ const photoUrls = optimized.map(img => img.src);
     pointer-events: none;
   }
 
-  #photo-stickers .photo-sticker {
+  /* Only Class of 2030 is a real interactive element (a link) — Sundays
+     and Est. are decoration, so they should have zero hover/click
+     behavior of their own: no hover-scale, nothing to tap, pointer
+     events pass straight through to whatever's behind them. */
+  #photo-stickers .sticker-2030 {
     pointer-events: auto;
   }
 
-  /* The stickers are positioned for the settled, stacked photo — once the
-     cards fan out horizontally (hover on desktop, swipe on mobile) they'd
-     otherwise just sit frozen in place, landing awkwardly on top of
-     whichever card fans out underneath them. `.fanned` is the one class
-     every fan-trigger path (hover/touch/drag) already toggles on
-     #polaroid-breathe, so react to it here with :has() instead of wiring
-     up sticker visibility at each call site.
-     Class of 2030 is excluded — it's a real link to another page, not
-     just decoration, so it should never disappear on hover/touch.
-     !important is needed here because .is-live/.is-breathing apply their
-     opacity via CSS animations (forwards fill-mode), which normally
-     outrank plain author rules in the cascade — only an !important
-     author rule beats an active animation. */
-  #polaroid-stack:has(#polaroid-breathe.fanned) #photo-stickers .photo-sticker:not(.sticker-2030) {
-    opacity: 0 !important;
-    pointer-events: none;
-  }
+  /* Sundays/Est. fly out to the fringe of the fanned spread instead of
+     fading — see .sticker-sundays/.sticker-est's --fan-x rules further
+     down. Class of 2030 stays put either way; it's a real link, not
+     decoration. */
 
   /* ── Breathe wrapper: idle ebb & flow ── */
   #polaroid-breathe {
@@ -462,6 +453,14 @@ const photoUrls = optimized.map(img => img.src);
     animation: badgePopIn 0.65s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
   }
 
+  /* Takes over holding opacity:1 once is-live is removed after the pop-in
+     finishes (see popSticker in the script below) — needed so removing
+     is-live doesn't fall back to the base .photo-sticker rule's resting
+     opacity:0 and make the sticker vanish right after it just popped in. */
+  .photo-sticker.pop-settled {
+    opacity: 1;
+  }
+
   .photo-sticker.is-breathing {
     opacity: 1;
     transform: scale(1) var(--sticker-tilt, rotate(0deg));
@@ -487,16 +486,12 @@ const photoUrls = optimized.map(img => img.src);
        missing after generalizing #class-badge's old --badge-size to the
        shared --sticker-size var, which left the ring using its -65px
        fallback at every size and badly overshooting on small badges. */
-    /* Pushed back out to /-2.5 (was pulled in to /-2.85 to protect the
-       ring's OUTER edge before .badge-ring had its own overflow:hidden
-       clip). Now that outer edge is safely clipped regardless, and the
-       real problem turned out to be the ring's INNER edge: bumping
-       "Class of" to a bigger, more readable size (see .badge-classof)
-       grew the center content enough that its "2030" corners were
-       landing on top of the ring letters - not spilling past the badge,
-       just colliding with the ring in the middle. Moving the ring
-       outward buys back clearance from the center content without
-       reopening the outer-edge issue. */
+    /* /-2.4: pulled in a bit from /-2.5 so the ring sits with real
+       breathing room from the badge's outer edge (was landing almost
+       exactly on it) instead of just barely clearing it — outer edge is
+       clipped safely regardless via .badge-ring's own overflow:hidden,
+       but that clip should be a backstop, not something routinely
+       trimming the ring in normal use. */
     --ring-r: calc(var(--sticker-size) / -2.4);
     --pulse-a: rgba(240, 169, 61, 0.65);
     bottom: -8%;
@@ -505,13 +500,17 @@ const photoUrls = optimized.map(img => img.src);
     cursor: pointer;
   }
 
-  /* ── Sundays 12PM — left edge ── */
+  /* ── Sundays 12PM — left edge ──
+     --fan-x/--fan-y (set below, only while the photo is fanned out on
+     hover) send this to land on a specific fanned-out card instead of
+     sitting frozen on the stacked photo underneath it. */
   .sticker-sundays {
     --pulse-a: rgba(111, 163, 176, 0.6);
     --sticker-tilt: rotate(-6deg);
     top: 42%;
     left: -10%;
-    transform: translateY(-50%) var(--sticker-tilt);
+    transform: translateX(var(--fan-x, 0px)) translateY(calc(-50% + var(--fan-y, 0px))) var(--sticker-tilt);
+    transition: transform 0.5s cubic-bezier(0.34, 1.1, 0.64, 1);
     background: #F0A93D;
   }
 
@@ -521,7 +520,31 @@ const photoUrls = optimized.map(img => img.src);
     --sticker-tilt: rotate(5deg);
     bottom: -6%;
     left: -8%;
+    transform: translateX(var(--fan-x, 0px));
+    transition: transform 0.5s cubic-bezier(0.34, 1.1, 0.64, 1);
     background: #6FA3B0;
+  }
+
+  /* Fly Sundays/Est. onto specific fanned-out cards instead of sitting
+     frozen on the stacked photo, where a fanned card would otherwise
+     land right on top of them. FAN_X in the script below is [-900,
+     -300, 300, 900] for the 4 cards left-to-right — Sundays targets the
+     2nd card's top-right corner (FAN_X[1] = -300), Est targets the
+     right side of the 4th/rightmost card (FAN_X[3] = 900), both in the
+     same pre-scale coordinate space these stickers already live in via
+     #photo-stickers' matching scale transform. Class of 2030 is
+     excluded, same as before: it's a real link and should never move. */
+  #polaroid-stack:has(#polaroid-breathe.fanned) .sticker-sundays {
+    --fan-x: calc(-300px + (var(--card-w) * 0.95));
+    --fan-y: calc(var(--card-h) * -0.28);
+  }
+  #polaroid-stack:has(#polaroid-breathe.fanned) .sticker-est {
+    /* Est.'s resting anchor is left:-8% (8% left of the card's own left
+       edge), so reaching the RIGHT side of the target card needs a
+       shift of roughly card-w * 0.93 beyond the card's own FAN_X[3]
+       offset, not just a small nudge past it — 0.3 was landing this on
+       the card's left side instead, since it barely cleared -8%. */
+    --fan-x: calc(900px + (var(--card-w) * 0.93));
   }
 
   .sticker-line1 {
@@ -649,11 +672,12 @@ const photoUrls = optimized.map(img => img.src);
        pulled in from 0.22em to 0.13em at the same time: "CLASS OF" is
        longer than the old "CLASS", so keeping the wider tracking at this
        bigger size would start crowding the badge's edge.
-       Max pulled back in from 15px to 13px - at 15px the combined
-       "Class of" + "2030" block grew tall/wide enough to collide with
-       the rotating ring text (see --ring-r above), not just the badge's
-       outer edge. 13px still clears the 10pt floor. */
-    font-size: clamp(11px, 1.6vh, 13px);
+       Max bumped back up to 15px (matches .sticker-line1's max, since
+       this was reading smaller than the other two stickers' text) now
+       that pulling --ring-r in a bit (see above) bought back enough
+       clearance to afford it — reverified against the ring at every
+       breakpoint, not just assumed. */
+    font-size: clamp(12px, 1.8vh, 15px);
     font-weight: 600;
     letter-spacing: 0.13em;
     color: rgba(246, 241, 228, 0.7);
@@ -662,12 +686,8 @@ const photoUrls = optimized.map(img => img.src);
 
   .badge-year-num {
     font-family: 'Unbounded', system-ui, sans-serif;
-    /* Max pulled in from 28px to 24px, same reason as .badge-classof
-       above - the two together were tall/wide enough at 28px to collide
-       with the ring text at typical phone heights (measured via
-       getBoundingClientRect, not eyeballed - the "2030" corner landed
-       inside the ring's inner edge). */
-    font-size: clamp(16px, 2.6vh, 21px);
+    /* Bumped back up to 23px, same reasoning as .badge-classof above. */
+    font-size: clamp(18px, 2.9vh, 23px);
     font-weight: 800;
     font-style: normal;
     color: #F6F1E4;
@@ -848,11 +868,21 @@ const photoUrls = optimized.map(img => img.src);
       const bottomPad = 16; // min space above hero bottom edge
 
       const availableH = heroH - textBottom - gap - bottomPad;
+      // Max scale was a flat 0.55 regardless of viewport width, tuned for
+      // desktop where --card-w can be up to 580px (0.55 * 580 = 319px, a
+      // reasonable hero visual width). On mobile --card-w is already much
+      // smaller (max 380px, see the mobile media query), so that same
+      // 0.55 ceiling left the photo at as little as ~177px wide in a
+      // 390px viewport — most of the screen sitting empty on both sides.
+      // Raise the ceiling on mobile since --card-w is already sized
+      // appropriately there; the height-based floor below still protects
+      // short viewports regardless of this ceiling.
+      const maxScale = window.innerWidth < 768 ? 0.95 : 0.55;
       // -30px / floor lowered from 0.28: individual cards jitter beyond the
       // base scaled size (see repositioning step below), and on short mobile
       // viewports the headline can legitimately need the photo smaller than
       // 0.28 to avoid overlapping it.
-      const scale = Math.min(0.55, Math.max(0.16, (availableH - 30) / cardH));
+      const scale = Math.min(maxScale, Math.max(0.16, (availableH - 30) / cardH));
 
       scaleEl.style.transform = `scale(${scale})`;
       stickersEl.style.transform = `scale(${scale})`;
@@ -914,7 +944,23 @@ const photoUrls = optimized.map(img => img.src);
       if (!el) return;
       setTimeout(() => {
         el.classList.add('is-live');
-        if (breathe) setTimeout(() => el.classList.add('is-breathing'), 1100);
+        if (breathe) {
+          setTimeout(() => el.classList.add('is-breathing'), 1100);
+        } else {
+          // is-live's animation uses `forwards` fill-mode, which keeps
+          // overriding this sticker's own transform indefinitely as long
+          // as the class stays on — that would silently block the
+          // --fan-x fly-out on hover (see .sticker-sundays/.sticker-est
+          // in the CSS below) since the animation's held value outranks
+          // a plain rule for the same property regardless of what that
+          // rule says. 700ms > the 0.65s animation, so this only fires
+          // once it's actually done. pop-settled takes over holding
+          // opacity:1, since removing is-live drops that too.
+          setTimeout(() => {
+            el.classList.remove('is-live');
+            el.classList.add('pop-settled');
+          }, 700);
+        }
       }, delay);
     };
     popSticker(document.getElementById('sticker-sundays'), 3000, false);
@@ -955,6 +1001,7 @@ const photoUrls = optimized.map(img => img.src);
             });
           }, 80);
         });
+
       } else {
         // ── Mobile: swipe to cycle through cards ──
         // order[0] = bottom card, order[last] = top card
