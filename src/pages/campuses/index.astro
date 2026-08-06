@@ -162,7 +162,13 @@ const campuses = [
   #class-badge {
     --ring-r: -65px;
     position: absolute;
-    top: 148px;
+    /* At top:148px, the breathing pulse ring (::after, scales up to 1.4x
+       on an ~178px circle) peaks ~18.6px above this box's own top edge
+       on any viewport where Nav sits at its full 128px height (not the
+       760px-short-viewport-compressed 80px) — Nav is z-index:50 vs. this
+       badge's 20, so it visually cuts the ripple's top off. 185px gives
+       the peak ring clearance below Nav's bottom edge with margin. */
+    top: 185px;
     right: 5%;
     width: 172px;
     height: 172px;
