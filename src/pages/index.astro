@@ -520,7 +520,7 @@ const photoUrls = optimized.map(img => img.src);
     --sticker-tilt: rotate(5deg);
     bottom: -6%;
     left: -8%;
-    transform: translateX(var(--fan-x, 0px));
+    transform: translateX(var(--fan-x, 0px)) translateY(var(--fan-y, 0px));
     transition: transform 0.5s cubic-bezier(0.34, 1.1, 0.64, 1);
     background: #6FA3B0;
   }
@@ -545,6 +545,10 @@ const photoUrls = optimized.map(img => img.src);
        offset, not just a small nudge past it — 0.3 was landing this on
        the card's left side instead, since it barely cleared -8%. */
     --fan-x: calc(300px + (var(--card-w) * 0.93));
+    /* Raised ~200px (pre-scale space, same as --fan-x) so it doesn't
+       sit flush with Est.'s resting bottom:-6% anchor once it's flown
+       over next to the Class of 2030 badge. */
+    --fan-y: -200px;
   }
 
   .sticker-line1 {
