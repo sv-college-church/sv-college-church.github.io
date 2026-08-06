@@ -475,7 +475,13 @@ const photoUrls = optimized.map(img => img.src);
        missing after generalizing #class-badge's old --badge-size to the
        shared --sticker-size var, which left the ring using its -65px
        fallback at every size and badly overshooting on small badges. */
-    --ring-r: calc(var(--sticker-size) / -2.65);
+    /* Pulled in from /-2.65 - that left as little as ~8% of the badge's
+       radius as margin between the ring text and the edge even before
+       accounting for glyph ink or the hover/breathing scale animations,
+       so the new overflow:hidden clip on .badge-ring would've been
+       cutting into these letters in normal use, not just catching edge
+       cases. */
+    --ring-r: calc(var(--sticker-size) / -2.85);
     --pulse-a: rgba(240, 169, 61, 0.65);
     bottom: -8%;
     right: -8%;
@@ -574,6 +580,19 @@ const photoUrls = optimized.map(img => img.src);
     position: absolute;
     inset: 0;
     animation: badgeRingRotate 18s linear infinite;
+    /* The circular shape here comes only from border-radius, which rounds
+       this element's own painted box but does NOT crop children that
+       render past that edge. --ring-r keeps the rotating "WELCOME" text
+       within a few px of the edge by design (it's a ring hugging the
+       inside of the badge), which leaves zero margin for glyph ink that
+       extends past its own box, or the badge's hover/breathing scale
+       animations — any of which pushes letters visibly outside the
+       circle with nothing to stop them. Clipping here (not on
+       .photo-sticker itself) contains just the ring text, leaving the
+       ::after pulse ring — which deliberately extends past the edge —
+       unaffected. */
+    border-radius: 50%;
+    overflow: hidden;
   }
 
   .badge-ring span {
