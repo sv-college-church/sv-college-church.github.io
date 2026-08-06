@@ -529,22 +529,22 @@ const photoUrls = optimized.map(img => img.src);
      frozen on the stacked photo, where a fanned card would otherwise
      land right on top of them. FAN_X in the script below is [-900,
      -300, 300, 900] for the 4 cards left-to-right — Sundays targets the
-     2nd card's top-right corner (FAN_X[1] = -300), Est targets the
-     right side of the 4th/rightmost card (FAN_X[3] = 900), both in the
-     same pre-scale coordinate space these stickers already live in via
+     1st card's top-right corner (FAN_X[0] = -900), Est targets the
+     right edge of the 3rd card (FAN_X[2] = 300), both in the same
+     pre-scale coordinate space these stickers already live in via
      #photo-stickers' matching scale transform. Class of 2030 is
      excluded, same as before: it's a real link and should never move. */
   #polaroid-stack:has(#polaroid-breathe.fanned) .sticker-sundays {
-    --fan-x: calc(-300px + (var(--card-w) * 0.95));
+    --fan-x: calc(-900px + (var(--card-w) * 0.95));
     --fan-y: calc(var(--card-h) * -0.28);
   }
   #polaroid-stack:has(#polaroid-breathe.fanned) .sticker-est {
     /* Est.'s resting anchor is left:-8% (8% left of the card's own left
        edge), so reaching the RIGHT side of the target card needs a
-       shift of roughly card-w * 0.93 beyond the card's own FAN_X[3]
+       shift of roughly card-w * 0.93 beyond the card's own FAN_X[2]
        offset, not just a small nudge past it — 0.3 was landing this on
        the card's left side instead, since it barely cleared -8%. */
-    --fan-x: calc(900px + (var(--card-w) * 0.93));
+    --fan-x: calc(300px + (var(--card-w) * 0.93));
   }
 
   .sticker-line1 {
