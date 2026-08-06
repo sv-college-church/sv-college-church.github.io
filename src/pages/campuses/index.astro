@@ -61,8 +61,7 @@ const campuses = [
         <span style="--a:336">E</span>
       </div>
       <div class="badge-center-content">
-        <span class="badge-classof">CLASS</span>
-        <span class="badge-dot">·</span>
+        <span class="badge-classof">Class of</span>
         <span class="badge-year-num">2030</span>
       </div>
     </a>
@@ -108,12 +107,12 @@ const campuses = [
   }
 
   .page-title {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-family: 'Archivo', system-ui, sans-serif;
     font-size: clamp(3rem, 8vw, 8rem);
     font-weight: 900;
     text-transform: uppercase;
     line-height: 1;
-    color: rgb(10 10 10);
+    color: #23201D;
   }
 
   .campus-list {
@@ -142,7 +141,7 @@ const campuses = [
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    color: rgb(10 10 10 / 0.8);
+    color: rgb(35 32 29 / 0.8);
     text-decoration: none;
     line-height: 1.15;
     transition: opacity 0.3s ease, color 0.2s ease;
@@ -150,7 +149,7 @@ const campuses = [
 
   @media (hover: hover) and (pointer: fine) {
     .campus-list:hover .campus-name:hover {
-      color: rgb(10 10 10);
+      color: rgb(35 32 29);
     }
   }
 
@@ -169,7 +168,7 @@ const campuses = [
     width: 172px;
     height: 172px;
     border-radius: 50%;
-    background: #0A0A0A;
+    background: #E2402F;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -179,7 +178,7 @@ const campuses = [
     cursor: pointer;
     box-shadow:
       0 4px 20px rgba(0, 0, 0, 0.3),
-      0 0 0 0px rgba(217, 28, 42, 0);
+      0 0 0 0px rgba(240, 169, 61, 0);
   }
 
   #class-badge::before {
@@ -187,7 +186,7 @@ const campuses = [
     position: absolute;
     inset: 5px;
     border-radius: 50%;
-    border: 1px solid rgba(245, 245, 240, 0.12);
+    border: 1px solid rgba(246, 241, 228, 0.12);
     pointer-events: none;
   }
 
@@ -196,7 +195,7 @@ const campuses = [
     position: absolute;
     inset: -3px;
     border-radius: 50%;
-    border: 2px solid rgba(217, 28, 42, 0.55);
+    border: 2px solid rgba(240, 169, 61, 0.55);
     opacity: 0;
     pointer-events: none;
   }
@@ -231,12 +230,12 @@ const campuses = [
     0%, 100% {
       box-shadow:
         0 4px 20px rgba(0, 0, 0, 0.3),
-        0 0 0 0px rgba(217, 28, 42, 0.45);
+        0 0 0 0px rgba(240, 169, 61, 0.45);
     }
     50% {
       box-shadow:
         0 6px 32px rgba(0, 0, 0, 0.2),
-        0 0 0 14px rgba(217, 28, 42, 0);
+        0 0 0 14px rgba(240, 169, 61, 0);
     }
   }
 
@@ -268,7 +267,7 @@ const campuses = [
     font-family: 'Instrument Sans', system-ui, sans-serif;
     font-size: 10px;
     font-weight: 600;
-    color: #F5F5F0;
+    color: #F6F1E4;
     text-transform: uppercase;
     line-height: 1;
     transform-origin: center center;
@@ -289,26 +288,19 @@ const campuses = [
 
   .badge-classof {
     font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 9px;
+    font-size: 13px;
     font-weight: 600;
-    letter-spacing: 0.22em;
-    color: rgba(245, 245, 240, 0.6);
+    letter-spacing: 0.13em;
+    color: rgba(246, 241, 228, 0.7);
     text-transform: uppercase;
   }
 
-  .badge-dot {
-    color: #E8394A;
-    font-size: 18px;
-    line-height: 0.8;
-  }
-
   .badge-year-num {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 30px;
-    font-weight: 700;
-    font-style: italic;
-    color: #F5F5F0;
-    letter-spacing: 0.02em;
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: #F6F1E4;
+    letter-spacing: 0.01em;
     line-height: 1;
   }
 
@@ -322,7 +314,7 @@ const campuses = [
       right: 5%;
     }
     .badge-year-num { font-size: 20px; }
-    .badge-dot { font-size: 13px; }
+    .badge-classof { font-size: 11px; }
   }
 </style>
 

@@ -16,7 +16,10 @@ export default {
         sky: '#6FA3B0',
       },
       fontFamily: {
-        display: ['"Unbounded"', 'system-ui', 'sans-serif'],
+        // Was Unbounded — the homepage headline actually ships in Archivo
+        // (see index.astro), so this token was stale/unused for that
+        // purpose. Archivo is already loaded sitewide via global.css.
+        display: ['"Archivo"', 'system-ui', 'sans-serif'],
         sans: ['"Instrument Sans"', 'system-ui', 'sans-serif'],
       },
       transitionTimingFunction: {
