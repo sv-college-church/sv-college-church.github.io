@@ -221,12 +221,25 @@ const photoUrls = optimized.map(img => img.src);
 
   /* Position set dynamically by JS based on available space */
 
-  /* Invisible hover zone — extends hit area for horizontal fan (mouse devices only) */
+  /* Invisible hover zone — extends hit area for horizontal fan (mouse
+     devices only), sized to cover the cards once fully fanned out
+     (translateX up to ±900px, see FAN_X) plus half a card width of
+     margin so hovering a fanned card near its own edge doesn't
+     accidentally leave the zone.
+     Was a flat -1100px regardless of scale, but #polaroid-stack itself
+     is never scaled — only its #polaroid-scale/#photo-stickers children
+     are (dynScale often lands as low as 0.16-0.55 to fit short
+     viewports) — so the hit-zone stayed at full, unscaled size while the
+     actual photos shrank well inside it. That left a "dead" margin where
+     hovering registered as still-on-the-stack despite being visibly far
+     from any photo, which is what read as fanning staying stuck/
+     unpredictable. --dyn-scale (set in JS alongside the real scale)
+     keeps this in lockstep with the photo's true on-screen size. */
   @media (hover: hover) and (pointer: fine) {
     #polaroid-stack.settled::after {
       content: '';
       position: absolute;
-      inset: 0 -1100px;
+      inset: 0 calc(-1100px * var(--dyn-scale, 1));
     }
   }
 
@@ -474,13 +487,17 @@ const photoUrls = optimized.map(img => img.src);
        missing after generalizing #class-badge's old --badge-size to the
        shared --sticker-size var, which left the ring using its -65px
        fallback at every size and badly overshooting on small badges. */
-    /* Pulled in from /-2.65 - that left as little as ~8% of the badge's
-       radius as margin between the ring text and the edge even before
-       accounting for glyph ink or the hover/breathing scale animations,
-       so the new overflow:hidden clip on .badge-ring would've been
-       cutting into these letters in normal use, not just catching edge
-       cases. */
-    --ring-r: calc(var(--sticker-size) / -2.85);
+    /* Pushed back out to /-2.5 (was pulled in to /-2.85 to protect the
+       ring's OUTER edge before .badge-ring had its own overflow:hidden
+       clip). Now that outer edge is safely clipped regardless, and the
+       real problem turned out to be the ring's INNER edge: bumping
+       "Class of" to a bigger, more readable size (see .badge-classof)
+       grew the center content enough that its "2030" corners were
+       landing on top of the ring letters - not spilling past the badge,
+       just colliding with the ring in the middle. Moving the ring
+       outward buys back clearance from the center content without
+       reopening the outer-edge issue. */
+    --ring-r: calc(var(--sticker-size) / -2.2);
     --pulse-a: rgba(240, 169, 61, 0.65);
     bottom: -8%;
     right: -8%;
@@ -631,8 +648,12 @@ const photoUrls = optimized.map(img => img.src);
     /* Was clamp(6px,1.2vh,9px) - never even reached 10pt. Letter-spacing
        pulled in from 0.22em to 0.13em at the same time: "CLASS OF" is
        longer than the old "CLASS", so keeping the wider tracking at this
-       bigger size would start crowding the badge's edge. */
-    font-size: clamp(11px, 1.8vh, 15px);
+       bigger size would start crowding the badge's edge.
+       Max pulled back in from 15px to 13px - at 15px the combined
+       "Class of" + "2030" block grew tall/wide enough to collide with
+       the rotating ring text (see --ring-r above), not just the badge's
+       outer edge. 13px still clears the 10pt floor. */
+    font-size: clamp(11px, 1.6vh, 13px);
     font-weight: 600;
     letter-spacing: 0.13em;
     color: rgba(246, 241, 228, 0.7);
@@ -641,7 +662,12 @@ const photoUrls = optimized.map(img => img.src);
 
   .badge-year-num {
     font-family: 'Unbounded', system-ui, sans-serif;
-    font-size: clamp(16px, 3.6vh, 28px);
+    /* Max pulled in from 28px to 24px, same reason as .badge-classof
+       above - the two together were tall/wide enough at 28px to collide
+       with the ring text at typical phone heights (measured via
+       getBoundingClientRect, not eyeballed - the "2030" corner landed
+       inside the ring's inner edge). */
+    font-size: clamp(16px, 2.6vh, 21px);
     font-weight: 800;
     font-style: normal;
     color: #F6F1E4;
@@ -726,8 +752,8 @@ const photoUrls = optimized.map(img => img.src);
     }
 
     .badge-ring span { font-size: 8px; }
-    .badge-classof { font-size: 11px; }
-    .badge-year-num { font-size: 17px; }
+    .badge-classof { font-size: 9px; }
+    .badge-year-num { font-size: 11px; }
     .sticker-line1 { font-size: 13px; }
     .sticker-line2 { font-size: 14px; }
   }
@@ -831,6 +857,11 @@ const photoUrls = optimized.map(img => img.src);
       scaleEl.style.transform = `scale(${scale})`;
       stickersEl.style.transform = `scale(${scale})`;
       stackEl.dataset.dynScale = String(scale);
+      // The invisible hover-zone below (#polaroid-stack.settled::after) is
+      // sized off this scale via --dyn-scale, so its footprint tracks the
+      // photo's actual on-screen size instead of always assuming full
+      // scale — see the CSS comment for why that mismatch mattered.
+      stackEl.style.setProperty('--dyn-scale', String(scale));
     }, 700);
 
     // ── 1.5s: text appears, stack repositions to center in remaining space ──
