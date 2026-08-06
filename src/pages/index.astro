@@ -104,8 +104,7 @@ const photoUrls = optimized.map(img => img.src);
               <span style="--a:336">E</span>
             </div>
             <div class="badge-center-content">
-              <span class="badge-classof">CLASS</span>
-              <span class="badge-dot">·</span>
+              <span class="badge-classof">Class of</span>
               <span class="badge-year-num">2030</span>
             </div>
           </a>
@@ -629,17 +628,15 @@ const photoUrls = optimized.map(img => img.src);
 
   .badge-classof {
     font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: clamp(6px, 1.2vh, 9px);
+    /* Was clamp(6px,1.2vh,9px) - never even reached 10pt. Letter-spacing
+       pulled in from 0.22em to 0.13em at the same time: "CLASS OF" is
+       longer than the old "CLASS", so keeping the wider tracking at this
+       bigger size would start crowding the badge's edge. */
+    font-size: clamp(11px, 1.8vh, 15px);
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.13em;
     color: rgba(246, 241, 228, 0.7);
     text-transform: uppercase;
-  }
-
-  .badge-dot {
-    color: #F0A93D;
-    font-size: clamp(11px, 2.3vh, 18px);
-    line-height: 0.8;
   }
 
   .badge-year-num {
@@ -729,9 +726,8 @@ const photoUrls = optimized.map(img => img.src);
     }
 
     .badge-ring span { font-size: 8px; }
-    .badge-classof { font-size: 7px; }
+    .badge-classof { font-size: 11px; }
     .badge-year-num { font-size: 17px; }
-    .badge-dot { font-size: 11px; }
     .sticker-line1 { font-size: 13px; }
     .sticker-line2 { font-size: 14px; }
   }
