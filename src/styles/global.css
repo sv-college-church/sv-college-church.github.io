@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Instrument+Sans:wght@400;500;600&family=Unbounded:wght@700;800;900&family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Bitter:ital,wght@1,350&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Instrument+Sans:wght@400;500;600&family=Unbounded:wght@700;800;900&family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600;1,700&family=Bitter:ital,wght@1,350&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +6,14 @@
 
 @layer base {
   html {
-    @apply bg-paper font-sans text-ink;
+    /* Was bg-paper/text-ink (the old palette) — this is the sitewide
+       fallback that shows through on any page/element that doesn't set
+       its own background, e.g. campuses/index.astro's <main> never sets
+       one at all. Pages with their own explicit background (most do)
+       aren't affected by this either way; class-of-2030.astro's fully
+       custom dark theme overrides this on its own scoped elements
+       regardless, since it was deliberately kept out of this rollout. */
+    @apply bg-cream font-sans text-charcoal;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
   }

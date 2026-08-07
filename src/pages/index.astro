@@ -51,11 +51,9 @@ const photoUrls = optimized.map(img => img.src);
 
       <!-- Text: fades in above photos after shrink -->
       <div id="text-wrapper">
-        <h1 id="hero-text" class="font-sans font-black uppercase leading-none">
-          <span class="hero-word" data-index="0">Welcome</span>
-          <span class="hero-word" data-index="1">to</span>
-          <br />
-          <span class="hero-line2">Silicon Valley College Church</span>
+        <h1 id="hero-text" class="uppercase leading-none">
+          <span class="hero-line1">Silicon Valley</span>
+          <span class="hero-line2">College Church</span>
         </h1>
       </div>
 
@@ -71,42 +69,57 @@ const photoUrls = optimized.map(img => img.src);
             <div class="polaroid-card"><div class="card-inner"><img src={photoUrls[3]} alt="Students at Silicon Valley College Church" draggable="false" width="800" height="800" /></div></div>
           </div>
         </div>
-      </div>
 
-      <!-- Class of 2030 badge -->
-      <a href="/class-of-2030" id="class-badge" aria-label="Class of 2030 — welcome">
-        <div class="badge-ring" aria-hidden="true">
-          <span style="--a:0">✦</span>
-          <span style="--a:24">W</span>
-          <span style="--a:36">E</span>
-          <span style="--a:48">L</span>
-          <span style="--a:60">C</span>
-          <span style="--a:72">O</span>
-          <span style="--a:84">M</span>
-          <span style="--a:96">E</span>
-          <span style="--a:120">✦</span>
-          <span style="--a:144">W</span>
-          <span style="--a:156">E</span>
-          <span style="--a:168">L</span>
-          <span style="--a:180">C</span>
-          <span style="--a:192">O</span>
-          <span style="--a:204">M</span>
-          <span style="--a:216">E</span>
-          <span style="--a:240">✦</span>
-          <span style="--a:264">W</span>
-          <span style="--a:276">E</span>
-          <span style="--a:288">L</span>
-          <span style="--a:300">C</span>
-          <span style="--a:312">O</span>
-          <span style="--a:324">M</span>
-          <span style="--a:336">E</span>
+        <!-- Corner stickers — true siblings of the scale wrapper (not nested
+             inside it) so they can't get caught behind #polaroid-stack's
+             ::after hover-zone or any stacking-context surprises from the
+             breathe/fan transforms. JS mirrors the same scale value onto
+             #photo-stickers directly, so they still shrink with the photo. -->
+        <div id="photo-stickers">
+          <a href="/class-of-2030" id="class-badge" class="photo-sticker sticker-2030" aria-label="Class of 2030 — welcome">
+            <div class="badge-ring" aria-hidden="true">
+              <span style="--a:0">✦</span>
+              <span style="--a:24">W</span>
+              <span style="--a:36">E</span>
+              <span style="--a:48">L</span>
+              <span style="--a:60">C</span>
+              <span style="--a:72">O</span>
+              <span style="--a:84">M</span>
+              <span style="--a:96">E</span>
+              <span style="--a:120">✦</span>
+              <span style="--a:144">W</span>
+              <span style="--a:156">E</span>
+              <span style="--a:168">L</span>
+              <span style="--a:180">C</span>
+              <span style="--a:192">O</span>
+              <span style="--a:204">M</span>
+              <span style="--a:216">E</span>
+              <span style="--a:240">✦</span>
+              <span style="--a:264">W</span>
+              <span style="--a:276">E</span>
+              <span style="--a:288">L</span>
+              <span style="--a:300">C</span>
+              <span style="--a:312">O</span>
+              <span style="--a:324">M</span>
+              <span style="--a:336">E</span>
+            </div>
+            <div class="badge-center-content">
+              <span class="badge-classof">Class of</span>
+              <span class="badge-year-num">2030</span>
+            </div>
+          </a>
+
+          <div id="sticker-sundays" class="photo-sticker sticker-sundays" aria-hidden="true">
+            <span class="sticker-line1">Sundays</span>
+            <span class="sticker-line2">12PM</span>
+          </div>
+
+          <div id="sticker-est" class="photo-sticker sticker-est" aria-hidden="true">
+            <span class="sticker-line1">Est.</span>
+            <span class="sticker-line2">2021</span>
+          </div>
         </div>
-        <div class="badge-center-content">
-          <span class="badge-classof">CLASS</span>
-          <span class="badge-dot">·</span>
-          <span class="badge-year-num">2030</span>
-        </div>
-      </a>
+      </div>
 
     </section>
   </main>
@@ -129,6 +142,21 @@ const photoUrls = optimized.map(img => img.src);
   @keyframes navFadeIn {
     from { opacity: 0; }
     to   { opacity: 1; }
+  }
+
+  /* Warm cream carried into the shared Nav/Footer components, homepage-only.
+     Nav's actual bg lives on a ::before pseudo-element (see Nav.astro), and
+     Footer's is the Tailwind `bg-paper` utility — both overridden here with
+     an extra type-selector qualifier so specificity beats the shared
+     component styles without touching Nav.astro/Footer.astro directly. */
+  header.nav-header::before {
+    background: rgb(246 241 228 / 0.95) !important;
+  }
+  footer.bg-paper {
+    background-color: #F6F1E4 !important;
+  }
+  nav.bg-paper {
+    background-color: #F6F1E4 !important;
   }
 
   /* Homepage: fit everything in the viewport, no scrolling needed */
@@ -162,6 +190,10 @@ const photoUrls = optimized.map(img => img.src);
     align-items: center;
     justify-content: center;
     overflow: visible;
+    /* Warm cream, up from the site-wide cool paper tone — homepage-only for now */
+    background-color: #F6F1E4;
+    background-image: radial-gradient(circle, rgba(35, 32, 29, 0.015) 1px, transparent 1px);
+    background-size: 16px 16px;
   }
 
   /* Prevent horizontal scrollbar from fan animation.
@@ -189,12 +221,25 @@ const photoUrls = optimized.map(img => img.src);
 
   /* Position set dynamically by JS based on available space */
 
-  /* Invisible hover zone — extends hit area for horizontal fan (mouse devices only) */
+  /* Invisible hover zone — extends hit area for horizontal fan (mouse
+     devices only), sized to cover the cards once fully fanned out
+     (translateX up to ±900px, see FAN_X) plus half a card width of
+     margin so hovering a fanned card near its own edge doesn't
+     accidentally leave the zone.
+     Was a flat -1100px regardless of scale, but #polaroid-stack itself
+     is never scaled — only its #polaroid-scale/#photo-stickers children
+     are (dynScale often lands as low as 0.16-0.55 to fit short
+     viewports) — so the hit-zone stayed at full, unscaled size while the
+     actual photos shrank well inside it. That left a "dead" margin where
+     hovering registered as still-on-the-stack despite being visibly far
+     from any photo, which is what read as fanning staying stuck/
+     unpredictable. --dyn-scale (set in JS alongside the real scale)
+     keeps this in lockstep with the photo's true on-screen size. */
   @media (hover: hover) and (pointer: fine) {
     #polaroid-stack.settled::after {
       content: '';
       position: absolute;
-      inset: 0 -1100px;
+      inset: 0 calc(-1100px * var(--dyn-scale, 1));
     }
   }
 
@@ -205,6 +250,33 @@ const photoUrls = optimized.map(img => img.src);
     transform-origin: center center;
     transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
   }
+
+  /* ── Sticker layer: sibling of the scale wrapper, not nested inside it —
+     see the comment in the markup above for why. JS mirrors the same scale
+     value here directly so the stickers still shrink with the photo. ── */
+  #photo-stickers {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 30;
+    pointer-events: none;
+  }
+
+  /* Only Class of 2030 is a real interactive element (a link) — Sundays
+     and Est. are decoration, so they should have zero hover/click
+     behavior of their own: no hover-scale, nothing to tap, pointer
+     events pass straight through to whatever's behind them. */
+  #photo-stickers .sticker-2030 {
+    pointer-events: auto;
+  }
+
+  /* Sundays/Est. fly out to the fringe of the fanned spread instead of
+     fading — see .sticker-sundays/.sticker-est's --fan-x rules further
+     down. Class of 2030 stays put either way; it's a real link, not
+     decoration. */
 
   /* ── Breathe wrapper: idle ebb & flow ── */
   #polaroid-breathe {
@@ -273,58 +345,92 @@ const photoUrls = optimized.map(img => img.src);
   }
 
   #hero-text {
-    color: var(--color-ink, #0A0A0A);
+    color: #23201D;
     margin: 0;
+    width: 100%;
     text-align: center;
   }
 
-  .hero-word {
-    display: inline-block;
-    font-size: clamp(1.5rem, min(4vw, 6vh), 4rem);
-    letter-spacing: 0.15em;
+  /* ── Headline: one dominant line + a smaller, tilted second line —
+     matches the "Campus Bulletin" mockup's proportions directly rather
+     than two equal-sized lines with a "Welcome to" eyebrow above them. ── */
+  .hero-line1 {
+    display: block;
+    /* Archivo, not Unbounded — the mockup's actual pixels were rendered in
+       an Arial/Helvetica Neue fallback (Artifact's CSP blocks external
+       font loading), and Archivo is the closest real webfont match to
+       that sharper, flatter-cornered grotesque look. Unbounded is
+       rounder/chunkier and reads differently at this size. Using the
+       regular Archivo family (not Archivo Black, which only ships one
+       maxed-out weight) so it can sit at 700 instead of reading as shouty. */
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-weight: 700;
+    /* Sized down from an earlier pass (was clamp(2.4rem, min(7.2vw,10.5vh),
+       7.2rem)) — at its old max this line ran ~1000px wide, well past the
+       580px photo stack cap, which read much louder than the mockup where
+       the headline sits closer to the photo's own width. */
+    font-size: clamp(2.1rem, min(4.6vw, 7vh), 4.6rem);
+    line-height: 1.05;
+    color: #23201D;
     opacity: 0;
     transform: translateY(0.2em);
-    transition: opacity 0.45s ease, transform 0.45s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
   }
 
   .hero-line2 {
     display: block;
-    font-size: clamp(2.5rem, min(7.5vw, 11vh), 7.5rem);
+    font-family: 'Archivo', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.2rem, min(2.8vw, 4.2vh), 2.8rem);
+    line-height: 1.05;
+    color: #E2402F;
+    margin-top: 0.25em;
+    transform: rotate(-2deg) translateY(0.15em);
     opacity: 0;
-    transform: translateY(0.15em);
     transition: opacity 0.5s ease, transform 0.5s ease;
   }
 
-  .hero-word.visible,
+  .hero-line1.visible,
   .hero-line2.visible {
     opacity: 1;
     transform: translateY(0);
   }
 
-  /* ── Class of 2030 Badge ── */
-  #class-badge {
-    --badge-size: clamp(120px, 22vh, 172px);
-    --ring-r: calc(var(--badge-size) / -2.65);
-    position: absolute;
-    bottom: 5%;
-    right: 5%;
-    width: var(--badge-size);
-    height: var(--badge-size);
-    border-radius: 50%;
-    background: #0A0A0A;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    z-index: 20;
-    opacity: 0;
-    cursor: pointer;
-    box-shadow:
-      0 4px 20px rgba(0, 0, 0, 0.3),
-      0 0 0 0px rgba(217, 28, 42, 0);
+  .hero-line2.visible {
+    transform: rotate(-2deg) translateY(0);
   }
 
-  #class-badge::before {
+  /* ── Photo corner stickers (shared base) ──
+     Three stickers hang off the corners/edges of the photo stack, popping
+     in once it's settled: the existing Class of 2030 badge (bottom-right),
+     Sundays 12PM (left edge), and Est. 2021 (bottom-left). They live in
+     #photo-stickers, a sibling of #polaroid-scale (see markup) — JS mirrors
+     the photo's scale value onto it so they still shrink with the photo. */
+  .photo-sticker {
+    --sticker-size: clamp(92px, 16vh, 124px);
+    position: absolute;
+    width: var(--sticker-size);
+    height: var(--sticker-size);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    text-decoration: none;
+    z-index: 22;
+    opacity: 0;
+    /* Lives on the base rule (not just the fan-triggered override below)
+       so it applies both when fanning fades a sticker out AND when
+       un-fanning fades it back in — a transition set only on the
+       opacity:0 state has nothing to animate back from. */
+    transition: opacity 0.25s ease;
+    box-shadow:
+      0 4px 20px rgba(0, 0, 0, 0.25),
+      0 0 0 0px rgba(0, 0, 0, 0);
+  }
+
+  .photo-sticker::before {
     content: '';
     position: absolute;
     inset: 5px;
@@ -333,52 +439,174 @@ const photoUrls = optimized.map(img => img.src);
     pointer-events: none;
   }
 
-  #class-badge::after {
+  .photo-sticker::after {
     content: '';
     position: absolute;
     inset: -3px;
     border-radius: 50%;
-    border: 2px solid rgba(217, 28, 42, 0.55);
+    border: 2px solid var(--pulse-a);
     opacity: 0;
     pointer-events: none;
   }
 
-  #class-badge.is-live {
+  .photo-sticker.is-live {
     animation: badgePopIn 0.65s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
   }
 
-  #class-badge.is-breathing {
+  /* Takes over holding opacity:1 once is-live is removed after the pop-in
+     finishes (see popSticker in the script below) — needed so removing
+     is-live doesn't fall back to the base .photo-sticker rule's resting
+     opacity:0 and make the sticker vanish right after it just popped in. */
+  .photo-sticker.pop-settled {
     opacity: 1;
-    transform: scale(1);
+  }
+
+  .photo-sticker.is-breathing {
+    opacity: 1;
+    transform: scale(1) var(--sticker-tilt, rotate(0deg));
     animation: badgeBreathe 2.8s ease-in-out infinite;
     transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
   }
 
-  #class-badge:hover {
-    transform: scale(1.13) !important;
+  .photo-sticker:hover {
+    transform: scale(1.13) var(--sticker-tilt, rotate(0deg)) !important;
   }
 
-  #class-badge.is-breathing::after {
+  .photo-sticker.is-breathing::after {
     animation: badgePulseRing 2.8s ease-out infinite;
   }
 
+  /* ── Class of 2030 (unchanged size/position/colors — now stack-relative) ── */
+  .sticker-2030 {
+    /* Biggest of the three — it carries the most text and is the only
+       clickable sticker, so it should read as the primary one. */
+    --sticker-size: clamp(140px, 26vh, 200px);
+    /* Recomputed from --sticker-size (not hardcoded) so the rotating ring
+       text stays proportional to the badge at every breakpoint — this was
+       missing after generalizing #class-badge's old --badge-size to the
+       shared --sticker-size var, which left the ring using its -65px
+       fallback at every size and badly overshooting on small badges. */
+    /* /-2.4: pulled in a bit from /-2.5 so the ring sits with real
+       breathing room from the badge's outer edge (was landing almost
+       exactly on it) instead of just barely clearing it — outer edge is
+       clipped safely regardless via .badge-ring's own overflow:hidden,
+       but that clip should be a backstop, not something routinely
+       trimming the ring in normal use. */
+    --ring-r: calc(var(--sticker-size) / -2.4);
+    --pulse-a: rgba(240, 169, 61, 0.65);
+    bottom: -8%;
+    right: -8%;
+    background: #E2402F;
+    cursor: pointer;
+  }
+
+  /* ── Sundays 12PM — left edge ──
+     --fan-x/--fan-y (set below, only while the photo is fanned out on
+     hover) send this to land on a specific fanned-out card instead of
+     sitting frozen on the stacked photo underneath it. */
+  .sticker-sundays {
+    --pulse-a: rgba(111, 163, 176, 0.6);
+    --sticker-tilt: rotate(-6deg);
+    top: 42%;
+    left: -10%;
+    transform: translateX(var(--fan-x, 0px)) translateY(calc(-50% + var(--fan-y, 0px))) var(--sticker-tilt);
+    transition: transform 0.5s cubic-bezier(0.34, 1.1, 0.64, 1);
+    background: #F0A93D;
+  }
+
+  /* ── Est. 2021 — bottom-left corner ── */
+  .sticker-est {
+    --pulse-a: rgba(226, 64, 47, 0.55);
+    --sticker-tilt: rotate(5deg);
+    bottom: -6%;
+    left: -8%;
+    transform: translateX(var(--fan-x, 0px)) translateY(var(--fan-y, 0px));
+    transition: transform 0.5s cubic-bezier(0.34, 1.1, 0.64, 1);
+    background: #6FA3B0;
+  }
+
+  /* Fly Sundays/Est. onto specific fanned-out cards instead of sitting
+     frozen on the stacked photo, where a fanned card would otherwise
+     land right on top of them. FAN_X in the script below is [-900,
+     -300, 300, 900] for the 4 cards left-to-right — Sundays targets the
+     1st card's top-right corner (FAN_X[0] = -900), Est targets the
+     right edge of the 3rd card (FAN_X[2] = 300), both in the same
+     pre-scale coordinate space these stickers already live in via
+     #photo-stickers' matching scale transform. Class of 2030 is
+     excluded, same as before: it's a real link and should never move. */
+  #polaroid-stack:has(#polaroid-breathe.fanned) .sticker-sundays {
+    --fan-x: calc(-900px + (var(--card-w) * 0.95));
+    --fan-y: calc(var(--card-h) * -0.28);
+  }
+  #polaroid-stack:has(#polaroid-breathe.fanned) .sticker-est {
+    /* Est.'s resting anchor is left:-8% (8% left of the card's own left
+       edge), so reaching the RIGHT side of the target card needs a
+       shift of roughly card-w * 0.93 beyond the card's own FAN_X[2]
+       offset, not just a small nudge past it — 0.3 was landing this on
+       the card's left side instead, since it barely cleared -8%. */
+    --fan-x: calc(300px + (var(--card-w) * 0.93));
+    /* Raised ~200px (pre-scale space, same as --fan-x) so it doesn't
+       sit flush with Est.'s resting bottom:-6% anchor once it's flown
+       over next to the Class of 2030 badge. */
+    --fan-y: -200px;
+  }
+
+  .sticker-line1 {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    /* Floor raised to 13px (~10pt) — was clamp(7px,1.3vh,10px), which
+       never even reached 10pt at its max, let alone its floor. */
+    font-size: clamp(13px, 1.6vh, 15px);
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    /* Was rgba(...,0.6) — too faint against the marigold/sky fills, bumped
+       up so the label reads instead of nearly disappearing. */
+    color: rgba(35, 32, 29, 0.88);
+  }
+
+  .sticker-est .sticker-line1 {
+    color: rgba(246, 241, 228, 0.95);
+  }
+
+  .sticker-line2 {
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-size: clamp(16px, 3.2vh, 24px);
+    font-weight: 800;
+    line-height: 1;
+    color: #23201D;
+  }
+
+  .sticker-est .sticker-line2 {
+    color: #F6F1E4;
+  }
+
   @keyframes badgePopIn {
-    0%   { opacity: 0; transform: scale(0.72) rotate(-8deg); }
-    65%  { opacity: 1; transform: scale(1.08) rotate(2deg); }
-    82%  { transform: scale(0.97) rotate(0deg); }
-    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    0%   { opacity: 0; transform: scale(0.72) var(--sticker-tilt, rotate(-8deg)); }
+    65%  { opacity: 1; transform: scale(1.08) var(--sticker-tilt, rotate(2deg)); }
+    82%  { transform: scale(0.97) var(--sticker-tilt, rotate(0deg)); }
+    100% { opacity: 1; transform: scale(1) var(--sticker-tilt, rotate(0deg)); }
+  }
+
+  .sticker-sundays.is-live {
+    animation-name: badgePopInSundays;
+  }
+  @keyframes badgePopInSundays {
+    0%   { opacity: 0; transform: translateY(-50%) scale(0.72) var(--sticker-tilt); }
+    65%  { opacity: 1; transform: translateY(-50%) scale(1.08) var(--sticker-tilt); }
+    82%  { transform: translateY(-50%) scale(0.97) var(--sticker-tilt); }
+    100% { opacity: 1; transform: translateY(-50%) scale(1) var(--sticker-tilt); }
   }
 
   @keyframes badgeBreathe {
     0%, 100% {
       box-shadow:
-        0 4px 20px rgba(0, 0, 0, 0.3),
-        0 0 0 0px rgba(217, 28, 42, 0.45);
+        0 4px 20px rgba(0, 0, 0, 0.25),
+        0 0 0 0px var(--pulse-a);
     }
     50% {
       box-shadow:
-        0 6px 32px rgba(0, 0, 0, 0.2),
-        0 0 0 14px rgba(217, 28, 42, 0);
+        0 6px 32px rgba(0, 0, 0, 0.18),
+        0 0 0 14px transparent;
     }
   }
 
@@ -395,6 +623,19 @@ const photoUrls = optimized.map(img => img.src);
     position: absolute;
     inset: 0;
     animation: badgeRingRotate 18s linear infinite;
+    /* The circular shape here comes only from border-radius, which rounds
+       this element's own painted box but does NOT crop children that
+       render past that edge. --ring-r keeps the rotating "WELCOME" text
+       within a few px of the edge by design (it's a ring hugging the
+       inside of the badge), which leaves zero margin for glyph ink that
+       extends past its own box, or the badge's hover/breathing scale
+       animations — any of which pushes letters visibly outside the
+       circle with nothing to stop them. Clipping here (not on
+       .photo-sticker itself) contains just the ring text, leaving the
+       ::after pulse ring — which deliberately extends past the edge —
+       unaffected. */
+    border-radius: 50%;
+    overflow: hidden;
   }
 
   .badge-ring span {
@@ -410,7 +651,7 @@ const photoUrls = optimized.map(img => img.src);
     font-family: 'Instrument Sans', system-ui, sans-serif;
     font-size: clamp(7px, 1.3vh, 10px);
     font-weight: 600;
-    color: #F5F5F0;
+    color: #F6F1E4;
     text-transform: uppercase;
     line-height: 1;
     transform-origin: center center;
@@ -431,26 +672,30 @@ const photoUrls = optimized.map(img => img.src);
 
   .badge-classof {
     font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: clamp(6px, 1.2vh, 9px);
+    /* Was clamp(6px,1.2vh,9px) - never even reached 10pt. Letter-spacing
+       pulled in from 0.22em to 0.13em at the same time: "CLASS OF" is
+       longer than the old "CLASS", so keeping the wider tracking at this
+       bigger size would start crowding the badge's edge.
+       Max bumped back up to 15px (matches .sticker-line1's max, since
+       this was reading smaller than the other two stickers' text) now
+       that pulling --ring-r in a bit (see above) bought back enough
+       clearance to afford it — reverified against the ring at every
+       breakpoint, not just assumed. */
+    font-size: clamp(12px, 1.8vh, 15px);
     font-weight: 600;
-    letter-spacing: 0.22em;
-    color: rgba(245, 245, 240, 0.6);
+    letter-spacing: 0.13em;
+    color: rgba(246, 241, 228, 0.7);
     text-transform: uppercase;
   }
 
-  .badge-dot {
-    color: #E8394A;
-    font-size: clamp(11px, 2.3vh, 18px);
-    line-height: 0.8;
-  }
-
   .badge-year-num {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(17px, 3.8vh, 30px);
-    font-weight: 700;
-    font-style: italic;
-    color: #F5F5F0;
-    letter-spacing: 0.02em;
+    font-family: 'Unbounded', system-ui, sans-serif;
+    /* Bumped back up to 23px, same reasoning as .badge-classof above. */
+    font-size: clamp(18px, 2.9vh, 23px);
+    font-weight: 800;
+    font-style: normal;
+    color: #F6F1E4;
+    letter-spacing: 0.01em;
     line-height: 1;
   }
 
@@ -463,27 +708,78 @@ const photoUrls = optimized.map(img => img.src);
     }
 
     #text-wrapper {
-      width: auto;
+      /* width:auto here shrink-to-fits absolutely-positioned content to
+         roughly one word wide instead of filling max-width, which forced
+         "Silicon Valley College Church" onto 4 cramped lines. Give it an
+         explicit width so wrapping is based on the real available space. */
+      width: 100%;
       max-width: 85vw;
       padding: 0 16px;
     }
 
-    /* Smaller badge at bottom-right on mobile */
-    #class-badge {
-      --ring-r: -38px;
-      width: 96px;
-      height: 96px;
-      top: auto;
-      bottom: 4%;
-      right: 4%;
-      left: auto;
-      margin-left: 0;
+    /* Unbounded runs much wider per-character than the previous Instrument
+       Sans treatment — sized so "Silicon Valley" / "College Church" each
+       fit one line at common phone widths. Deliberately no white-space:
+       nowrap here: combined with this span's auto/shrink-to-fit width, it
+       hit a real browser bug where the box width gets stuck at the
+       pre-font-swap (fallback font) measurement while the Unbounded text
+       itself renders at its full, wider size — box and content disagree,
+       and the overflow gets clipped instead of visible. Letting it wrap
+       naturally means a tight viewport softly wraps to a second line
+       instead of clipping text off the edge. */
+    .hero-line1 {
+      font-size: clamp(1.1rem, 4.9vw, 1.5rem);
+    }
+
+    .hero-line2 {
+      font-size: clamp(0.65rem, 2.9vw, 0.95rem);
+    }
+
+    .photo-sticker {
+      --sticker-size: clamp(92px, 16vh, 122px);
+    }
+
+    /* Keep the size hierarchy on mobile too — 2030 stays the biggest */
+    .sticker-2030 {
+      --sticker-size: clamp(106px, 18vh, 144px);
+    }
+
+    .sticker-line1 { font-size: clamp(13px, 1.5vh, 14px); }
+    .sticker-line2 { font-size: clamp(14px, 2.6vh, 18px); }
+  }
+
+  /* Short mobile viewports (e.g. iPhone SE): the headline plus the
+     photo stack don't both fit even at the dynamic scale-down floor, so
+     compress the headline further here rather than let them collide. */
+  @media (max-width: 767px) and (max-height: 700px) {
+    #text-wrapper {
+      top: 1%;
+    }
+
+    .hero-line1 {
+      font-size: clamp(0.95rem, 5.1vw, 1.4rem);
+    }
+
+    .hero-line2 {
+      font-size: clamp(0.58rem, 3.1vw, 0.83rem);
+    }
+
+    /* Smaller stickers on short viewports — the photo itself is already
+       scaled down here (see the JS shrink math), so the corner stickers
+       need to shrink to match instead of overwhelming it. */
+    .photo-sticker {
+      --sticker-size: clamp(74px, 12vh, 100px);
+    }
+
+    .sticker-2030 {
+      --sticker-size: clamp(84px, 14vh, 114px);
     }
 
     .badge-ring span { font-size: 8px; }
-    .badge-classof { font-size: 7px; }
-    .badge-year-num { font-size: 17px; }
-    .badge-dot { font-size: 11px; }
+    .badge-classof { font-size: 9px; }
+    .badge-year-num { font-size: 11px; }
+    .sticker-line1 { font-size: 13px; }
+    .sticker-line2 { font-size: 14px; }
   }
 </style>
 
@@ -512,25 +808,27 @@ const photoUrls = optimized.map(img => img.src);
 
   // Wrap in astro:page-load so it re-runs on View Transitions navigation
   document.addEventListener('astro:page-load', () => {
-    const cards     = Array.from(document.querySelectorAll<HTMLElement>('.polaroid-card'));
-    const scaleEl   = document.getElementById('polaroid-scale');
-    const breatheEl = document.getElementById('polaroid-breathe');
-    const stackEl   = document.getElementById('polaroid-stack');
-    const textWrap  = document.getElementById('text-wrapper');
+    const cards      = Array.from(document.querySelectorAll<HTMLElement>('.polaroid-card'));
+    const scaleEl    = document.getElementById('polaroid-scale');
+    const stickersEl = document.getElementById('photo-stickers');
+    const breatheEl  = document.getElementById('polaroid-breathe');
+    const stackEl    = document.getElementById('polaroid-stack');
+    const textWrap   = document.getElementById('text-wrapper');
 
     // Bail if we're not on the homepage
-    if (!cards.length || !scaleEl || !breatheEl || !stackEl || !textWrap) return;
+    if (!cards.length || !scaleEl || !stickersEl || !breatheEl || !stackEl || !textWrap) return;
 
     // Reset DOM state (View Transitions preserves classes/styles from previous visit)
     scaleEl.style.transform = '';
+    stickersEl.style.transform = '';
     stackEl.style.top = '';
     stackEl.classList.remove('settled');
     delete stackEl.dataset.dynScale;
     breatheEl.classList.remove('breathing', 'fanned');
     textWrap.classList.remove('visible');
-    document.querySelectorAll<HTMLElement>('.hero-word, .hero-line2').forEach(el => el.classList.remove('visible'));
-    const badge = document.getElementById('class-badge');
-    if (badge) badge.classList.remove('is-live', 'is-breathing');
+    document.querySelectorAll<HTMLElement>('.hero-line1, .hero-line2').forEach(el => el.classList.remove('visible'));
+    const stickers = Array.from(document.querySelectorAll<HTMLElement>('.photo-sticker'));
+    stickers.forEach(s => s.classList.remove('is-live', 'is-breathing'));
     const footer = document.querySelector('footer');
     if (footer) footer.classList.remove('is-visible');
 
@@ -574,19 +872,39 @@ const photoUrls = optimized.map(img => img.src);
       const bottomPad = 16; // min space above hero bottom edge
 
       const availableH = heroH - textBottom - gap - bottomPad;
-      const scale = Math.min(0.55, Math.max(0.28, availableH / cardH));
+      // Max scale was a flat 0.55 regardless of viewport width, tuned for
+      // desktop where --card-w can be up to 580px (0.55 * 580 = 319px, a
+      // reasonable hero visual width). On mobile --card-w is already much
+      // smaller (max 380px, see the mobile media query), so that same
+      // 0.55 ceiling left the photo at as little as ~177px wide in a
+      // 390px viewport — most of the screen sitting empty on both sides.
+      // Raise the ceiling on mobile since --card-w is already sized
+      // appropriately there; the height-based floor below still protects
+      // short viewports regardless of this ceiling.
+      const maxScale = window.innerWidth < 768 ? 0.95 : 0.55;
+      // -30px / floor lowered from 0.28: individual cards jitter beyond the
+      // base scaled size (see repositioning step below), and on short mobile
+      // viewports the headline can legitimately need the photo smaller than
+      // 0.28 to avoid overlapping it.
+      const scale = Math.min(maxScale, Math.max(0.16, (availableH - 30) / cardH));
 
       scaleEl.style.transform = `scale(${scale})`;
+      stickersEl.style.transform = `scale(${scale})`;
       stackEl.dataset.dynScale = String(scale);
+      // The invisible hover-zone below (#polaroid-stack.settled::after) is
+      // sized off this scale via --dyn-scale, so its footprint tracks the
+      // photo's actual on-screen size instead of always assuming full
+      // scale — see the CSS comment for why that mismatch mattered.
+      stackEl.style.setProperty('--dyn-scale', String(scale));
     }, 700);
 
     // ── 1.5s: text appears, stack repositions to center in remaining space ──
-    const words = Array.from(document.querySelectorAll<HTMLElement>('.hero-word'));
+    const line1 = document.querySelector<HTMLElement>('.hero-line1')!;
     const line2 = document.querySelector<HTMLElement>('.hero-line2')!;
 
     setTimeout(() => {
       textWrap.classList.add('visible');
-      words[0]?.classList.add('visible');
+      line1.classList.add('visible');
 
       requestAnimationFrame(() => {
         const heroEl  = stackEl.parentElement as HTMLElement;
@@ -594,18 +912,25 @@ const photoUrls = optimized.map(img => img.src);
         const heroH   = heroRect.height;
         const textBottom = textWrap.getBoundingClientRect().bottom - heroRect.top;
         const scale   = parseFloat(stackEl.dataset.dynScale || '0.55');
-        const visualH = stackEl.offsetHeight * scale;
+        // +30px buffer: individual cards jitter up to ±8px translate / ±6deg
+        // rotate on top of the base scaled size, so the true visual footprint
+        // is a bit bigger than offsetHeight * scale alone accounts for.
+        const visualH = stackEl.offsetHeight * scale + 30;
         const gap     = 24;
         const bottomPad = 16;
 
-        // Center the scaled card in the space between text and hero bottom
+        // Position the scaled card in the space between text and hero bottom.
+        // Not a straight 50/50 center: a smaller headline (see hero-line1/2
+        // font-size) leaves a lot more slack here now, and centering that
+        // slack evenly reads as a big dead gap under "College Church".
+        // Bias toward the top of the available range instead.
         const spaceTop    = textBottom + gap;
         const spaceBottom = heroH - bottomPad;
-        const centerY     = (spaceTop + spaceBottom) / 2;
 
         // Clamp: card top must clear text, card bottom must stay in hero
         const minCenter = spaceTop + visualH / 2;
         const maxCenter = spaceBottom - visualH / 2;
+        const centerY   = minCenter + (maxCenter - minCenter) * 0.25;
         const finalCenter = Math.max(minCenter, Math.min(centerY, maxCenter));
 
         stackEl.style.top = (finalCenter / heroH * 100) + '%';
@@ -613,19 +938,40 @@ const photoUrls = optimized.map(img => img.src);
     }, 1500);
 
     setTimeout(() => {
-      words[1]?.classList.add('visible');
-    }, 1800);
-
-    setTimeout(() => {
       line2.classList.add('visible');
-    }, 2200);
+    }, 1850);
 
-    // ── 3.2s: class-of-2030 badge pops in ──
+    // ── 3.0s–3.4s: corner stickers pop in, staggered, once the photo has
+    //    settled. Only Class of 2030 keeps pulsing afterward — it's the
+    //    clickable one; Sundays/Est. just pop in once and hold still. ──
+    const popSticker = (el: HTMLElement | null, delay: number, breathe: boolean) => {
+      if (!el) return;
+      setTimeout(() => {
+        el.classList.add('is-live');
+        if (breathe) {
+          setTimeout(() => el.classList.add('is-breathing'), 1100);
+        } else {
+          // is-live's animation uses `forwards` fill-mode, which keeps
+          // overriding this sticker's own transform indefinitely as long
+          // as the class stays on — that would silently block the
+          // --fan-x fly-out on hover (see .sticker-sundays/.sticker-est
+          // in the CSS below) since the animation's held value outranks
+          // a plain rule for the same property regardless of what that
+          // rule says. 700ms > the 0.65s animation, so this only fires
+          // once it's actually done. pop-settled takes over holding
+          // opacity:1, since removing is-live drops that too.
+          setTimeout(() => {
+            el.classList.remove('is-live');
+            el.classList.add('pop-settled');
+          }, 700);
+        }
+      }, delay);
+    };
+    popSticker(document.getElementById('sticker-sundays'), 3000, false);
+    popSticker(document.getElementById('class-badge'), 3200, true);
+    popSticker(document.getElementById('sticker-est'), 3400, false);
+
     setTimeout(() => {
-      if (badge) {
-        badge.classList.add('is-live');
-        setTimeout(() => badge.classList.add('is-breathing'), 1100);
-      }
       const footer = document.querySelector('footer');
       if (footer) footer.classList.add('is-visible');
     }, 3200);
@@ -659,6 +1005,7 @@ const photoUrls = optimized.map(img => img.src);
             });
           }, 80);
         });
+
       } else {
         // ── Mobile: swipe to cycle through cards ──
         // order[0] = bottom card, order[last] = top card
