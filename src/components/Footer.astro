@@ -3,10 +3,20 @@ import { Image } from 'astro:assets';
 import acts2network from '../assets/images/network/acts2network.webp';
 import acts2college from '../assets/images/network/acts2college.webp';
 import sendnetwork from '../assets/images/network/sendnetwork.webp';
+import { isSequencePage, LAST_PAGE } from '../lib/pageSequence';
+
 const year = new Date().getFullYear();
+
+// On the mobile scroll-to-navigate pages, the footer showing up mid-swipe
+// reads as a stray extra "page" in the gesture — so on mobile it's hidden
+// until the last page in the sequence (see src/lib/pageSequence.ts).
+// Pages outside that sequence (campus subpages, class-of-2030, 404, etc.)
+// aren't part of the gesture and always show the footer normally.
+const path = Astro.url.pathname;
+const hideOnMobile = isSequencePage(path) && path !== LAST_PAGE;
 ---
 
-<footer class="relative z-10 border-t border-charcoal/10 bg-cream">
+<footer class:list={['relative z-10 border-t border-charcoal/10 bg-cream', hideOnMobile && 'hidden md:block']}>
   <div class="mx-auto max-w-6xl px-6 py-8 flex flex-col items-center gap-4 text-center sm:grid sm:grid-cols-3 sm:items-center sm:gap-0">
 
     <p class="font-sans text-xs text-charcoal/70 sm:text-left sm:justify-self-start">&copy; {year} Silicon Valley College Church</p>
