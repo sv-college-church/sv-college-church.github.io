@@ -160,20 +160,17 @@ const extraSchemas = structuredData
     </script>
 
     <!-- Scroll-to-navigate (mobile only) — pulling up past the bottom of
-         the page by a deliberate amount advances to the next page in the
-         site's nav sequence. Listeners are attached once here, not inside
+         the page advances to the next page in the site's nav sequence;
+         pulling down past the top goes to the previous page (mirrored
+         gesture). Listeners are attached once here, not inside
          astro:page-load, since `window` persists across View Transitions
          navigations — re-attaching per navigation would stack duplicate
-         listeners. Current/next page are read fresh from location.pathname
-         on every touch, so this stays correct without re-initializing. -->
+         listeners. Current/next/prev page are read fresh from
+         location.pathname on every touch, so this stays correct without
+         re-initializing. Sequence order lives in src/lib/pageSequence.ts —
+         reorder pages there, not here. -->
     <script>
-      const SEQUENCE: Record<string, { href: string; label: string }> = {
-        '/':         { href: '/gather',   label: 'Gather'   },
-        '/gather':   { href: '/campuses', label: 'Campuses' },
-        '/campuses': { href: '/connect',  label: 'Connect'  },
-        '/connect':  { href: '/about',    label: 'About'    },
-        '/about':    { href: '/',         label: 'Home'     },
-      };
+      import { getNextPage, getPrevPage } from '../lib/pageSequence';
 
       const TRIGGER_PX = 80;
       const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
@@ -182,17 +179,34 @@ const extraSchemas = structuredData
         return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
       }
 
+      function isAtTop(): boolean {
+        return window.scrollY <= 2;
+      }
+
       function getHint(): HTMLElement | null {
         return document.getElementById('scroll-nav-hint');
       }
 
-      function updateHint(progress: number, label: string) {
+      type Direction = 'forward' | 'backward';
+
+      // Forward pill lives at the bottom (hidden 20px below its resting
+      // spot); backward pill lives at the top (hidden 20px above it).
+      function restOffset(direction: Direction | null): number {
+        return direction === 'backward' ? -20 : 20;
+      }
+
+      let activeDirection: Direction | null = null;
+
+      function updateHint(progress: number, label: string, direction: Direction) {
         const hint = getHint();
         if (!hint) return;
+        activeDirection = direction;
         hint.classList.remove('is-releasing');
-        hint.textContent = `↓ ${label}`;
+        hint.classList.toggle('hint-top', direction === 'backward');
+        hint.textContent = `${direction === 'forward' ? '↓' : '↑'} ${label}`;
         hint.style.opacity = String(progress);
-        hint.style.transform = `translateX(-50%) translateY(${(1 - progress) * 20}px) scale(${0.85 + progress * 0.15})`;
+        const offset = restOffset(direction) * (1 - progress);
+        hint.style.transform = `translateX(-50%) translateY(${offset}px) scale(${0.85 + progress * 0.15})`;
       }
 
       function resetHint() {
@@ -200,36 +214,61 @@ const extraSchemas = structuredData
         if (!hint) return;
         hint.classList.add('is-releasing');
         hint.style.opacity = '0';
-        hint.style.transform = 'translateX(-50%) translateY(20px) scale(0.85)';
+        hint.style.transform = `translateX(-50%) translateY(${restOffset(activeDirection)}px) scale(0.85)`;
       }
 
       let startY = 0;
-      let armed = false; // true once touchstart happened while already at the bottom, on a sequence page
+      // 'pending' = touch started at an edge on a sequence page, but we
+      // haven't seen which way the user is dragging yet (matters on short
+      // pages where top and bottom edges coincide).
+      let mode: Direction | 'pending' | null = null;
 
       window.addEventListener('touchstart', (e) => {
-        if (!isMobile() || !SEQUENCE[location.pathname]) { armed = false; return; }
-        armed = isAtBottom();
-        startY = armed ? e.touches[0].clientY : 0;
+        mode = null;
+        if (!isMobile()) return;
+        if (!isAtBottom() && !isAtTop()) return;
+        startY = e.touches[0].clientY;
+        mode = 'pending';
       }, { passive: true });
 
       window.addEventListener('touchmove', (e) => {
-        if (!armed) return;
-        const next = SEQUENCE[location.pathname];
-        if (!next || !isAtBottom()) { armed = false; resetHint(); return; }
-        const pull = startY - e.touches[0].clientY;
-        if (pull <= 0) { resetHint(); return; }
-        updateHint(Math.min(pull / TRIGGER_PX, 1), next.label);
+        if (!mode) return;
+        const currentY = e.touches[0].clientY;
+        const rawDelta = startY - currentY; // positive = finger moved up
+
+        if (mode === 'pending') {
+          if (rawDelta > 0 && isAtBottom() && getNextPage(location.pathname)) {
+            mode = 'forward';
+          } else if (rawDelta < 0 && isAtTop() && getPrevPage(location.pathname)) {
+            mode = 'backward';
+          } else {
+            return;
+          }
+        }
+
+        if (mode === 'forward') {
+          const next = getNextPage(location.pathname);
+          if (!next || !isAtBottom()) { mode = null; resetHint(); return; }
+          if (rawDelta <= 0) { resetHint(); return; }
+          updateHint(Math.min(rawDelta / TRIGGER_PX, 1), next.label, 'forward');
+        } else {
+          const prev = getPrevPage(location.pathname);
+          if (!prev || !isAtTop()) { mode = null; resetHint(); return; }
+          const pull = -rawDelta;
+          if (pull <= 0) { resetHint(); return; }
+          updateHint(Math.min(pull / TRIGGER_PX, 1), prev.label, 'backward');
+        }
       }, { passive: true });
 
       window.addEventListener('touchend', () => {
-        if (!armed) return;
-        armed = false;
-        const next = SEQUENCE[location.pathname];
+        if (!mode || mode === 'pending') { mode = null; return; }
+        const target = mode === 'forward' ? getNextPage(location.pathname) : getPrevPage(location.pathname);
         const hint = getHint();
         const progress = hint ? parseFloat(hint.style.opacity || '0') : 0;
+        mode = null;
         resetHint();
-        if (next && progress >= 1) {
-          window.location.href = next.href;
+        if (target && progress >= 1) {
+          window.location.href = target.href;
         }
       });
     </script>
@@ -256,14 +295,17 @@ const extraSchemas = structuredData
   }
 
   /* ── Scroll-to-navigate hint ──
-     Fades/scales in as the user pulls past the bottom of the page on
-     mobile (see script). Full opacity == the pull has crossed the
-     trigger threshold; releasing at that point navigates to the next
-     page in sequence. */
+     Fades/scales in as the user pulls past the bottom (forward) or top
+     (backward) of the page on mobile (see script). Full opacity == the
+     pull has crossed the trigger threshold; releasing at that point
+     navigates to the next/previous page in sequence. Sits at the bottom
+     by default (forward gesture); the script adds .hint-top to move it
+     up near the backward gesture's starting point. */
   #scroll-nav-hint {
     position: fixed;
     left: 50%;
     bottom: 1.25rem;
+    top: auto;
     z-index: 60;
     transform: translateX(-50%) translateY(20px) scale(0.85);
     opacity: 0;
@@ -282,5 +324,10 @@ const extraSchemas = structuredData
 
   #scroll-nav-hint.is-releasing {
     transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  #scroll-nav-hint.hint-top {
+    top: 1.25rem;
+    bottom: auto;
   }
 </style>
