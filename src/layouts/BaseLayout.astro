@@ -196,26 +196,37 @@ const extraSchemas = structuredData
 
       type Direction = 'forward' | 'backward';
 
-      // Distance from the touch point to the farthest viewport corner —
-      // the radius the reveal circle needs to fully cover the screen.
-      function maxRadius(x: number, y: number): number {
-        const dx = Math.max(x, window.innerWidth - x);
-        const dy = Math.max(y, window.innerHeight - y);
-        return Math.hypot(dx, dy);
+      // How far the circle is allowed to poke into view, at most — 1/6 of
+      // the viewport height. The circle's true center sits this same
+      // distance beyond the edge (below the page for forward, above it
+      // for backward), so at progress 0 the circle is a point exactly on
+      // the edge (invisible) and at progress 1 its cap pokes up exactly
+      // capHeight() into the page — never the whole screen.
+      function capHeight(): number {
+        return window.innerHeight / 6;
+      }
+
+      function centerY(direction: Direction): number {
+        const offset = capHeight();
+        return direction === 'forward' ? window.innerHeight + offset : -offset;
       }
 
       let originX = 0;
-      let originY = 0;
       let lastProgress = 0;
+      let lastDirection: Direction = 'forward';
 
       function updateReveal(progress: number, label: string, direction: Direction) {
         const root = getReveal();
         const labelEl = getRevealLabel();
         if (!root) return;
         lastProgress = progress;
+        lastDirection = direction;
         root.classList.remove('is-releasing');
-        const radius = maxRadius(originX, originY) * progress;
-        root.style.clipPath = `circle(${radius}px at ${originX}px ${originY}px)`;
+        root.classList.toggle('reveal-forward', direction === 'forward');
+        root.classList.toggle('reveal-backward', direction === 'backward');
+        const max = capHeight();
+        const radius = max + progress * max; // max -> 2*max, poke 0 -> max
+        root.style.clipPath = `circle(${radius}px at ${originX}px ${centerY(direction)}px)`;
         if (labelEl) labelEl.textContent = `${direction === 'forward' ? '↓' : '↑'} ${label}`;
       }
 
@@ -224,7 +235,7 @@ const extraSchemas = structuredData
         if (!root) return;
         lastProgress = 0;
         root.classList.add('is-releasing');
-        root.style.clipPath = `circle(0px at ${originX}px ${originY}px)`;
+        root.style.clipPath = `circle(${capHeight()}px at ${originX}px ${centerY(lastDirection)}px)`;
       }
 
       let startY = 0;
@@ -238,8 +249,7 @@ const extraSchemas = structuredData
         if (!isMobile()) return;
         if (!isAtBottom() && !isAtTop()) return;
         originX = e.touches[0].clientX;
-        originY = e.touches[0].clientY;
-        startY = originY;
+        startY = e.touches[0].clientY;
         mode = 'pending';
       }, { passive: true });
 
@@ -311,20 +321,18 @@ const extraSchemas = structuredData
   }
 
   /* ── Scroll-to-navigate reveal ──
-     A charcoal circle grows outward from the touch point as the user
-     drags past the top/bottom of the page on mobile (see script). The
-     destination label lives inside the same clip-path, so it only
-     becomes visible once the circle physically grows large enough to
-     reach it — no separate fade needed. At progress 1 the circle covers
-     the full viewport and the page swap fires; releasing early animates
-     the circle back down to nothing via .is-releasing. */
+     A charcoal circle grows from a point just below/above the page (see
+     script — centered under the touch, capped at 1/6 of the viewport
+     height so it only ever pokes a small dome into view, never the
+     whole screen). The destination label sits near that edge — inside
+     the same clip-path as the circle, so it only becomes visible once
+     the dome physically grows large enough to reach it. At progress 1
+     the page swap fires; releasing early animates the dome back down to
+     nothing via .is-releasing. */
   #scroll-nav-reveal {
     position: fixed;
     inset: 0;
     z-index: 60;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     pointer-events: none;
     background: #23201D;
     clip-path: circle(0px at 50% 50%);
@@ -335,6 +343,9 @@ const extraSchemas = structuredData
   }
 
   #scroll-nav-reveal .reveal-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     color: #F6F1E4;
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.95rem;
@@ -342,5 +353,13 @@ const extraSchemas = structuredData
     text-transform: uppercase;
     letter-spacing: 0.12em;
     white-space: nowrap;
+  }
+
+  #scroll-nav-reveal.reveal-forward .reveal-label {
+    bottom: 1.5rem;
+  }
+
+  #scroll-nav-reveal.reveal-backward .reveal-label {
+    top: 1.5rem;
   }
 </style>
