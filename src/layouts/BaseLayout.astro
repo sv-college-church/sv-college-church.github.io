@@ -211,7 +211,14 @@ const extraSchemas = structuredData
         return direction === 'forward' ? window.innerHeight + offset : -offset;
       }
 
-      let originX = 0;
+      // Always the horizontal middle of the screen, regardless of where
+      // the thumb actually touched — the dome reads as an intentional,
+      // centered shape rather than lopsided toward wherever the drag
+      // happened to start.
+      function centerX(): number {
+        return window.innerWidth / 2;
+      }
+
       let lastProgress = 0;
       let lastDirection: Direction = 'forward';
 
@@ -226,7 +233,7 @@ const extraSchemas = structuredData
         root.classList.toggle('reveal-backward', direction === 'backward');
         const max = capHeight();
         const radius = max + progress * max; // max -> 2*max, poke 0 -> max
-        root.style.clipPath = `circle(${radius}px at ${originX}px ${centerY(direction)}px)`;
+        root.style.clipPath = `circle(${radius}px at ${centerX()}px ${centerY(direction)}px)`;
         if (labelEl) labelEl.textContent = `${direction === 'forward' ? '↓' : '↑'} ${label}`;
       }
 
@@ -235,7 +242,7 @@ const extraSchemas = structuredData
         if (!root) return;
         lastProgress = 0;
         root.classList.add('is-releasing');
-        root.style.clipPath = `circle(${capHeight()}px at ${originX}px ${centerY(lastDirection)}px)`;
+        root.style.clipPath = `circle(${capHeight()}px at ${centerX()}px ${centerY(lastDirection)}px)`;
       }
 
       let startY = 0;
@@ -248,7 +255,6 @@ const extraSchemas = structuredData
         mode = null;
         if (!isMobile()) return;
         if (!isAtBottom() && !isAtTop()) return;
-        originX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
         mode = 'pending';
       }, { passive: true });
