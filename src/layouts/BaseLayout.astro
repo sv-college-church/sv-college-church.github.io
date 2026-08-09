@@ -170,6 +170,7 @@ const extraSchemas = structuredData
          re-initializing. Sequence order lives in src/lib/pageSequence.ts —
          reorder pages there, not here. -->
     <script>
+      import { navigate } from 'astro:transitions/client';
       import { getNextPage, getPrevPage } from '../lib/pageSequence';
 
       const TRIGGER_PX = 80;
@@ -268,7 +269,7 @@ const extraSchemas = structuredData
         mode = null;
         resetHint();
         if (target && progress >= 1) {
-          window.location.href = target.href;
+          navigate(target.href);
         }
       });
     </script>
