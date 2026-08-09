@@ -26,16 +26,19 @@ export interface SequenceTarget {
   label: string;
 }
 
+// Linear, not circular — the last page has no "next" and the first page
+// has no "prev", so the gesture stops instead of wrapping around.
+
 export function getNextPage(pathname: string): SequenceTarget | null {
   const idx = PAGE_SEQUENCE.indexOf(pathname as SequencePath);
-  if (idx === -1) return null;
-  const href = PAGE_SEQUENCE[(idx + 1) % PAGE_SEQUENCE.length];
+  if (idx === -1 || idx === PAGE_SEQUENCE.length - 1) return null;
+  const href = PAGE_SEQUENCE[idx + 1];
   return { href, label: PAGE_LABELS[href] };
 }
 
 export function getPrevPage(pathname: string): SequenceTarget | null {
   const idx = PAGE_SEQUENCE.indexOf(pathname as SequencePath);
-  if (idx === -1) return null;
-  const href = PAGE_SEQUENCE[(idx - 1 + PAGE_SEQUENCE.length) % PAGE_SEQUENCE.length];
+  if (idx <= 0) return null;
+  const href = PAGE_SEQUENCE[idx - 1];
   return { href, label: PAGE_LABELS[href] };
 }
