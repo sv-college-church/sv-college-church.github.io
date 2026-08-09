@@ -128,8 +128,10 @@ const extraSchemas = structuredData
     <EventBanner />
     <slot />
 
-    <!-- Scroll-to-navigate hint — mobile only, see script below -->
-    <div id="scroll-nav-hint" aria-hidden="true"></div>
+    <!-- Scroll-to-navigate reveal — mobile only, see script below -->
+    <div id="scroll-nav-reveal" aria-hidden="true">
+      <span class="reveal-label"></span>
+    </div>
 
     <!-- Scroll animation observer — re-runs on View Transitions navigation -->
     <script>
@@ -184,38 +186,45 @@ const extraSchemas = structuredData
         return window.scrollY <= 2;
       }
 
-      function getHint(): HTMLElement | null {
-        return document.getElementById('scroll-nav-hint');
+      function getReveal(): HTMLElement | null {
+        return document.getElementById('scroll-nav-reveal');
+      }
+
+      function getRevealLabel(): HTMLElement | null {
+        return document.querySelector('#scroll-nav-reveal .reveal-label');
       }
 
       type Direction = 'forward' | 'backward';
 
-      // Forward pill lives at the bottom (hidden 20px below its resting
-      // spot); backward pill lives at the top (hidden 20px above it).
-      function restOffset(direction: Direction | null): number {
-        return direction === 'backward' ? -20 : 20;
+      // Distance from the touch point to the farthest viewport corner —
+      // the radius the reveal circle needs to fully cover the screen.
+      function maxRadius(x: number, y: number): number {
+        const dx = Math.max(x, window.innerWidth - x);
+        const dy = Math.max(y, window.innerHeight - y);
+        return Math.hypot(dx, dy);
       }
 
-      let activeDirection: Direction | null = null;
+      let originX = 0;
+      let originY = 0;
+      let lastProgress = 0;
 
-      function updateHint(progress: number, label: string, direction: Direction) {
-        const hint = getHint();
-        if (!hint) return;
-        activeDirection = direction;
-        hint.classList.remove('is-releasing');
-        hint.classList.toggle('hint-top', direction === 'backward');
-        hint.textContent = `${direction === 'forward' ? '↓' : '↑'} ${label}`;
-        hint.style.opacity = String(progress);
-        const offset = restOffset(direction) * (1 - progress);
-        hint.style.transform = `translateX(-50%) translateY(${offset}px) scale(${0.85 + progress * 0.15})`;
+      function updateReveal(progress: number, label: string, direction: Direction) {
+        const root = getReveal();
+        const labelEl = getRevealLabel();
+        if (!root) return;
+        lastProgress = progress;
+        root.classList.remove('is-releasing');
+        const radius = maxRadius(originX, originY) * progress;
+        root.style.clipPath = `circle(${radius}px at ${originX}px ${originY}px)`;
+        if (labelEl) labelEl.textContent = `${direction === 'forward' ? '↓' : '↑'} ${label}`;
       }
 
-      function resetHint() {
-        const hint = getHint();
-        if (!hint) return;
-        hint.classList.add('is-releasing');
-        hint.style.opacity = '0';
-        hint.style.transform = `translateX(-50%) translateY(${restOffset(activeDirection)}px) scale(0.85)`;
+      function resetReveal() {
+        const root = getReveal();
+        if (!root) return;
+        lastProgress = 0;
+        root.classList.add('is-releasing');
+        root.style.clipPath = `circle(0px at ${originX}px ${originY}px)`;
       }
 
       let startY = 0;
@@ -228,7 +237,9 @@ const extraSchemas = structuredData
         mode = null;
         if (!isMobile()) return;
         if (!isAtBottom() && !isAtTop()) return;
-        startY = e.touches[0].clientY;
+        originX = e.touches[0].clientX;
+        originY = e.touches[0].clientY;
+        startY = originY;
         mode = 'pending';
       }, { passive: true });
 
@@ -249,27 +260,31 @@ const extraSchemas = structuredData
 
         if (mode === 'forward') {
           const next = getNextPage(location.pathname);
-          if (!next || !isAtBottom()) { mode = null; resetHint(); return; }
-          if (rawDelta <= 0) { resetHint(); return; }
-          updateHint(Math.min(rawDelta / TRIGGER_PX, 1), next.label, 'forward');
+          if (!next || !isAtBottom()) { mode = null; resetReveal(); return; }
+          if (rawDelta <= 0) { resetReveal(); return; }
+          updateReveal(Math.min(rawDelta / TRIGGER_PX, 1), next.label, 'forward');
         } else {
           const prev = getPrevPage(location.pathname);
-          if (!prev || !isAtTop()) { mode = null; resetHint(); return; }
+          if (!prev || !isAtTop()) { mode = null; resetReveal(); return; }
           const pull = -rawDelta;
-          if (pull <= 0) { resetHint(); return; }
-          updateHint(Math.min(pull / TRIGGER_PX, 1), prev.label, 'backward');
+          if (pull <= 0) { resetReveal(); return; }
+          updateReveal(Math.min(pull / TRIGGER_PX, 1), prev.label, 'backward');
         }
       }, { passive: true });
 
       window.addEventListener('touchend', () => {
         if (!mode || mode === 'pending') { mode = null; return; }
         const target = mode === 'forward' ? getNextPage(location.pathname) : getPrevPage(location.pathname);
-        const hint = getHint();
-        const progress = hint ? parseFloat(hint.style.opacity || '0') : 0;
+        const progress = lastProgress;
         mode = null;
-        resetHint();
         if (target && progress >= 1) {
+          // Leave the circle fully expanded rather than resetting it —
+          // the fresh page's reveal element starts clipped to nothing
+          // again on its own, so this reads as the circle "consuming"
+          // the old page rather than snapping back before the swap.
           navigate(target.href);
+        } else {
+          resetReveal();
         }
       });
     </script>
@@ -295,40 +310,37 @@ const extraSchemas = structuredData
     left: 0;
   }
 
-  /* ── Scroll-to-navigate hint ──
-     Fades/scales in as the user pulls past the bottom (forward) or top
-     (backward) of the page on mobile (see script). Full opacity == the
-     pull has crossed the trigger threshold; releasing at that point
-     navigates to the next/previous page in sequence. Sits at the bottom
-     by default (forward gesture); the script adds .hint-top to move it
-     up near the backward gesture's starting point. */
-  #scroll-nav-hint {
+  /* ── Scroll-to-navigate reveal ──
+     A charcoal circle grows outward from the touch point as the user
+     drags past the top/bottom of the page on mobile (see script). The
+     destination label lives inside the same clip-path, so it only
+     becomes visible once the circle physically grows large enough to
+     reach it — no separate fade needed. At progress 1 the circle covers
+     the full viewport and the page swap fires; releasing early animates
+     the circle back down to nothing via .is-releasing. */
+  #scroll-nav-reveal {
     position: fixed;
-    left: 50%;
-    bottom: 1.25rem;
-    top: auto;
+    inset: 0;
     z-index: 60;
-    transform: translateX(-50%) translateY(20px) scale(0.85);
-    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     pointer-events: none;
     background: #23201D;
+    clip-path: circle(0px at 50% 50%);
+  }
+
+  #scroll-nav-reveal.is-releasing {
+    transition: clip-path 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  #scroll-nav-reveal .reveal-label {
     color: #F6F1E4;
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.72rem;
+    font-size: 0.95rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 0.6rem 1.1rem;
-    border-radius: 999px;
+    letter-spacing: 0.12em;
     white-space: nowrap;
-  }
-
-  #scroll-nav-hint.is-releasing {
-    transition: opacity 0.2s ease, transform 0.2s ease;
-  }
-
-  #scroll-nav-hint.hint-top {
-    top: 1.25rem;
-    bottom: auto;
   }
 </style>
