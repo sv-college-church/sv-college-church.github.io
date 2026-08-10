@@ -525,6 +525,22 @@ const photoUrls = optimized.map(img => img.src);
     background: #6FA3B0;
   }
 
+  /* Smaller than the shared .photo-sticker base — these two carry much
+     less text than Class of 2030, so the base size left a lot of empty
+     circle around "Sundays / 12pm" and "Est. / 2021". Calibrated against
+     the actual rendered text box (~77x52px for Sundays, the larger of
+     the two), which needs roughly a 93px circle to clear the corners;
+     this leaves real but not excessive breathing room above that floor.
+     Compound selector (not just .sticker-sundays/.sticker-est) is
+     deliberate — .photo-sticker also sets --sticker-size inside the
+     @media (max-width:767px) and (max-height:700px) blocks further
+     down, and at equal specificity a single-class rule up here would
+     lose to those on mobile purely by losing the source-order tiebreak. */
+  .photo-sticker.sticker-sundays,
+  .photo-sticker.sticker-est {
+    --sticker-size: clamp(76px, 13vh, 104px);
+  }
+
   /* Fly Sundays/Est. onto specific fanned-out cards instead of sitting
      frozen on the stacked photo, where a fanned card would otherwise
      land right on top of them. FAN_X in the script below is [-900,
