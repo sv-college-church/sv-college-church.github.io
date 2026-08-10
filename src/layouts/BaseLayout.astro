@@ -245,6 +245,35 @@ const extraSchemas = structuredData
         root.style.clipPath = `circle(${capHeight()}px at ${centerX()}px ${centerY(lastDirection)}px)`;
       }
 
+      const COMPLETE_MS = 400;
+
+      // Distance from the reveal's center to the farthest viewport corner —
+      // big enough that the circle visibly swallows the whole screen as it
+      // expands, rather than staying capped at the small drag-time dome.
+      function fullCoverRadius(direction: Direction): number {
+        const cx = centerX();
+        const cy = centerY(direction);
+        const dx = Math.max(cx, window.innerWidth - cx);
+        const dy = Math.max(cy, window.innerHeight - cy);
+        return Math.hypot(dx, dy);
+      }
+
+      // Crossing the threshold and releasing plays a completion beat —
+      // the circle grows past its drag-time cap to cover the screen while
+      // fading to transparent, then the page swap fires once that's had
+      // time to play out (rather than immediately, which would cut the
+      // animation off before it's visible).
+      function completeReveal(direction: Direction, href: string) {
+        const root = getReveal();
+        if (root) {
+          root.classList.remove('is-releasing');
+          root.classList.add('is-completing');
+          root.style.clipPath = `circle(${fullCoverRadius(direction)}px at ${centerX()}px ${centerY(direction)}px)`;
+          root.style.opacity = '0';
+        }
+        window.setTimeout(() => navigate(href), COMPLETE_MS);
+      }
+
       let startY = 0;
       // 'pending' = touch started at an edge on a sequence page, but we
       // haven't seen which way the user is dragging yet (matters on short
@@ -292,13 +321,10 @@ const extraSchemas = structuredData
         if (!mode || mode === 'pending') { mode = null; return; }
         const target = mode === 'forward' ? getNextPage(location.pathname) : getPrevPage(location.pathname);
         const progress = lastProgress;
+        const direction = mode;
         mode = null;
         if (target && progress >= 1) {
-          // Leave the circle fully expanded rather than resetting it —
-          // the fresh page's reveal element starts clipped to nothing
-          // again on its own, so this reads as the circle "consuming"
-          // the old page rather than snapping back before the swap.
-          navigate(target.href);
+          completeReveal(direction, target.href);
         } else {
           resetReveal();
         }
@@ -328,24 +354,31 @@ const extraSchemas = structuredData
 
   /* ── Scroll-to-navigate reveal ──
      A charcoal circle grows from a point just below/above the page (see
-     script — centered under the touch, capped at 1/6 of the viewport
-     height so it only ever pokes a small dome into view, never the
-     whole screen). The destination label sits near that edge — inside
-     the same clip-path as the circle, so it only becomes visible once
-     the dome physically grows large enough to reach it. At progress 1
-     the page swap fires; releasing early animates the dome back down to
-     nothing via .is-releasing. */
+     script — centered horizontally, capped at 1/6 of the viewport height
+     so it only ever pokes a small dome into view while dragging). The
+     destination label sits near that edge — inside the same clip-path as
+     the circle, so it only becomes visible once the dome physically
+     grows large enough to reach it. Releasing early animates the dome
+     back down to nothing via .is-releasing. Crossing the threshold and
+     releasing plays .is-completing instead — the circle grows past its
+     drag-time cap to cover the screen while fading out, then the page
+     swap fires once that's played out. */
   #scroll-nav-reveal {
     position: fixed;
     inset: 0;
     z-index: 60;
     pointer-events: none;
     background: #23201D;
+    opacity: 1;
     clip-path: circle(0px at 50% 50%);
   }
 
   #scroll-nav-reveal.is-releasing {
     transition: clip-path 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  #scroll-nav-reveal.is-completing {
+    transition: clip-path 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
   }
 
   #scroll-nav-reveal .reveal-label {
