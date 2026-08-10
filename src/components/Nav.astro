@@ -1,23 +1,10 @@
 ---
 const svcLogo = '/images/svc-logo.svg';
-
-const path = Astro.url.pathname;
-const navLinks = [
-  { href: '/gather', label: 'Gather' },
-  { href: '/campuses', label: 'Campuses' },
-  { href: '/connect', label: 'Connect' },
-  { href: '/about', label: 'About' },
-];
-// Campuses owns everything under /campuses/* (subpages) too; the rest are exact matches.
-function isActive(href: string): boolean {
-  if (href === '/campuses') return path === '/campuses' || path.startsWith('/campuses/');
-  return path === href;
-}
 ---
 
 <header class="nav-header fixed left-0 right-0 top-0 z-50">
   <!-- Nav bar -->
-  <nav class="relative flex h-20 w-full items-center gap-2 px-3 md:h-32 md:justify-between md:gap-0 md:px-12">
+  <nav class="relative flex h-20 w-full items-center px-6 md:h-32 md:justify-between md:px-12">
 
     <!-- Desktop left links -->
     <a
@@ -39,13 +26,13 @@ function isActive(href: string): boolean {
       <span class="campus-emoji ce-3 pointer-events-none absolute -top-8 select-none text-xl opacity-0" aria-hidden="true">🛡️</span>
     </a>
 
-    <!-- Logo — in-flow on the left on mobile (scroll-strip fills the rest), in-flow centered on desktop -->
-    <a href="/" id="logo-link" class="logo-wrap shrink-0 md:static">
+    <!-- Logo — absolutely centered on mobile, in-flow on desktop -->
+    <a href="/" id="logo-link" class="logo-wrap absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
       <div id="logo-inner" class="logo-inner">
         <!-- Depth layer: blurred ghost that moves opposite the tilt for parallax depth -->
         <img id="logo-depth" src={svcLogo} alt="" aria-hidden="true" class="logo-depth" width="96" height="96" />
         <!-- Main logo -->
-        <img src={svcLogo} alt="SVC" class="logo-main h-11 w-auto object-contain md:h-24" width="96" height="96" loading="eager" />
+        <img src={svcLogo} alt="SVC" class="logo-main h-16 w-auto object-contain md:h-24" width="96" height="96" loading="eager" />
       </div>
     </a>
 
@@ -67,19 +54,32 @@ function isActive(href: string): boolean {
       <span id="about-emoji" class="pointer-events-none absolute left-1/2 -top-8 -translate-x-1/2 select-none text-xl opacity-0" aria-hidden="true">📖</span>
     </a>
 
-    <!-- Mobile scroll-strip nav — always visible, swipeable, no tap-to-open -->
-    <div class="mobile-nav-strip flex min-w-0 flex-1 items-center gap-1 overflow-x-auto md:hidden" role="navigation" aria-label="Main">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class="mobile-nav-link"
-          aria-current={isActive(link.href) ? 'page' : undefined}
-        >
-          {link.label}
-        </a>
-      ))}
-    </div>
+    <!-- Hamburger button — mobile only -->
+    <button
+      id="menu-toggle"
+      class="ml-auto flex flex-col items-center justify-center gap-1.5 md:hidden"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <span class="hamburger-bar block h-0.5 w-6 bg-charcoal transition-all duration-300"></span>
+      <span class="hamburger-bar block h-0.5 w-6 bg-charcoal transition-all duration-300"></span>
+      <span class="hamburger-bar block h-0.5 w-6 bg-charcoal transition-all duration-300"></span>
+    </button>
   </nav>
+
+  <!-- Mobile dropdown menu -->
+  <div
+    id="mobile-menu"
+    class="overflow-hidden transition-[max-height] duration-300 ease-in-out md:hidden"
+    style="max-height: 0;"
+  >
+    <nav class="flex flex-col border-t border-charcoal/10 bg-cream px-6 py-2">
+      <a href="/gather"   class="border-b border-charcoal/10 py-4 font-sans text-sm font-black uppercase tracking-widest text-charcoal">Gather</a>
+      <a href="/campuses" class="border-b border-charcoal/10 py-4 font-sans text-sm font-black uppercase tracking-widest text-charcoal">Campuses</a>
+      <a href="/connect"  class="border-b border-charcoal/10 py-4 font-sans text-sm font-black uppercase tracking-widest text-charcoal">Connect</a>
+      <a href="/about"    class="py-4 font-sans text-sm font-black uppercase tracking-widest text-charcoal">About</a>
+    </nav>
+  </div>
 </header>
 
 <style>
@@ -216,41 +216,10 @@ function isActive(href: string): boolean {
     }
   }
 
-  /* ── Mobile scroll-strip nav ──
-     Always-visible horizontal strip, no tap-to-open. Layout/show-hide
-     (flex, flex-1, overflow-x-auto, md:hidden) lives on the element as
-     Tailwind utilities, not here — a scoped display:flex rule here would
-     out-specificity Tailwind's md:hidden and stay visible on desktop
-     regardless of the media query. Only cosmetic scrollbar-hiding lives
-     in this block, since Tailwind has no utility for it. */
-  .mobile-nav-strip {
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .mobile-nav-strip::-webkit-scrollbar {
-    display: none;
-  }
-
-  .mobile-nav-link {
-    flex-shrink: 0;
-    white-space: nowrap;
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.66rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: rgb(35 32 29 / 0.7);
-    background: transparent;
-    padding: 0.45rem 0.45rem;
-    border-radius: 999px;
-    text-decoration: none;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-
-  .mobile-nav-link[aria-current="page"] {
-    color: #F6F1E4;
-    background: #23201D;
-  }
+  /* Hamburger → X */
+  #menu-toggle[aria-expanded="true"] .hamburger-bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  #menu-toggle[aria-expanded="true"] .hamburger-bar:nth-child(2) { opacity: 0; }
+  #menu-toggle[aria-expanded="true"] .hamburger-bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
   @media (prefers-reduced-motion: reduce) {
     .logo-inner {
@@ -261,6 +230,22 @@ function isActive(href: string): boolean {
 
 <script>
   document.addEventListener('astro:page-load', () => {
+    /* ── Mobile menu ── */
+    const toggle     = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (toggle && mobileMenu) {
+      // Reset mobile menu state
+      toggle.setAttribute('aria-expanded', 'false');
+      mobileMenu.style.maxHeight = '0';
+
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        mobileMenu.style.maxHeight = open ? '0' : `${mobileMenu.scrollHeight}px`;
+      });
+    }
+
     /* ── Logo cursor tilt — desktop only ── */
     if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       const logoWrap  = document.getElementById('logo-link');
