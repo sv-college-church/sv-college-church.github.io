@@ -717,24 +717,6 @@ const photoUrls = optimized.map(img => img.src);
       padding: 0 16px;
     }
 
-    /* Unbounded runs much wider per-character than the previous Instrument
-       Sans treatment — sized so "Silicon Valley" / "College Church" each
-       fit one line at common phone widths. Deliberately no white-space:
-       nowrap here: combined with this span's auto/shrink-to-fit width, it
-       hit a real browser bug where the box width gets stuck at the
-       pre-font-swap (fallback font) measurement while the Unbounded text
-       itself renders at its full, wider size — box and content disagree,
-       and the overflow gets clipped instead of visible. Letting it wrap
-       naturally means a tight viewport softly wraps to a second line
-       instead of clipping text off the edge. */
-    .hero-line1 {
-      font-size: clamp(1.1rem, 4.9vw, 1.5rem);
-    }
-
-    .hero-line2 {
-      font-size: clamp(0.65rem, 2.9vw, 0.95rem);
-    }
-
     .photo-sticker {
       --sticker-size: clamp(92px, 16vh, 122px);
     }
@@ -756,12 +738,18 @@ const photoUrls = optimized.map(img => img.src);
       top: 1%;
     }
 
+    /* Compressed just enough to clear the photo stack at the shortest
+       realistic viewport (320x568, iPhone SE 1st-gen) — verified against
+       the actual rendered gap, not guessed. Still well above the old
+       clamp(0.95rem,...) values this replaced, which were leftover from
+       a pre-Archivo font pass and made the headline read as tiny on
+       every mobile size, not just the short ones. */
     .hero-line1 {
-      font-size: clamp(0.95rem, 5.1vw, 1.4rem);
+      font-size: clamp(1.7rem, 7vw, 2.1rem);
     }
 
     .hero-line2 {
-      font-size: clamp(0.58rem, 3.1vw, 0.83rem);
+      font-size: clamp(0.95rem, 4vw, 1.2rem);
     }
 
     /* Smaller stickers on short viewports — the photo itself is already
