@@ -17,7 +17,7 @@ function isActive(href: string): boolean {
 
 <header class="nav-header fixed left-0 right-0 top-0 z-50">
   <!-- Nav bar -->
-  <nav class="relative flex h-20 w-full items-center gap-3 px-4 md:h-32 md:justify-between md:gap-0 md:px-12">
+  <nav class="relative flex h-20 w-full items-center gap-2 px-3 md:h-32 md:justify-between md:gap-0 md:px-12">
 
     <!-- Desktop left links -->
     <a
@@ -45,7 +45,7 @@ function isActive(href: string): boolean {
         <!-- Depth layer: blurred ghost that moves opposite the tilt for parallax depth -->
         <img id="logo-depth" src={svcLogo} alt="" aria-hidden="true" class="logo-depth" width="96" height="96" />
         <!-- Main logo -->
-        <img src={svcLogo} alt="SVC" class="logo-main h-16 w-auto object-contain md:h-24" width="96" height="96" loading="eager" />
+        <img src={svcLogo} alt="SVC" class="logo-main h-11 w-auto object-contain md:h-24" width="96" height="96" loading="eager" />
       </div>
     </a>
 
@@ -68,7 +68,7 @@ function isActive(href: string): boolean {
     </a>
 
     <!-- Mobile scroll-strip nav — always visible, swipeable, no tap-to-open -->
-    <div class="mobile-nav-strip flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto md:hidden" role="navigation" aria-label="Main">
+    <div class="mobile-nav-strip flex min-w-0 flex-1 items-center gap-1 overflow-x-auto md:hidden" role="navigation" aria-label="Main">
       {navLinks.map((link) => (
         <a
           href={link.href}
@@ -235,13 +235,13 @@ function isActive(href: string): boolean {
     flex-shrink: 0;
     white-space: nowrap;
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.72rem;
+    font-size: 0.66rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.02em;
     color: rgb(35 32 29 / 0.7);
     background: transparent;
-    padding: 0.5rem 0.85rem;
+    padding: 0.45rem 0.45rem;
     border-radius: 999px;
     text-decoration: none;
     transition: background-color 0.2s ease, color 0.2s ease;
