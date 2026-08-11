@@ -17,46 +17,54 @@ if (!CONNECT_GROUPS_LIVE) {
 // Default meeting time for groups that haven't set their own yet.
 const DEFAULT_MEETING = {
   time: 'Every Wednesday, 6 – 7 PM',
-  start: 'First session on Wed, Aug 26',
+  start: '1st session on Wed, Aug 26',
 };
 
-// Ordered girl / guy / guy / girl so the 2x2 grid pairs same-gender groups diagonally.
+// Ordered guy / girl / guy / girl.
 const groups = [
   {
-    leads: 'Sharon & Maggy',
-    consultant: null,
-    name: 'Charcuterie Chats',
-    photo: sharonMaggy,
-    meetingTime: {
-      time: 'Every Wednesday, 7 – 8 PM',
-      start: 'First session on Wed, Aug 26',
-    },
-  },
-  {
-    leads: 'Justin & Estevan',
+    leads: 'Estevan & Justin',
     consultant: null,
     name: 'Iron Men',
     photo: justinEstevan,
+    location: 'SJSU room (TBD)',
+    blurb: "Iron Men is a four week collegiate men's group built around one verse: \"Iron sharpens iron, and one man sharpens another\" (Proverbs 27:17). Each week a group of men gather to study Biblical manhood and challenge each other to grow. Iron Men is more than a Bible study; it's the beginning of a brotherhood. We welcome SJSU undergraduate men of any background, whether Christian or not.",
     meetingTime: {
       time: 'Every Thursday, 7 – 8 PM',
-      start: 'First session on Thu, Aug 27',
+      start: '1st session on Thu, Aug 27',
     },
   },
   {
-    leads: 'Jordan & Luc',
+    leads: 'Maggy & Sharon',
+    consultant: null,
+    name: 'Charcuterie Chats',
+    photo: sharonMaggy,
+    location: 'Student Union Starbucks',
+    blurb: "A weekly club where (beautiful) food sparks connection. Each gathering features a themed charcuterie board paired with meaningful guided conversation inspired by that theme.",
+    meetingTime: {
+      time: 'Every Wednesday, 7 – 8 PM',
+      start: '1st session on Wed, Aug 26',
+    },
+  },
+  {
+    leads: 'Luc & Jordan',
     consultant: null,
     name: 'Bible & Biceps',
     photo: jordanLuc,
+    location: 'SJSU SRAC',
+    blurb: "Hey SJSU Class of 2030! We're Jordan and Luc, and we love hitting the gym and diving into the Bible. We'd love for you to join us for Bible & Biceps—a group where we work out together, grab dinner, and talk through God's Word. Whether you're a practicing Christian or just curious, and whether you've been lifting for years or are a complete beginner, everyone is welcome!",
     meetingTime: {
       time: 'Every Thursday, 6 – 7 PM',
-      start: 'First session on Thu, Aug 27',
+      start: '1st session on Thu, Aug 27',
     },
   },
   {
-    leads: 'Tran & Gabby',
+    leads: 'Gabby & Tran',
     consultant: null,
     name: "Women's Wellness",
     photo: tranGabby,
+    location: 'TBD',
+    blurb: "Equipping women to care for their whole selves — mind, body & soul.",
     meetingTime: DEFAULT_MEETING,
   },
 ];
@@ -77,9 +85,10 @@ const groups = [
 
       <div class="cg-hero-content">
         <p class="cg-eyebrow">SJSU · CONNECT GROUPS</p>
-        <h1 class="cg-title">Connect<br />Groups</h1>
+        <h1 class="cg-title">Connect Groups</h1>
         <p class="cg-blurb">
-          Small groups of students, meeting weekly to grow in faith and friendship. Sign up now! Groups form during Welcome Week.
+          Small groups of students, meeting weekly to grow in faith and friendship.<br />
+          Sign up now! Groups form during Welcome Week.
         </p>
         <div class="cg-ctas">
           <a href={CONNECT_GROUPS_FORM_URL} target="_blank" rel="noopener noreferrer" class="cg-btn cg-btn-primary">Sign Up</a>
@@ -91,15 +100,24 @@ const groups = [
     <section class="cg-groups">
       <div class="cg-grid">
         {groups.map((g) => (
-          <div class="cg-col">
+          <div class="cg-card">
+            <h2 class="cg-name">{g.name}</h2>
             <Image src={g.photo} alt={`${g.name} — ${g.leads}`} class="cg-photo" width={960} height={960} />
-            <h2 class="cg-label">{g.name}<br />{g.leads}</h2>
+            <p class="cg-leads">{g.leads}</p>
             {g.consultant && <p class="cg-consultant">Consultant: {g.consultant}</p>}
-            <p class="cg-body">{g.meetingTime.time}<br />{g.meetingTime.start}</p>
+            <p class="cg-body">
+              {g.meetingTime.time}<br />
+              {g.location && <>{g.location}<br /></>}
+              {g.meetingTime.start}
+            </p>
+            {g.blurb && (
+              <details class="cg-details">
+                <summary>About this group</summary>
+                <p class="cg-blurb-body">{g.blurb}</p>
+              </details>
+            )}
           </div>
         ))}
-        <div class="cg-divider-v" aria-hidden="true"></div>
-        <div class="cg-divider-h" aria-hidden="true"></div>
       </div>
     </section>
 
@@ -126,8 +144,7 @@ const groups = [
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-height: 50vh;
-    padding: 12rem 2rem 4rem;
+    padding: 8rem 2rem 3rem;
     border-bottom: 1px solid rgba(35, 32, 29, 0.08);
   }
 
@@ -150,7 +167,7 @@ const groups = [
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 44rem;
+    max-width: 50rem;
   }
 
   .cg-eyebrow {
@@ -165,22 +182,23 @@ const groups = [
 
   .cg-title {
     font-family: 'Archivo', sans-serif;
-    font-size: clamp(2.1rem, min(4.6vw, 7vh), 4.6rem);
+    font-size: clamp(1.8rem, min(5.2vw, 7vh), 4.6rem);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 0.92;
     color: #004A8A;
+    white-space: nowrap;
   }
 
   .cg-blurb {
     font-family: 'Instrument Sans', sans-serif;
     font-weight: 500;
-    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    font-size: clamp(0.9rem, 1.6vw, 1.2rem);
     line-height: 1.7;
     color: rgba(35, 32, 29, 0.7);
-    max-width: 34ch;
     margin-top: 1.5rem;
+    white-space: nowrap;
   }
 
   .cg-ctas {
@@ -217,58 +235,55 @@ const groups = [
 
   /* ── GROUPS ── */
   .cg-groups {
-    padding-top: 5rem;
-    border-top: 1px solid rgba(35, 32, 29, 0.08);
+    padding: 3rem 2rem 5rem;
+    max-width: 96rem;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .cg-grid {
     display: grid;
-    grid-template-columns: 1fr 1px 1fr;
-    grid-template-rows: auto 1px auto;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
   }
 
-  .cg-col {
+  .cg-card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
-    padding: 5rem 3rem;
-    gap: 1.25rem;
-  }
-
-  .cg-col:nth-child(1) { grid-column: 1; grid-row: 1; }
-  .cg-col:nth-child(2) { grid-column: 3; grid-row: 1; }
-  .cg-col:nth-child(3) { grid-column: 1; grid-row: 3; }
-  .cg-col:nth-child(4) { grid-column: 3; grid-row: 3; }
-
-  .cg-divider-v {
-    grid-column: 2;
-    grid-row: 1 / 4;
-    background: rgba(35, 32, 29, 0.08);
-  }
-
-  .cg-divider-h {
-    grid-column: 1 / 4;
-    grid-row: 2;
-    background: rgba(35, 32, 29, 0.08);
+    padding: 2.25rem 1.75rem;
+    gap: 1rem;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 2px 16px rgba(35, 32, 29, 0.07);
   }
 
   .cg-photo {
-    height: 288px;
+    height: 180px;
     width: auto;
     object-fit: contain;
-    margin-bottom: 0.25rem;
     border-radius: 10px;
   }
 
-  .cg-label {
+  .cg-name {
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.93rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.22em;
     color: #805E13;
+  }
+
+  .cg-leads {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(35, 32, 29, 0.55);
+    margin-top: -0.5rem;
   }
 
   .cg-consultant {
@@ -280,30 +295,66 @@ const groups = [
 
   .cg-body {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(1.35rem, 1.95vw, 1.5rem);
+    font-size: clamp(1.1rem, 1.6vw, 1.25rem);
     font-weight: 500;
-    line-height: 1.8;
+    line-height: 1.7;
     color: rgba(35, 32, 29, 0.7);
     max-width: 32ch;
   }
 
-  @media (max-width: 640px) {
-    .cg-hero { padding: 9rem 1.5rem 3rem; }
-    .cg-back-link { top: 6.5rem; left: 1.25rem; }
+  .cg-details {
+    width: 100%;
+    margin-top: 0.25rem;
+    border-top: 1px solid rgba(35, 32, 29, 0.1);
+    padding-top: 1rem;
+  }
 
-    .cg-groups { padding-top: 3.5rem; }
+  .cg-details summary {
+    cursor: pointer;
+    list-style: none;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #004A8A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+  .cg-details summary::-webkit-details-marker { display: none; }
+  .cg-details summary::after {
+    content: '▾';
+    font-size: 0.7rem;
+    transition: transform 0.2s ease;
+  }
+  .cg-details[open] summary::after { transform: rotate(180deg); }
+
+  .cg-blurb-body {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.7;
+    color: rgba(10, 10, 10, 0.7);
+    margin-top: 0.9rem;
+  }
+
+  @media (max-width: 1024px) {
+    .cg-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .cg-hero { padding: 7rem 1.5rem 2.5rem; }
+    .cg-back-link { top: 5.5rem; left: 1.25rem; }
+    .cg-title { white-space: normal; }
+    .cg-blurb { white-space: normal; }
+
+    .cg-groups { padding: 2.5rem 1.25rem 3.5rem; }
 
     .cg-grid {
       grid-template-columns: 1fr;
-      grid-template-rows: none;
     }
-    .cg-divider-v, .cg-divider-h { display: none; }
-    .cg-col {
-      grid-column: 1 !important;
-      grid-row: auto !important;
-      padding: 3.5rem 2rem;
-      border-top: 1px solid rgba(35, 32, 29, 0.08);
-    }
-    .cg-col:first-child { border-top: none; }
+    .cg-card { padding: 2.25rem 1.75rem; }
   }
 </style>
