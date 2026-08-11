@@ -4,11 +4,11 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 
 const campuses = [
-  { name: 'San José State University', href: '/campuses/sjsu' },
-  { name: 'Stanford', href: '/campuses/stanford' },
-  { name: 'UC Santa Cruz', href: '/campuses/ucsc' },
-  { name: 'Santa Clara University', href: '/campuses/scu' },
-  { name: 'De Anza College', href: '/campuses/deanza' },
+  { name: 'San José State University', href: '/campuses/sjsu', mascot: '🛡️' },
+  { name: 'Stanford', href: '/campuses/stanford', mascot: '🐦🌲' },
+  { name: 'UC Santa Cruz', href: '/campuses/ucsc', mascot: '🍌🐌' },
+  { name: 'Santa Clara University', href: '/campuses/scu', mascot: '🐴' },
+  { name: 'De Anza College', href: '/campuses/deanza', mascot: '🦁' },
 ];
 ---
 
@@ -28,6 +28,7 @@ const campuses = [
           style={`view-transition-name: campus-${c.href.split('/').pop()}`}
         >
           {c.name}
+          <span class="campus-mascot" aria-hidden="true">{c.mascot}</span>
         </a>
       ))}
     </div>
@@ -136,6 +137,7 @@ const campuses = [
   }
 
   .campus-name {
+    position: relative;
     font-family: 'Instrument Sans', sans-serif;
     font-size: clamp(1.3rem, 2.2vw, 2.2rem);
     font-weight: 800;
@@ -146,9 +148,30 @@ const campuses = [
     transition: opacity 0.3s ease, color 0.2s ease;
   }
 
+  /* Mascot emoji — desktop hover only, pops in to the right of the
+     campus name. Pure CSS (no JS) since it's just an adjacent reveal
+     tied to the link's own :hover, unlike the nav's version of this
+     same idea which needs JS for its burst-on-click state. */
+  .campus-mascot {
+    position: absolute;
+    left: calc(100% + 0.5em);
+    top: 50%;
+    transform: translateY(-50%) scale(0.4) rotate(-15deg);
+    opacity: 0;
+    pointer-events: none;
+    font-size: 1.2em;
+    white-space: nowrap;
+    transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
   @media (hover: hover) and (pointer: fine) {
     .campus-list:hover .campus-name:hover {
       color: rgb(35 32 29);
+    }
+
+    .campus-name:hover .campus-mascot {
+      opacity: 1;
+      transform: translateY(-50%) scale(1) rotate(0deg);
     }
   }
 
