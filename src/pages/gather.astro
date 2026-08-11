@@ -100,8 +100,12 @@ const structuredData = [
       <div class="info-col" data-animate>
         <div class="info-content">
           <p class="info-lead">
-            On <strong>Sunday</strong> <strong>8/9</strong>, <strong>8/16</strong>, &amp; <strong>8/23</strong>,
+            On <strong>Sunday</strong> <strong>8/16</strong> &amp; <strong>8/23</strong>,
             SVC will be meeting at <strong>Horace Mann</strong>, 55 N 7th St, San Jose, CA 95112.
+          </p>
+          <p class="info-lead">
+            Rides will be provided from <strong><a href="https://www.google.com/maps/search/?api=1&query=Washburn+Hall+San+Jose+State+University" target="_blank" rel="noopener noreferrer" class="quiet-link">Washburn Hall</a></strong> at <strong>11:30am</strong>.
+            We will also have walk groups from the <strong><a href="https://www.google.com/maps/search/?api=1&query=Student+Union+7th+St+San+Jose+State+University" target="_blank" rel="noopener noreferrer" class="quiet-link">Student Union on 7th</a></strong> at <strong>11:45am</strong>.
           </p>
           <a
             href="https://maps.app.goo.gl/7XNDPqsATX3rs7LF7"
@@ -232,6 +236,15 @@ const structuredData = [
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .quiet-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .quiet-link:hover,
+  .quiet-link:focus-visible {
+    text-decoration: underline;
   }
 
   /* ── Reveal (data-animate) — visible by default; see global.css for the
