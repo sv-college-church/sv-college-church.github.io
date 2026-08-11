@@ -17,7 +17,7 @@ if (!CONNECT_GROUPS_LIVE) {
 // Default meeting time for groups that haven't set their own yet.
 const DEFAULT_MEETING = {
   time: 'Every Wednesday, 6 – 7 PM',
-  start: 'First session on Wed, Aug 26',
+  start: '1st session on Wed, Aug 26',
 };
 
 // Ordered girl / guy / guy / girl so the 2x2 grid pairs same-gender groups diagonally.
@@ -27,9 +27,11 @@ const groups = [
     consultant: null,
     name: 'Charcuterie Chats',
     photo: sharonMaggy,
+    location: 'Student Union Starbucks',
+    blurb: "A weekly club where (beautiful) food sparks connection. Each gathering features a themed charcuterie board paired with meaningful guided conversation inspired by that theme.",
     meetingTime: {
       time: 'Every Wednesday, 7 – 8 PM',
-      start: 'First session on Wed, Aug 26',
+      start: '1st session on Wed, Aug 26',
     },
   },
   {
@@ -37,9 +39,11 @@ const groups = [
     consultant: null,
     name: 'Iron Men',
     photo: justinEstevan,
+    location: 'SJSU room (TBD)',
+    blurb: "Iron Men is a four week collegiate men's group built around one verse: \"Iron sharpens iron, and one man sharpens another\" (Proverbs 27:17). Each week a group of men gather to study Biblical manhood and challenge each other to grow. Iron Men is more than a Bible study; it's the beginning of a brotherhood. We welcome SJSU undergraduate men of any background, whether Christian or not.",
     meetingTime: {
       time: 'Every Thursday, 7 – 8 PM',
-      start: 'First session on Thu, Aug 27',
+      start: '1st session on Thu, Aug 27',
     },
   },
   {
@@ -47,9 +51,11 @@ const groups = [
     consultant: null,
     name: 'Bible & Biceps',
     photo: jordanLuc,
+    location: 'SJSU SRAC',
+    blurb: "Hey SJSU Class of 2030! We're Jordan and Luc, and we love hitting the gym and diving into the Bible. We'd love for you to join us for Bible & Biceps—a group where we work out together, grab dinner, and talk through God's Word. Whether you're a practicing Christian or just curious, and whether you've been lifting for years or are a complete beginner, everyone is welcome!",
     meetingTime: {
       time: 'Every Thursday, 6 – 7 PM',
-      start: 'First session on Thu, Aug 27',
+      start: '1st session on Thu, Aug 27',
     },
   },
   {
@@ -57,6 +63,7 @@ const groups = [
     consultant: null,
     name: "Women's Wellness",
     photo: tranGabby,
+    blurb: "Equipping women to care for their whole selves — mind, body & soul.",
     meetingTime: DEFAULT_MEETING,
   },
 ];
@@ -95,7 +102,12 @@ const groups = [
             <Image src={g.photo} alt={`${g.name} — ${g.leads}`} class="cg-photo" width={960} height={960} />
             <h2 class="cg-label">{g.name}<br />{g.leads}</h2>
             {g.consultant && <p class="cg-consultant">Consultant: {g.consultant}</p>}
-            <p class="cg-body">{g.meetingTime.time}<br />{g.meetingTime.start}</p>
+            {g.blurb && <p class="cg-blurb-body">{g.blurb}</p>}
+            <p class="cg-body">
+              {g.meetingTime.time}<br />
+              {g.location && <>{g.location}<br /></>}
+              {g.meetingTime.start}
+            </p>
           </div>
         ))}
         <div class="cg-divider-v" aria-hidden="true"></div>
@@ -276,6 +288,15 @@ const groups = [
     font-size: 1.275rem;
     font-weight: 500;
     color: rgba(35, 32, 29, 0.55);
+  }
+
+  .cg-blurb-body {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.7;
+    color: rgba(10, 10, 10, 0.7);
+    max-width: 30ch;
   }
 
   .cg-body {
