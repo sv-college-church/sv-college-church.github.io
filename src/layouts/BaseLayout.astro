@@ -128,6 +128,11 @@ const extraSchemas = structuredData
     <EventBanner />
     <slot />
 
+    <!-- Scroll-to-navigate reveal — mobile only, see script below -->
+    <div id="scroll-nav-reveal" aria-hidden="true">
+      <span class="reveal-label"></span>
+    </div>
+
     <!-- Scroll animation observer — re-runs on View Transitions navigation -->
     <script>
       document.addEventListener('astro:page-load', () => {
@@ -155,6 +160,176 @@ const extraSchemas = structuredData
         });
       });
     </script>
+
+    <!-- Scroll-to-navigate (mobile only) — pulling up past the bottom of
+         the page advances to the next page in the site's nav sequence;
+         pulling down past the top goes to the previous page (mirrored
+         gesture). Listeners are attached once here, not inside
+         astro:page-load, since `window` persists across View Transitions
+         navigations — re-attaching per navigation would stack duplicate
+         listeners. Current/next/prev page are read fresh from
+         location.pathname on every touch, so this stays correct without
+         re-initializing. Sequence order lives in src/lib/pageSequence.ts —
+         reorder pages there, not here. -->
+    <script>
+      import { navigate } from 'astro:transitions/client';
+      import { getNextPage, getPrevPage } from '../lib/pageSequence';
+
+      const TRIGGER_PX = 80;
+      const isMobile = () => window.matchMedia('(max-width: 767px)').matches;
+
+      function isAtBottom(): boolean {
+        return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      }
+
+      function isAtTop(): boolean {
+        return window.scrollY <= 2;
+      }
+
+      function getReveal(): HTMLElement | null {
+        return document.getElementById('scroll-nav-reveal');
+      }
+
+      function getRevealLabel(): HTMLElement | null {
+        return document.querySelector('#scroll-nav-reveal .reveal-label');
+      }
+
+      type Direction = 'forward' | 'backward';
+
+      // How far the circle is allowed to poke into view, at most — 1/6 of
+      // the viewport height. The circle's true center sits this same
+      // distance beyond the edge (below the page for forward, above it
+      // for backward), so at progress 0 the circle is a point exactly on
+      // the edge (invisible) and at progress 1 its cap pokes up exactly
+      // capHeight() into the page — never the whole screen.
+      function capHeight(): number {
+        return window.innerHeight / 6;
+      }
+
+      function centerY(direction: Direction): number {
+        const offset = capHeight();
+        return direction === 'forward' ? window.innerHeight + offset : -offset;
+      }
+
+      // Always the horizontal middle of the screen, regardless of where
+      // the thumb actually touched — the dome reads as an intentional,
+      // centered shape rather than lopsided toward wherever the drag
+      // happened to start.
+      function centerX(): number {
+        return window.innerWidth / 2;
+      }
+
+      let lastProgress = 0;
+      let lastDirection: Direction = 'forward';
+
+      function updateReveal(progress: number, label: string, direction: Direction) {
+        const root = getReveal();
+        const labelEl = getRevealLabel();
+        if (!root) return;
+        lastProgress = progress;
+        lastDirection = direction;
+        root.classList.remove('is-releasing');
+        root.classList.toggle('reveal-forward', direction === 'forward');
+        root.classList.toggle('reveal-backward', direction === 'backward');
+        const max = capHeight();
+        const radius = max + progress * max; // max -> 2*max, poke 0 -> max
+        root.style.clipPath = `circle(${radius}px at ${centerX()}px ${centerY(direction)}px)`;
+        if (labelEl) labelEl.textContent = `${direction === 'forward' ? '↓' : '↑'} ${label}`;
+      }
+
+      function resetReveal() {
+        const root = getReveal();
+        if (!root) return;
+        lastProgress = 0;
+        root.classList.add('is-releasing');
+        root.style.clipPath = `circle(${capHeight()}px at ${centerX()}px ${centerY(lastDirection)}px)`;
+      }
+
+      const COMPLETE_MS = 400;
+
+      // Distance from the reveal's center to the farthest viewport corner —
+      // big enough that the circle visibly swallows the whole screen as it
+      // expands, rather than staying capped at the small drag-time dome.
+      function fullCoverRadius(direction: Direction): number {
+        const cx = centerX();
+        const cy = centerY(direction);
+        const dx = Math.max(cx, window.innerWidth - cx);
+        const dy = Math.max(cy, window.innerHeight - cy);
+        return Math.hypot(dx, dy);
+      }
+
+      // Crossing the threshold and releasing plays a completion beat —
+      // the circle grows past its drag-time cap to cover the screen while
+      // fading to transparent, then the page swap fires once that's had
+      // time to play out (rather than immediately, which would cut the
+      // animation off before it's visible).
+      function completeReveal(direction: Direction, href: string) {
+        const root = getReveal();
+        if (root) {
+          root.classList.remove('is-releasing');
+          root.classList.add('is-completing');
+          root.style.clipPath = `circle(${fullCoverRadius(direction)}px at ${centerX()}px ${centerY(direction)}px)`;
+          root.style.opacity = '0';
+        }
+        window.setTimeout(() => navigate(href), COMPLETE_MS);
+      }
+
+      let startY = 0;
+      // 'pending' = touch started at an edge on a sequence page, but we
+      // haven't seen which way the user is dragging yet (matters on short
+      // pages where top and bottom edges coincide).
+      let mode: Direction | 'pending' | null = null;
+
+      window.addEventListener('touchstart', (e) => {
+        mode = null;
+        if (!isMobile()) return;
+        if (!isAtBottom() && !isAtTop()) return;
+        startY = e.touches[0].clientY;
+        mode = 'pending';
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!mode) return;
+        const currentY = e.touches[0].clientY;
+        const rawDelta = startY - currentY; // positive = finger moved up
+
+        if (mode === 'pending') {
+          if (rawDelta > 0 && isAtBottom() && getNextPage(location.pathname)) {
+            mode = 'forward';
+          } else if (rawDelta < 0 && isAtTop() && getPrevPage(location.pathname)) {
+            mode = 'backward';
+          } else {
+            return;
+          }
+        }
+
+        if (mode === 'forward') {
+          const next = getNextPage(location.pathname);
+          if (!next || !isAtBottom()) { mode = null; resetReveal(); return; }
+          if (rawDelta <= 0) { resetReveal(); return; }
+          updateReveal(Math.min(rawDelta / TRIGGER_PX, 1), next.label, 'forward');
+        } else {
+          const prev = getPrevPage(location.pathname);
+          if (!prev || !isAtTop()) { mode = null; resetReveal(); return; }
+          const pull = -rawDelta;
+          if (pull <= 0) { resetReveal(); return; }
+          updateReveal(Math.min(pull / TRIGGER_PX, 1), prev.label, 'backward');
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        if (!mode || mode === 'pending') { mode = null; return; }
+        const target = mode === 'forward' ? getNextPage(location.pathname) : getPrevPage(location.pathname);
+        const progress = lastProgress;
+        const direction = mode;
+        mode = null;
+        if (target && progress >= 1) {
+          completeReveal(direction, target.href);
+        } else {
+          resetReveal();
+        }
+      });
+    </script>
   </body>
 </html>
 
@@ -175,5 +350,55 @@ const extraSchemas = structuredData
 
   .skip-link:focus {
     left: 0;
+  }
+
+  /* ── Scroll-to-navigate reveal ──
+     A charcoal circle grows from a point just below/above the page (see
+     script — centered horizontally, capped at 1/6 of the viewport height
+     so it only ever pokes a small dome into view while dragging). The
+     destination label sits near that edge — inside the same clip-path as
+     the circle, so it only becomes visible once the dome physically
+     grows large enough to reach it. Releasing early animates the dome
+     back down to nothing via .is-releasing. Crossing the threshold and
+     releasing plays .is-completing instead — the circle grows past its
+     drag-time cap to cover the screen while fading out, then the page
+     swap fires once that's played out. */
+  #scroll-nav-reveal {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    background: #23201D;
+    opacity: 1;
+    clip-path: circle(0px at 50% 50%);
+  }
+
+  #scroll-nav-reveal.is-releasing {
+    transition: clip-path 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  #scroll-nav-reveal.is-completing {
+    transition: clip-path 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s ease;
+  }
+
+  #scroll-nav-reveal .reveal-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #F6F1E4;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+  }
+
+  #scroll-nav-reveal.reveal-forward .reveal-label {
+    bottom: 1.5rem;
+  }
+
+  #scroll-nav-reveal.reveal-backward .reveal-label {
+    top: 1.5rem;
   }
 </style>

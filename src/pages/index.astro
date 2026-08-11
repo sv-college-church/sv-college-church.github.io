@@ -525,6 +525,28 @@ const photoUrls = optimized.map(img => img.src);
     background: #6FA3B0;
   }
 
+  /* Smaller than the shared .photo-sticker base — these two carry much
+     less text than Class of 2030, so the base size left a lot of empty
+     circle around "Sundays / 12pm" and "Est. / 2021". Each sized to its
+     own content rather than sharing one value: Sundays' text needs a
+     ~85px circle to clear the corners, Est.'s needs only ~69px (much
+     shorter label/value), so a shared size left Est. with noticeably
+     more padding than Sundays — confirmed against actual rendered text
+     boxes, not guessed. Both keep ~11-12px of real margin beyond their
+     own exact-fit diagonal. Compound selector (not just
+     .sticker-sundays/.sticker-est) is deliberate — .photo-sticker also
+     sets --sticker-size inside the @media (max-width:767px) and
+     (max-height:700px) blocks further down, and at equal specificity a
+     single-class rule up here would lose to those on mobile purely by
+     losing the source-order tiebreak. */
+  .photo-sticker.sticker-sundays {
+    --sticker-size: clamp(71px, 12vh, 97px);
+  }
+
+  .photo-sticker.sticker-est {
+    --sticker-size: clamp(59px, 10vh, 80px);
+  }
+
   /* Fly Sundays/Est. onto specific fanned-out cards instead of sitting
      frozen on the stacked photo, where a fanned card would otherwise
      land right on top of them. FAN_X in the script below is [-900,
@@ -713,26 +735,37 @@ const photoUrls = optimized.map(img => img.src);
          "Silicon Valley College Church" onto 4 cramped lines. Give it an
          explicit width so wrapping is based on the real available space. */
       width: 100%;
-      max-width: 85vw;
+      /* Bumped from 85vw so "Silicon Valley" still fits on one line at
+         the larger font-size below — 85vw was clipping it to two lines
+         at anything bigger than the old ~2.1rem floor. */
+      max-width: 94vw;
       padding: 0 16px;
+      /* Calibrated against real rendered gaps (not solved analytically)
+         so the space above the headline (nav to text) matches the space
+         below it (text to photo stack) at a 375x812 viewport — was 3%
+         (inherited from the base rule), which measured 27px above vs.
+         109px below, badly lopsided toward the photo. Analytical
+         solving doesn't work here: the photo stack's own position isn't
+         fixed CSS, it's recomputed by JS off textWrap's rendered bottom
+         edge ~1.5s after load (see the "1.5s: text appears, stack
+         repositions" block below), with its own gap/bias constants — so
+         moving this top value shifts the stack too, not just the text.
+         Found 7.8% by bisecting against the actual post-JS layout on a
+         fresh load; a value solved by hand against a frozen/stale stack
+         position (e.g. by tweaking on an already-loaded page) will look
+         balanced in that one moment and wrong on an actual reload. Only
+         scoped to mobile: desktop's nav height, photo-stack size, and
+         hero proportions are different enough that this value wouldn't
+         carry over correctly. */
+      top: 7.8%;
     }
 
-    /* Unbounded runs much wider per-character than the previous Instrument
-       Sans treatment — sized so "Silicon Valley" / "College Church" each
-       fit one line at common phone widths. Deliberately no white-space:
-       nowrap here: combined with this span's auto/shrink-to-fit width, it
-       hit a real browser bug where the box width gets stuck at the
-       pre-font-swap (fallback font) measurement while the Unbounded text
-       itself renders at its full, wider size — box and content disagree,
-       and the overflow gets clipped instead of visible. Letting it wrap
-       naturally means a tight viewport softly wraps to a second line
-       instead of clipping text off the edge. */
     .hero-line1 {
-      font-size: clamp(1.1rem, 4.9vw, 1.5rem);
+      font-size: clamp(2.35rem, min(4.6vw, 7vh), 4.6rem);
     }
 
     .hero-line2 {
-      font-size: clamp(0.65rem, 2.9vw, 0.95rem);
+      font-size: clamp(1.35rem, min(2.8vw, 4.2vh), 2.8rem);
     }
 
     .photo-sticker {
@@ -756,12 +789,18 @@ const photoUrls = optimized.map(img => img.src);
       top: 1%;
     }
 
+    /* Compressed just enough to clear the photo stack at the shortest
+       realistic viewport (320x568, iPhone SE 1st-gen) — verified against
+       the actual rendered gap, not guessed. Still well above the old
+       clamp(0.95rem,...) values this replaced, which were leftover from
+       a pre-Archivo font pass and made the headline read as tiny on
+       every mobile size, not just the short ones. */
     .hero-line1 {
-      font-size: clamp(0.95rem, 5.1vw, 1.4rem);
+      font-size: clamp(1.7rem, 7vw, 2.1rem);
     }
 
     .hero-line2 {
-      font-size: clamp(0.58rem, 3.1vw, 0.83rem);
+      font-size: clamp(0.95rem, 4vw, 1.2rem);
     }
 
     /* Smaller stickers on short viewports — the photo itself is already
