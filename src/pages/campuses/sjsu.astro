@@ -276,7 +276,11 @@ const structuredData = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    opacity: 0.75;
+    /* No opacity here — #004A8A on #E9C77E only clears WCAG AA's 4.5:1
+       contrast minimum at full opacity (ratio ~5.5:1); the 0.75 opacity
+       this used to have dropped it to ~3.64:1 and failed the CI
+       accessibility audit. The smaller size/weight/uppercase already
+       read as secondary without needing transparency. */
   }
 
   .ww-banner-sub-arrow {
