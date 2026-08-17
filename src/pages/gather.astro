@@ -17,16 +17,16 @@ import birthdayCelebration from '../assets/images/gather/birthday-celebration.jp
 import frisbee from '../assets/images/gather/frisbee.jpg';
 
 const bannerPhotos = [
-  { src: sundayWelcomeCrowd, alt: 'Welcome to Sunday Service screen with the full congregation gathered' },
-  { src: sundayWorshipHandsRaised, alt: 'Students worshiping with hands raised during Sunday service' },
-  { src: sundayTeachingStage, alt: 'Pastor teaching from the stage during Sunday service' },
-  { src: sundayWelcomeTableRoom, alt: 'Welcome to SVC table with the auditorium and stage in the background' },
   { src: sundayHoraceMannExterior, alt: 'Students gathering outside the entrance to Horace Mann Elementary School' },
-  { src: sundayStudentsArriving, alt: 'Students walking in together through the entrance gate' },
+  { src: sundayWelcomeCrowd, alt: 'Welcome to Sunday Service screen with the full congregation gathered' },
   { src: sundayFriendsLaughing, alt: 'Friends laughing together before service' },
-  { src: sundaySvcWelcomeTable, alt: 'SVC College Church welcome table' },
+  { src: sundayTeachingStage, alt: 'Pastor teaching from the stage during Sunday service' },
   { src: birthdayCelebration, alt: 'Celebrating a birthday together' },
+  { src: sundayWorshipHandsRaised, alt: 'Students worshiping with hands raised during Sunday service' },
+  { src: sundayStudentsArriving, alt: 'Students walking in together through the entrance gate' },
+  { src: sundaySvcWelcomeTable, alt: 'SVC College Church welcome table' },
   { src: frisbee, alt: 'Playing frisbee after service' },
+  { src: sundayWelcomeTableRoom, alt: 'Welcome to SVC table with the auditorium and stage in the background' },
 ];
 
 const hasUpcoming = (await getHighlightedEvents()).length > 0;
@@ -104,7 +104,7 @@ const structuredData = [
       <div class="info-col" data-animate>
         <div class="info-content">
           <p class="info-lead">
-            On <strong>Sunday</strong> <strong>8/16</strong>, <strong>8/23</strong>, &amp; <strong>8/30</strong>,
+            For <strong>Sunday</strong>, <strong>August 23rd</strong> &amp; <strong>30th</strong>,
             SVC will be meeting at <strong>Horace Mann</strong>, 55 N 7th St, San Jose, CA 95112.
           </p>
           <p class="info-lead">
