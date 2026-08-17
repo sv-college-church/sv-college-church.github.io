@@ -5,24 +5,28 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import UpcomingEvents from '../components/UpcomingEvents.astro';
 import { getHighlightedEvents } from '../lib/events';
-import sundayService from '../assets/images/gather/sunday-service.jpg';
-import friendsOutdoors from '../assets/images/gather/friends-outdoors.jpg';
+import sundayWelcomeCrowd from '../assets/images/gather/sunday-welcome-crowd.jpg';
+import sundayWorshipHandsRaised from '../assets/images/gather/sunday-worship-hands-raised.jpg';
+import sundayTeachingStage from '../assets/images/gather/sunday-teaching-stage.jpg';
+import sundayWelcomeTableRoom from '../assets/images/gather/sunday-welcome-table-room.jpg';
+import sundayHoraceMannExterior from '../assets/images/gather/sunday-horace-mann-exterior.jpg';
+import sundayStudentsArriving from '../assets/images/gather/sunday-students-arriving.jpg';
+import sundayFriendsLaughing from '../assets/images/gather/sunday-friends-laughing.jpg';
+import sundaySvcWelcomeTable from '../assets/images/gather/sunday-svc-welcome-table.jpg';
 import birthdayCelebration from '../assets/images/gather/birthday-celebration.jpg';
 import frisbee from '../assets/images/gather/frisbee.jpg';
-import groupSmiling from '../assets/images/gather/group-smiling.jpg';
-import peaceSigns from '../assets/images/gather/peace-signs.jpg';
-import mealLine from '../assets/images/gather/meal-line.jpg';
-import guysSmiling from '../assets/images/gather/guys-smiling.jpg';
 
 const bannerPhotos = [
-  { src: sundayService, alt: 'Welcome to Sunday Service at SVC' },
-  { src: friendsOutdoors, alt: 'Students smiling together outdoors' },
+  { src: sundayWelcomeCrowd, alt: 'Welcome to Sunday Service screen with the full congregation gathered' },
+  { src: sundayWorshipHandsRaised, alt: 'Students worshiping with hands raised during Sunday service' },
+  { src: sundayTeachingStage, alt: 'Pastor teaching from the stage during Sunday service' },
+  { src: sundayWelcomeTableRoom, alt: 'Welcome to SVC table with the auditorium and stage in the background' },
+  { src: sundayHoraceMannExterior, alt: 'Students gathering outside the entrance to Horace Mann Elementary School' },
+  { src: sundayStudentsArriving, alt: 'Students walking in together through the entrance gate' },
+  { src: sundayFriendsLaughing, alt: 'Friends laughing together before service' },
+  { src: sundaySvcWelcomeTable, alt: 'SVC College Church welcome table' },
   { src: birthdayCelebration, alt: 'Celebrating a birthday together' },
   { src: frisbee, alt: 'Playing frisbee after service' },
-  { src: groupSmiling, alt: 'Friends smiling together' },
-  { src: peaceSigns, alt: 'Students at an outdoor info booth' },
-  { src: mealLine, alt: 'Students serving themselves at a community meal' },
-  { src: guysSmiling, alt: 'Friends smiling together indoors' },
 ];
 
 const hasUpcoming = (await getHighlightedEvents()).length > 0;
