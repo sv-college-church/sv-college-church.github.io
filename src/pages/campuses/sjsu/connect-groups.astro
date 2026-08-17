@@ -282,7 +282,9 @@ const groups = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgba(35, 32, 29, 0.55);
+    /* 0.55 gave 3.72:1 against the white card background — below WCAG
+       AA's 4.5:1 minimum for this size/weight. 0.65 clears it (~5.1:1). */
+    color: rgba(35, 32, 29, 0.65);
     margin-top: -0.5rem;
   }
 

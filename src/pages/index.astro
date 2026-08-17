@@ -672,19 +672,19 @@ const photoUrls = optimized.map(img => img.src);
 
   .badge-classof {
     font-family: 'Instrument Sans', system-ui, sans-serif;
-    /* Was clamp(6px,1.2vh,9px) - never even reached 10pt. Letter-spacing
-       pulled in from 0.22em to 0.13em at the same time: "CLASS OF" is
-       longer than the old "CLASS", so keeping the wider tracking at this
-       bigger size would start crowding the badge's edge.
-       Max bumped back up to 15px (matches .sticker-line1's max, since
-       this was reading smaller than the other two stickers' text) now
-       that pulling --ring-r in a bit (see above) bought back enough
-       clearance to afford it — reverified against the ring at every
-       breakpoint, not just assumed. */
-    font-size: clamp(12px, 1.8vh, 15px);
-    font-weight: 600;
-    letter-spacing: 0.13em;
-    color: rgba(246, 241, 228, 0.7);
+    /* This used to clamp(12px,1.8vh,15px) to match .sticker-line1's size
+       (see that comment) — but at 13-15px/600-weight/0.7-opacity on
+       #E2402F, contrast was only 2.49:1, and #E2402F is too light a red
+       for any light text to clear WCAG AA's 4.5:1 normal-text minimum
+       (even solid white only reaches 3.72:1). Bold + >=18.66px qualifies
+       for the "large text" 3:1 threshold instead — 19px/700-weight/0.9
+       opacity clears it (~3.6:1). Fixed at 19px rather than fluid: the
+       large-text exemption needs >=18.66px at every viewport, so it can
+       no longer shrink to match the other stickers the way it used to. */
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(246, 241, 228, 0.9);
     text-transform: uppercase;
   }
 
@@ -750,9 +750,11 @@ const photoUrls = optimized.map(img => img.src);
       --sticker-size: clamp(92px, 16vh, 122px);
     }
 
-    /* Keep the size hierarchy on mobile too — 2030 stays the biggest */
+    /* Keep the size hierarchy on mobile too — 2030 stays the biggest.
+       Floor raised from 106px — see the max-height:700px override below
+       for why 19px/bold text needs a bigger floor than this used to have. */
     .sticker-2030 {
-      --sticker-size: clamp(106px, 18vh, 144px);
+      --sticker-size: clamp(140px, 18vh, 160px);
     }
 
     /* Mobile-only: Sundays/Est. carry much less text than Class of
@@ -813,11 +815,17 @@ const photoUrls = optimized.map(img => img.src);
     }
 
     .sticker-2030 {
-      --sticker-size: clamp(84px, 14vh, 114px);
+      /* Floor raised from 84px — too small to fit "CLASS OF" once it
+         became fixed at 19px/bold for WCAG contrast (see .badge-classof
+         above); text overflowed the circle at the 320x568 target device.
+         130px is the smallest that fits it cleanly, verified visually. */
+      --sticker-size: clamp(130px, 14vh, 140px);
     }
 
     .badge-ring span { font-size: 8px; }
-    .badge-classof { font-size: 9px; }
+    /* .badge-classof no longer overridden here — stays at the base 19px,
+       see that rule's comment: the WCAG "large text" exemption needs
+       >=18.66px at every breakpoint, so it can't shrink on mobile. */
     .badge-year-num { font-size: 11px; }
     .sticker-line1 { font-size: 13px; }
     .sticker-line2 { font-size: 14px; }
