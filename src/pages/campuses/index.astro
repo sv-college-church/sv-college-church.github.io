@@ -316,10 +316,18 @@ const campuses = [
 
   .badge-classof {
     font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.13em;
-    color: rgba(246, 241, 228, 0.7);
+    /* 13px/600-weight rgba(...,0.7) on #E2402F was 2.49:1 — fails WCAG
+       AA's 4.5:1 normal-text minimum, and #E2402F is too light a red for
+       any light text color to clear that at normal size (even solid
+       white only reaches 3.72:1). Bold + >=18.66px qualifies for the
+       "large text" 3:1 threshold instead — 19px/700-weight/0.9 opacity
+       clears it (~3.6:1). Must stay >=18.66px at every breakpoint (it's
+       an absolute px threshold, not relative), so the mobile override
+       below matches this size rather than shrinking further. */
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(246, 241, 228, 0.9);
     text-transform: uppercase;
   }
 
@@ -334,15 +342,20 @@ const campuses = [
 
   @media (max-width: 767px) {
     #class-badge {
-      --ring-r: -48px;
-      width: 120px;
-      height: 120px;
+      /* Was 120px — too small for "CLASS OF" at the fixed 19px the WCAG
+         fix requires (see .badge-classof above); text overflowed the
+         circle. Bumped to 150px (same -0.4 ring-r ratio) to fit it. */
+      --ring-r: -60px;
+      width: 150px;
+      height: 150px;
       top: auto;
       bottom: 6%;
       right: 5%;
     }
     .badge-year-num { font-size: 20px; }
-    .badge-classof { font-size: 11px; }
+    /* Stays 19px (not shrunk to match the old 11px) — see .badge-classof
+       above, the WCAG "large text" exemption needs >=18.66px at every
+       breakpoint, so this can't shrink with the smaller mobile badge. */
   }
 </style>
 

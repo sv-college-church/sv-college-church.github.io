@@ -106,9 +106,11 @@ const structuredData = [
     </section>
 
     <a href="/campuses/sjsu/welcome-week" class="welcome-week-banner">
-      <span class="ww-banner-label">Welcome Week</span>
-      <span class="ww-banner-dates">Aug 15 – 23</span>
-      <span class="ww-banner-arrow" aria-hidden="true">→</span>
+      <span class="ww-banner-main">
+        <span class="ww-banner-label">Welcome Week</span>
+        <span class="ww-banner-dates">Aug 15 – 23</span>
+      </span>
+      <span class="ww-banner-sub">See full schedule <span class="ww-banner-sub-arrow" aria-hidden="true">→</span></span>
     </a>
 
     <section class="groups-section">
@@ -227,9 +229,10 @@ const structuredData = [
 
   .welcome-week-banner {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 0.6rem;
     background: #E9C77E;
     color: #004A8A;
     text-decoration: none;
@@ -238,6 +241,18 @@ const structuredData = [
     transition: background 0.15s ease;
   }
   .welcome-week-banner:hover { background: #E0B85E; }
+
+  .ww-banner-main {
+    display: flex;
+    /* baseline, not center — .ww-banner-label/.ww-banner-dates are two
+       different font-sizes (and one italic), so centering by box-height
+       left "Aug 15 – 23" visually sitting lower than the label despite
+       their geometric centers matching exactly. Baseline alignment is
+       what actually reads as "in line" to the eye when text sizes
+       differ this much. */
+    align-items: baseline;
+    gap: 1.5rem;
+  }
 
   .ww-banner-label {
     font-size: 1.6rem;
@@ -253,16 +268,37 @@ const structuredData = [
     font-size: 2rem;
   }
 
-  .ww-banner-arrow {
-    font-size: 1.6rem;
+  /* ── "See full schedule" — makes the banner's clickability explicit
+     instead of relying on a bare arrow glyph to imply it. ── */
+  .ww-banner-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: 0.8rem;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    /* No opacity here — #004A8A on #E9C77E only clears WCAG AA's 4.5:1
+       contrast minimum at full opacity (ratio ~5.5:1); the 0.75 opacity
+       this used to have dropped it to ~3.64:1 and failed the CI
+       accessibility audit. The smaller size/weight/uppercase already
+       read as secondary without needing transparency. */
+  }
+
+  .ww-banner-sub-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .welcome-week-banner:hover .ww-banner-sub-arrow {
+    transform: translateX(4px);
   }
 
   @media (max-width: 480px) {
-    .welcome-week-banner { padding: 2.5rem 1.25rem; gap: 0.8rem; }
+    .welcome-week-banner { padding: 2.5rem 1.25rem; gap: 0.6rem; }
+    .ww-banner-main { gap: 0.8rem; }
     .ww-banner-label { font-size: 1.1rem; }
     .ww-banner-dates { font-size: 1.35rem; }
-    .ww-banner-arrow { font-size: 1.2rem; }
+    .ww-banner-sub { font-size: 0.7rem; }
   }
 
   .groups-section {

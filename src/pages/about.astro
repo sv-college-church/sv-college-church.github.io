@@ -65,8 +65,8 @@ const structuredData = [
         <div class="section-rule"></div>
         <h2 class="section-label">Leadership</h2>
         <Image src={lofam} alt="SVC directors Roy and Kaitlyn with their family" class="section-photo" />
-        <p class="display-name">Roy & Kaitlyn</p>
-        <p class="body-text">
+        <p class="display-name leader-name">Roy & Kaitlyn</p>
+        <p class="body-text leader-bio">
           Roy grew up an outspoken atheist and Kaitlyn an indifferent agnostic, but both were won over by the gospel in college. Roy came to faith at a free-food Bible study at Berkeley, Kaitlyn at a retreat where grace finally clicked. They married in 2010 and have since planted and served churches together in Minneapolis, Taiwan, Los Angeles, and Berkeley. They have two teenage daughters, and recently moved from Elgin with their girls to lead SVC, chasing the same vision that first caught them in college: reaching students for Jesus.
         </p>
       </div>
@@ -388,6 +388,25 @@ const structuredData = [
     object-position: center;
     border: 1.5px solid rgb(35 32 29 / 0.12);
     margin-bottom: 2.5rem;
+  }
+
+  /* ── Leadership: photo + name + bio ──
+     Stacked (photo, then name, then bio) ran to ~1215px tall on a
+     1280x800 viewport — the span from the photo's top to the bio's
+     bottom was 887px, more than an 800px viewport, so no amount of
+     scrolling could show the photo and the end of the bio at once.
+     Sized down here rather than restructuring the layout. Desktop
+     only — mobile's photo is already narrower (full-width but capped
+     by a smaller viewport) and didn't need shrinking, so this stayed
+     scoped rather than sizing down the mobile text too. */
+  @media (min-width: 768px) {
+    .leader-name {
+      font-size: clamp(1.8rem, 3.7vw, 2.9rem);
+    }
+
+    .leader-bio {
+      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+    }
   }
 
   /* ── Compact sections (Statement of Faith, Resources) ── */
