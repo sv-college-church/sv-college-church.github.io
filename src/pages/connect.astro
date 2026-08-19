@@ -74,4 +74,45 @@ Sign up here to get connected and receive our text alerts!</p>
     }
   }
 
+  /* ── Clearstream form overrides ──
+     Their stylesheet ships Helvetica Neue at 13px base, noticeably
+     smaller than this site's Instrument Sans body copy elsewhere
+     (e.g. .cg-blurb runs ~15-19px). Prefixed with #connect-form so
+     these win on specificity regardless of DOM/load order against
+     their <link> (a flat class selector) — form controls (input,
+     button) don't inherit font-family/font-size from ancestors by
+     default, so each needs its own rule rather than one on the
+     container cascading down. */
+  #connect-form .cs_html_form_container {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 15px;
+  }
+
+  #connect-form .cs_html_form_container h2 {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 24px;
+  }
+
+  #connect-form p.cs_html_form_subtitle {
+    font-size: 15px;
+  }
+
+  #connect-form .cs_html_form_row > p {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 14px;
+  }
+
+  #connect-form .cs_html_form input[type='text'] {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 16px;
+  }
+
+  #connect-form .cs_html_form button {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 15px;
+  }
+
+  #connect-form .cs_html_form_terms {
+    font-size: 12px;
+  }
 </style>
