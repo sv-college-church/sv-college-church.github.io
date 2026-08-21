@@ -104,15 +104,16 @@ Run the same build and Node assertion from Step 1.
 
 Expected: `bun run build` succeeds and the Node process exits successfully with no assertion error.
 
-- [ ] **Step 4: Check formatting**
+- [ ] **Step 4: Check the edited diff for whitespace errors**
 
 Run:
 
 ```bash
-bunx prettier --check src/pages/campuses/sjsu/welcome-week.astro
+git diff --check -- src/pages/campuses/sjsu/welcome-week.astro
 ```
 
-Expected: Prettier reports `All matched files use Prettier code style!`.
+Expected: The command exits successfully with no output. The file has pre-existing
+Prettier drift outside this change, so do not reformat unrelated markup or CSS.
 
 - [ ] **Step 5: Commit the page update**
 
