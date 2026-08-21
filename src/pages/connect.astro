@@ -25,58 +25,35 @@ const structuredData = [
       </h1>
     </section>
     <section class="mx-auto max-w-2xl px-4 pb-24 flex justify-center">
-      <div class="w-full max-w-[640px] relative">
-        <!-- Skeleton placeholder while iframe loads -->
-        <div id="form-skeleton" class="skeleton-wrap">
-          <div class="skel-card">
-            <div class="skel-bar" style="width:75%;height:24px;"></div>
-            <div class="skel-bar" style="width:55%;height:14px;margin-top:12px;"></div>
-            <div class="skel-bar" style="width:50%;height:12px;margin-top:16px;"></div>
-          </div>
-          <div class="skel-card">
-            <div class="skel-bar" style="width:30%;height:14px;"></div>
-            <div class="skel-bar" style="width:65%;height:18px;margin-top:16px;"></div>
-          </div>
-          <div class="skel-card">
-            <div class="skel-bar" style="width:30%;height:14px;"></div>
-            <div class="skel-bar" style="width:50%;height:32px;margin-top:16px;border-radius:4px;"></div>
-          </div>
-          <div class="skel-card">
-            <div class="skel-bar" style="width:25%;height:14px;"></div>
-            <div class="skel-bar" style="width:65%;height:18px;margin-top:16px;"></div>
-          </div>
-          <div class="skel-card">
-            <div class="skel-bar" style="width:22%;height:14px;"></div>
-            <div class="skel-bar" style="width:50%;height:32px;margin-top:16px;border-radius:4px;"></div>
-          </div>
-          <div class="skel-card">
-            <div class="skel-bar" style="width:35%;height:14px;"></div>
-            <div class="skel-bar" style="width:60%;height:16px;margin-top:16px;"></div>
-            <div class="skel-bar" style="width:55%;height:16px;margin-top:10px;"></div>
-          </div>
+      <div class="w-full max-w-[640px]" id="connect-form">
+        <!-- Clearstream text-alert signup form. Third-party markup/styles/
+             script (not ours to edit) — id="connect-form" kept from the old
+             Google Form iframe so the CI accessibility audit's existing
+             `.exclude('#connect-form')` still applies to it. -->
+        <link media="all" type="text/css" rel="stylesheet" href="https://app.clearstream.io/css/external/form.html.css" />
+        <div class="cs_html_form_container">
+          <h2>Let&#039;s connect!</h2>
+          <p class="cs_html_form_subtitle">New to SVC or looking for ways to get involved? <br />
+Sign up here to get connected and receive our text alerts!</p>
+          <form class="cs_html_form" action="https://opturl.com/h/0dN1ljwo" method="post" id="cs_html_form_0dN1ljwo" target="_blank">
+            <div class="cs_html_form_result"></div>
+            <div class="cs_html_form_error"></div>
+            <div class="cs_html_form_row"><input type="text" name="mobile_number" placeholder="Mobile Number *" data-country="US" /></div>
+            <div class="cs_html_form_row"><input type="text" name="first" placeholder="First Name" /></div>
+            <div class="cs_html_form_row"><input type="text" name="last" placeholder="Last Name" /></div>
+            <div class="cs_html_form_row"><input type="text" name="email" placeholder="Email Address" /></div>
+            <div class="cs_html_form_row">
+              <button type="submit">Subscribe</button>
+            </div>
+            <p class="cs_html_form_terms">Message &amp; data rates may apply. Message frequency varies. <a href="https://clst.io/terms" target="_blank">Terms of Service</a> and <a href="https://clst.io/privacy" target="_blank">Privacy Policy</a>. To opt-out, text STOP at any time. <a href="https://clearstream.io" target="_blank">Software by Clearstream.</a></p>
+          </form>
         </div>
-
-        <iframe
-          id="connect-form"
-          src="https://docs.google.com/forms/d/e/1FAIpQLSc5JIcrm7n63HnFrO2Xv2EqAKDQQOqSnZxF4nhUwFPacNCybw/viewform?embedded=true"
-          class="w-full border-0 opacity-0 transition-opacity duration-500"
-          height="1547"
-          title="SVC Connect"
-          loading="lazy"
-        >Loading…</iframe>
+        <!-- Note: if a page ever has multiple Clearstream forms, only the
+             last one should include form.html.js. -->
+        <script is:inline src="https://app.clearstream.io/js/external/form.html.js"></script>
+        <script is:inline>var $csj = jQuery.noConflict(true);</script>
       </div>
     </section>
-
-    <script>
-      const iframe = document.getElementById('connect-form');
-      const skeleton = document.getElementById('form-skeleton');
-      if (iframe && skeleton) {
-        iframe.addEventListener('load', () => {
-          iframe.classList.remove('opacity-0');
-          skeleton.classList.add('skeleton-hidden');
-        });
-      }
-    </script>
   </main>
   <Footer />
 </BaseLayout>
@@ -97,39 +74,45 @@ const structuredData = [
     }
   }
 
-  .skeleton-wrap {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 0 16px;
-    transition: opacity 0.4s ease;
+  /* ── Clearstream form overrides ──
+     Their stylesheet ships Helvetica Neue at 13px base, noticeably
+     smaller than this site's Instrument Sans body copy elsewhere
+     (e.g. .cg-blurb runs ~15-19px). Prefixed with #connect-form so
+     these win on specificity regardless of DOM/load order against
+     their <link> (a flat class selector) — form controls (input,
+     button) don't inherit font-family/font-size from ancestors by
+     default, so each needs its own rule rather than one on the
+     container cascading down. */
+  #connect-form .cs_html_form_container {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 15px;
   }
 
-  .skeleton-wrap.skeleton-hidden {
-    opacity: 0;
-    pointer-events: none;
+  #connect-form .cs_html_form_container h2 {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 24px;
   }
 
-  .skel-card {
-    background: #fff;
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 8px;
-    padding: 24px;
+  #connect-form p.cs_html_form_subtitle {
+    font-size: 15px;
   }
 
-  .skel-bar {
-    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f0 50%, #e8e8e8 75%);
-    background-size: 200% 100%;
-    border-radius: 3px;
-    height: 14px;
-    animation: shimmer 1.5s ease-in-out infinite;
+  #connect-form .cs_html_form_row > p {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 14px;
   }
 
-  @keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+  #connect-form .cs_html_form input[type='text'] {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 16px;
+  }
+
+  #connect-form .cs_html_form button {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 15px;
+  }
+
+  #connect-form .cs_html_form_terms {
+    font-size: 12px;
   }
 </style>
