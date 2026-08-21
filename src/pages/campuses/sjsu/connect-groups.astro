@@ -472,6 +472,25 @@ const groups = [
     font-size: 15px;
   }
 
+  /* Each item is <li><label><input type="checkbox"> text</label></li>,
+     but Clearstream's JS builds this markup at runtime (replacing the
+     static "Loading..." placeholder), so these elements never get
+     Astro's scoped data-astro-cid attribute — the normal scoped
+     selector silently fails to match them. :global() is needed here;
+     #connect-form's id keeps it safely scoped regardless. Otherwise:
+     no alignment styling of their own, so the checkbox's default
+     baseline vertical-align sits it off-center from the label text. */
+  :global(#connect-form .cs_html_form_lists li label) {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  :global(#connect-form .cs_html_form_lists input[type='checkbox']) {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
   @media (max-width: 640px) {
     .cg-hero { padding: 7rem 1.5rem 2.5rem; }
     .cg-back-link { top: 5.5rem; left: 1.25rem; }
