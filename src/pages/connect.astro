@@ -88,13 +88,20 @@ Sign up here to get connected and receive our text alerts!</p>
     font-size: 15px;
   }
 
+  /* Heading matches the site's headline convention (h1 above uses the
+     same font-display/uppercase treatment via Tailwind utilities). */
   #connect-form .cs_html_form_container h2 {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-family: 'Archivo', system-ui, sans-serif;
     font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: #23201D;
   }
 
   #connect-form p.cs_html_form_subtitle {
     font-size: 15px;
+    color: rgba(35, 32, 29, 0.7);
   }
 
   #connect-form .cs_html_form_row > p {
@@ -102,17 +109,77 @@ Sign up here to get connected and receive our text alerts!</p>
     font-size: 14px;
   }
 
+  #connect-form .cs_html_form_row {
+    margin-bottom: 1.1rem;
+  }
+
+  /* Bottom-line fields instead of Clearstream's default white boxed
+     inputs — reads as a paper form, not a generic form-builder embed.
+     :focus swaps the site's charcoal/25% rule for poppy (the site's
+     one brand-red accent) plus a matching box-shadow line, since their
+     stylesheet sets outline:none and a color-only change isn't a
+     reliably visible focus state on its own. */
   #connect-form .cs_html_form input[type='text'] {
     font-family: 'Instrument Sans', system-ui, sans-serif;
     font-size: 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid rgba(35, 32, 29, 0.25);
+    border-radius: 0;
+    padding: 0.6rem 0.1rem;
+    color: #23201D;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
+  /* 0.65 alpha — same value already vetted elsewhere on this site
+     (.cg-leads) for AA text contrast at ~4.8:1 against cream; these
+     placeholders double as the field's only visible label. */
+  #connect-form .cs_html_form input[type='text']::placeholder {
+    color: rgba(35, 32, 29, 0.65);
+  }
+
+  #connect-form .cs_html_form input[type='text']:focus {
+    border-bottom-color: #E2402F;
+    box-shadow: 0 1px 0 0 #E2402F;
+  }
+
+  /* Same solid-charcoal/cream treatment as the site's other primary
+     CTAs (e.g. gather.astro's directions-button), swapped in for
+     Clearstream's default grey pill. */
   #connect-form .cs_html_form button {
     font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 15px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    background: #23201D;
+    color: #F6F1E4;
+    border: none;
+    border-radius: 10px;
+    padding: 0.85rem 2rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  #connect-form .cs_html_form button:hover {
+    background: #000000;
+    transform: scale(1.03);
   }
 
   #connect-form .cs_html_form_terms {
     font-size: 12px;
+    /* 0.55 only hit ~3.6:1 against cream at this size — below WCAG AA's
+       4.5:1. 0.7 (same as .cg-blurb elsewhere) clears it at ~5.7:1. */
+    color: rgba(35, 32, 29, 0.7);
+  }
+
+  #connect-form .cs_html_form_terms a {
+    color: rgba(35, 32, 29, 0.75);
+  }
+
+  #connect-form .cs_html_form_result,
+  #connect-form .cs_html_form_error {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    border-radius: 8px;
   }
 </style>
