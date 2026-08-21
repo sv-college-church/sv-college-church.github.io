@@ -118,10 +118,12 @@ Sign up here to get connected and receive our text alerts!</p>
 
   /* Bottom-line fields instead of Clearstream's default white boxed
      inputs — reads as a paper form, not a generic form-builder embed.
-     :focus swaps the site's charcoal/25% rule for poppy (the site's
-     one brand-red accent) plus a matching box-shadow line, since their
-     stylesheet sets outline:none and a color-only change isn't a
-     reliably visible focus state on its own. */
+     :focus swaps the site's charcoal/25% rule for solid charcoal plus
+     a matching box-shadow line, since their stylesheet sets
+     outline:none and a color-only change isn't a reliably visible
+     focus state on its own. Deliberately not poppy (the site's brand
+     red elsewhere) — on a form, red reads as an error state, not a
+     focus state. */
   #connect-form .cs_html_form input[type='text'] {
     font-family: 'Instrument Sans', system-ui, sans-serif;
     font-size: 16px;
@@ -135,8 +137,8 @@ Sign up here to get connected and receive our text alerts!</p>
   }
 
   #connect-form .cs_html_form input[type='text']:focus {
-    border-bottom-color: #E2402F;
-    box-shadow: 0 1px 0 0 #E2402F;
+    border-bottom-color: #23201D;
+    box-shadow: 0 1px 0 0 #23201D;
   }
 
   /* Floating label — .cs-field wraps each input+label pair (see the
@@ -179,7 +181,7 @@ Sign up here to get connected and receive our text alerts!</p>
   }
 
   #connect-form .cs-field input:focus + label {
-    color: #E2402F;
+    color: #23201D;
   }
 
   /* Same solid-charcoal/cream treatment as the site's other primary
