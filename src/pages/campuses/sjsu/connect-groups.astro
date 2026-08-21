@@ -135,10 +135,13 @@ const groups = [
           <form class="cs_html_form" action="https://opturl.com/h/JdMXl8wQ" method="post" id="cs_html_form_JdMXl8wQ" target="_blank">
             <div class="cs_html_form_result"></div>
             <div class="cs_html_form_error"></div>
-            <div class="cs_html_form_row"><input type="text" name="mobile_number" placeholder="Mobile Number *" data-country="US" /></div>
-            <div class="cs_html_form_row"><input type="text" name="first" placeholder="First Name" /></div>
-            <div class="cs_html_form_row"><input type="text" name="last" placeholder="Last Name" /></div>
-            <div class="cs_html_form_row"><input type="text" name="email" placeholder="Email Address" /></div>
+            <!-- placeholder=" " (a single space, not empty) keeps the
+                 :placeholder-shown mechanics working for the floating
+                 label below, which is what's actually visible now. -->
+            <div class="cs_html_form_row cs-field"><input type="text" name="mobile_number" id="cg-mobile" placeholder=" " data-country="US" /><label for="cg-mobile">Mobile Number *</label></div>
+            <div class="cs_html_form_row cs-field"><input type="text" name="first" id="cg-first" placeholder=" " /><label for="cg-first">First Name</label></div>
+            <div class="cs_html_form_row cs-field"><input type="text" name="last" id="cg-last" placeholder=" " /><label for="cg-last">Last Name</label></div>
+            <div class="cs_html_form_row cs-field"><input type="text" name="email" id="cg-email" placeholder=" " /><label for="cg-email">Email Address</label></div>
             <div class="cs_html_form_row">
               <p>Choose which list(s) to subscribe to:</p>
               <ul class="cs_html_form_lists">
@@ -439,32 +442,142 @@ const groups = [
     font-size: 15px;
   }
 
+  /* Heading matches .cg-title's uppercase-Archivo treatment above,
+     in the page's SJSU blue instead of Instrument Sans black. */
   #connect-form .cs_html_form_container h2 {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-family: 'Archivo', system-ui, sans-serif;
     font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: #004A8A;
   }
 
   #connect-form p.cs_html_form_subtitle {
     font-size: 15px;
+    color: rgba(35, 32, 29, 0.7);
   }
 
   #connect-form .cs_html_form_row > p {
     font-family: 'Instrument Sans', system-ui, sans-serif;
     font-size: 14px;
+    color: rgba(35, 32, 29, 0.85);
   }
 
+  #connect-form .cs_html_form_row {
+    margin-bottom: 1.1rem;
+  }
+
+  /* Bottom-line fields instead of Clearstream's default white boxed
+     inputs — reads as a paper form, not a generic form-builder embed.
+     :focus swaps the site's charcoal/25% rule for this page's SJSU
+     blue plus a matching box-shadow line, since their stylesheet sets
+     outline:none and a color-only change isn't a reliably visible
+     focus state on its own. */
   #connect-form .cs_html_form input[type='text'] {
     font-family: 'Instrument Sans', system-ui, sans-serif;
     font-size: 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid rgba(35, 32, 29, 0.25);
+    border-radius: 0;
+    padding: 0.6rem 0.1rem;
+    color: #23201D;
+    /* Mobile Chrome draws its own native "this field is fillable" chrome
+       (side brackets) around inputs it recognizes as autofill targets
+       (e.g. mobile_number) — that's outside the normal box model, so
+       outline/border/box-shadow can't touch it. appearance:none turns
+       off all native input chrome, leaving only our own styling. */
+    appearance: none;
+    -webkit-appearance: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
+  #connect-form .cs_html_form input[type='text']:focus {
+    border-bottom-color: #004A8A;
+    box-shadow: 0 1px 0 0 #004A8A;
+  }
+
+  /* Floating label — .cs-field wraps each input+label pair (see the
+     markup above; Clearstream's JS never touches these four fields,
+     confirmed by inspecting the live DOM, so restructuring them with a
+     real <label> instead of a placeholder-only input is safe). The
+     label starts sitting over the input's text line, where the
+     placeholder used to read, then floats up into the row's reserved
+     top padding on focus or once filled. Relies on the label being
+     the input's very next sibling in markup, since CSS can only match
+     *later* siblings — `placeholder=" "` (a space, not empty) is what
+     keeps :placeholder-shown accurate now that there's no visible
+     placeholder text left to style. */
+  #connect-form .cs-field {
+    position: relative;
+    padding-top: 9px;
+  }
+
+  #connect-form .cs-field label {
+    position: absolute;
+    left: 0.1rem;
+    top: 18px;
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+    /* Same 0.65 alpha as elsewhere on this site (.cg-leads) for AA
+       contrast at ~4.8:1 against cream. */
+    color: rgba(35, 32, 29, 0.65);
+    pointer-events: none;
+    transform-origin: left top;
+    transition: top 0.16s ease, font-size 0.16s ease, color 0.16s ease;
+  }
+
+  #connect-form .cs-field input:focus + label,
+  #connect-form .cs-field input:not(:placeholder-shown) + label {
+    top: -2px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  #connect-form .cs-field input:focus + label {
+    color: #004A8A;
+  }
+
+  /* Same treatment as the Sign Up button in the hero above (.cg-btn-primary),
+     swapped in for Clearstream's default grey pill. */
   #connect-form .cs_html_form button {
     font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 15px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    background: #004A8A;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.85rem 2rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  #connect-form .cs_html_form button:hover {
+    background: #00396B;
+    transform: scale(1.03);
   }
 
   #connect-form .cs_html_form_terms {
     font-size: 12px;
+    /* 0.55 only hit ~3.6:1 against cream at this size — below WCAG AA's
+       4.5:1. 0.7 (same as .cg-blurb elsewhere) clears it at ~5.7:1. */
+    color: rgba(35, 32, 29, 0.7);
+  }
+
+  #connect-form .cs_html_form_terms a {
+    color: rgba(35, 32, 29, 0.75);
+  }
+
+  #connect-form .cs_html_form_result,
+  #connect-form .cs_html_form_error {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    border-radius: 8px;
   }
 
   #connect-form .cs_html_form_lists {
@@ -489,6 +602,9 @@ const groups = [
   :global(#connect-form .cs_html_form_lists input[type='checkbox']) {
     margin: 0;
     flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    accent-color: #004A8A;
   }
 
   @media (max-width: 640px) {
