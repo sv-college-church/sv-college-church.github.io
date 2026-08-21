@@ -135,10 +135,13 @@ const groups = [
           <form class="cs_html_form" action="https://opturl.com/h/JdMXl8wQ" method="post" id="cs_html_form_JdMXl8wQ" target="_blank">
             <div class="cs_html_form_result"></div>
             <div class="cs_html_form_error"></div>
-            <div class="cs_html_form_row"><input type="text" name="mobile_number" placeholder="Mobile Number *" data-country="US" /></div>
-            <div class="cs_html_form_row"><input type="text" name="first" placeholder="First Name" /></div>
-            <div class="cs_html_form_row"><input type="text" name="last" placeholder="Last Name" /></div>
-            <div class="cs_html_form_row"><input type="text" name="email" placeholder="Email Address" /></div>
+            <!-- placeholder=" " (a single space, not empty) keeps the
+                 :placeholder-shown mechanics working for the floating
+                 label below, which is what's actually visible now. -->
+            <div class="cs_html_form_row cs-field"><input type="text" name="mobile_number" id="cg-mobile" placeholder=" " data-country="US" /><label for="cg-mobile">Mobile Number *</label></div>
+            <div class="cs_html_form_row cs-field"><input type="text" name="first" id="cg-first" placeholder=" " /><label for="cg-first">First Name</label></div>
+            <div class="cs_html_form_row cs-field"><input type="text" name="last" id="cg-last" placeholder=" " /><label for="cg-last">Last Name</label></div>
+            <div class="cs_html_form_row cs-field"><input type="text" name="email" id="cg-email" placeholder=" " /><label for="cg-email">Email Address</label></div>
             <div class="cs_html_form_row">
               <p>Choose which list(s) to subscribe to:</p>
               <ul class="cs_html_form_lists">
@@ -483,16 +486,53 @@ const groups = [
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
-  /* 0.65 alpha — same value already vetted elsewhere on this site
-     (.cg-leads) for AA text contrast at ~4.8:1 against cream; these
-     placeholders double as the field's only visible label. */
-  #connect-form .cs_html_form input[type='text']::placeholder {
-    color: rgba(35, 32, 29, 0.65);
-  }
-
   #connect-form .cs_html_form input[type='text']:focus {
     border-bottom-color: #004A8A;
     box-shadow: 0 1px 0 0 #004A8A;
+  }
+
+  /* Floating label — .cs-field wraps each input+label pair (see the
+     markup above; Clearstream's JS never touches these four fields,
+     confirmed by inspecting the live DOM, so restructuring them with a
+     real <label> instead of a placeholder-only input is safe). The
+     label starts sitting over the input's text line, where the
+     placeholder used to read, then floats up into the row's reserved
+     top padding on focus or once filled. Relies on the label being
+     the input's very next sibling in markup, since CSS can only match
+     *later* siblings — `placeholder=" "` (a space, not empty) is what
+     keeps :placeholder-shown accurate now that there's no visible
+     placeholder text left to style. */
+  #connect-form .cs-field {
+    position: relative;
+    padding-top: 22px;
+  }
+
+  #connect-form .cs-field label {
+    position: absolute;
+    left: 0.1rem;
+    top: 32px;
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    /* Same 0.65 alpha as elsewhere on this site (.cg-leads) for AA
+       contrast at ~4.8:1 against cream. */
+    color: rgba(35, 32, 29, 0.65);
+    pointer-events: none;
+    transform-origin: left top;
+    transition: top 0.16s ease, font-size 0.16s ease, color 0.16s ease;
+  }
+
+  #connect-form .cs-field input:focus + label,
+  #connect-form .cs-field input:not(:placeholder-shown) + label {
+    top: 0;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  #connect-form .cs-field input:focus + label {
+    color: #004A8A;
   }
 
   /* Same treatment as the Sign Up button in the hero above (.cg-btn-primary),
