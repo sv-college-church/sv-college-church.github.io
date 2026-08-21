@@ -483,6 +483,13 @@ const groups = [
     border-radius: 0;
     padding: 0.6rem 0.1rem;
     color: #23201D;
+    /* Mobile Chrome draws its own native "this field is fillable" chrome
+       (side brackets) around inputs it recognizes as autofill targets
+       (e.g. mobile_number) — that's outside the normal box model, so
+       outline/border/box-shadow can't touch it. appearance:none turns
+       off all native input chrome, leaving only our own styling. */
+    appearance: none;
+    -webkit-appearance: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
 
