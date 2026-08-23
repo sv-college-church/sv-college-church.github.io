@@ -105,7 +105,7 @@ const structuredData = [
         <div class="info-content">
           <p class="info-lead">
             For <strong>Sunday</strong>, <strong>August 23rd</strong> &amp; <strong>30th</strong>,
-            SVC will be meeting at <strong>Horace Mann</strong>, 55 N 7th St, San Jose, CA 95112.
+            SVC will be meeting at <strong>Horace Mann Elementary</strong>, 55 N 7th St, San Jose, CA 95112.
           </p>
           <p class="info-lead">
             Rides will be provided from <strong><a href="https://www.google.com/maps/search/?api=1&query=Washburn+Hall+San+Jose+State+University" target="_blank" rel="noopener noreferrer" class="quiet-link">Washburn Hall</a></strong> at <strong>11:30am</strong>.
@@ -303,6 +303,12 @@ const structuredData = [
     line-height: 1.6;
     color: rgb(35 32 29 / 0.85);
     max-width: 26rem;
+  }
+
+  /* Adjacent-sibling only, so this doesn't also push the directions
+     button down — that already has its own margin-top. */
+  .info-lead + .info-lead {
+    margin-top: 1rem;
   }
 
   .info-lead strong {
