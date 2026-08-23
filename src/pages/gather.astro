@@ -105,7 +105,7 @@ const structuredData = [
         <div class="info-content">
           <p class="info-lead">
             For <strong>Sunday</strong>, <strong>August 23rd</strong> &amp; <strong>30th</strong>,
-            SVC will be meeting at <strong>Horace Mann</strong>, 55 N 7th St, San Jose, CA 95112.
+            SVC will be meeting at <strong>Horace Mann Elementary</strong>, 55 N 7th St, San Jose, CA 95112.
           </p>
           <p class="info-lead">
             Rides will be provided from <strong><a href="https://www.google.com/maps/search/?api=1&query=Washburn+Hall+San+Jose+State+University" target="_blank" rel="noopener noreferrer" class="quiet-link">Washburn Hall</a></strong> at <strong>11:30am</strong>.
@@ -294,15 +294,25 @@ const structuredData = [
   /* ── Info prose ── */
   .info-lead {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(1.15rem, 1.8vw, 1.6rem);
+    /* Was clamp(1.15rem, 1.8vw, 1.6rem) — at its max (25.6px) paired
+       with 800-weight <strong> runs (every date/time/place in this
+       text), it read as a heading instead of body copy. Brought in
+       line with the site's other body-text sizing (e.g. .cg-body). */
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
     font-weight: 500;
-    line-height: 1.55;
+    line-height: 1.6;
     color: rgb(35 32 29 / 0.85);
     max-width: 26rem;
   }
 
+  /* Adjacent-sibling only, so this doesn't also push the directions
+     button down — that already has its own margin-top. */
+  .info-lead + .info-lead {
+    margin-top: 1rem;
+  }
+
   .info-lead strong {
-    font-weight: 800;
+    font-weight: 700;
     color: rgb(35 32 29);
   }
 
