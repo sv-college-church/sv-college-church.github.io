@@ -26,35 +26,17 @@ const structuredData = [
     </section>
     <section class="mx-auto max-w-2xl px-4 pb-24 flex justify-center">
       <div class="w-full max-w-[640px]" id="connect-form">
-        <!-- Clearstream text-alert signup form. Third-party markup/styles/
-             script (not ours to edit) — id="connect-form" kept from the old
-             Google Form iframe so the CI accessibility audit's existing
-             `.exclude('#connect-form')` still applies to it. -->
-        <link media="all" type="text/css" rel="stylesheet" href="https://app.clearstream.io/css/external/form.html.css" />
-        <div class="cs_html_form_container">
-          <h2>Let&#039;s connect!</h2>
-          <p class="cs_html_form_subtitle">New to SVC or looking for ways to get involved? <br />
-Sign up here to get connected and receive our text alerts!</p>
-          <form class="cs_html_form" action="https://opturl.com/h/0dN1ljwo" method="post" id="cs_html_form_0dN1ljwo" target="_blank">
-            <div class="cs_html_form_result"></div>
-            <div class="cs_html_form_error"></div>
-            <!-- placeholder=" " (a single space, not empty) keeps the
-                 :placeholder-shown mechanics working for the floating
-                 label below, which is what's actually visible now. -->
-            <div class="cs_html_form_row cs-field"><input type="text" name="mobile_number" id="cf-mobile" placeholder=" " data-country="US" /><label for="cf-mobile">Mobile Number *</label></div>
-            <div class="cs_html_form_row cs-field"><input type="text" name="first" id="cf-first" placeholder=" " /><label for="cf-first">First Name</label></div>
-            <div class="cs_html_form_row cs-field"><input type="text" name="last" id="cf-last" placeholder=" " /><label for="cf-last">Last Name</label></div>
-            <div class="cs_html_form_row cs-field"><input type="text" name="email" id="cf-email" placeholder=" " /><label for="cf-email">Email Address</label></div>
-            <div class="cs_html_form_row">
-              <button type="submit">Subscribe</button>
-            </div>
-            <p class="cs_html_form_terms">Message &amp; data rates may apply. Message frequency varies. <a href="https://clst.io/terms" target="_blank">Terms of Service</a> and <a href="https://clst.io/privacy" target="_blank">Privacy Policy</a>. To opt-out, text STOP at any time. <a href="https://clearstream.io" target="_blank">Software by Clearstream.</a></p>
-          </form>
-        </div>
-        <!-- Note: if a page ever has multiple Clearstream forms, only the
-             last one should include form.html.js. -->
-        <script is:inline src="https://app.clearstream.io/js/external/form.html.js"></script>
-        <script is:inline>var $csj = jQuery.noConflict(true);</script>
+        <!-- Google Form iframe (reverted from the Clearstream embed).
+             id="connect-form" kept so the CI accessibility audit's
+             existing `.exclude('#connect-form')` scope still applies
+             to this third-party embed. -->
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSc5JIcrm7n63HnFrO2Xv2EqAKDQQOqSnZxF4nhUwFPacNCybw/viewform?embedded=true"
+          class="w-full connect-iframe"
+          height="1547"
+          title="SVC Connect"
+          loading="lazy"
+        >Loading…</iframe>
       </div>
     </section>
   </main>
@@ -77,157 +59,9 @@ Sign up here to get connected and receive our text alerts!</p>
     }
   }
 
-  /* ── Clearstream form overrides ──
-     Their stylesheet ships Helvetica Neue at 13px base, noticeably
-     smaller than this site's Instrument Sans body copy elsewhere
-     (e.g. .cg-blurb runs ~15-19px). Prefixed with #connect-form so
-     these win on specificity regardless of DOM/load order against
-     their <link> (a flat class selector) — form controls (input,
-     button) don't inherit font-family/font-size from ancestors by
-     default, so each needs its own rule rather than one on the
-     container cascading down. */
-  #connect-form .cs_html_form_container {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 15px;
-  }
-
-  /* Heading matches the site's headline convention (h1 above uses the
-     same font-display/uppercase treatment via Tailwind utilities). */
-  #connect-form .cs_html_form_container h2 {
-    font-family: 'Archivo', system-ui, sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-    color: #23201D;
-  }
-
-  #connect-form p.cs_html_form_subtitle {
-    font-size: 15px;
-    color: rgba(35, 32, 29, 0.7);
-  }
-
-  #connect-form .cs_html_form_row > p {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 14px;
-  }
-
-  #connect-form .cs_html_form_row {
-    margin-bottom: 1.1rem;
-  }
-
-  /* Bottom-line fields instead of Clearstream's default white boxed
-     inputs — reads as a paper form, not a generic form-builder embed.
-     :focus swaps the site's charcoal/25% rule for solid charcoal plus
-     a matching box-shadow line, since their stylesheet sets
-     outline:none and a color-only change isn't a reliably visible
-     focus state on its own. Deliberately not poppy (the site's brand
-     red elsewhere) — on a form, red reads as an error state, not a
-     focus state. */
-  #connect-form .cs_html_form input[type='text'] {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 16px;
-    background: transparent;
-    border: none;
-    border-bottom: 1.5px solid rgba(35, 32, 29, 0.25);
-    border-radius: 0;
-    padding: 0.6rem 0.1rem;
-    color: #23201D;
-    /* Mobile Chrome draws its own native "this field is fillable" chrome
-       (side brackets) around inputs it recognizes as autofill targets
-       (e.g. mobile_number) — that's outside the normal box model, so
-       outline/border/box-shadow can't touch it. appearance:none turns
-       off all native input chrome, leaving only our own styling. */
-    appearance: none;
-    -webkit-appearance: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  #connect-form .cs_html_form input[type='text']:focus {
-    border-bottom-color: #23201D;
-    box-shadow: 0 1px 0 0 #23201D;
-  }
-
-  /* Floating label — .cs-field wraps each input+label pair (see the
-     markup above; Clearstream's JS never touches these four fields,
-     confirmed by inspecting the live DOM, so restructuring them with a
-     real <label> instead of a placeholder-only input is safe). The
-     label starts sitting over the input's text line, where the
-     placeholder used to read, then floats up into the row's reserved
-     top padding on focus or once filled. Relies on the label being
-     the input's very next sibling in markup, since CSS can only match
-     *later* siblings — `placeholder=" "` (a space, not empty) is what
-     keeps :placeholder-shown accurate now that there's no visible
-     placeholder text left to style. */
-  #connect-form .cs-field {
-    position: relative;
-    padding-top: 9px;
-  }
-
-  #connect-form .cs-field label {
-    position: absolute;
-    left: 0.1rem;
-    top: 18px;
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1;
-    /* Same 0.65 alpha as elsewhere on this site (.cg-leads) for AA
-       contrast at ~4.8:1 against cream. */
-    color: rgba(35, 32, 29, 0.65);
-    pointer-events: none;
-    transform-origin: left top;
-    transition: top 0.16s ease, font-size 0.16s ease, color 0.16s ease;
-  }
-
-  #connect-form .cs-field input:focus + label,
-  #connect-form .cs-field input:not(:placeholder-shown) + label {
-    top: -2px;
-    font-size: 13px;
-    font-weight: 700;
-  }
-
-  #connect-form .cs-field input:focus + label {
-    color: #23201D;
-  }
-
-  /* Same solid-charcoal/cream treatment as the site's other primary
-     CTAs (e.g. gather.astro's directions-button), swapped in for
-     Clearstream's default grey pill. */
-  #connect-form .cs_html_form button {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    font-size: 13px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    background: #23201D;
-    color: #F6F1E4;
-    border: none;
-    border-radius: 10px;
-    padding: 0.85rem 2rem;
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-  }
-
-  #connect-form .cs_html_form button:hover {
-    background: #000000;
-    transform: scale(1.03);
-  }
-
-  #connect-form .cs_html_form_terms {
-    font-size: 12px;
-    /* 0.55 only hit ~3.6:1 against cream at this size — below WCAG AA's
-       4.5:1. 0.7 (same as .cg-blurb elsewhere) clears it at ~5.7:1. */
-    color: rgba(35, 32, 29, 0.7);
-  }
-
-  #connect-form .cs_html_form_terms a {
-    color: rgba(35, 32, 29, 0.75);
-  }
-
-  #connect-form .cs_html_form_result,
-  #connect-form .cs_html_form_error {
-    font-family: 'Instrument Sans', system-ui, sans-serif;
-    border-radius: 8px;
+  .connect-iframe {
+    border: 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(35, 32, 29, 0.07);
   }
 </style>
