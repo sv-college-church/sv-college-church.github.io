@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import klesisSjsu from '../../assets/images/campuses/logos/klesis-sjsu.png';
 import fourCorners from '../../assets/images/campuses/logos/4corners.png';
+import ismpIcon from '../../assets/images/campuses/logos/ismp-icon.png';
 import { CONNECT_GROUPS_LIVE } from '../../config/flags';
 
 const pageUrl = new URL('/campuses/sjsu', Astro.site).href;
@@ -64,10 +65,10 @@ const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': `${pageUrl}#4corners`,
-    name: '4Corners Christian Fellowship at SJSU',
-    alternateName: ['4Corners SJSU', 'Four Corners SJSU'],
+    name: 'ISMP - a mentorship program of 4Corners Christian Fellowship',
+    alternateName: ['4Corners SJSU', 'Four Corners SJSU', 'ISMP SJSU', 'International Student Mentorship Program'],
     description:
-      'A Christian fellowship for international students at San José State University, part of Silicon Valley College Church.',
+      'A Christian fellowship for international students at San José State University, part of Silicon Valley College Church, partnering with the International Student Mentorship Program (ISMP).',
     url: pageUrl,
     sameAs: ['https://www.instagram.com/ismp_sjsu/'],
     parentOrganization: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
@@ -114,10 +115,14 @@ const structuredData = [
       </div>
       <div class="col-divider" aria-hidden="true"></div>
       <div class="group-col">
-        <Image src={fourCorners} alt="4Corners Christian Fellowship logo, San José State University" class="group-logo group-logo--large" />
-        <h2 class="group-label">4Corners Christian Fellowship · SJSU</h2>
+        <div class="group-logos">
+          <Image src={ismpIcon} alt="International Student Mentorship Program (ISMP) logo" class="group-logo group-logo--large" />
+          <Image src={fourCorners} alt="4Corners Christian Fellowship logo, San José State University" class="group-logo group-logo--large" />
+        </div>
+        <h2 class="group-label">ISMP - a mentorship program of 4Corners Christian Fellowship</h2>
         <p class="group-body">4Corners is a fellowship for international students at SJSU. It is a place to find community, mentorship, explore the Christian faith, and feel at home in a new country. International and domestic students are both welcome.</p>
-        <a href="https://www.instagram.com/ismp_sjsu/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
+        <p class="group-body">This semester 4Corners is partnering with International Student Mentorship Program (ISMP) to help international students make the most of their college experience in America.</p>
+        <a href="https://www.internationalmentorship.org/sjsu" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
         <a href="https://www.instagram.com/ismp_sjsu/" target="_blank" rel="noopener noreferrer" class="group-link-secondary">Follow @ismp_sjsu ↗</a>
       </div>
     </section>
@@ -320,6 +325,13 @@ const structuredData = [
   .group-logo--large {
     height: 78px;
     object-fit: contain;
+  }
+
+  .group-logos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
   }
 
   .group-label {
