@@ -5,28 +5,40 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import UpcomingEvents from '../components/UpcomingEvents.astro';
 import { getHighlightedEvents } from '../lib/events';
-import sundayWelcomeCrowd from '../assets/images/gather/sunday-welcome-crowd.jpg';
-import sundayWorshipHandsRaised from '../assets/images/gather/sunday-worship-hands-raised.jpg';
-import sundayTeachingStage from '../assets/images/gather/sunday-teaching-stage.jpg';
-import sundayWelcomeTableRoom from '../assets/images/gather/sunday-welcome-table-room.jpg';
-import sundayHoraceMannExterior from '../assets/images/gather/sunday-horace-mann-exterior.jpg';
-import sundayStudentsArriving from '../assets/images/gather/sunday-students-arriving.jpg';
-import sundayFriendsLaughing from '../assets/images/gather/sunday-friends-laughing.jpg';
-import sundaySvcWelcomeTable from '../assets/images/gather/sunday-svc-welcome-table.jpg';
-import birthdayCelebration from '../assets/images/gather/birthday-celebration.jpg';
-import frisbee from '../assets/images/gather/frisbee.jpg';
+import sundayWelcomeTableBalloonArch from '../assets/images/gather/sunday-welcome-table-balloon-arch.jpg';
+import sundayStudentsEnteringDoorway from '../assets/images/gather/sunday-students-entering-doorway.jpg';
+import sundaySpeakerTitleScreen from '../assets/images/gather/sunday-speaker-title-screen.jpg';
+import sundayCrowdWideShot from '../assets/images/gather/sunday-crowd-wide-shot.jpg';
+import sundayLeadersLineup from '../assets/images/gather/sunday-leaders-lineup.jpg';
+import sundayWorshipBandSinging from '../assets/images/gather/sunday-worship-band-singing.jpg';
+import sundayWorshipLyricsScreen from '../assets/images/gather/sunday-worship-lyrics-screen.jpg';
+import sundayPreachingEphesiansWide from '../assets/images/gather/sunday-preaching-ephesians-wide.jpg';
+import sundayMealLineFriends from '../assets/images/gather/sunday-meal-line-friends.jpg';
+import sundayPanoramaFullRoom from '../assets/images/gather/sunday-panorama-full-room.jpg';
+import sundayWelcomeTeamPortrait from '../assets/images/gather/sunday-welcome-team-portrait.jpg';
+import sundayOutdoorInfoTable from '../assets/images/gather/sunday-outdoor-info-table.jpg';
+import sundayThreeFriendsLaughing from '../assets/images/gather/sunday-three-friends-laughing.jpg';
+import sundaySpeakerPodiumBalloon from '../assets/images/gather/sunday-speaker-podium-balloon.jpg';
+import sundayWorshipCrowdClose from '../assets/images/gather/sunday-worship-crowd-close.jpg';
+import sundayFriendsMinglingDiverseGroup from '../assets/images/gather/sunday-friends-mingling-diverse-group.jpg';
 
 const bannerPhotos = [
-  { src: sundayHoraceMannExterior, alt: 'Students gathering outside the entrance to Horace Mann Elementary School' },
-  { src: sundayWelcomeCrowd, alt: 'Welcome to Sunday Service screen with the full congregation gathered' },
-  { src: sundayFriendsLaughing, alt: 'Friends laughing together before service' },
-  { src: sundayTeachingStage, alt: 'Pastor teaching from the stage during Sunday service' },
-  { src: birthdayCelebration, alt: 'Celebrating a birthday together' },
-  { src: sundayWorshipHandsRaised, alt: 'Students worshiping with hands raised during Sunday service' },
-  { src: sundayStudentsArriving, alt: 'Students walking in together through the entrance gate' },
-  { src: sundaySvcWelcomeTable, alt: 'SVC College Church welcome table' },
-  { src: frisbee, alt: 'Playing frisbee after service' },
-  { src: sundayWelcomeTableRoom, alt: 'Welcome to SVC table with the auditorium and stage in the background' },
+  { src: sundayWelcomeTableBalloonArch, alt: 'Students checking in at the SVC welcome table under a balloon arch' },
+  { src: sundayWelcomeTeamPortrait, alt: 'Welcome team at the SVC College Church table under a balloon arch' },
+  { src: sundayStudentsEnteringDoorway, alt: 'Students walking in together through the entrance gate' },
+  { src: sundayOutdoorInfoTable, alt: 'Students gathered around an outdoor welcome table' },
+  { src: sundaySpeakerTitleScreen, alt: 'Speaker addressing the room under the Sunday Gathering title screen' },
+  { src: sundayWorshipBandSinging, alt: 'Worship band leading the congregation in song' },
+  { src: sundayCrowdWideShot, alt: 'Full room of students seated for the Sunday gathering' },
+  { src: sundayThreeFriendsLaughing, alt: 'Friends laughing together between services' },
+  { src: sundayWorshipLyricsScreen, alt: 'Congregation singing along with worship lyrics on screen' },
+  { src: sundayFriendsMinglingDiverseGroup, alt: 'Students mingling and laughing together' },
+  { src: sundayPreachingEphesiansWide, alt: 'Pastor teaching from Ephesians 4 during Sunday service' },
+  { src: sundaySpeakerPodiumBalloon, alt: 'Speaker addressing the congregation from the podium' },
+  { src: sundayLeadersLineup, alt: 'Leaders and volunteers introduced at the front of the room' },
+  { src: sundayWorshipCrowdClose, alt: 'Students worshiping together during Sunday service' },
+  { src: sundayMealLineFriends, alt: 'Students serving themselves a meal together after service' },
+  { src: sundayPanoramaFullRoom, alt: 'Panoramic view of the full room gathered for Sunday service' },
 ];
 
 const hasUpcoming = (await getHighlightedEvents()).length > 0;
@@ -127,7 +139,7 @@ const structuredData = [
       <div class="photo-track">
         {[...bannerPhotos, ...bannerPhotos].map((photo) => (
           <div class="photo-item">
-            <Image src={photo.src} alt={photo.alt} width={640} height={427} />
+            <Image src={photo.src} alt={photo.alt} width={640} height={427} loading="eager" />
           </div>
         ))}
       </div>
