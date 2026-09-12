@@ -153,6 +153,15 @@ const structuredData = [
             <Image src={p.src} alt={p.alt} class="carousel-slide" data-slide={i} />
           ))}
           <div class="carousel-vignette" aria-hidden="true"></div>
+          <!-- Mobile-only (see .carousel-dots below): once the identity
+               block moves off the photo, there's nothing else signaling
+               this is a rotating set of photos rather than one static
+               image. -->
+          <div class="carousel-dots" aria-hidden="true">
+            {carouselPhotos.map((_, i) => (
+              <span class="carousel-dot" data-dot={i}></span>
+            ))}
+          </div>
         </div>
         <!-- Full-bleed, spans the whole slides track (photo + the black
              letterboxed sides), not just the framed photo. -->
@@ -305,10 +314,17 @@ const structuredData = [
   /* Full-bleed and full-screen-height — ignores main's padding and runs
      edge to edge. Sits right after the banner now, so no nav-clearance
      padding of its own is needed. The Klesis / UC Santa Cruz identity
-     overlays on top of the slides via .carousel-overlay. */
+     overlays on top of the slides via .carousel-overlay.
+     display:flex here doesn't change desktop rendering at all — .carousel-
+     overlay is position:absolute there, so it's already out of flow and
+     unaffected by the flex container. It's set up so the <768px override
+     below can reorder the (now in-flow) identity block ahead of the photo
+     via `order`, without touching DOM order or the desktop stacking. */
   .carousel {
     position: relative;
     width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .carousel-slides {
@@ -382,6 +398,33 @@ const structuredData = [
     background: radial-gradient(ellipse 75% 75% at center, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.8) 50%, #000 100%);
   }
 
+  /* Hidden by default — the desktop hero overlay already makes it obvious
+     there's more than one photo (captions/CTAs sit right on top of it,
+     it's clearly "a moment"). Shown only at the mobile breakpoint below,
+     where the photo is a smaller, lower-key band and easy to mistake for
+     a single static image. */
+  .carousel-dots {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.9rem;
+    z-index: 2;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+  .carousel-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .carousel-dot.is-active {
+    background: #ffffff;
+    transform: scale(1.3);
+  }
+
   .carousel-overlay {
     position: absolute;
     inset: 0;
@@ -398,27 +441,33 @@ const structuredData = [
      of a forced 100vh, and on a narrow phone that's short — not enough
      room to overlay the whole identity block on the photo without it
      spilling into the banner above and the section below. Below this
-     breakpoint the identity content drops into normal flow underneath
-     the photo instead, on its own dark band. .back-link stays put — it's
-     positioned off .carousel, not .carousel-overlay, so it still sits on
-     the photo either way. */
+     breakpoint the identity content drops into normal flow on its own
+     dark band, and `order` (see .carousel above) puts that band BEFORE
+     the photo — "klesis" should be the first thing on the page, not
+     something you scroll/see past a photo to reach. .back-link moves
+     with it: it's positioned off .carousel (not .carousel-overlay), so
+     it now sits at the top of the dark identity band instead of on the
+     photo, which also reads better as a top-of-page nav link. */
   @media (max-width: 768px) {
     .carousel-overlay {
       position: static;
       z-index: auto;
+      order: -1;
       background: #17140f;
       padding: 2.5rem 1.5rem 3rem;
     }
 
     /* The strong vignette above is load-bearing for text contrast where
        the identity block is overlaid directly on the photo — that's no
-       longer true here (it's in its own dark band below the photo), so
-       there's no accessibility reason to darken the photo this heavily.
-       Back to a lighter, more photo-forward vignette; .back-link is the
-       only text still on the photo at this width and reads fine against
-       it. */
+       longer true here (it's in its own dark band, off the photo
+       entirely), so there's no accessibility reason to darken the photo
+       this heavily. Back to a lighter, more photo-forward vignette. */
     .carousel-vignette {
       background: radial-gradient(ellipse 75% 75% at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.55) 55%, #000 100%);
+    }
+
+    .carousel-dots {
+      display: flex;
     }
   }
 
@@ -829,19 +878,26 @@ const structuredData = [
   });
 
   // Carousel: a slideshow, not a marquee — one photo at a time, holds 5s, crossfades.
+  // Dots (mobile-only, see .carousel-dots) track the same index so the
+  // rotation still reads as a carousel once it's no longer a full-bleed hero.
   const slides = document.querySelectorAll<HTMLElement>('.carousel-slide');
+  const dots = document.querySelectorAll<HTMLElement>('.carousel-dot');
   if (slides.length > 1) {
     slides[0].classList.add('is-active');
+    dots[0]?.classList.add('is-active');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduceMotion) {
       let current = 0;
       setInterval(() => {
         slides[current].classList.remove('is-active');
+        dots[current]?.classList.remove('is-active');
         current = (current + 1) % slides.length;
         slides[current].classList.add('is-active');
+        dots[current]?.classList.add('is-active');
       }, 5000);
     }
   } else if (slides.length === 1) {
     slides[0].classList.add('is-active');
+    dots[0]?.classList.add('is-active');
   }
 </script>
