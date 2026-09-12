@@ -323,9 +323,7 @@ const structuredData = [
      above and below the photo. Height now just follows the image, and a
      smaller max-width keeps the 1024px source from upscaling into visible
      softness. Still centered within the full-bleed black slides track for
-     ultra-wide screens. A soft cream matte + hairline (vintage print
-     border) sits outside the box via box-shadow so it doesn't affect
-     layout, and overflow:hidden clips the photo to the rounded corners. */
+     ultra-wide screens. */
   .carousel-frame {
     position: relative;
     width: 100%;
@@ -334,7 +332,6 @@ const structuredData = [
     margin: 0 auto;
     border-radius: 6px;
     overflow: hidden;
-    box-shadow: 0 0 0 10px rgba(246, 241, 228, 0.9), 0 0 0 11px rgba(35, 32, 29, 0.2);
   }
 
   .carousel :global(.carousel-slide) {
@@ -358,8 +355,9 @@ const structuredData = [
      color cast — mix-blend-mode: overlay only nudges contrast/saturation
      and was nearly invisible on these fairly desaturated forest/kitchen
      photos. Spans the full slides track (photo + letterboxed sides), not
-     just the framed photo, and sits under the dark vignette so text
-     contrast isn't affected. */
+     just the framed photo. Painted on top of .carousel-vignette (below),
+     so the vignette is tuned dark enough to still clear text-contrast
+     even with this light wash layered over it. */
   .carousel-color-wash {
     position: absolute;
     inset: 0;
@@ -367,15 +365,21 @@ const structuredData = [
     opacity: 0.22;
   }
 
-  /* Radial fade: transparent over the photo's center, fading all the way
-     to solid black at the true edge — that last stop has to be fully
+  /* Radial fade, darkening toward the edges and fading all the way to
+     solid black at the true edge — that last stop has to be fully
      opaque, not just dark, or the photo's edge meets the surrounding
      black .carousel-slides background as a visible seam instead of a
-     smooth fade. */
+     smooth fade.
+     The center alpha (0.65) isn't just aesthetic — it's load-bearing for
+     WCAG AA text contrast: the overlaid white text sits roughly here, and
+     against a worst-case bright photo (the snow shots) with the pastel
+     wash layered on top, anything much lighter than this drops white text
+     below the 4.5:1 minimum. Verified against both the brightest (snow)
+     and mid-tone photos with the wash's alpha factored in. */
   .carousel-vignette {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 75% 75% at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.55) 55%, #000 100%);
+    background: radial-gradient(ellipse 75% 75% at center, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.8) 50%, #000 100%);
   }
 
   .carousel-overlay {
@@ -405,6 +409,17 @@ const structuredData = [
       background: #17140f;
       padding: 2.5rem 1.5rem 3rem;
     }
+
+    /* The strong vignette above is load-bearing for text contrast where
+       the identity block is overlaid directly on the photo — that's no
+       longer true here (it's in its own dark band below the photo), so
+       there's no accessibility reason to darken the photo this heavily.
+       Back to a lighter, more photo-forward vignette; .back-link is the
+       only text still on the photo at this width and reads fine against
+       it. */
+    .carousel-vignette {
+      background: radial-gradient(ellipse 75% 75% at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.55) 55%, #000 100%);
+    }
   }
 
   .back-link {
@@ -416,11 +431,11 @@ const structuredData = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: rgba(255, 255, 255, 0.85);
+    color: #ffffff;
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: opacity 0.2s ease;
   }
-  .back-link:hover { color: #ffffff; }
+  .back-link:hover { opacity: 0.75; }
 
   .hero-lockup {
     display: flex;
@@ -450,7 +465,7 @@ const structuredData = [
     font-weight: 350;
     font-style: italic;
     font-size: clamp(1.05rem, 2vw, 1.3rem);
-    color: rgba(255, 255, 255, 0.85);
+    color: #ffffff;
     margin-top: 0.5rem;
   }
 
@@ -459,7 +474,7 @@ const structuredData = [
     font-size: clamp(0.85rem, 1.5vw, 1.05rem);
     font-weight: 500;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.85);
+    color: #ffffff;
     max-width: 56ch;
     margin-top: 1.5rem;
   }
@@ -479,10 +494,10 @@ const structuredData = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.9);
+    color: #ffffff;
     text-decoration: none;
     padding: 0.75rem 1.5rem;
-    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
     border-radius: 999px;
     transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
   }
