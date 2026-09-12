@@ -351,16 +351,18 @@ const structuredData = [
     inset: 0;
     background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
     mix-blend-mode: overlay;
-    opacity: 0.35;
+    opacity: 0.6;
   }
 
-  /* Radial fade: transparent over the photo's center, darkening toward the
-     edges — now doubles as a vignette on the photo itself (no letterbox
-     left to hide) and keeps the overlaid text readable. */
+  /* Radial fade: transparent over the photo's center, fading all the way
+     to solid black at the true edge — that last stop has to be fully
+     opaque, not just dark, or the photo's edge meets the surrounding
+     black .carousel-slides background as a visible seam instead of a
+     smooth fade. */
   .carousel-vignette {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 75% 75% at center, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.75) 100%);
+    background: radial-gradient(ellipse 75% 75% at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.55) 55%, #000 100%);
   }
 
   .carousel-overlay {
