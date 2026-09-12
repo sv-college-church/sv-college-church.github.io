@@ -87,6 +87,17 @@ const svcLogo = '/images/svc-logo.svg';
        clipping emoji children on Windows/Chromium ── */
   .nav-header {
     overflow: visible;
+    transition: transform 0.3s ease;
+  }
+
+  /* Scroll-down hides the header, scroll-up brings it back — see the
+     scroll listener at the bottom of this file. */
+  .nav-header.nav-hidden {
+    transform: translateY(-100%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-header { transition: none; }
   }
 
   .nav-header::before {
@@ -351,4 +362,36 @@ const svcLogo = '/images/svc-logo.svg';
       setupSingleEmoji('about-link',   'about-emoji');
     }
   });
+
+  /* ── Scroll-to-hide header ──
+     Attached once at module scope, NOT inside astro:page-load — `window`
+     persists across View Transitions navigations, so re-attaching in there
+     would stack a duplicate scroll listener on every page change. The
+     header element itself IS replaced per navigation, so it's queried
+     fresh on every scroll tick rather than cached. */
+  let lastScrollY = window.scrollY;
+  const NAV_HIDE_THRESHOLD_PX = 80; // don't hide until scrolled past this, avoids jitter right at the top
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      const header = document.querySelector<HTMLElement>('.nav-header');
+      if (!header) return;
+
+      const menuToggle = document.getElementById('menu-toggle');
+      const menuOpen = menuToggle?.getAttribute('aria-expanded') === 'true';
+
+      const currentScrollY = window.scrollY;
+      const scrollingDown = currentScrollY > lastScrollY;
+
+      if (!menuOpen && scrollingDown && currentScrollY > NAV_HIDE_THRESHOLD_PX) {
+        header.classList.add('nav-hidden');
+      } else {
+        header.classList.remove('nav-hidden');
+      }
+
+      lastScrollY = currentScrollY;
+    },
+    { passive: true }
+  );
 </script>
