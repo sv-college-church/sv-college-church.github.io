@@ -122,6 +122,18 @@ const structuredData = [
 
   <main id="main-content">
 
+    <!-- ── CAROUSEL ── -->
+    <!-- First thing on the page, sits below the absolutely-positioned Nav.
+         A slideshow, not a marquee: one photo at a time, holds 5s, crossfades. -->
+    <section class="carousel" aria-label="Photos from Klesis Santa Cruz">
+      <div class="carousel-slides">
+        {carouselPhotos.map((p, i) => (
+          <Image src={p.src} alt={p.alt} class="carousel-slide" data-slide={i} />
+        ))}
+      </div>
+      <p class="carousel-caption">NorCal Winter Conference, January 2024</p>
+    </section>
+
     <section class="hero-section" style="view-transition-name: campus-ucsc">
       <a href="/campuses" class="back-link">← Campuses</a>
       <Image src={klesisUcsc} alt="Klesis Christian Fellowship logo, UC Santa Cruz" class="hero-logo" />
@@ -130,27 +142,18 @@ const structuredData = [
       <p class="hero-tagline">A Christian fellowship and Bible study at UC Santa Cruz</p>
     </section>
 
-    <!-- ── WELCOME WEEK BANNER ── -->
-    <a href={flyerUrl} target="_blank" rel="noopener noreferrer" class="ww-banner">
-      <span class="ww-banner-eyebrow">Welcome Week</span>
-      <span class="ww-banner-copy">Welcome, Class of 2030! Check out our Welcome Week events!</span>
-      <span class="ww-banner-arrow">↗</span>
-    </a>
-
     <!-- ── FEATURED PHOTO ── -->
     <figure class="featured-photo">
       <Image src={friendsgiving} alt="Klesis students gathered around the kitchen at a Friendsgiving dinner" width={1024} height={683} />
       <figcaption>Friendsgiving with Klesis</figcaption>
     </figure>
 
-    <!-- ── CAROUSEL ── -->
-    <section class="carousel" aria-label="More moments from Klesis Santa Cruz">
-      <div class="carousel-track">
-        {carouselPhotos.map((p) => <Image src={p.src} alt={p.alt} width={640} height={640} class="carousel-img" />)}
-        {carouselPhotos.map((p) => <Image src={p.src} alt="" aria-hidden="true" width={640} height={640} class="carousel-img" />)}
-      </div>
-      <p class="carousel-caption">NorCal Winter Conference, January 2024</p>
-    </section>
+    <!-- ── WELCOME WEEK BANNER ── -->
+    <a href={flyerUrl} target="_blank" rel="noopener noreferrer" class="ww-banner">
+      <span class="ww-banner-eyebrow">Welcome Week</span>
+      <span class="ww-banner-copy">Welcome, Class of 2030! Check out our Welcome Week events!</span>
+      <span class="ww-banner-arrow">↗</span>
+    </a>
 
     <!-- ── QUICK NAV ── -->
     <section class="quick-nav">
@@ -345,7 +348,7 @@ const structuredData = [
 
   /* ── FEATURED PHOTO ── */
   .featured-photo {
-    margin: 3rem auto 0;
+    margin: 0 auto;
     padding: 0 2rem;
     max-width: 56rem;
     text-align: center;
@@ -368,35 +371,44 @@ const structuredData = [
   }
 
   /* ── CAROUSEL ── */
+  /* Full-bleed and full-screen-height, like the banner this ignores main's
+     padding and runs edge to edge; no rounded corners since it's full-bleed.
+     It's the first section on the page, so top padding clears the
+     absolutely-positioned Nav instead of a section margin. */
   .carousel {
-    margin-top: 3rem;
-    padding-bottom: 1rem;
+    position: relative;
+    width: 100%;
+    padding-top: 7rem;
+  }
+
+  .carousel-slides {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 7rem);
     overflow: hidden;
   }
 
-  .carousel-track {
-    display: flex;
-    gap: 12px;
-    width: max-content;
-    animation: carouselScroll 34s linear infinite;
-  }
-
-  .carousel :global(.carousel-img) {
-    height: 220px;
-    width: auto;
-    aspect-ratio: 1 / 1;
+  .carousel :global(.carousel-slide) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 12px;
-    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 1.2s ease;
   }
 
-  @keyframes carouselScroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+  .carousel :global(.carousel-slide.is-active) {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .carousel { padding-top: 5.5rem; }
+    .carousel-slides { height: calc(100vh - 5.5rem); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .carousel-track { animation: none; overflow-x: auto; }
+    .carousel :global(.carousel-slide) { transition: none; }
   }
 
   .carousel-caption {
@@ -722,4 +734,21 @@ const structuredData = [
       content.style.maxHeight = !isOpen ? content.scrollHeight + 'px' : '';
     });
   });
+
+  // Carousel: a slideshow, not a marquee — one photo at a time, holds 5s, crossfades.
+  const slides = document.querySelectorAll<HTMLElement>('.carousel-slide');
+  if (slides.length > 1) {
+    slides[0].classList.add('is-active');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduceMotion) {
+      let current = 0;
+      setInterval(() => {
+        slides[current].classList.remove('is-active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('is-active');
+      }, 5000);
+    }
+  } else if (slides.length === 1) {
+    slides[0].classList.add('is-active');
+  }
 </script>
