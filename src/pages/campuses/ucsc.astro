@@ -9,24 +9,28 @@ const pageUrl = new URL('/campuses/ucsc', Astro.site).href;
 const flyerUrl = 'https://joinflyer.com/ucsc/klesis';
 
 // Leads-only, no photos — matches the flat/minimal treatment requested for this page.
+// Each group's signupUrl is its own Flyer event page (week 1), not the general Flyer profile.
 const groups = [
   {
     name: 'Freshman Starter Pack Bible Study',
     leads: 'Robbie & Alyssa',
     time: 'Thursdays, 7 – 8 PM',
     tagline: null,
+    signupUrl: 'https://joinflyer.com/ucsc/klesis/event/frosh-starter-pack---week-1-sep-23-2026',
   },
   {
     name: 'Charcuterie Chats',
     leads: 'Kerri & Jeanine',
     time: 'Thursdays, 7 – 8 PM',
     tagline: 'Make new friends and have meaningful conversations over themed charcuterie boards!',
+    signupUrl: 'https://joinflyer.com/ucsc/klesis/event/charcuterie-chats---week-1-sep-24-2026',
   },
   {
     name: 'Protein & Proverbs',
     leads: 'Joey & John',
     time: 'Thursdays, 7 – 8:30 PM',
     tagline: null,
+    signupUrl: 'https://joinflyer.com/ucsc/klesis/event/protein-proverbs---week-1-sep-24-2026',
   },
 ];
 
@@ -141,14 +145,17 @@ const structuredData = [
       <ul class="groups-list">
         {groups.map((g) => (
           <li class="group-row">
-            <p class="group-name">{g.name}</p>
-            <p class="group-meta">{g.leads} · {g.time}</p>
-            {g.tagline && <p class="group-tagline">{g.tagline}</p>}
+            <div class="group-info">
+              <p class="group-name">{g.name}</p>
+              <p class="group-meta">{g.leads} · {g.time}</p>
+              {g.tagline && <p class="group-tagline">{g.tagline}</p>}
+            </div>
+            <a href={g.signupUrl} target="_blank" rel="noopener noreferrer" class="group-signup-btn">Sign Up ↗</a>
           </li>
         ))}
       </ul>
 
-      <a href={flyerUrl} target="_blank" rel="noopener noreferrer" class="signup-btn">Sign Up on Flyer ↗</a>
+      <p class="section-note">See all groups and events on <a href={flyerUrl} target="_blank" rel="noopener noreferrer">Flyer ↗</a></p>
     </section>
 
     <!-- ── SUNDAY WORSHIP SERVICE ── -->
@@ -392,8 +399,16 @@ const structuredData = [
   }
 
   .group-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
     padding: 1.5rem 0.5rem;
     border-bottom: 1px solid rgba(35, 32, 29, 0.1);
+  }
+
+  .group-info {
+    min-width: 0;
   }
 
   .group-name {
@@ -421,24 +436,39 @@ const structuredData = [
     line-height: 1.5;
   }
 
-  .signup-btn {
+  .group-signup-btn {
+    flex-shrink: 0;
     display: inline-block;
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.7rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     color: #ffffff;
     background: #2C4F72;
     text-decoration: none;
-    padding: 0.85rem 2.5rem;
-    border-radius: 10px;
-    margin-top: 2.5rem;
+    padding: 0.65rem 1.4rem;
+    border-radius: 8px;
+    white-space: nowrap;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .signup-btn:hover {
+  .group-signup-btn:hover {
     transform: scale(1.04);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+  }
+
+  .section-note {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(35, 32, 29, 0.7);
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+  .section-note a {
+    color: #2C4F72;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
   }
 
   /* ── SUNDAY WORSHIP SERVICE ── */
@@ -518,6 +548,7 @@ const structuredData = [
   @media (max-width: 768px) {
     .quick-nav { grid-template-columns: 1fr; }
     .groups-section, .service-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .group-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
     .service-row { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
     .faq-section { padding: 3.5rem 1.5rem; }
     .section-heading { margin-bottom: 0; }
