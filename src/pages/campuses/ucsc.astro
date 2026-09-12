@@ -53,7 +53,7 @@ const groups = [
 ];
 
 // PLACEHOLDER — time is a working estimate, location and rides are unconfirmed.
-// Update once Sunday Worship Service details are locked in.
+// Update once Sunday Gathering details are locked in.
 const serviceDates = ['Sun, Sep 20', 'Sun, Sep 27'];
 const serviceTime = '3:30 PM';
 const serviceLocation = 'Baskin Engineering Hall';
@@ -73,7 +73,7 @@ const faqs = [
     a: 'No. Klesis is open to every UCSC student, Christian or not.',
   },
   {
-    q: 'What should I expect at Sunday Worship Service?',
+    q: 'What should I expect at Sunday Gathering?',
     a: 'A relaxed, welcoming service, worship music, a short message from Scripture, and time to meet people afterward.',
   },
   {
@@ -113,7 +113,7 @@ const structuredData = [
       acceptedAnswer: { '@type': 'Answer', text: f.a },
     })),
   },
-  // No Event structured data for Sunday Worship Service yet — location isn't
+  // No Event structured data for Sunday Gathering yet — location isn't
   // confirmed, and publishing tentative facts to search results risks going
   // stale. Add once serviceLocationConfirmed is true.
 ];
@@ -121,7 +121,7 @@ const structuredData = [
 
 <BaseLayout
   title="Klesis UCSC | Christian Fellowship & Bible Study at UC Santa Cruz"
-  description="Klesis is a Christian fellowship at UC Santa Cruz. Connect Groups, Sunday Worship Service, and Welcome Week, open to all UCSC students, Christian or not."
+  description="Klesis is a Christian fellowship at UC Santa Cruz. Connect Groups, Sunday Gathering, and Welcome Week, open to all UCSC students, Christian or not."
   structuredData={structuredData}
 >
   <Nav />
@@ -171,7 +171,7 @@ const structuredData = [
 
         <div class="hero-ctas">
           <a href="#connect-groups" class="hero-cta">Connect Groups</a>
-          <a href="#sunday-service" class="hero-cta">Sunday Worship Service</a>
+          <a href="#sunday-service" class="hero-cta">Sunday Gathering</a>
         </div>
       </div>
     </section>
@@ -199,7 +199,7 @@ const structuredData = [
 
     <!-- ── SUNDAY WORSHIP SERVICE ── -->
     <section id="sunday-service" class="service-section">
-      <h2 class="section-heading">Sunday Worship Service</h2>
+      <h2 class="section-heading">Sunday Gathering</h2>
       <p class="section-sub">Join us for the first two Sundays of the school year.</p>
 
       <ul class="service-list">
