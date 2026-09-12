@@ -4,9 +4,21 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
+import friendsgiving from '../../assets/images/campuses/ucsc/friendsgiving.jpg';
+import sledding from '../../assets/images/campuses/ucsc/sledding.jpg';
+import snowballFight from '../../assets/images/campuses/ucsc/snowball-fight.jpg';
+import winterGroup from '../../assets/images/campuses/ucsc/winter-conference-group.jpg';
 
 const pageUrl = new URL('/campuses/ucsc', Astro.site).href;
 const flyerUrl = 'https://joinflyer.com/ucsc/klesis';
+
+// From Klesis Santa Cruz's own Flickr (flickr.com/photos/pursuitcollegechurch),
+// used with the campus team's direction on which photos to feature.
+const carouselPhotos = [
+  { src: sledding, alt: 'Klesis students sledding at the NorCal Winter Conference' },
+  { src: snowballFight, alt: 'A snowball fight breaks out at the NorCal Winter Conference' },
+  { src: winterGroup, alt: 'Klesis Santa Cruz group photo at the NorCal Winter Conference' },
+];
 
 // Leads-only, no photos — matches the flat/minimal treatment requested for this page.
 // Each group's signupUrl is its own Flyer event page (week 1), not the general Flyer profile.
@@ -124,6 +136,21 @@ const structuredData = [
       <span class="ww-banner-copy">Welcome, Class of 2030! Check out our Welcome Week events!</span>
       <span class="ww-banner-arrow">↗</span>
     </a>
+
+    <!-- ── FEATURED PHOTO ── -->
+    <figure class="featured-photo">
+      <Image src={friendsgiving} alt="Klesis students gathered around the kitchen at a Friendsgiving dinner" width={1024} height={683} />
+      <figcaption>Friendsgiving with Klesis</figcaption>
+    </figure>
+
+    <!-- ── CAROUSEL ── -->
+    <section class="carousel" aria-label="More moments from Klesis Santa Cruz">
+      <div class="carousel-track">
+        {carouselPhotos.map((p) => <Image src={p.src} alt={p.alt} width={640} height={640} class="carousel-img" />)}
+        {carouselPhotos.map((p) => <Image src={p.src} alt="" aria-hidden="true" width={640} height={640} class="carousel-img" />)}
+      </div>
+      <p class="carousel-caption">NorCal Winter Conference, January 2024</p>
+    </section>
 
     <!-- ── QUICK NAV ── -->
     <section class="quick-nav">
@@ -272,46 +299,113 @@ const structuredData = [
   }
 
   /* ── WELCOME WEEK BANNER ── */
+  /* main has no side padding of its own, so a plain block-level width fills
+     it edge to edge — this is the only element on the page carrying the
+     pastel gradient, the featured photo and carousel below stay un-tinted. */
   .ww-banner {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem 1rem;
-    margin: 0 2rem 3rem;
-    padding: 1.1rem 1.75rem;
-    background: #2C4F72;
-    border-radius: 12px;
+    gap: 0.5rem 1.25rem;
+    width: 100%;
+    padding: 2.25rem 2rem;
+    background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
     text-decoration: none;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    transition: filter 0.15s ease;
   }
   .ww-banner:hover {
-    transform: scale(1.01);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+    filter: brightness(1.03);
   }
 
   .ww-banner-eyebrow {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: #EAC77E;
+    color: #004A8A;
     flex-shrink: 0;
   }
 
   .ww-banner-copy {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #ffffff;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 700;
+    color: #23201D;
     text-align: center;
   }
 
   .ww-banner-arrow {
-    font-size: 0.9rem;
-    color: #EAC77E;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #004A8A;
     flex-shrink: 0;
+  }
+
+  /* ── FEATURED PHOTO ── */
+  .featured-photo {
+    margin: 3rem auto 0;
+    padding: 0 2rem;
+    max-width: 56rem;
+    text-align: center;
+  }
+
+  .featured-photo :global(img) {
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    display: block;
+  }
+
+  .featured-photo figcaption {
+    font-family: 'Bitter', Georgia, serif;
+    font-weight: 350;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(35, 32, 29, 0.65);
+    margin-top: 0.85rem;
+  }
+
+  /* ── CAROUSEL ── */
+  .carousel {
+    margin-top: 3rem;
+    padding-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .carousel-track {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+    animation: carouselScroll 34s linear infinite;
+  }
+
+  .carousel :global(.carousel-img) {
+    height: 220px;
+    width: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+
+  @keyframes carouselScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-track { animation: none; overflow-x: auto; }
+  }
+
+  .carousel-caption {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: rgba(35, 32, 29, 0.55);
+    text-align: center;
+    margin-top: 1rem;
   }
 
   /* ── QUICK NAV ── */
