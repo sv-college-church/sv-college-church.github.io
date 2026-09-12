@@ -13,11 +13,16 @@ const pageUrl = new URL('/campuses/ucsc', Astro.site).href;
 const flyerUrl = 'https://joinflyer.com/ucsc/klesis';
 
 // From Klesis Santa Cruz's own Flickr (flickr.com/photos/pursuitcollegechurch),
-// used with the campus team's direction on which photos to feature.
+// used with the campus team's direction on which photos to feature. Flickr caps
+// anonymous downloads at 1024px on the long edge for this (free-tier) account —
+// confirmed by requesting the 1600/2048/original variants directly and getting
+// HTTP 410 for all three — so 1024px is the actual ceiling available here, not
+// a resizing choice made in this codebase.
 const carouselPhotos = [
-  { src: sledding, alt: 'Klesis students sledding at the NorCal Winter Conference' },
-  { src: snowballFight, alt: 'A snowball fight breaks out at the NorCal Winter Conference' },
-  { src: winterGroup, alt: 'Klesis Santa Cruz group photo at the NorCal Winter Conference' },
+  { src: friendsgiving, alt: 'Klesis students gathered around the kitchen at a Friendsgiving dinner', caption: 'Friendsgiving with Klesis' },
+  { src: sledding, alt: 'Klesis students sledding at the NorCal Winter Conference', caption: 'NorCal Winter Conference, January 2024' },
+  { src: snowballFight, alt: 'A snowball fight breaks out at the NorCal Winter Conference', caption: 'NorCal Winter Conference, January 2024' },
+  { src: winterGroup, alt: 'Klesis Santa Cruz group photo at the NorCal Winter Conference', caption: 'NorCal Winter Conference, January 2024' },
 ];
 
 // Leads-only, no photos — matches the flat/minimal treatment requested for this page.
@@ -122,38 +127,37 @@ const structuredData = [
 
   <main id="main-content">
 
-    <!-- ── CAROUSEL ── -->
-    <!-- First thing on the page, sits below the absolutely-positioned Nav.
-         A slideshow, not a marquee: one photo at a time, holds 5s, crossfades. -->
-    <section class="carousel" aria-label="Photos from Klesis Santa Cruz">
-      <div class="carousel-slides">
-        {carouselPhotos.map((p, i) => (
-          <Image src={p.src} alt={p.alt} class="carousel-slide" data-slide={i} />
-        ))}
-      </div>
-      <p class="carousel-caption">NorCal Winter Conference, January 2024</p>
-    </section>
-
-    <section class="hero-section" style="view-transition-name: campus-ucsc">
-      <a href="/campuses" class="back-link">← Campuses</a>
-      <Image src={klesisUcsc} alt="Klesis Christian Fellowship logo, UC Santa Cruz" class="hero-logo" />
-      <p class="hero-fellowship">Klesis</p>
-      <h1 class="school-name">UC Santa Cruz</h1>
-      <p class="hero-tagline">A Christian fellowship and Bible study at UC Santa Cruz</p>
-    </section>
-
-    <!-- ── FEATURED PHOTO ── -->
-    <figure class="featured-photo">
-      <Image src={friendsgiving} alt="Klesis students gathered around the kitchen at a Friendsgiving dinner" width={1024} height={683} />
-      <figcaption>Friendsgiving with Klesis</figcaption>
-    </figure>
-
     <!-- ── WELCOME WEEK BANNER ── -->
+    <!-- Now the very first thing on the page, so it carries its own
+         nav-clearance padding instead of the carousel below it. -->
     <a href={flyerUrl} target="_blank" rel="noopener noreferrer" class="ww-banner">
       <span class="ww-banner-eyebrow">Welcome Week</span>
       <span class="ww-banner-copy">Welcome, Class of 2030! Check out our Welcome Week events!</span>
       <span class="ww-banner-arrow">↗</span>
     </a>
+
+    <!-- ── CAROUSEL / HERO ── -->
+    <!-- A slideshow, not a marquee: one photo at a time, holds 5s, crossfades.
+         The Klesis / UC Santa Cruz identity overlays on top, scrimmed for
+         contrast — this replaces the old plain-cream hero section. -->
+    <section class="carousel" aria-label="Photos from Klesis Santa Cruz" style="view-transition-name: campus-ucsc">
+      <div class="carousel-slides">
+        {carouselPhotos.map((p, i) => (
+          <Image src={p.src} alt={p.alt} class="carousel-slide" data-slide={i} data-caption={p.caption} />
+        ))}
+        <div class="carousel-scrim" aria-hidden="true"></div>
+      </div>
+
+      <div class="carousel-overlay">
+        <a href="/campuses" class="back-link">← Campuses</a>
+        <Image src={klesisUcsc} alt="Klesis Christian Fellowship logo, UC Santa Cruz" class="hero-logo" />
+        <p class="hero-fellowship">Klesis</p>
+        <h1 class="school-name">UC Santa Cruz</h1>
+        <p class="hero-tagline">A Christian fellowship and Bible study at UC Santa Cruz</p>
+      </div>
+
+      <p class="carousel-caption" id="carousel-caption">{carouselPhotos[0].caption}</p>
+    </section>
 
     <!-- ── QUICK NAV ── -->
     <section class="quick-nav">
@@ -237,74 +241,11 @@ const structuredData = [
 <style>
   main { flex: 1; display: flex; flex-direction: column; }
 
-  .hero-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: 32vh;
-    padding: 12rem 2rem 3rem;
-    position: relative;
-  }
-
-  .back-link {
-    position: absolute;
-    top: 9rem;
-    left: 2rem;
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: #816B28;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-  .back-link:hover { color: #63501E; }
-
-  .school-name {
-    font-family: 'Archivo', sans-serif;
-    font-size: clamp(2.1rem, min(4.6vw, 7vh), 4.6rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 0.9;
-    color: #2C4F72;
-  }
-
-  .hero-logo {
-    height: 90px;
-    width: auto;
-    object-fit: contain;
-    margin-bottom: 0.5rem;
-    border-radius: 10px;
-  }
-
-  .hero-fellowship {
-    font-family: 'Archivo', sans-serif;
-    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: rgba(35, 32, 29, 0.7);
-    margin-bottom: 1.25rem;
-  }
-
-  .hero-tagline {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
-    font-weight: 500;
-    line-height: 1.6;
-    color: rgba(35, 32, 29, 0.7);
-    max-width: 56ch;
-    margin-top: 1.5rem;
-  }
-
   /* ── WELCOME WEEK BANNER ── */
-  /* main has no side padding of its own, so a plain block-level width fills
-     it edge to edge — this is the only element on the page carrying the
-     pastel gradient, the featured photo and carousel below stay un-tinted. */
+  /* Now the very first thing on the page — carries its own nav-clearance
+     top padding. main has no side padding of its own, so a plain
+     block-level width fills it edge to edge. Still the only element on
+     the page carrying the pastel gradient. */
   .ww-banner {
     display: flex;
     flex-wrap: wrap;
@@ -312,7 +253,7 @@ const structuredData = [
     justify-content: center;
     gap: 0.5rem 1.25rem;
     width: 100%;
-    padding: 2.25rem 2rem;
+    padding: 8.5rem 2rem 2.25rem;
     background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
     text-decoration: none;
     transition: filter 0.15s ease;
@@ -346,45 +287,24 @@ const structuredData = [
     flex-shrink: 0;
   }
 
-  /* ── FEATURED PHOTO ── */
-  .featured-photo {
-    margin: 0 auto;
-    padding: 0 2rem;
-    max-width: 56rem;
-    text-align: center;
+  @media (max-width: 768px) {
+    .ww-banner { padding: 6.5rem 1.5rem 2rem; }
   }
 
-  .featured-photo :global(img) {
-    width: 100%;
-    height: auto;
-    border-radius: 14px;
-    display: block;
-  }
-
-  .featured-photo figcaption {
-    font-family: 'Bitter', Georgia, serif;
-    font-weight: 350;
-    font-style: italic;
-    font-size: 0.95rem;
-    color: rgba(35, 32, 29, 0.65);
-    margin-top: 0.85rem;
-  }
-
-  /* ── CAROUSEL ── */
-  /* Full-bleed and full-screen-height, like the banner this ignores main's
-     padding and runs edge to edge; no rounded corners since it's full-bleed.
-     It's the first section on the page, so top padding clears the
-     absolutely-positioned Nav instead of a section margin. */
+  /* ── CAROUSEL / HERO ── */
+  /* Full-bleed and full-screen-height — ignores main's padding and runs
+     edge to edge. Sits right after the banner now, so no nav-clearance
+     padding of its own is needed. The Klesis / UC Santa Cruz identity
+     overlays on top of the slides via .carousel-overlay. */
   .carousel {
     position: relative;
     width: 100%;
-    padding-top: 7rem;
   }
 
   .carousel-slides {
     position: relative;
     width: 100%;
-    height: calc(100vh - 7rem);
+    height: 100vh;
     overflow: hidden;
   }
 
@@ -402,9 +322,82 @@ const structuredData = [
     opacity: 1;
   }
 
+  /* Flat dark wash rather than the banner's pastel gradient — needed so the
+     overlaid text stays readable no matter which photo is showing (bright
+     snow vs. a dim kitchen), not a stylistic tint on the photos themselves. */
+  .carousel-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .carousel-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .back-link {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: #ffffff; }
+
+  .school-name {
+    font-family: 'Archivo', sans-serif;
+    font-size: clamp(2.1rem, min(4.6vw, 7vh), 4.6rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.9;
+    color: #ffffff;
+  }
+
+  .hero-logo {
+    height: 90px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+    border-radius: 10px;
+  }
+
+  .hero-fellowship {
+    font-family: 'Archivo', sans-serif;
+    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-tagline {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+    font-weight: 500;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 56ch;
+    margin-top: 1.5rem;
+  }
+
   @media (max-width: 768px) {
-    .carousel { padding-top: 5.5rem; }
-    .carousel-slides { height: calc(100vh - 5.5rem); }
+    .back-link { top: 1.25rem; left: 1.25rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -412,12 +405,16 @@ const structuredData = [
   }
 
   .carousel-caption {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    z-index: 1;
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.7rem;
     font-weight: 500;
-    color: rgba(35, 32, 29, 0.55);
+    color: rgba(255, 255, 255, 0.7);
     text-align: center;
-    margin-top: 1rem;
   }
 
   /* ── QUICK NAV ── */
@@ -736,7 +733,10 @@ const structuredData = [
   });
 
   // Carousel: a slideshow, not a marquee — one photo at a time, holds 5s, crossfades.
+  // The caption is per-slide (e.g. "Friendsgiving with Klesis" vs. "NorCal Winter
+  // Conference"), so it has to be swapped in lockstep with the active slide.
   const slides = document.querySelectorAll<HTMLElement>('.carousel-slide');
+  const caption = document.getElementById('carousel-caption');
   if (slides.length > 1) {
     slides[0].classList.add('is-active');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -746,6 +746,7 @@ const structuredData = [
         slides[current].classList.remove('is-active');
         current = (current + 1) % slides.length;
         slides[current].classList.add('is-active');
+        if (caption) caption.textContent = slides[current].dataset.caption ?? '';
       }, 5000);
     }
   } else if (slides.length === 1) {
