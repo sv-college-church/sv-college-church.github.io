@@ -6,6 +6,36 @@ import { Image } from 'astro:assets';
 import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
 
 const pageUrl = new URL('/campuses/ucsc', Astro.site).href;
+const flyerUrl = 'https://joinflyer.com/ucsc/klesis';
+
+// Leads-only, no photos — matches the flat/minimal treatment requested for this page.
+const groups = [
+  {
+    name: 'Freshman Starter Pack Bible Study',
+    leads: 'Robbie & Alyssa',
+    time: 'Thursdays, 7 – 8 PM',
+    tagline: null,
+  },
+  {
+    name: 'Charcuterie Chats',
+    leads: 'Kerri & Jeanine',
+    time: 'Thursdays, 7 – 8 PM',
+    tagline: 'Make new friends and have meaningful conversations over themed charcuterie boards!',
+  },
+  {
+    name: 'Protein & Proverbs',
+    leads: 'Joey & John',
+    time: 'Thursdays, 7 – 8:30 PM',
+    tagline: null,
+  },
+];
+
+// PLACEHOLDER — time is a working estimate, location and rides are unconfirmed.
+// Update once Sunday Worship Service details are locked in.
+const serviceDates = ['Sun, Sep 20', 'Sun, Sep 27'];
+const serviceTime = '3:30 PM';
+const serviceLocation = 'Baskin Engineering Hall';
+const serviceLocationConfirmed = false;
 
 const faqs = [
   {
@@ -14,11 +44,19 @@ const faqs = [
   },
   {
     q: 'Where can I find a Bible study near UCSC?',
-    a: 'Klesis gathers for Bible study and community on and around the UCSC campus. Current meeting times are posted on the Klesis UCSC flyer page.',
+    a: 'Klesis gathers for Bible study and community on and around the UCSC campus. Current Connect Groups and meeting times are listed above.',
   },
   {
     q: 'Do I have to be a Christian to come?',
     a: 'No. Klesis is open to every UCSC student, Christian or not.',
+  },
+  {
+    q: 'What should I expect at Sunday Worship Service?',
+    a: 'A relaxed, welcoming service, worship music, a short message from Scripture, and time to meet people afterward.',
+  },
+  {
+    q: "What's the dress code?",
+    a: 'Come as you are. Jeans and a t-shirt is completely normal.',
   },
 ];
 
@@ -43,7 +81,6 @@ const structuredData = [
     sameAs: ['https://www.instagram.com/klesis.ucsc/'],
     parentOrganization: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
     areaServed: { '@type': 'CollegeOrUniversity', name: 'UC Santa Cruz' },
-    foundingDate: '2015',
   },
   {
     '@context': 'https://schema.org',
@@ -54,12 +91,15 @@ const structuredData = [
       acceptedAnswer: { '@type': 'Answer', text: f.a },
     })),
   },
+  // No Event structured data for Sunday Worship Service yet — location isn't
+  // confirmed, and publishing tentative facts to search results risks going
+  // stale. Add once serviceLocationConfirmed is true.
 ];
 ---
 
 <BaseLayout
   title="Klesis UCSC | Christian Fellowship & Bible Study at UC Santa Cruz"
-  description="Klesis is a Christian fellowship at UC Santa Cruz. Bible study and community, open to all UCSC students, Christian or not."
+  description="Klesis is a Christian fellowship at UC Santa Cruz. Connect Groups, Sunday Worship Service, and Welcome Week, open to all UCSC students, Christian or not."
   structuredData={structuredData}
 >
   <Nav />
@@ -74,21 +114,64 @@ const structuredData = [
       <p class="hero-tagline">A Christian fellowship and Bible study at UC Santa Cruz</p>
     </section>
 
-    <section class="info-grid">
-      <div class="info-col">
-        <h2 class="info-label">Established</h2>
-        <p class="info-value">2015</p>
-      </div>
-      <div class="info-col">
-        <h2 class="info-label">About</h2>
-        <p class="about-value">Open to all incoming and current UCSC students, Christian or not.</p>
-      </div>
-      <div class="info-col">
-        <h2 class="info-label">Events</h2>
-        <a href="https://joinflyer.com/ucsc/klesis" target="_blank" rel="noopener noreferrer" class="events-btn">Flyer ↗</a>
-      </div>
+    <!-- ── WELCOME WEEK BANNER ── -->
+    <a href={flyerUrl} target="_blank" rel="noopener noreferrer" class="ww-banner">
+      <span class="ww-banner-eyebrow">Welcome Week</span>
+      <span class="ww-banner-copy">Welcome, Class of 2030! Check out our Welcome Week events!</span>
+      <span class="ww-banner-arrow">↗</span>
+    </a>
+
+    <!-- ── QUICK NAV ── -->
+    <section class="quick-nav">
+      <a href="#connect-groups" class="nav-tile">
+        <span class="nav-tile-title">Connect Groups</span>
+        <span class="nav-tile-sub">Sign up now</span>
+      </a>
+      <a href="#sunday-service" class="nav-tile">
+        <span class="nav-tile-title">Sunday Worship Service</span>
+        <span class="nav-tile-sub">Join us for church</span>
+      </a>
     </section>
 
+    <!-- ── CONNECT GROUPS ── -->
+    <section id="connect-groups" class="groups-section">
+      <h2 class="section-heading">Connect Groups</h2>
+      <p class="section-sub">Small groups of students, meeting weekly to grow in faith and friendship.</p>
+
+      <ul class="groups-list">
+        {groups.map((g) => (
+          <li class="group-row">
+            <p class="group-name">{g.name}</p>
+            <p class="group-meta">{g.leads} · {g.time}</p>
+            {g.tagline && <p class="group-tagline">{g.tagline}</p>}
+          </li>
+        ))}
+      </ul>
+
+      <a href={flyerUrl} target="_blank" rel="noopener noreferrer" class="signup-btn">Sign Up on Flyer ↗</a>
+    </section>
+
+    <!-- ── SUNDAY WORSHIP SERVICE ── -->
+    <section id="sunday-service" class="service-section">
+      <h2 class="section-heading">Sunday Worship Service</h2>
+      <p class="section-sub">Join us for the first two Sundays of the school year.</p>
+
+      <ul class="service-list">
+        {serviceDates.map((date) => (
+          <li class="service-row">
+            <span class="service-date">{date}</span>
+            <span class="service-time">{serviceTime}</span>
+            <span class="service-loc">
+              {serviceLocation}
+              {!serviceLocationConfirmed && <span class="service-tbc">(location TBC)</span>}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p class="service-note">Ride details coming soon, check back or follow <a href="https://www.instagram.com/klesis.ucsc/" target="_blank" rel="noopener noreferrer">@klesis.ucsc</a> for updates.</p>
+    </section>
+
+    <!-- ── FAQ ── -->
     <section class="faq-section">
       <h2 class="section-heading">Common questions from UCSC students</h2>
       <div class="faq-accordion">
@@ -123,8 +206,8 @@ const structuredData = [
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-height: 40vh;
-    padding: 12rem 2rem 4rem;
+    min-height: 32vh;
+    padding: 12rem 2rem 3rem;
     position: relative;
   }
 
@@ -181,50 +264,164 @@ const structuredData = [
     margin-top: 1.5rem;
   }
 
-  .about-value {
+  /* ── WELCOME WEEK BANNER ── */
+  .ww-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem 1rem;
+    margin: 0 2rem 3rem;
+    padding: 1.1rem 1.75rem;
+    background: #2C4F72;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .ww-banner:hover {
+    transform: scale(1.01);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  }
+
+  .ww-banner-eyebrow {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(0.9rem, 1.3vw, 1rem);
-    font-weight: 500;
-    line-height: 1.6;
-    color: rgba(35, 32, 29, 0.7);
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #EAC77E;
+    flex-shrink: 0;
   }
 
-  .info-grid {
-    flex: 1;
+  .ww-banner-copy {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .ww-banner-arrow {
+    font-size: 0.9rem;
+    color: #EAC77E;
+    flex-shrink: 0;
+  }
+
+  /* ── QUICK NAV ── */
+  .quick-nav {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    padding: 1rem 3rem 6rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    max-width: 46rem;
+    margin: 0 auto 4rem;
+    width: calc(100% - 4rem);
+    background: rgba(35, 32, 29, 0.1);
+    border: 1px solid rgba(35, 32, 29, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
   }
 
-  .info-col {
+  .nav-tile {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 1.75rem 1rem;
+    background: #F6F1E4;
+    text-decoration: none;
     text-align: center;
-    padding: 3rem 2rem;
-    gap: 1rem;
+    transition: background 0.2s ease;
   }
+  .nav-tile:hover { background: rgba(44, 79, 114, 0.06); }
 
-  .info-label {
+  .nav-tile-title {
     font-family: 'Archivo', sans-serif;
-    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
-    font-weight: 900;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: -0.01em;
-    line-height: 1;
     color: #2C4F72;
-    margin: 0;
   }
 
-  .info-value {
+  .nav-tile-sub {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(35, 32, 29, 0.65);
+  }
+
+  /* ── SHARED SECTION STYLES ── */
+  .section-heading {
     font-family: 'Archivo', sans-serif;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 900;
-    line-height: 1;
-    color: rgba(35, 32, 29, 0.75);
+    font-size: clamp(1.2rem, 2.6vw, 1.9rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    color: #2C4F72;
+    text-align: center;
   }
 
-  .events-btn {
+  .section-sub {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(35, 32, 29, 0.6);
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
+  /* ── CONNECT GROUPS ── */
+  .groups-section {
+    padding: 1rem 2rem 5rem;
+    border-top: 1px solid rgba(35, 32, 29, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .groups-section .section-heading { padding-top: 4rem; }
+
+  .groups-list {
+    list-style: none;
+    margin: 3rem 0 0;
+    padding: 0;
+    width: 100%;
+    max-width: 42rem;
+    border-top: 1px solid rgba(35, 32, 29, 0.1);
+  }
+
+  .group-row {
+    padding: 1.5rem 0.5rem;
+    border-bottom: 1px solid rgba(35, 32, 29, 0.1);
+  }
+
+  .group-name {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: #23201D;
+  }
+
+  .group-meta {
+    font-family: 'Bitter', Georgia, serif;
+    font-weight: 350;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(35, 32, 29, 0.65);
+    margin-top: 0.3rem;
+  }
+
+  .group-tagline {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: rgba(35, 32, 29, 0.7);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+  }
+
+  .signup-btn {
     display: inline-block;
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.78rem;
@@ -236,23 +433,94 @@ const structuredData = [
     text-decoration: none;
     padding: 0.85rem 2.5rem;
     border-radius: 10px;
+    margin-top: 2.5rem;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .events-btn:hover {
+  .signup-btn:hover {
     transform: scale(1.04);
     box-shadow: 0 6px 24px rgba(0,0,0,0.3);
   }
 
+  /* ── SUNDAY WORSHIP SERVICE ── */
+  .service-section {
+    padding: 4rem 2rem 5rem;
+    border-top: 1px solid rgba(35, 32, 29, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-list {
+    list-style: none;
+    margin: 3rem 0 0;
+    padding: 0;
+    width: 100%;
+    max-width: 34rem;
+    border-top: 1px solid rgba(35, 32, 29, 0.1);
+  }
+
+  .service-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    padding: 1.25rem 0.5rem;
+    border-bottom: 1px solid rgba(35, 32, 29, 0.1);
+  }
+
+  .service-date {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: #23201D;
+  }
+
+  .service-time {
+    font-family: 'Bitter', Georgia, serif;
+    font-weight: 350;
+    font-style: italic;
+    font-size: 1rem;
+    color: #2C4F72;
+  }
+
+  .service-loc {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: rgba(35, 32, 29, 0.65);
+  }
+
+  .service-tbc {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #A15C2A;
+    margin-left: 0.4rem;
+  }
+
+  .service-note {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(35, 32, 29, 0.7);
+    text-align: center;
+    margin-top: 2rem;
+    max-width: 34rem;
+  }
+  .service-note a {
+    color: #2C4F72;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
   @media (max-width: 768px) {
-    .info-grid {
-      grid-template-columns: 1fr;
-      padding: 0 2rem 4rem;
-    }
-    .info-col {
-      padding: 2rem 1rem;
-    }
+    .quick-nav { grid-template-columns: 1fr; }
+    .groups-section, .service-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .service-row { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
     .faq-section { padding: 3.5rem 1.5rem; }
-    .section-heading { margin-bottom: 2rem; }
+    .section-heading { margin-bottom: 0; }
   }
 
   /* ── FAQ ── */
@@ -261,17 +529,7 @@ const structuredData = [
     border-top: 1px solid rgba(35, 32, 29, 0.08);
   }
 
-  .section-heading {
-    font-family: 'Archivo', sans-serif;
-    font-size: clamp(1.2rem, 2.6vw, 1.9rem);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1.15;
-    color: #2C4F72;
-    text-align: center;
-    margin-bottom: 3rem;
-  }
+  .faq-section .section-heading { margin-bottom: 3rem; }
 
   .faq-accordion {
     max-width: 46rem;
