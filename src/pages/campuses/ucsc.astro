@@ -6,7 +6,6 @@ import { Image } from 'astro:assets';
 import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
 import friendsgiving from '../../assets/images/campuses/ucsc/friendsgiving.jpg';
 import sledding from '../../assets/images/campuses/ucsc/sledding.jpg';
-import snowballFight from '../../assets/images/campuses/ucsc/snowball-fight.jpg';
 import winterGroup from '../../assets/images/campuses/ucsc/winter-conference-group.jpg';
 
 const pageUrl = new URL('/campuses/ucsc', Astro.site).href;
@@ -18,10 +17,12 @@ const flyerUrl = 'https://joinflyer.com/ucsc/klesis';
 // confirmed by requesting the 1600/2048/original variants directly and getting
 // HTTP 410 for all three — so 1024px is the actual ceiling available here, not
 // a resizing choice made in this codebase.
+// Landscape only — a portrait shot (the snowball fight) let in a lot of
+// letterboxing on wide desktop screens, so it's been dropped rather than
+// kept behind the fade.
 const carouselPhotos = [
   { src: friendsgiving, alt: 'Klesis students gathered around the kitchen at a Friendsgiving dinner' },
   { src: sledding, alt: 'Klesis students sledding at the NorCal Winter Conference' },
-  { src: snowballFight, alt: 'A snowball fight breaks out at the NorCal Winter Conference' },
   { src: winterGroup, alt: 'Klesis Santa Cruz group photo at the NorCal Winter Conference' },
 ];
 
@@ -138,16 +139,21 @@ const structuredData = [
 
     <!-- ── CAROUSEL / HERO ── -->
     <!-- A slideshow, not a marquee: one photo at a time, holds 5s, crossfades.
-         object-fit:contain (not cover) so no photo gets cropped — a portrait
-         shot next to landscape ones means real letterboxing, so the empty
-         sides fade to black via .carousel-vignette instead of showing bare
-         bars. The Klesis identity + quick links overlay on top of that. -->
+         object-fit:contain (not cover) so no photo gets cropped. The source
+         photos cap out at 1024px (Flickr's free-tier download limit), so
+         .carousel-frame caps how large they're ever displayed — stretching
+         them to fill a wide desktop viewport is what was causing the blur.
+         The empty space that leaves fades to black via .carousel-vignette
+         rather than showing bare bars; .carousel-slides stays full-bleed
+         black behind it so there's no visible seam on ultra-wide screens. -->
     <section class="carousel" aria-label="Photos from Klesis Santa Cruz" style="view-transition-name: campus-ucsc">
       <div class="carousel-slides">
-        {carouselPhotos.map((p, i) => (
-          <Image src={p.src} alt={p.alt} class="carousel-slide" data-slide={i} />
-        ))}
-        <div class="carousel-vignette" aria-hidden="true"></div>
+        <div class="carousel-frame">
+          {carouselPhotos.map((p, i) => (
+            <Image src={p.src} alt={p.alt} class="carousel-slide" data-slide={i} />
+          ))}
+          <div class="carousel-vignette" aria-hidden="true"></div>
+        </div>
       </div>
 
       <div class="carousel-overlay">
@@ -310,10 +316,16 @@ const structuredData = [
     background: #000;
   }
 
-  /* object-fit: contain — never crops a photo. A portrait shot (the
-     snowball fight) next to landscape ones means real empty space on the
-     sides; .carousel-vignette below fades that space to black instead of
-     leaving a bare rectangle. */
+  /* Caps the photo's own display size well below where 1024px source
+     pixels start visibly softening, centered within the still-full-bleed
+     black section above. */
+  .carousel-frame {
+    position: absolute;
+    inset: 0;
+    max-width: 1150px;
+    margin: 0 auto;
+  }
+
   .carousel :global(.carousel-slide) {
     position: absolute;
     inset: 0;
