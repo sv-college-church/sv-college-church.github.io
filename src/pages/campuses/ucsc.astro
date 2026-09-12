@@ -152,6 +152,7 @@ const structuredData = [
           {carouselPhotos.map((p, i) => (
             <Image src={p.src} alt={p.alt} class="carousel-slide" data-slide={i} />
           ))}
+          <div class="carousel-color-wash" aria-hidden="true"></div>
           <div class="carousel-vignette" aria-hidden="true"></div>
         </div>
       </div>
@@ -311,18 +312,21 @@ const structuredData = [
   .carousel-slides {
     position: relative;
     width: 100%;
-    height: 100vh;
     overflow: hidden;
     background: #000;
   }
 
-  /* Caps the photo's own display size well below where 1024px source
-     pixels start visibly softening, centered within the still-full-bleed
-     black section above. */
+  /* Sized to the photos' own 1024x683 ratio (all three share it) instead
+     of a forced 100vh box — that mismatch was what left black letterboxing
+     above and below the photo. Height now just follows the image, and a
+     smaller max-width keeps the 1024px source from upscaling into visible
+     softness. Still centered within the full-bleed black slides track for
+     ultra-wide screens. */
   .carousel-frame {
-    position: absolute;
-    inset: 0;
-    max-width: 1150px;
+    position: relative;
+    width: 100%;
+    max-width: 950px;
+    aspect-ratio: 1024 / 683;
     margin: 0 auto;
   }
 
@@ -340,14 +344,23 @@ const structuredData = [
     opacity: 1;
   }
 
-  /* Radial fade: transparent over the photo itself, full black at the true
-     edges — covers the letterboxed sides/top-bottom AND darkens enough for
-     the overlaid text to stay readable, without a flat wash sitting on top
-     of the photo everywhere (that's what the banner's gradient is for). */
+  /* Experimental: ties the hero back to the banner's pastel gradient above
+     it. Sits under the dark vignette so text contrast isn't affected. */
+  .carousel-color-wash {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
+    mix-blend-mode: overlay;
+    opacity: 0.35;
+  }
+
+  /* Radial fade: transparent over the photo's center, darkening toward the
+     edges — now doubles as a vignette on the photo itself (no letterbox
+     left to hide) and keeps the overlaid text readable. */
   .carousel-vignette {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 75% 75% at center, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.55) 55%, #000 100%);
+    background: radial-gradient(ellipse 75% 75% at center, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.75) 100%);
   }
 
   .carousel-overlay {
@@ -360,6 +373,23 @@ const structuredData = [
     justify-content: center;
     text-align: center;
     padding: 2rem;
+  }
+
+  /* The frame's height now follows the photo's real aspect ratio instead
+     of a forced 100vh, and on a narrow phone that's short — not enough
+     room to overlay the whole identity block on the photo without it
+     spilling into the banner above and the section below. Below this
+     breakpoint the identity content drops into normal flow underneath
+     the photo instead, on its own dark band. .back-link stays put — it's
+     positioned off .carousel, not .carousel-overlay, so it still sits on
+     the photo either way. */
+  @media (max-width: 768px) {
+    .carousel-overlay {
+      position: static;
+      z-index: auto;
+      background: #17140f;
+      padding: 2.5rem 1.5rem 3rem;
+    }
   }
 
   .back-link {
@@ -401,9 +431,10 @@ const structuredData = [
   }
 
   .hero-subtitle {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(1rem, 2vw, 1.25rem);
-    font-weight: 500;
+    font-family: 'Bitter', Georgia, serif;
+    font-weight: 350;
+    font-style: italic;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
     color: rgba(255, 255, 255, 0.85);
     margin-top: 0.5rem;
   }
