@@ -488,25 +488,28 @@ const structuredData = [
     margin-top: 2.25rem;
   }
 
-  /* Opaque now (was outline-only) so they read clearly regardless of
-     what's behind them on the photo. Same gradient + text color as
-     .ww-banner, for a consistent brand pairing across the page. */
+  /* Back to outline-only at rest — the opaque fill didn't land well as
+     the default state. Hover fills with the same gradient + dark text
+     as .ww-banner instead, so the brand pairing still shows up, just on
+     interaction rather than always-on. */
   .hero-cta {
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.78rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #23201D;
+    color: #ffffff;
     text-decoration: none;
     padding: 0.75rem 1.5rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
     border-radius: 999px;
-    background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    transition: filter 0.15s ease;
+    background: transparent;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.3s ease;
   }
   .hero-cta:hover {
-    filter: brightness(1.05);
+    color: #23201D;
+    border-color: transparent;
+    background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
   }
 
   @media (max-width: 768px) {
