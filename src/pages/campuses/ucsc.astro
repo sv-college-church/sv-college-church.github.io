@@ -152,9 +152,11 @@ const structuredData = [
           {carouselPhotos.map((p, i) => (
             <Image src={p.src} alt={p.alt} class="carousel-slide" data-slide={i} />
           ))}
-          <div class="carousel-color-wash" aria-hidden="true"></div>
           <div class="carousel-vignette" aria-hidden="true"></div>
         </div>
+        <!-- Full-bleed, spans the whole slides track (photo + the black
+             letterboxed sides), not just the framed photo. -->
+        <div class="carousel-color-wash" aria-hidden="true"></div>
       </div>
 
       <div class="carousel-overlay">
@@ -321,13 +323,18 @@ const structuredData = [
      above and below the photo. Height now just follows the image, and a
      smaller max-width keeps the 1024px source from upscaling into visible
      softness. Still centered within the full-bleed black slides track for
-     ultra-wide screens. */
+     ultra-wide screens. A soft cream matte + hairline (vintage print
+     border) sits outside the box via box-shadow so it doesn't affect
+     layout, and overflow:hidden clips the photo to the rounded corners. */
   .carousel-frame {
     position: relative;
     width: 100%;
     max-width: 950px;
     aspect-ratio: 1024 / 683;
     margin: 0 auto;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 0 10px rgba(246, 241, 228, 0.9), 0 0 0 11px rgba(35, 32, 29, 0.2);
   }
 
   .carousel :global(.carousel-slide) {
@@ -338,6 +345,8 @@ const structuredData = [
     object-fit: contain;
     opacity: 0;
     transition: opacity 1.2s ease;
+    /* Slight warm, faded grade for a more vintage-photo feel. */
+    filter: sepia(0.12) saturate(0.85) contrast(1.05);
   }
 
   .carousel :global(.carousel-slide.is-active) {
@@ -348,12 +357,14 @@ const structuredData = [
      it. A plain translucent layer (not blended) so it actually reads as a
      color cast — mix-blend-mode: overlay only nudges contrast/saturation
      and was nearly invisible on these fairly desaturated forest/kitchen
-     photos. Sits under the dark vignette so text contrast isn't affected. */
+     photos. Spans the full slides track (photo + letterboxed sides), not
+     just the framed photo, and sits under the dark vignette so text
+     contrast isn't affected. */
   .carousel-color-wash {
     position: absolute;
     inset: 0;
     background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
-    opacity: 0.4;
+    opacity: 0.22;
   }
 
   /* Radial fade: transparent over the photo's center, fading all the way
