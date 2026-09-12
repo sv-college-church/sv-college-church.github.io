@@ -491,8 +491,15 @@ const structuredData = [
   /* Back to outline-only at rest — the opaque fill didn't land well as
      the default state. Hover fills with the same gradient + dark text
      as .ww-banner instead, so the brand pairing still shows up, just on
-     interaction rather than always-on. */
+     interaction rather than always-on.
+     The fill is a ::before layer that fades in via opacity, not a
+     transition on `background` directly — browsers can't smoothly
+     interpolate a solid/transparent background into a gradient, so
+     animating `background` itself just snaps instantly regardless of
+     the transition duration. Opacity animates properly, which is what
+     actually makes this gradual. */
   .hero-cta {
+    position: relative;
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.78rem;
     font-weight: 700;
@@ -503,13 +510,24 @@ const structuredData = [
     padding: 0.75rem 1.5rem;
     border: 1.5px solid rgba(255, 255, 255, 0.55);
     border-radius: 999px;
-    background: transparent;
-    transition: color 0.2s ease, border-color 0.2s ease, background 0.3s ease;
+    transition: color 0.5s ease, border-color 0.5s ease;
+  }
+  .hero-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
   }
   .hero-cta:hover {
     color: #23201D;
     border-color: transparent;
-    background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
+  }
+  .hero-cta:hover::before {
+    opacity: 1;
   }
 
   @media (max-width: 768px) {
