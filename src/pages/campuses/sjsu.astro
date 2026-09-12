@@ -9,7 +9,7 @@ import ismpIcon from '../../assets/images/campuses/logos/ismp-icon.png';
 import { CONNECT_GROUPS_LIVE } from '../../config/flags';
 
 const pageUrl = new URL('/campuses/sjsu', Astro.site).href;
-const sundayLocation = 'Horace Mann Elementary School, 55 N 7th St, San Jose, CA 95112';
+const sundayLocation = 'SVC Student Center, 1700 Duane Ave, Santa Clara, CA 95054';
 
 const faqs = [
   {
@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     q: 'Where can I find a Bible study near San José State?',
-    a: `Klesis and 4Corners read the Bible together in small groups on and around campus during the week, and the whole church gathers on Sundays at 12 PM at ${sundayLocation}, a short walk from campus. Weekly times are posted on each club's Instagram.`,
+    a: `Klesis and 4Corners read the Bible together in small groups on and around campus during the week, and the whole church gathers on Sundays at 12 PM at ${sundayLocation}. Weekly times are posted on each club's Instagram.`,
   },
   {
     q: 'Do I have to be a Christian to come?',
@@ -136,7 +136,7 @@ const structuredData = [
         </div>
         <div class="fact">
           <p class="fact-label">Sundays together</p>
-          <p class="fact-body">The whole church gathers Sundays at 12 PM at Horace Mann Elementary School, 55 N 7th St, a short walk from campus. <a href="/gather">See the Sunday gathering</a>.</p>
+          <p class="fact-body">The whole church gathers Sundays at 12 PM at {sundayLocation}. <a href="/gather">See the Sunday gathering</a>.</p>
         </div>
       </div>
     </section>
