@@ -345,13 +345,15 @@ const structuredData = [
   }
 
   /* Experimental: ties the hero back to the banner's pastel gradient above
-     it. Sits under the dark vignette so text contrast isn't affected. */
+     it. A plain translucent layer (not blended) so it actually reads as a
+     color cast — mix-blend-mode: overlay only nudges contrast/saturation
+     and was nearly invisible on these fairly desaturated forest/kitchen
+     photos. Sits under the dark vignette so text contrast isn't affected. */
   .carousel-color-wash {
     position: absolute;
     inset: 0;
     background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
-    mix-blend-mode: overlay;
-    opacity: 0.6;
+    opacity: 0.4;
   }
 
   /* Radial fade: transparent over the photo's center, fading all the way
