@@ -522,11 +522,29 @@ const structuredData = [
     opacity: 0;
     transition: opacity 0.5s ease;
   }
-  .hero-cta:hover {
+  /* Gated to devices that actually have a mouse-like pointer. Touch
+     screens report a synthetic :hover on tap that can get stuck showing
+     (no mouseout to clear it) until the user taps elsewhere — that's
+     what was making the fill render as a half-applied, low-contrast
+     mess on tablets/phones. Keyboard users get the same fill via
+     :focus-visible below instead, since :hover alone would leave them
+     with no equivalent feedback. */
+  @media (hover: hover) and (pointer: fine) {
+    .hero-cta:hover {
+      color: #23201D;
+      border-color: transparent;
+    }
+    .hero-cta:hover::before {
+      opacity: 1;
+    }
+  }
+  .hero-cta:focus-visible {
     color: #23201D;
     border-color: transparent;
+    outline: 2px solid #23201D;
+    outline-offset: 3px;
   }
-  .hero-cta:hover::before {
+  .hero-cta:focus-visible::before {
     opacity: 1;
   }
 
