@@ -42,11 +42,13 @@ const carouselPhotos = [
   { src: friendsgivingCardGame, alt: 'Klesis students laughing over a card game at Friendsgiving' },
 ];
 
-// previewPhoto below is a PLACEHOLDER — none of these are actually photos of
-// these specific small groups, just one photo each from the general carousel
-// pool above so the hover interaction has something to show. Swap each for a
-// real photo of that group as soon as one exists; nothing else about the
-// hover mechanism needs to change when you do.
+// previewPhotos below are PLACEHOLDERS — none of these are actually photos of
+// these specific small groups, just photos from the general carousel pool
+// above so the hover interaction has something to show. Swap each for real
+// photos of that group as soon as they exist; nothing else about the hover
+// mechanism needs to change when you do. Most groups get one photo; a group
+// can list more than one (Charcuterie Chats gets two) and all of that
+// group's photos drop in together when its row is hovered.
 const groups = [
   {
     name: 'Bible Reading Project',
@@ -54,7 +56,7 @@ const groups = [
     time: 'Thursdays, 7 – 8 PM',
     tagline: null,
     signupUrl: 'https://joinflyer.com/ucsc/klesis/event/frosh-starter-pack---week-1-sep-23-2026',
-    previewPhoto: friendsgiving,
+    previewPhotos: [friendsgiving],
   },
   {
     name: 'Charcuterie Chats',
@@ -62,7 +64,7 @@ const groups = [
     time: 'Thursdays, 7 – 8 PM',
     tagline: 'Make new friends and have meaningful conversations over themed charcuterie boards!',
     signupUrl: 'https://joinflyer.com/ucsc/klesis/event/charcuterie-chats---week-1-sep-24-2026',
-    previewPhoto: winterWindowChat,
+    previewPhotos: [winterWindowChat, friendsgivingPlates],
   },
   {
     name: 'Protein & Proverbs',
@@ -70,8 +72,22 @@ const groups = [
     time: 'Thursdays, 7 – 8:30 PM',
     tagline: null,
     signupUrl: 'https://joinflyer.com/ucsc/klesis/event/protein-proverbs---week-1-sep-24-2026',
-    previewPhoto: friendsgivingLaughing,
+    previewPhotos: [friendsgivingLaughing],
   },
+];
+
+// Flattened one entry per photo (not per group) so a group with multiple
+// previewPhotos gets multiple stacked cards. `group` is the owning group's
+// index — hovering row i reveals every card whose group is <= i, so a
+// multi-photo group's cards all drop in together. Fixed --dx/--dy/--rot
+// scatter per card (one set per flattened photo, not per group) so nothing
+// in a multi-photo group perfectly overlaps.
+const previewCards = groups.flatMap((g, i) => g.previewPhotos.map((photo) => ({ photo, group: i })));
+const previewOffsets = [
+  { dx: -6, dy: 4, rot: -5 },
+  { dx: 6, dy: -5, rot: 4 },
+  { dx: -8, dy: 6, rot: -6 },
+  { dx: 5, dy: -3, rot: 3 },
 ];
 
 // PLACEHOLDER — time is a working estimate, location and rides are unconfirmed.
@@ -239,14 +255,16 @@ const structuredData = [
              Square polaroid cards, dropping in one on top of the next —
              same card look and drop-in motion as #polaroid-stack on the
              homepage, just driven by which row is hovered instead of a
-             timed reveal on load. Hovering row i shows cards 0..i; each
-             card's own small offset/rotation is fixed (not re-randomized
-             per hover) so it lands the same way every time. -->
+             timed reveal on load. Hovering row i shows every card whose
+             group is 0..i (a group with multiple preview photos drops
+             them in together); each card's own small offset/rotation is
+             fixed (not re-randomized per hover) so it lands the same way
+             every time. -->
         <div class="group-preview" aria-hidden="true">
-          {groups.map((g, i) => (
-            <div class="group-preview-card" class:list={[{ 'is-visible': i === 0 }]} data-card={i} style={`--dx: ${[-6, 5, -3][i]}px; --dy: ${[4, -6, 6][i]}px; --rot: ${[-5, 4, -3][i]}deg; z-index: ${i + 1};`}>
+          {previewCards.map((card, i) => (
+            <div class="group-preview-card" class:list={[{ 'is-visible': card.group === 0 }]} data-group={card.group} style={`--dx: ${previewOffsets[i].dx}px; --dy: ${previewOffsets[i].dy}px; --rot: ${previewOffsets[i].rot}deg; z-index: ${i + 1};`}>
               <div class="group-preview-card-inner">
-                <Image src={g.previewPhoto} alt="" />
+                <Image src={card.photo} alt="" />
               </div>
             </div>
           ))}
@@ -755,7 +773,10 @@ const structuredData = [
 
   .groups-layout {
     display: flex;
-    align-items: flex-start;
+    /* stretch (not flex-start) is what makes .group-preview match
+       .groups-list's height below — it has no height of its own, so it
+       fills the flex line, which .groups-list's content defines. */
+    align-items: stretch;
     justify-content: center;
     gap: 2.5rem;
     width: 100%;
@@ -771,45 +792,49 @@ const structuredData = [
     border-top: 1px solid rgba(35, 32, 29, 0.1);
   }
 
-  /* Square stage the polaroid cards sit inside, centered — sized for one
-     190px card plus room for its scatter offset, not tied to the photos'
-     own dimensions (object-fit:cover crops them square regardless). */
+  /* Fixed width, no set height — stretches to match .groups-list via
+     align-items:stretch above. The card inside is centered in whatever
+     that height turns out to be. */
   .group-preview {
     position: relative;
-    flex: 0 0 240px;
-    height: 240px;
+    flex: 0 0 340px;
   }
 
   /* Same card look as #polaroid-stack's .polaroid-card on the homepage:
      white frame, thick bottom edge for the classic polaroid caption
-     strip (left blank here), layered soft shadow. --dx/--dy/--rot come
+     strip (left blank here), layered soft shadow. Frame thickness matches
+     that card's proportions (14px/56px sides/bottom on its ~580px card)
+     scaled down for this card's smaller 300px size. --dx/--dy/--rot come
      from the inline style on each card (see the markup) — one fixed
      scatter position per card rather than re-randomized on every hover,
-     so each group's photo always lands the same way. */
+     so each group's photo always lands the same way. Centered via
+     top/left:50% + the -50%/-50% half of the transform, with the
+     scatter offset and (for the hidden state) the drop-in lift stacked
+     on top of that centering in the same transform. */
   .group-preview-card {
     position: absolute;
-    top: 25px;
-    left: 25px;
-    width: 190px;
-    height: 190px;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
     background: #ffffff;
     border-radius: 10px;
-    padding: 10px 10px 34px;
+    padding: 8px 8px 30px;
     box-sizing: border-box;
     box-shadow:
       0 2px 6px rgba(35, 32, 29, 0.09),
       0 8px 20px rgba(35, 32, 29, 0.14),
       0 20px 40px rgba(35, 32, 29, 0.1);
     opacity: 0;
-    /* Hidden state starts 60px above its landing spot, same drop-in
+    /* Hidden state starts 90px above its landing spot, same drop-in
        direction as the homepage stack. The bounce (cubic-bezier with a
        >1 middle value) is that stack's exact easing too. */
-    transform: translate(var(--dx), calc(var(--dy) - 60px)) rotate(var(--rot));
+    transform: translate(-50%, -50%) translate(var(--dx), calc(var(--dy) - 90px)) rotate(var(--rot));
     transition: transform 0.5s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.3s ease;
   }
   .group-preview-card.is-visible {
     opacity: 1;
-    transform: translate(var(--dx), var(--dy)) rotate(var(--rot));
+    transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) rotate(var(--rot));
   }
 
   .group-preview-card-inner {
@@ -1092,20 +1117,21 @@ const structuredData = [
     dots[0]?.classList.add('is-active');
   }
 
-  // Connect Groups photo preview: hovering row i reveals cards 0..i,
-  // stacked — each successive row drops one more photo on top, same
-  // one-at-a-time reveal as #polaroid-stack on the homepage. Moving back
-  // up to an earlier row hides the later cards again rather than leaving
-  // them stuck, so the stack height always matches the row you're on.
-  // Desktop-only (see the max-width:768px rule hiding .group-preview), so
-  // these listeners are simply inert on a touch device — mouseenter never
-  // fires there.
-  const previewCards = document.querySelectorAll<HTMLElement>('.group-preview-card');
+  // Connect Groups photo preview: hovering row i reveals every card whose
+  // owning group is 0..i, stacked — each successive row drops its group's
+  // photo(s) on top, same one-at-a-time reveal as #polaroid-stack on the
+  // homepage (a group with more than one preview photo drops all of them
+  // together). Moving back up to an earlier row hides the later cards
+  // again rather than leaving them stuck, so the stack height always
+  // matches the row you're on. Desktop-only (see the max-width:768px rule
+  // hiding .group-preview), so these listeners are simply inert on a touch
+  // device — mouseenter never fires there.
+  const groupPreviewCards = document.querySelectorAll<HTMLElement>('.group-preview-card');
   document.querySelectorAll<HTMLElement>('.group-row').forEach((row) => {
     row.addEventListener('mouseenter', () => {
       const hoveredIndex = Number(row.dataset.group);
-      previewCards.forEach((card) => {
-        card.classList.toggle('is-visible', Number(card.dataset.card) <= hoveredIndex);
+      groupPreviewCards.forEach((card) => {
+        card.classList.toggle('is-visible', Number(card.dataset.group) <= hoveredIndex);
       });
     });
   });
