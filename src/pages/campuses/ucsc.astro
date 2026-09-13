@@ -4,8 +4,76 @@ import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
+import friendsgiving from '../../assets/images/campuses/ucsc/friendsgiving.jpg';
+import sledding from '../../assets/images/campuses/ucsc/sledding.jpg';
+import winterGroup from '../../assets/images/campuses/ucsc/winter-conference-group.jpg';
+import winterWindowChat from '../../assets/images/campuses/ucsc/winter-conference-window-chat.jpg';
+import winterFriendGroup from '../../assets/images/campuses/ucsc/winter-conference-friend-group.jpg';
+import friendsgivingPlates from '../../assets/images/campuses/ucsc/friendsgiving-plates.jpg';
+import friendsgivingLaughing from '../../assets/images/campuses/ucsc/friendsgiving-laughing.jpg';
+import friendsgivingCardGame from '../../assets/images/campuses/ucsc/friendsgiving-card-game.jpg';
 
 const pageUrl = new URL('/campuses/ucsc', Astro.site).href;
+const flyerUrl = 'https://joinflyer.com/ucsc/klesis';
+
+// From Klesis Santa Cruz's own Flickr (flickr.com/photos/pursuitcollegechurch).
+// The original 3 were used with the campus team's direction on which photos to
+// feature; the 5 added after that (window chat, friend-group hug, and the 3
+// Friendsgiving shots below) were picked from the same two events'
+// already-approved albums (2024-01-20 NorCal Winter Conference,
+// 2023-11-17 Friendsgiving) by browsing for more landscape, on-brand shots —
+// not separately confirmed with the campus team, so swap any of them out if
+// they'd rather feature different moments. Flickr caps anonymous downloads at
+// 1024px on the long edge for this (free-tier) account — confirmed by
+// requesting the 1600/2048/original variants directly and getting HTTP 410 for
+// all three — so 1024px is the actual ceiling available here, not a resizing
+// choice made in this codebase.
+// Landscape only — a portrait shot (the snowball fight) let in a lot of
+// letterboxing on wide desktop screens, so it's been dropped rather than
+// kept behind the fade.
+const carouselPhotos = [
+  { src: friendsgiving, alt: 'Klesis students gathered around the kitchen at a Friendsgiving dinner' },
+  { src: sledding, alt: 'Klesis students sledding at the NorCal Winter Conference' },
+  { src: winterGroup, alt: 'Klesis Santa Cruz group photo at the NorCal Winter Conference' },
+  { src: winterWindowChat, alt: 'Klesis students chatting by a window overlooking the snow at the NorCal Winter Conference' },
+  { src: winterFriendGroup, alt: 'Klesis students posing together in the snow at the NorCal Winter Conference' },
+  { src: friendsgivingPlates, alt: 'Klesis students smiling with plates of food at Friendsgiving' },
+  { src: friendsgivingLaughing, alt: 'Klesis students laughing together at Friendsgiving' },
+  { src: friendsgivingCardGame, alt: 'Klesis students laughing over a card game at Friendsgiving' },
+];
+
+// Leads-only, no photos — matches the flat/minimal treatment requested for this page.
+// Each group's signupUrl is its own Flyer event page (week 1), not the general Flyer profile.
+const groups = [
+  {
+    name: 'Bible Reading Project',
+    leads: 'Robbie & Alyssa',
+    time: 'Thursdays, 7 – 8 PM',
+    tagline: null,
+    signupUrl: 'https://joinflyer.com/ucsc/klesis/event/frosh-starter-pack---week-1-sep-23-2026',
+  },
+  {
+    name: 'Charcuterie Chats',
+    leads: 'Kerri & Jeanine',
+    time: 'Thursdays, 7 – 8 PM',
+    tagline: 'Make new friends and have meaningful conversations over themed charcuterie boards!',
+    signupUrl: 'https://joinflyer.com/ucsc/klesis/event/charcuterie-chats---week-1-sep-24-2026',
+  },
+  {
+    name: 'Protein & Proverbs',
+    leads: 'Joey & John',
+    time: 'Thursdays, 7 – 8:30 PM',
+    tagline: null,
+    signupUrl: 'https://joinflyer.com/ucsc/klesis/event/protein-proverbs---week-1-sep-24-2026',
+  },
+];
+
+// PLACEHOLDER — time is a working estimate, location and rides are unconfirmed.
+// Update once Sunday Gathering details are locked in.
+const serviceDates = ['Sun, Sep 20', 'Sun, Sep 27'];
+const serviceTime = '3:30 PM';
+const serviceLocation = 'Baskin Engineering Hall';
+const serviceLocationConfirmed = false;
 
 const faqs = [
   {
@@ -14,11 +82,19 @@ const faqs = [
   },
   {
     q: 'Where can I find a Bible study near UCSC?',
-    a: 'Klesis gathers for Bible study and community on and around the UCSC campus. Current meeting times are posted on the Klesis UCSC flyer page.',
+    a: 'Klesis gathers for Bible study and community on and around the UCSC campus. Current Connect Groups and meeting times are listed above.',
   },
   {
     q: 'Do I have to be a Christian to come?',
     a: 'No. Klesis is open to every UCSC student, Christian or not.',
+  },
+  {
+    q: 'What should I expect at Sunday Gathering?',
+    a: 'A relaxed, welcoming service, worship music, a short message from Scripture, and time to meet people afterward.',
+  },
+  {
+    q: "What's the dress code?",
+    a: 'Come as you are. Jeans and a t-shirt is completely normal.',
   },
 ];
 
@@ -43,7 +119,6 @@ const structuredData = [
     sameAs: ['https://www.instagram.com/klesis.ucsc/'],
     parentOrganization: { '@type': 'Church', name: 'Silicon Valley College Church', url: Astro.site?.href },
     areaServed: { '@type': 'CollegeOrUniversity', name: 'UC Santa Cruz' },
-    foundingDate: '2015',
   },
   {
     '@context': 'https://schema.org',
@@ -54,50 +129,151 @@ const structuredData = [
       acceptedAnswer: { '@type': 'Answer', text: f.a },
     })),
   },
+  // No Event structured data for Sunday Gathering yet — location isn't
+  // confirmed, and publishing tentative facts to search results risks going
+  // stale. Add once serviceLocationConfirmed is true.
 ];
 ---
 
 <BaseLayout
   title="Klesis UCSC | Christian Fellowship & Bible Study at UC Santa Cruz"
-  description="Klesis is a Christian fellowship at UC Santa Cruz. Bible study and community, open to all UCSC students, Christian or not."
+  description="Klesis is a Christian fellowship at UC Santa Cruz. Connect Groups, Sunday Gathering, and Welcome Week, open to all UCSC students, Christian or not."
   structuredData={structuredData}
 >
   <Nav />
 
   <main id="main-content">
 
-    <section class="hero-section" style="view-transition-name: campus-ucsc">
-      <a href="/campuses" class="back-link">← Campuses</a>
-      <Image src={klesisUcsc} alt="Klesis Christian Fellowship logo, UC Santa Cruz" class="hero-logo" />
-      <p class="hero-fellowship">Klesis</p>
-      <h1 class="school-name">UC Santa Cruz</h1>
-      <p class="hero-tagline">A Christian fellowship and Bible study at UC Santa Cruz</p>
+    <!-- ── WELCOME WEEK BANNER ── -->
+    <!-- Now the very first thing on the page, so it carries its own
+         nav-clearance padding instead of the carousel below it. -->
+    <a href={flyerUrl} target="_blank" rel="noopener noreferrer" class="ww-banner">
+      <span class="ww-banner-eyebrow">Welcome Week</span>
+      <span class="ww-banner-copy">
+        <!-- Shorter phrasing swaps in below the mobile breakpoint — the
+             full "Welcome, Class of 2030!" wording wraps onto 2 lines on
+             narrow phones, and a wrapped banner reads worse than a
+             slightly terser one. -->
+        <span class="ww-banner-copy-full">Welcome, Class of 2030! Check out our Welcome Week events!</span>
+        <span class="ww-banner-copy-short">Class of 2030: Check out our Welcome Week events!</span>
+      </span>
+      <span class="ww-banner-arrow">↗</span>
+    </a>
+
+    <!-- ── CAROUSEL / HERO ── -->
+    <!-- A slideshow, not a marquee: one photo at a time, holds 5s, crossfades.
+         object-fit:contain (not cover) so no photo gets cropped. The source
+         photos cap out at 1024px (Flickr's free-tier download limit), so
+         .carousel-frame caps how large they're ever displayed — stretching
+         them to fill a wide desktop viewport is what was causing the blur.
+         The empty space that leaves fades to black via .carousel-vignette
+         rather than showing bare bars; .carousel-slides stays full-bleed
+         black behind it so there's no visible seam on ultra-wide screens. -->
+    <section class="carousel" aria-label="Photos from Klesis Santa Cruz" style="view-transition-name: campus-ucsc">
+      <div class="carousel-slides">
+        <div class="carousel-frame">
+          {carouselPhotos.map((p, i) => (
+            <Image src={p.src} alt={p.alt} class="carousel-slide" data-slide={i} />
+          ))}
+          <div class="carousel-vignette" aria-hidden="true"></div>
+          <!-- Mobile-only (see .carousel-dots below) — a small signal
+               that this is a rotating set of photos, not a single static
+               background image, since nothing else on screen hints at
+               that once it's cropped full-bleed behind the identity
+               content. -->
+          <div class="carousel-dots" aria-hidden="true">
+            {carouselPhotos.map((_, i) => (
+              <span class="carousel-dot" data-dot={i}></span>
+            ))}
+          </div>
+        </div>
+        <!-- Full-bleed, spans the whole slides track (photo + the black
+             letterboxed sides), not just the framed photo. -->
+        <div class="carousel-color-wash" aria-hidden="true"></div>
+      </div>
+
+      <div class="carousel-overlay">
+        <a href="/campuses" class="back-link">← Campuses</a>
+
+        <!-- Every other /campuses page has an h1 with its school name
+             (see stanford.astro's "Stanford University", etc.) — this page
+             lost that in the redesign, since the wordmark + subtitle were
+             marked up as a span/p with no heading at all. Wrapping both in
+             an h1 fixes that (axe's page-has-heading-one) without touching
+             their own layout — .hero-heading below just replicates the
+             column stacking .carousel-overlay already gave them as direct
+             flex children. -->
+        <h1 class="hero-heading">
+          <div class="hero-lockup">
+            <Image src={klesisUcsc} alt="Klesis Christian Fellowship logo, UC Santa Cruz" class="hero-logo" />
+            <span class="hero-wordmark">klesis</span>
+          </div>
+          <p class="hero-subtitle">at UC Santa Cruz</p>
+        </h1>
+        <p class="hero-tagline">A Christian fellowship and Bible study at UC Santa Cruz</p>
+
+        <div class="hero-ctas">
+          <a href="#connect-groups" class="hero-cta">Connect Groups</a>
+          <a href="#sunday-service" class="hero-cta">Sunday Gathering</a>
+        </div>
+      </div>
     </section>
 
-    <section class="info-grid">
-      <div class="info-col">
-        <h2 class="info-label">Established</h2>
-        <p class="info-value">2015</p>
-      </div>
-      <div class="info-col">
-        <h2 class="info-label">About</h2>
-        <p class="about-value">Open to all incoming and current UCSC students, Christian or not.</p>
-      </div>
-      <div class="info-col">
-        <h2 class="info-label">Events</h2>
-        <a href="https://joinflyer.com/ucsc/klesis" target="_blank" rel="noopener noreferrer" class="events-btn">Flyer ↗</a>
-      </div>
+    <!-- ── CONNECT GROUPS ── -->
+    <section id="connect-groups" class="groups-section">
+      <h2 class="section-heading">Connect Groups</h2>
+      <p class="section-sub">Small groups of students, meeting weekly to grow in faith and friendship.</p>
+
+      <ul class="groups-list">
+        {groups.map((g) => (
+          <li class="group-row">
+            <div class="group-info">
+              <p class="group-name">{g.name}</p>
+              <p class="group-meta">{g.leads} · {g.time}</p>
+              {g.tagline && <p class="group-tagline">{g.tagline}</p>}
+            </div>
+            <a href={g.signupUrl} target="_blank" rel="noopener noreferrer" class="group-signup-btn">Sign Up ↗</a>
+          </li>
+        ))}
+      </ul>
+
+      <p class="section-note">See all groups and events on <a href={flyerUrl} target="_blank" rel="noopener noreferrer">Flyer ↗</a></p>
     </section>
 
+    <!-- ── SUNDAY WORSHIP SERVICE ── -->
+    <section id="sunday-service" class="service-section">
+      <h2 class="section-heading">Sunday Gathering</h2>
+      <p class="section-sub">Join us for the first two Sundays of the school year.</p>
+
+      <ul class="service-list">
+        {serviceDates.map((date) => (
+          <li class="service-row">
+            <span class="service-date">{date}</span>
+            <span class="service-time">{serviceTime}</span>
+            <span class="service-loc">
+              {serviceLocation}
+              {!serviceLocationConfirmed && <span class="service-tbc">(location TBC)</span>}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p class="service-note">Ride details coming soon, check back or follow <a href="https://www.instagram.com/klesis.ucsc/" target="_blank" rel="noopener noreferrer">@klesis.ucsc</a> for updates.</p>
+    </section>
+
+    <!-- ── FAQ ── -->
     <section class="faq-section">
       <h2 class="section-heading">Common questions from UCSC students</h2>
       <div class="faq-accordion">
-        {faqs.map((f) => (
+        {faqs.map((f, i) => (
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls={`faq-panel-${i}`}>
               <span>{f.q}</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <!-- aria-hidden mirrors aria-expanded on the trigger — the
+                 max-height/overflow collapse only hides this visually, so
+                 without it a screen reader's virtual cursor could still
+                 read a closed answer sighted users can't see. -->
+            <div class="accordion-content" id={`faq-panel-${i}`} aria-hidden="true">
               <p>{f.a}</p>
             </div>
           </div>
@@ -117,58 +293,303 @@ const structuredData = [
 <style>
   main { flex: 1; display: flex; flex-direction: column; }
 
-  .hero-section {
+  /* ── WELCOME WEEK BANNER ── */
+  /* Now the very first thing on the page — carries its own nav-clearance
+     top padding. main has no side padding of its own, so a plain
+     block-level width fills it edge to edge. Still the only element on
+     the page carrying the pastel gradient. */
+  .ww-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem 1.25rem;
+    width: 100%;
+    /* Nav is fixed at 8rem tall on desktop (5rem on mobile) and overlays
+       whatever's behind it, so top padding = nav height + the same 2.25rem
+       breathing room used on the bottom — equal padding is what actually
+       centers the text visually below the nav, a flat 8.5rem top made the
+       text sit hard against the nav with dead space below it instead. */
+    padding: calc(8rem + 2.25rem) 2rem 2.25rem;
+    background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
+    text-decoration: none;
+    transition: filter 0.15s ease;
+  }
+  .ww-banner:hover {
+    filter: brightness(1.03);
+  }
+
+  /* The browser's default focus ring was effectively invisible here —
+     this banner is a full-bleed, near-viewport-width link, and its
+     default outline drew at the very edge of that huge box where it's
+     easy to miss (confirmed by tabbing to it: no perceptible change,
+     unlike the hero-cta buttons' own :focus-visible). Charcoal was
+     already verified elsewhere on this page to clear AA contrast against
+     both ends of this same gradient, and outline-offset is negative so
+     the ring stays inside the banner's own box instead of getting
+     clipped by the viewport at y=0. */
+  .ww-banner:focus-visible {
+    outline: 3px solid #23201D;
+    outline-offset: -4px;
+  }
+
+  .ww-banner-eyebrow {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #004A8A;
+    flex-shrink: 0;
+  }
+
+  .ww-banner-copy {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 700;
+    color: #23201D;
+    text-align: center;
+  }
+
+  .ww-banner-copy-short {
+    display: none;
+  }
+
+  .ww-banner-arrow {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #004A8A;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .ww-banner { padding: calc(5rem + 1.75rem) 1.5rem 1.75rem; }
+    .ww-banner-copy-full { display: none; }
+    .ww-banner-copy-short {
+      display: inline;
+      /* The shorter wording alone isn't enough to keep this on one line
+         down at typical phone widths (~375-430px) at the parent's
+         font-size — this scales down with viewport width, floored so it
+         never gets too small to read, capped at the parent's own size so
+         it doesn't grow past it near the 768px edge of this query. */
+      font-size: clamp(0.8rem, 3.3vw, 1.2rem);
+    }
+  }
+
+  /* ── CAROUSEL / HERO ── */
+  /* Full-bleed and full-screen-height — ignores main's padding and runs
+     edge to edge. Sits right after the banner now, so no nav-clearance
+     padding of its own is needed. The Klesis / UC Santa Cruz identity
+     overlays on top of the slides via .carousel-overlay, at every
+     breakpoint — see the <768px override below for how mobile fills the
+     screen with a cropped photo instead of the letterboxed one here. */
+  .carousel {
+    position: relative;
+    width: 100%;
+  }
+
+  .carousel-slides {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #000;
+  }
+
+  /* Sized to the photos' own 1024x683 ratio (all three share it) instead
+     of a forced 100vh box — that mismatch was what left black letterboxing
+     above and below the photo. Height now just follows the image, and a
+     smaller max-width keeps the 1024px source from upscaling into visible
+     softness. Still centered within the full-bleed black slides track for
+     ultra-wide screens.
+     Below the mobile breakpoint this switches to a fixed full-screen
+     height instead — see the <768px override further down. */
+  .carousel-frame {
+    position: relative;
+    width: 100%;
+    max-width: 950px;
+    aspect-ratio: 1024 / 683;
+    margin: 0 auto;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .carousel :global(.carousel-slide) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    /* Slight warm, faded grade for a more vintage-photo feel. */
+    filter: sepia(0.12) saturate(0.85) contrast(1.05);
+  }
+
+  .carousel :global(.carousel-slide.is-active) {
+    opacity: 1;
+  }
+
+  /* Experimental: ties the hero back to the banner's pastel gradient above
+     it. A plain translucent layer (not blended) so it actually reads as a
+     color cast — mix-blend-mode: overlay only nudges contrast/saturation
+     and was nearly invisible on these fairly desaturated forest/kitchen
+     photos. Spans the full slides track (photo + letterboxed sides), not
+     just the framed photo. Painted on top of .carousel-vignette (below),
+     so the vignette is tuned dark enough to still clear text-contrast
+     even with this light wash layered over it. */
+  .carousel-color-wash {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
+    opacity: 0.22;
+  }
+
+  /* Radial fade, darkening toward the edges and fading all the way to
+     solid black at the true edge — that last stop has to be fully
+     opaque, not just dark, or the photo's edge meets the surrounding
+     black .carousel-slides background as a visible seam instead of a
+     smooth fade.
+     The center alpha (0.65) isn't just aesthetic — it's load-bearing for
+     WCAG AA text contrast: the overlaid white text sits roughly here, and
+     against a worst-case bright photo (the snow shots) with the pastel
+     wash layered on top, anything much lighter than this drops white text
+     below the 4.5:1 minimum. Verified against both the brightest (snow)
+     and mid-tone photos with the wash's alpha factored in. */
+  .carousel-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 75% 75% at center, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.8) 50%, #000 100%);
+  }
+
+  /* Hidden by default — the desktop hero overlay already makes it obvious
+     there's more than one photo (captions/CTAs sit right on top of it,
+     it's clearly "a moment"). Shown only at the mobile breakpoint below,
+     where the photo is a smaller, lower-key band and easy to mistake for
+     a single static image. */
+  .carousel-dots {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.9rem;
+    z-index: 2;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+  .carousel-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  .carousel-dot.is-active {
+    background: #ffffff;
+    transform: scale(1.3);
+  }
+
+  .carousel-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    min-height: 40vh;
-    padding: 12rem 2rem 4rem;
-    position: relative;
+    padding: 2rem;
+  }
+
+  /* Below this breakpoint the frame gives up the letterbox-free,
+     never-crop treatment above and instead fills most of the screen with
+     object-fit:cover, cropping whatever overflows. That's a deliberate
+     breakpoint-scoped exception to "never crop" — the alternative
+     (sizing the frame to the photo's own aspect ratio) left too little
+     room to keep the identity block overlaid on the photo without it
+     spilling into the banner above and the section below.
+     Height is tied to viewport width (min() with an svh cap) rather than
+     pinned to a flat 100svh, so it actually gets shorter as the screen
+     narrows instead of walling off the same full-height box at every
+     mobile size — 130vw keeps enough room for the identity content
+     without needing the full screen, and the 100svh half of the min()
+     still protects short/landscape phones from a frame taller than the
+     viewport itself. The strong vignette above stays as-is — it's still
+     load-bearing for text contrast now that text is back on the photo at
+     every breakpoint. */
+  @media (max-width: 768px) {
+    .carousel-frame {
+      max-width: none;
+      aspect-ratio: auto;
+      height: min(100svh, 130vw);
+    }
+
+    .carousel :global(.carousel-slide) {
+      object-fit: cover;
+    }
+
+    .carousel-dots {
+      display: flex;
+    }
   }
 
   .back-link {
     position: absolute;
-    top: 9rem;
+    top: 2rem;
     left: 2rem;
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: #816B28;
+    color: #ffffff;
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: opacity 0.2s ease;
   }
-  .back-link:hover { color: #63501E; }
+  .back-link:hover { opacity: 0.75; }
 
-  .school-name {
-    font-family: 'Archivo', sans-serif;
-    font-size: clamp(2.1rem, min(4.6vw, 7vh), 4.6rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 0.9;
-    color: #2C4F72;
+  /* Purely structural — an h1 needs to exist somewhere on this page, and
+     wrapping the existing .hero-lockup + .hero-subtitle pair is the only
+     way to do that without changing what they look like. Resets the
+     browser's default h1 margin and replicates the column-stacking
+     .carousel-overlay (this element's flex parent) already gave them as
+     direct children, so visually nothing moves. */
+  .hero-heading {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-lockup {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   .hero-logo {
-    height: 90px;
+    height: 64px;
     width: auto;
     object-fit: contain;
-    margin-bottom: 0.5rem;
     border-radius: 10px;
   }
 
-  .hero-fellowship {
+  .hero-wordmark {
     font-family: 'Archivo', sans-serif;
-    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: rgba(35, 32, 29, 0.7);
-    margin-bottom: 1.25rem;
+    font-size: clamp(2.75rem, 7vw, 5rem);
+    font-weight: 800;
+    text-transform: lowercase;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: #ffffff;
+  }
+
+  .hero-subtitle {
+    font-family: 'Bitter', Georgia, serif;
+    font-weight: 350;
+    font-style: italic;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    color: #ffffff;
+    margin-top: 0.5rem;
   }
 
   .hero-tagline {
@@ -176,91 +597,99 @@ const structuredData = [
     font-size: clamp(0.85rem, 1.5vw, 1.05rem);
     font-weight: 500;
     line-height: 1.6;
-    color: rgba(35, 32, 29, 0.7);
+    color: #ffffff;
     max-width: 56ch;
     margin-top: 1.5rem;
   }
 
-  .about-value {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(0.9rem, 1.3vw, 1rem);
-    font-weight: 500;
-    line-height: 1.6;
-    color: rgba(35, 32, 29, 0.7);
-  }
-
-  .info-grid {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    padding: 1rem 3rem 6rem;
-  }
-
-  .info-col {
+  .hero-ctas {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
-    text-align: center;
-    padding: 3rem 2rem;
+    justify-content: center;
     gap: 1rem;
+    margin-top: 2.25rem;
   }
 
-  .info-label {
-    font-family: 'Archivo', sans-serif;
-    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1;
-    color: #2C4F72;
-    margin: 0;
-  }
-
-  .info-value {
-    font-family: 'Archivo', sans-serif;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 900;
-    line-height: 1;
-    color: rgba(35, 32, 29, 0.75);
-  }
-
-  .events-btn {
-    display: inline-block;
+  /* Back to outline-only at rest — the opaque fill didn't land well as
+     the default state. Hover fills with the same gradient + dark text
+     as .ww-banner instead, so the brand pairing still shows up, just on
+     interaction rather than always-on.
+     The fill is a ::before layer that fades in via opacity, not a
+     transition on `background` directly — browsers can't smoothly
+     interpolate a solid/transparent background into a gradient, so
+     animating `background` itself just snaps instantly regardless of
+     the transition duration. Opacity animates properly, which is what
+     actually makes this gradual. */
+  .hero-cta {
+    position: relative;
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.78rem;
-    font-weight: 800;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     color: #ffffff;
-    background: #2C4F72;
     text-decoration: none;
-    padding: 0.85rem 2.5rem;
-    border-radius: 10px;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    padding: 0.75rem 1.5rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
+    border-radius: 999px;
+    transition: color 0.5s ease, border-color 0.5s ease;
   }
-  .events-btn:hover {
-    transform: scale(1.04);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  .hero-cta::before {
+    content: '';
+    position: absolute;
+    /* Matches the border-width above (1.5px), not inset:0 — inset:0
+       aligns this pseudo-element with .hero-cta's padding edge, i.e.
+       just inside the border. Since the border itself turns transparent
+       on hover/focus, a plain inset:0 fill left a 1.5px ring of
+       see-through gap where the border used to be, making the button
+       visibly shrink instead of just swapping outline for fill. Pulling
+       the fill out by the same 1.5px makes it flush with the outline's
+       own outer edge, so the footprint stays the same size. */
+    inset: -1.5px;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  /* Gated to devices that actually have a mouse-like pointer. Touch
+     screens report a synthetic :hover on tap that can get stuck showing
+     (no mouseout to clear it) until the user taps elsewhere — that's
+     what was making the fill render as a half-applied, low-contrast
+     mess on tablets/phones. Keyboard users get the same fill via
+     :focus-visible below instead, since :hover alone would leave them
+     with no equivalent feedback. */
+  @media (hover: hover) and (pointer: fine) {
+    .hero-cta:hover {
+      color: #23201D;
+      border-color: transparent;
+    }
+    .hero-cta:hover::before {
+      opacity: 1;
+    }
+  }
+  .hero-cta:focus-visible {
+    color: #23201D;
+    border-color: transparent;
+    outline: 2px solid #23201D;
+    outline-offset: 3px;
+  }
+  .hero-cta:focus-visible::before {
+    opacity: 1;
   }
 
   @media (max-width: 768px) {
-    .info-grid {
-      grid-template-columns: 1fr;
-      padding: 0 2rem 4rem;
-    }
-    .info-col {
-      padding: 2rem 1rem;
-    }
-    .faq-section { padding: 3.5rem 1.5rem; }
-    .section-heading { margin-bottom: 2rem; }
+    .back-link { top: 1.25rem; left: 1.25rem; }
+    .hero-lockup { gap: 0.75rem; }
+    .hero-logo { height: 48px; }
   }
 
-  /* ── FAQ ── */
-  .faq-section {
-    padding: 5rem 2rem;
-    border-top: 1px solid rgba(35, 32, 29, 0.08);
+  @media (prefers-reduced-motion: reduce) {
+    .carousel :global(.carousel-slide) { transition: none; }
   }
 
+  /* ── SHARED SECTION STYLES ── */
   .section-heading {
     font-family: 'Archivo', sans-serif;
     font-size: clamp(1.2rem, 2.6vw, 1.9rem);
@@ -270,8 +699,201 @@ const structuredData = [
     line-height: 1.15;
     color: #2C4F72;
     text-align: center;
-    margin-bottom: 3rem;
   }
+
+  .section-sub {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    /* 0.6 alpha measured at 4.13:1 against the cream page background —
+       just under the 4.5:1 AA minimum for this text size. Bumped to 0.68
+       (5.3:1) for a real margin, not a bare pass. */
+    color: rgba(35, 32, 29, 0.68);
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
+  /* ── CONNECT GROUPS ── */
+  .groups-section {
+    padding: 1rem 2rem 5rem;
+    border-top: 1px solid rgba(35, 32, 29, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .groups-section .section-heading { padding-top: 4rem; }
+
+  .groups-list {
+    list-style: none;
+    margin: 3rem 0 0;
+    padding: 0;
+    width: 100%;
+    max-width: 42rem;
+    border-top: 1px solid rgba(35, 32, 29, 0.1);
+  }
+
+  .group-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem 0.5rem;
+    border-bottom: 1px solid rgba(35, 32, 29, 0.1);
+  }
+
+  .group-info {
+    min-width: 0;
+  }
+
+  .group-name {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: #23201D;
+  }
+
+  .group-meta {
+    font-family: 'Bitter', Georgia, serif;
+    font-weight: 350;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(35, 32, 29, 0.65);
+    margin-top: 0.3rem;
+  }
+
+  .group-tagline {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: rgba(35, 32, 29, 0.7);
+    margin-top: 0.5rem;
+    line-height: 1.5;
+  }
+
+  .group-signup-btn {
+    flex-shrink: 0;
+    display: inline-block;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #ffffff;
+    background: #2C4F72;
+    text-decoration: none;
+    padding: 0.65rem 1.4rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .group-signup-btn:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+  }
+
+  .section-note {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(35, 32, 29, 0.7);
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+  .section-note a {
+    color: #2C4F72;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  /* ── SUNDAY WORSHIP SERVICE ── */
+  .service-section {
+    padding: 4rem 2rem 5rem;
+    border-top: 1px solid rgba(35, 32, 29, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-list {
+    list-style: none;
+    margin: 3rem 0 0;
+    padding: 0;
+    width: 100%;
+    max-width: 34rem;
+    border-top: 1px solid rgba(35, 32, 29, 0.1);
+  }
+
+  .service-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    padding: 1.25rem 0.5rem;
+    border-bottom: 1px solid rgba(35, 32, 29, 0.1);
+  }
+
+  .service-date {
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: #23201D;
+  }
+
+  .service-time {
+    font-family: 'Bitter', Georgia, serif;
+    font-weight: 350;
+    font-style: italic;
+    font-size: 1rem;
+    color: #2C4F72;
+  }
+
+  .service-loc {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: rgba(35, 32, 29, 0.65);
+  }
+
+  .service-tbc {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #A15C2A;
+    margin-left: 0.4rem;
+  }
+
+  .service-note {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(35, 32, 29, 0.7);
+    text-align: center;
+    margin-top: 2rem;
+    max-width: 34rem;
+  }
+  .service-note a {
+    color: #2C4F72;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  @media (max-width: 768px) {
+    .groups-section, .service-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .group-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .service-row { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+    .faq-section { padding: 3.5rem 1.5rem; }
+    .section-heading { margin-bottom: 0; }
+  }
+
+  /* ── FAQ ── */
+  .faq-section {
+    padding: 5rem 2rem;
+    border-top: 1px solid rgba(35, 32, 29, 0.08);
+  }
+
+  .faq-section .section-heading { margin-bottom: 3rem; }
 
   .faq-accordion {
     max-width: 46rem;
@@ -336,7 +958,32 @@ const structuredData = [
       const isOpen = item.classList.contains('is-open');
       item.classList.toggle('is-open', !isOpen);
       trigger.setAttribute('aria-expanded', String(!isOpen));
+      content.setAttribute('aria-hidden', String(isOpen));
       content.style.maxHeight = !isOpen ? content.scrollHeight + 'px' : '';
     });
   });
+
+  // Carousel: a slideshow, not a marquee — one photo at a time, holds 5s, crossfades.
+  // Dots (mobile-only, see .carousel-dots) track the same index so the
+  // rotation still reads as a carousel once it's no longer a full-bleed hero.
+  const slides = document.querySelectorAll<HTMLElement>('.carousel-slide');
+  const dots = document.querySelectorAll<HTMLElement>('.carousel-dot');
+  if (slides.length > 1) {
+    slides[0].classList.add('is-active');
+    dots[0]?.classList.add('is-active');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduceMotion) {
+      let current = 0;
+      setInterval(() => {
+        slides[current].classList.remove('is-active');
+        dots[current]?.classList.remove('is-active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('is-active');
+        dots[current]?.classList.add('is-active');
+      }, 5000);
+    }
+  } else if (slides.length === 1) {
+    slides[0].classList.add('is-active');
+    dots[0]?.classList.add('is-active');
+  }
 </script>
