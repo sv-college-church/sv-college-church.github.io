@@ -133,7 +133,14 @@ const structuredData = [
          nav-clearance padding instead of the carousel below it. -->
     <a href={flyerUrl} target="_blank" rel="noopener noreferrer" class="ww-banner">
       <span class="ww-banner-eyebrow">Welcome Week</span>
-      <span class="ww-banner-copy">Welcome, Class of 2030! Check out our Welcome Week events!</span>
+      <span class="ww-banner-copy">
+        <!-- Shorter phrasing swaps in below the mobile breakpoint — the
+             full "Welcome, Class of 2030!" wording wraps onto 2 lines on
+             narrow phones, and a wrapped banner reads worse than a
+             slightly terser one. -->
+        <span class="ww-banner-copy-full">Welcome, Class of 2030! Check out our Welcome Week events!</span>
+        <span class="ww-banner-copy-short">Class of 2030: Check out our Welcome Week events!</span>
+      </span>
       <span class="ww-banner-arrow">↗</span>
     </a>
 
@@ -300,6 +307,10 @@ const structuredData = [
     text-align: center;
   }
 
+  .ww-banner-copy-short {
+    display: none;
+  }
+
   .ww-banner-arrow {
     font-size: 1.1rem;
     font-weight: 700;
@@ -309,6 +320,16 @@ const structuredData = [
 
   @media (max-width: 768px) {
     .ww-banner { padding: calc(5rem + 1.75rem) 1.5rem 1.75rem; }
+    .ww-banner-copy-full { display: none; }
+    .ww-banner-copy-short {
+      display: inline;
+      /* The shorter wording alone isn't enough to keep this on one line
+         down at typical phone widths (~375-430px) at the parent's
+         font-size — this scales down with viewport width, floored so it
+         never gets too small to read, capped at the parent's own size so
+         it doesn't grow past it near the 768px edge of this query. */
+      font-size: clamp(0.8rem, 3.3vw, 1.2rem);
+    }
   }
 
   /* ── CAROUSEL / HERO ── */
