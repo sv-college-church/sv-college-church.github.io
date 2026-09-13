@@ -195,11 +195,21 @@ const structuredData = [
       <div class="carousel-overlay">
         <a href="/campuses" class="back-link">← Campuses</a>
 
-        <div class="hero-lockup">
-          <Image src={klesisUcsc} alt="Klesis Christian Fellowship logo, UC Santa Cruz" class="hero-logo" />
-          <span class="hero-wordmark">klesis</span>
-        </div>
-        <p class="hero-subtitle">at UC Santa Cruz</p>
+        <!-- Every other /campuses page has an h1 with its school name
+             (see stanford.astro's "Stanford University", etc.) — this page
+             lost that in the redesign, since the wordmark + subtitle were
+             marked up as a span/p with no heading at all. Wrapping both in
+             an h1 fixes that (axe's page-has-heading-one) without touching
+             their own layout — .hero-heading below just replicates the
+             column stacking .carousel-overlay already gave them as direct
+             flex children. -->
+        <h1 class="hero-heading">
+          <div class="hero-lockup">
+            <Image src={klesisUcsc} alt="Klesis Christian Fellowship logo, UC Santa Cruz" class="hero-logo" />
+            <span class="hero-wordmark">klesis</span>
+          </div>
+          <p class="hero-subtitle">at UC Santa Cruz</p>
+        </h1>
         <p class="hero-tagline">A Christian fellowship and Bible study at UC Santa Cruz</p>
 
         <div class="hero-ctas">
@@ -254,12 +264,16 @@ const structuredData = [
     <section class="faq-section">
       <h2 class="section-heading">Common questions from UCSC students</h2>
       <div class="faq-accordion">
-        {faqs.map((f) => (
+        {faqs.map((f, i) => (
           <div class="accordion-item">
-            <button class="accordion-trigger" aria-expanded="false">
+            <button class="accordion-trigger" aria-expanded="false" aria-controls={`faq-panel-${i}`}>
               <span>{f.q}</span><span class="accordion-icon">+</span>
             </button>
-            <div class="accordion-content">
+            <!-- aria-hidden mirrors aria-expanded on the trigger — the
+                 max-height/overflow collapse only hides this visually, so
+                 without it a screen reader's virtual cursor could still
+                 read a closed answer sighted users can't see. -->
+            <div class="accordion-content" id={`faq-panel-${i}`} aria-hidden="true">
               <p>{f.a}</p>
             </div>
           </div>
@@ -303,6 +317,20 @@ const structuredData = [
   }
   .ww-banner:hover {
     filter: brightness(1.03);
+  }
+
+  /* The browser's default focus ring was effectively invisible here —
+     this banner is a full-bleed, near-viewport-width link, and its
+     default outline drew at the very edge of that huge box where it's
+     easy to miss (confirmed by tabbing to it: no perceptible change,
+     unlike the hero-cta buttons' own :focus-visible). Charcoal was
+     already verified elsewhere on this page to clear AA contrast against
+     both ends of this same gradient, and outline-offset is negative so
+     the ring stays inside the banner's own box instead of getting
+     clipped by the viewport at y=0. */
+  .ww-banner:focus-visible {
+    outline: 3px solid #23201D;
+    outline-offset: -4px;
   }
 
   .ww-banner-eyebrow {
@@ -519,6 +547,19 @@ const structuredData = [
   }
   .back-link:hover { opacity: 0.75; }
 
+  /* Purely structural — an h1 needs to exist somewhere on this page, and
+     wrapping the existing .hero-lockup + .hero-subtitle pair is the only
+     way to do that without changing what they look like. Resets the
+     browser's default h1 margin and replicates the column-stacking
+     .carousel-overlay (this element's flex parent) already gave them as
+     direct children, so visually nothing moves. */
+  .hero-heading {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .hero-lockup {
     display: flex;
     align-items: center;
@@ -664,7 +705,10 @@ const structuredData = [
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.9rem;
     font-weight: 500;
-    color: rgba(35, 32, 29, 0.6);
+    /* 0.6 alpha measured at 4.13:1 against the cream page background —
+       just under the 4.5:1 AA minimum for this text size. Bumped to 0.68
+       (5.3:1) for a real margin, not a bare pass. */
+    color: rgba(35, 32, 29, 0.68);
     text-align: center;
     margin-top: 0.5rem;
   }
@@ -914,6 +958,7 @@ const structuredData = [
       const isOpen = item.classList.contains('is-open');
       item.classList.toggle('is-open', !isOpen);
       trigger.setAttribute('aria-expanded', String(!isOpen));
+      content.setAttribute('aria-hidden', String(isOpen));
       content.style.maxHeight = !isOpen ? content.scrollHeight + 'px' : '';
     });
   });
