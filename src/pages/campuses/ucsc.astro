@@ -12,6 +12,10 @@ import winterFriendGroup from '../../assets/images/campuses/ucsc/winter-conferen
 import friendsgivingPlates from '../../assets/images/campuses/ucsc/friendsgiving-plates.jpg';
 import friendsgivingLaughing from '../../assets/images/campuses/ucsc/friendsgiving-laughing.jpg';
 import friendsgivingCardGame from '../../assets/images/campuses/ucsc/friendsgiving-card-game.jpg';
+import connectGroupBibleReading from '../../assets/images/campuses/ucsc/connect-group-bible-reading.jpg';
+import connectGroupCharcuterieBoard from '../../assets/images/campuses/ucsc/connect-group-charcuterie-board.jpg';
+import connectGroupCharcuterieFriends from '../../assets/images/campuses/ucsc/connect-group-charcuterie-friends.jpg';
+import connectGroupProteinProverbs from '../../assets/images/campuses/ucsc/connect-group-protein-proverbs.jpg';
 
 const pageUrl = new URL('/campuses/ucsc', Astro.site).href;
 const flyerUrl = 'https://joinflyer.com/ucsc/klesis';
@@ -42,13 +46,10 @@ const carouselPhotos = [
   { src: friendsgivingCardGame, alt: 'Klesis students laughing over a card game at Friendsgiving' },
 ];
 
-// previewPhotos below are PLACEHOLDERS — none of these are actually photos of
-// these specific small groups, just photos from the general carousel pool
-// above so the hover interaction has something to show. Swap each for real
-// photos of that group as soon as they exist; nothing else about the hover
-// mechanism needs to change when you do. Most groups get one photo; a group
-// can list more than one (Charcuterie Chats gets two) and all of that
-// group's photos drop in together when its row is hovered.
+// previewPhotos are real photos of each group, submitted by the campus team.
+// Most groups get one photo; a group can list more than one (Charcuterie
+// Chats gets two — a board shot and a group shot) and all of that group's
+// photos drop in together when its row is hovered.
 const groups = [
   {
     name: 'Bible Reading Project',
@@ -56,7 +57,7 @@ const groups = [
     time: 'Thursdays, 7 – 8 PM',
     tagline: null,
     signupUrl: 'https://joinflyer.com/ucsc/klesis/event/frosh-starter-pack---week-1-sep-23-2026',
-    previewPhotos: [friendsgiving],
+    previewPhotos: [connectGroupBibleReading],
   },
   {
     name: 'Charcuterie Chats',
@@ -64,7 +65,7 @@ const groups = [
     time: 'Thursdays, 7 – 8 PM',
     tagline: 'Make new friends and have meaningful conversations over themed charcuterie boards!',
     signupUrl: 'https://joinflyer.com/ucsc/klesis/event/charcuterie-chats---week-1-sep-24-2026',
-    previewPhotos: [winterWindowChat, friendsgivingPlates],
+    previewPhotos: [connectGroupCharcuterieBoard, connectGroupCharcuterieFriends],
   },
   {
     name: 'Protein & Proverbs',
@@ -72,7 +73,7 @@ const groups = [
     time: 'Thursdays, 7 – 8:30 PM',
     tagline: null,
     signupUrl: 'https://joinflyer.com/ucsc/klesis/event/protein-proverbs---week-1-sep-24-2026',
-    previewPhotos: [friendsgivingLaughing],
+    previewPhotos: [connectGroupProteinProverbs],
   },
 ];
 
@@ -80,14 +81,15 @@ const groups = [
 // previewPhotos gets multiple stacked cards. `group` is the owning group's
 // index — hovering row i reveals every card whose group is <= i, so a
 // multi-photo group's cards all drop in together. Fixed --dx/--dy/--rot
-// scatter per card (one set per flattened photo, not per group) so nothing
-// in a multi-photo group perfectly overlaps.
+// scatter per card (one set per flattened photo, not per group), spread
+// wide enough that two cards from the same group both stay legible rather
+// than one nearly fully hiding the other underneath it.
 const previewCards = groups.flatMap((g, i) => g.previewPhotos.map((photo) => ({ photo, group: i })));
 const previewOffsets = [
-  { dx: -6, dy: 4, rot: -5 },
-  { dx: 6, dy: -5, rot: 4 },
-  { dx: -8, dy: 6, rot: -6 },
-  { dx: 5, dy: -3, rot: 3 },
+  { dx: -10, dy: 10, rot: -6 },
+  { dx: -46, dy: 26, rot: -10 },
+  { dx: 40, dy: -22, rot: 9 },
+  { dx: 12, dy: -12, rot: 5 },
 ];
 
 // PLACEHOLDER — time is a working estimate, location and rides are unconfirmed.
