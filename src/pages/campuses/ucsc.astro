@@ -818,9 +818,11 @@ const structuredData = [
        fills the flex line, which .groups-list's content defines. */
     align-items: stretch;
     justify-content: center;
-    /* Extra room (up from 2.5rem) so the widest card offset still clears
-       the list column with real breathing space between them. */
-    gap: 3.5rem;
+    /* Extra room (up from 2.5rem, then 3.5rem) so the widest card offset
+       clears the list column with real breathing space between them —
+       3.5rem still read as cramped once the diagonal Charcuterie pair's
+       right edge crept close to the panel's own boundary. */
+    gap: 5rem;
     width: 100%;
     margin: 3rem 0 0;
   }
