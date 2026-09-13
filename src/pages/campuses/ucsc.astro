@@ -55,7 +55,7 @@ const groups = [
     name: 'Bible Reading Project',
     leads: 'Robbie & Alyssa',
     time: 'Thursdays, 7 – 8 PM',
-    tagline: null,
+    tagline: 'Meet weekly to read the Bible together! No experience or religious background necessary.',
     signupUrl: 'https://joinflyer.com/ucsc/klesis/event/frosh-starter-pack---week-1-sep-23-2026',
     previewPhotos: [connectGroupBibleReading],
   },
@@ -63,7 +63,7 @@ const groups = [
     name: 'Charcuterie Chats',
     leads: 'Kerri & Jeanine',
     time: 'Thursdays, 7 – 8 PM',
-    tagline: 'Make new friends and have meaningful conversations over themed charcuterie boards!',
+    tagline: 'Make new friends and have meaningful conversations over themed Bible passages and charcuterie boards!',
     signupUrl: 'https://joinflyer.com/ucsc/klesis/event/charcuterie-chats---week-1-sep-24-2026',
     previewPhotos: [connectGroupCharcuterieBoard, connectGroupCharcuterieFriends],
   },
@@ -71,11 +71,21 @@ const groups = [
     name: 'Protein & Proverbs',
     leads: 'Joey & John',
     time: 'Thursdays, 7 – 8:30 PM',
-    tagline: null,
+    // *marinate* renders as emphasis — see withEmphasis() below.
+    tagline: 'Join us for some good food and good thoughts as we *marinate* in the wisdom of the book of Proverbs!',
     signupUrl: 'https://joinflyer.com/ucsc/klesis/event/protein-proverbs---week-1-sep-24-2026',
     previewPhotos: [connectGroupProteinProverbs],
   },
 ];
+
+// Turns *word* into <em>word</em> for taglines that want a single
+// emphasized word/phrase without pulling in a Markdown renderer for one
+// use. Escape any raw HTML-sensitive characters first since this result
+// gets rendered with set:html.
+function withEmphasis(text: string) {
+  const escaped = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return escaped.replace(/\*(.+?)\*/g, '<em>$1</em>');
+}
 
 // Flattened one entry per photo (not per group) so a group with multiple
 // previewPhotos gets multiple stacked cards. `group` is the owning group's
@@ -314,7 +324,7 @@ const structuredData = [
               <div class="group-info">
                 <p class="group-name">{g.name}</p>
                 <p class="group-meta">Mentors: {g.leads} · {g.time}</p>
-                {g.tagline && <p class="group-tagline">{g.tagline}</p>}
+                {g.tagline && <p class="group-tagline" set:html={withEmphasis(g.tagline)} />}
               </div>
               <a href={g.signupUrl} target="_blank" rel="noopener noreferrer" class="group-signup-btn">Sign Up ↗</a>
             </li>
