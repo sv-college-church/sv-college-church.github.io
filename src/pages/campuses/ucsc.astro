@@ -560,7 +560,15 @@ const structuredData = [
   .hero-cta::before {
     content: '';
     position: absolute;
-    inset: 0;
+    /* Matches the border-width above (1.5px), not inset:0 — inset:0
+       aligns this pseudo-element with .hero-cta's padding edge, i.e.
+       just inside the border. Since the border itself turns transparent
+       on hover/focus, a plain inset:0 fill left a 1.5px ring of
+       see-through gap where the border used to be, making the button
+       visibly shrink instead of just swapping outline for fill. Pulling
+       the fill out by the same 1.5px makes it flush with the outline's
+       own outer edge, so the footprint stays the same size. */
+    inset: -1.5px;
     z-index: -1;
     border-radius: inherit;
     background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
