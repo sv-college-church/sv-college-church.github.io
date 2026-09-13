@@ -153,10 +153,11 @@ const structuredData = [
             <Image src={p.src} alt={p.alt} class="carousel-slide" data-slide={i} />
           ))}
           <div class="carousel-vignette" aria-hidden="true"></div>
-          <!-- Mobile-only (see .carousel-dots below): once the identity
-               block moves off the photo, there's nothing else signaling
-               this is a rotating set of photos rather than one static
-               image. -->
+          <!-- Mobile-only (see .carousel-dots below) — a small signal
+               that this is a rotating set of photos, not a single static
+               background image, since nothing else on screen hints at
+               that once it's cropped full-bleed behind the identity
+               content. -->
           <div class="carousel-dots" aria-hidden="true">
             {carouselPhotos.map((_, i) => (
               <span class="carousel-dot" data-dot={i}></span>
@@ -314,17 +315,12 @@ const structuredData = [
   /* Full-bleed and full-screen-height — ignores main's padding and runs
      edge to edge. Sits right after the banner now, so no nav-clearance
      padding of its own is needed. The Klesis / UC Santa Cruz identity
-     overlays on top of the slides via .carousel-overlay.
-     display:flex here doesn't change desktop rendering at all — .carousel-
-     overlay is position:absolute there, so it's already out of flow and
-     unaffected by the flex container. It's set up so the <768px override
-     below can reorder the (now in-flow) identity block ahead of the photo
-     via `order`, without touching DOM order or the desktop stacking. */
+     overlays on top of the slides via .carousel-overlay, at every
+     breakpoint — see the <768px override below for how mobile fills the
+     screen with a cropped photo instead of the letterboxed one here. */
   .carousel {
     position: relative;
     width: 100%;
-    display: flex;
-    flex-direction: column;
   }
 
   .carousel-slides {
@@ -339,7 +335,9 @@ const structuredData = [
      above and below the photo. Height now just follows the image, and a
      smaller max-width keeps the 1024px source from upscaling into visible
      softness. Still centered within the full-bleed black slides track for
-     ultra-wide screens. */
+     ultra-wide screens.
+     Below the mobile breakpoint this switches to a fixed full-screen
+     height instead — see the <768px override further down. */
   .carousel-frame {
     position: relative;
     width: 100%;
@@ -437,33 +435,31 @@ const structuredData = [
     padding: 2rem;
   }
 
-  /* The frame's height now follows the photo's real aspect ratio instead
-     of a forced 100vh, and on a narrow phone that's short — not enough
-     room to overlay the whole identity block on the photo without it
-     spilling into the banner above and the section below. Below this
-     breakpoint the identity content drops into normal flow on its own
-     dark band, and `order` (see .carousel above) puts that band BEFORE
-     the photo — "klesis" should be the first thing on the page, not
-     something you scroll/see past a photo to reach. .back-link moves
-     with it: it's positioned off .carousel (not .carousel-overlay), so
-     it now sits at the top of the dark identity band instead of on the
-     photo, which also reads better as a top-of-page nav link. */
+  /* Below this breakpoint the frame gives up the letterbox-free,
+     never-crop treatment above and instead fills most of the screen with
+     object-fit:cover, cropping whatever overflows. That's a deliberate
+     breakpoint-scoped exception to "never crop" — the alternative
+     (sizing the frame to the photo's own aspect ratio) left too little
+     room to keep the identity block overlaid on the photo without it
+     spilling into the banner above and the section below.
+     Height is tied to viewport width (min() with an svh cap) rather than
+     pinned to a flat 100svh, so it actually gets shorter as the screen
+     narrows instead of walling off the same full-height box at every
+     mobile size — 130vw keeps enough room for the identity content
+     without needing the full screen, and the 100svh half of the min()
+     still protects short/landscape phones from a frame taller than the
+     viewport itself. The strong vignette above stays as-is — it's still
+     load-bearing for text contrast now that text is back on the photo at
+     every breakpoint. */
   @media (max-width: 768px) {
-    .carousel-overlay {
-      position: static;
-      z-index: auto;
-      order: -1;
-      background: #17140f;
-      padding: 2.5rem 1.5rem 3rem;
+    .carousel-frame {
+      max-width: none;
+      aspect-ratio: auto;
+      height: min(100svh, 130vw);
     }
 
-    /* The strong vignette above is load-bearing for text contrast where
-       the identity block is overlaid directly on the photo — that's no
-       longer true here (it's in its own dark band, off the photo
-       entirely), so there's no accessibility reason to darken the photo
-       this heavily. Back to a lighter, more photo-forward vignette. */
-    .carousel-vignette {
-      background: radial-gradient(ellipse 75% 75% at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.55) 55%, #000 100%);
+    .carousel :global(.carousel-slide) {
+      object-fit: cover;
     }
 
     .carousel-dots {
