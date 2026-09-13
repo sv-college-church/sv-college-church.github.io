@@ -99,8 +99,8 @@ const previewOffsets = [
 // it to the counter clutter on the left.
 const previewFocus = ['left center', 'right center', 'center', 'center'];
 
-// Location and time are confirmed for both dates. Ride details are still
-// pending — see the note under the list below.
+// Location and time are confirmed for both dates. No ride details exist
+// yet, so there's nothing to note about them on the page for now.
 const serviceDates = [
   {
     date: 'Sun, Sep 20',
@@ -313,7 +313,7 @@ const structuredData = [
             <li class="group-row" data-group={i}>
               <div class="group-info">
                 <p class="group-name">{g.name}</p>
-                <p class="group-meta">{g.leads} · {g.time}</p>
+                <p class="group-meta">Mentors: {g.leads} · {g.time}</p>
                 {g.tagline && <p class="group-tagline">{g.tagline}</p>}
               </div>
               <a href={g.signupUrl} target="_blank" rel="noopener noreferrer" class="group-signup-btn">Sign Up ↗</a>
@@ -345,7 +345,6 @@ const structuredData = [
           </li>
         ))}
       </ul>
-      <p class="service-note">Ride details coming soon, check back or follow <a href="https://www.instagram.com/klesis.ucsc/" target="_blank" rel="noopener noreferrer">@klesis.ucsc</a> for updates.</p>
     </section>
 
     <!-- ── FAQ ── -->
@@ -1078,21 +1077,6 @@ const structuredData = [
   .service-signup-btn:hover {
     transform: scale(1.04);
     box-shadow: 0 6px 24px rgba(0,0,0,0.25);
-  }
-
-  .service-note {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: rgba(35, 32, 29, 0.7);
-    text-align: center;
-    margin-top: 2rem;
-    max-width: 34rem;
-  }
-  .service-note a {
-    color: #2C4F72;
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
   }
 
   @media (max-width: 768px) {
