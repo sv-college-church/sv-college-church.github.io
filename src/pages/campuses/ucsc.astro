@@ -7,16 +7,27 @@ import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
 import friendsgiving from '../../assets/images/campuses/ucsc/friendsgiving.jpg';
 import sledding from '../../assets/images/campuses/ucsc/sledding.jpg';
 import winterGroup from '../../assets/images/campuses/ucsc/winter-conference-group.jpg';
+import winterWindowChat from '../../assets/images/campuses/ucsc/winter-conference-window-chat.jpg';
+import winterFriendGroup from '../../assets/images/campuses/ucsc/winter-conference-friend-group.jpg';
+import friendsgivingPlates from '../../assets/images/campuses/ucsc/friendsgiving-plates.jpg';
+import friendsgivingLaughing from '../../assets/images/campuses/ucsc/friendsgiving-laughing.jpg';
+import friendsgivingCardGame from '../../assets/images/campuses/ucsc/friendsgiving-card-game.jpg';
 
 const pageUrl = new URL('/campuses/ucsc', Astro.site).href;
 const flyerUrl = 'https://joinflyer.com/ucsc/klesis';
 
-// From Klesis Santa Cruz's own Flickr (flickr.com/photos/pursuitcollegechurch),
-// used with the campus team's direction on which photos to feature. Flickr caps
-// anonymous downloads at 1024px on the long edge for this (free-tier) account —
-// confirmed by requesting the 1600/2048/original variants directly and getting
-// HTTP 410 for all three — so 1024px is the actual ceiling available here, not
-// a resizing choice made in this codebase.
+// From Klesis Santa Cruz's own Flickr (flickr.com/photos/pursuitcollegechurch).
+// The original 3 were used with the campus team's direction on which photos to
+// feature; the 5 added after that (window chat, friend-group hug, and the 3
+// Friendsgiving shots below) were picked from the same two events'
+// already-approved albums (2024-01-20 NorCal Winter Conference,
+// 2023-11-17 Friendsgiving) by browsing for more landscape, on-brand shots —
+// not separately confirmed with the campus team, so swap any of them out if
+// they'd rather feature different moments. Flickr caps anonymous downloads at
+// 1024px on the long edge for this (free-tier) account — confirmed by
+// requesting the 1600/2048/original variants directly and getting HTTP 410 for
+// all three — so 1024px is the actual ceiling available here, not a resizing
+// choice made in this codebase.
 // Landscape only — a portrait shot (the snowball fight) let in a lot of
 // letterboxing on wide desktop screens, so it's been dropped rather than
 // kept behind the fade.
@@ -24,6 +35,11 @@ const carouselPhotos = [
   { src: friendsgiving, alt: 'Klesis students gathered around the kitchen at a Friendsgiving dinner' },
   { src: sledding, alt: 'Klesis students sledding at the NorCal Winter Conference' },
   { src: winterGroup, alt: 'Klesis Santa Cruz group photo at the NorCal Winter Conference' },
+  { src: winterWindowChat, alt: 'Klesis students chatting by a window overlooking the snow at the NorCal Winter Conference' },
+  { src: winterFriendGroup, alt: 'Klesis students posing together in the snow at the NorCal Winter Conference' },
+  { src: friendsgivingPlates, alt: 'Klesis students smiling with plates of food at Friendsgiving' },
+  { src: friendsgivingLaughing, alt: 'Klesis students laughing together at Friendsgiving' },
+  { src: friendsgivingCardGame, alt: 'Klesis students laughing over a card game at Friendsgiving' },
 ];
 
 // Leads-only, no photos — matches the flat/minimal treatment requested for this page.
