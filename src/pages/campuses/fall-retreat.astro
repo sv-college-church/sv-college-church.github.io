@@ -1,0 +1,275 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { Image } from 'astro:assets';
+import flyer from '../../assets/images/events/fall-retreat-2026.png';
+
+const pageUrl = new URL('/campuses/fall-retreat', Astro.site).href;
+const signupUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdahwZIwwEWzCWn0DWg5yfAMYu9CNrt4ecifq7AjBOwGkvb3g/viewform';
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+      { '@type': 'ListItem', position: 2, name: 'Campuses', item: new URL('/campuses', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: 'NorCal Fall Retreat', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: 'NorCal Fall Retreat',
+    startDate: '2026-10-03T10:00:00-07:00',
+    endDate: '2026-10-03T21:00:00-07:00',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: {
+      '@type': 'Place',
+      name: 'Santa Cruz, CA',
+      address: { '@type': 'PostalAddress', addressLocality: 'Santa Cruz', addressRegion: 'CA', addressCountry: 'US' },
+    },
+    image: [flyer.src],
+    offers: {
+      '@type': 'Offer',
+      price: '15',
+      priceCurrency: 'USD',
+      url: signupUrl,
+      availability: 'https://schema.org/InStock',
+    },
+    organizer: { '@type': 'Organization', name: 'Silicon Valley College Church', url: Astro.site?.href },
+    url: pageUrl,
+  },
+];
+---
+
+<BaseLayout
+  title="NorCal Fall Retreat | Silicon Valley College Church"
+  description="A day in Santa Cruz for college students from every SVC campus — beach, boardwalk, sports, Bible, worship, and new friends. Saturday, October 3, 2026."
+  ogImage={flyer.src}
+  structuredData={structuredData}
+>
+  <Nav />
+
+  <main id="main-content">
+
+    <section class="hero-section" style="view-transition-name: campus-fall-retreat">
+      <a href="/campuses" class="back-link">← Campuses</a>
+      <h1 class="retreat-name">NorCal<br />Fall Retreat</h1>
+      <p class="retreat-tagline">Beach · Boardwalk · Sports · Bible · Worship · Big Questions · New Friends</p>
+    </section>
+
+    <section class="flyer-section">
+      <Image
+        src={flyer}
+        alt="NorCal Fall Retreat flyer: beach, boardwalk, sports, Bible, worship, big questions, new friends — Saturday, October 3, 10 AM to 9 PM, Santa Cruz, CA"
+        class="flyer-image"
+        widths={[640, 1024, 1600, 2040]}
+        sizes="(max-width: 900px) 100vw, 900px"
+      />
+    </section>
+
+    <section class="details-section">
+      <p class="details-intro">
+        One day, every campus. Come hang out at the beach and boardwalk, dig into Scripture,
+        worship together, and wrestle with the big questions — alongside SVC students from
+        Stanford, SJSU, SCU, UC Santa Cruz, and De Anza.
+      </p>
+
+      <ul class="details-list">
+        <li class="details-row">
+          <span class="details-label">Date</span>
+          <span class="details-value">Saturday, October 3, 2026</span>
+        </li>
+        <li class="details-row">
+          <span class="details-label">Time</span>
+          <span class="details-value">10 AM – 9 PM</span>
+        </li>
+        <li class="details-row">
+          <span class="details-label">Location</span>
+          <span class="details-value">Santa Cruz, CA</span>
+        </li>
+        <li class="details-row">
+          <span class="details-label">Cost</span>
+          <span class="details-value">$15</span>
+        </li>
+      </ul>
+
+      <a href={signupUrl} target="_blank" rel="noopener noreferrer" class="signup-btn">Sign Up ↗</a>
+      <p class="details-note">Open to all SVC college students, whatever campus you're from.</p>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  html, body { background: #F6F1E4; }
+  body { display: flex; flex-direction: column; min-height: 100svh; }
+</style>
+
+<style>
+  main { flex: 1; display: flex; flex-direction: column; }
+
+  .hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 34vh;
+    padding: 12rem 2rem 3rem;
+    position: relative;
+    border-bottom: 1px solid rgba(35, 32, 29, 0.08);
+  }
+
+  .back-link {
+    position: absolute;
+    top: 9rem;
+    left: 2rem;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #117688;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: #0C5A68; }
+
+  .retreat-name {
+    font-family: 'Archivo', sans-serif;
+    font-size: clamp(2.1rem, min(5vw, 7vh), 4.8rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+    color: #117688;
+  }
+
+  .retreat-tagline {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.8rem, 1.6vw, 1rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: rgba(35, 32, 29, 0.65);
+    max-width: 46ch;
+    margin-top: 1.25rem;
+  }
+
+  .flyer-section {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 2rem 0;
+  }
+
+  .flyer-image {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    border-radius: 14px;
+    box-shadow:
+      0 2px 8px rgba(35, 32, 29, 0.1),
+      0 16px 40px rgba(35, 32, 29, 0.16);
+  }
+
+  .details-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 2rem 6rem;
+    gap: 2rem;
+  }
+
+  .details-intro {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+    font-weight: 500;
+    line-height: 1.8;
+    color: rgba(35, 32, 29, 0.75);
+    max-width: 42rem;
+  }
+
+  .details-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    border: 1px solid rgba(35, 32, 29, 0.12);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .details-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.25rem 2rem;
+    border-left: 1px solid rgba(35, 32, 29, 0.12);
+  }
+  .details-row:first-child { border-left: none; }
+
+  .details-label {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #117688;
+  }
+
+  .details-value {
+    font-family: 'Bitter', Georgia, serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #23201D;
+    white-space: nowrap;
+  }
+
+  .signup-btn {
+    display: inline-block;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #ffffff;
+    background: #117688;
+    text-decoration: none;
+    padding: 1rem 3rem;
+    border-radius: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .signup-btn:hover {
+    transform: scale(1.04);
+    box-shadow: 0 6px 24px rgba(17, 118, 136, 0.35);
+  }
+
+  .details-note {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    /* 0.6 alpha measured at 4.15:1 against the cream page background —
+       just under the 4.5:1 AA minimum for this text size. Bumped to
+       0.68 (5.3:1) for a real margin, not a bare pass. */
+    color: rgba(35, 32, 29, 0.68);
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .hero-section { padding: 9rem 1.5rem 2.5rem; min-height: 28vh; }
+    .back-link { top: 6.5rem; left: 1.5rem; }
+    .flyer-section { padding: 2rem 1.25rem 0; }
+    .details-section { padding: 2.5rem 1.5rem 4rem; }
+    .details-list { flex-direction: column; width: 100%; max-width: 22rem; }
+    .details-row { border-left: none; border-top: 1px solid rgba(35, 32, 29, 0.12); align-items: center; }
+    .details-row:first-child { border-top: none; }
+  }
+</style>
