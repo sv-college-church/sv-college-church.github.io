@@ -201,7 +201,10 @@ const structuredData = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    color: rgba(35,32,29,0.55);
+    /* 0.55 alpha measured at 3.58:1 against the cream background — below
+       the 4.5:1 AA minimum for this text size. Bumped to 0.68 (5.3:1) for
+       a real margin, not a bare pass. */
+    color: rgba(35,32,29,0.68);
   }
   .coming-up-arrow {
     font-family: 'Plus Jakarta Sans', sans-serif;
