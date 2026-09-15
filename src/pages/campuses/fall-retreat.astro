@@ -58,6 +58,7 @@ const structuredData = [
     <section class="hero-section" style="view-transition-name: campus-fall-retreat">
       <a href="/campuses" class="back-link">← Campuses</a>
       <h1 class="retreat-name">NorCal<br />Fall Retreat</h1>
+      <p class="retreat-subtitle">Saturday, October 3, 2026 · 10 AM – 9 PM · Santa Cruz, CA · $15</p>
     </section>
 
     <section class="flyer-section">
@@ -76,25 +77,6 @@ const structuredData = [
         wrestle with the big questions, alongside SVC students from Stanford, SJSU, SCU, UC
         Santa Cruz, and De Anza.
       </p>
-
-      <ul class="details-list">
-        <li class="details-row">
-          <span class="details-label">Date</span>
-          <span class="details-value">Saturday, October 3, 2026</span>
-        </li>
-        <li class="details-row">
-          <span class="details-label">Time</span>
-          <span class="details-value">10 AM – 9 PM</span>
-        </li>
-        <li class="details-row">
-          <span class="details-label">Location</span>
-          <span class="details-value">Santa Cruz, CA</span>
-        </li>
-        <li class="details-row">
-          <span class="details-label">Cost</span>
-          <span class="details-value">$15</span>
-        </li>
-      </ul>
 
       <a href={signupUrl} target="_blank" rel="noopener noreferrer" class="signup-btn">Sign Up ↗</a>
       <p class="details-note">Open to all SVC college students, whatever campus you're from.</p>
@@ -149,6 +131,16 @@ const structuredData = [
     color: #117688;
   }
 
+  .retreat-subtitle {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(0.85rem, 1.6vw, 1.05rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: rgba(35, 32, 29, 0.7);
+    max-width: 34rem;
+    margin-top: 1.25rem;
+  }
+
   .flyer-section {
     display: flex;
     justify-content: center;
@@ -181,49 +173,6 @@ const structuredData = [
     line-height: 1.8;
     color: rgba(35, 32, 29, 0.75);
     max-width: 42rem;
-  }
-
-  .details-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0;
-    background: #ffffff;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow:
-      0 1px 2px rgba(35, 32, 29, 0.06),
-      0 12px 32px rgba(35, 32, 29, 0.1);
-  }
-
-  .details-row {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    padding: 1.5rem 2.25rem;
-    border-left: 1px solid rgba(35, 32, 29, 0.1);
-  }
-  .details-row:first-child { border-left: none; }
-
-  .details-label {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: #117688;
-  }
-
-  .details-value {
-    font-family: 'Archivo', sans-serif;
-    font-weight: 700;
-    font-size: 1.35rem;
-    letter-spacing: -0.01em;
-    color: #23201D;
-    white-space: nowrap;
   }
 
   .signup-btn {
@@ -261,8 +210,5 @@ const structuredData = [
     .back-link { top: 6.5rem; left: 1.5rem; }
     .flyer-section { padding: 2rem 1.25rem 0; }
     .details-section { padding: 2.5rem 1.5rem 4rem; }
-    .details-list { flex-direction: column; width: 100%; max-width: 22rem; }
-    .details-row { border-left: none; border-top: 1px solid rgba(35, 32, 29, 0.12); align-items: center; }
-    .details-row:first-child { border-top: none; }
   }
 </style>
