@@ -88,16 +88,26 @@ const svcLogo = '/images/svc-logo.svg';
   .nav-header {
     overflow: visible;
     transition: transform 0.3s ease;
+    animation: navFadeIn 0.35s ease-out;
+  }
+
+  @keyframes navFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 
   /* Scroll-down hides the header, scroll-up brings it back — see the
-     scroll listener at the bottom of this file. */
+     scroll listener at the bottom of this file. The event banner (when
+     present and not dismissed) sits above the header and pushes it down
+     by --banner-height (see EventBanner.astro); subtracting that from the
+     translate distance too means the header clears the viewport
+     completely instead of leaving a banner-height sliver behind. */
   .nav-header.nav-hidden {
-    transform: translateY(-100%);
+    transform: translateY(calc(-100% - var(--banner-height, 0px)));
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .nav-header { transition: none; }
+    .nav-header { transition: none; animation: none; }
   }
 
   .nav-header::before {
@@ -378,6 +388,12 @@ const svcLogo = '/images/svc-logo.svg';
       const header = document.querySelector<HTMLElement>('.nav-header');
       if (!header) return;
 
+      // The event banner (if present and not dismissed) hides/shows together
+      // with the header, as one sticky unit. A dismissed banner is already
+      // display:none, so toggling its class is a harmless no-op — no extra
+      // guard needed for that case.
+      const banner = document.querySelector<HTMLElement>('[data-event-banner]');
+
       const menuToggle = document.getElementById('menu-toggle');
       const menuOpen = menuToggle?.getAttribute('aria-expanded') === 'true';
 
@@ -386,8 +402,10 @@ const svcLogo = '/images/svc-logo.svg';
 
       if (!menuOpen && scrollingDown && currentScrollY > NAV_HIDE_THRESHOLD_PX) {
         header.classList.add('nav-hidden');
+        banner?.classList.add('nav-hidden');
       } else {
         header.classList.remove('nav-hidden');
+        banner?.classList.remove('nav-hidden');
       }
 
       lastScrollY = currentScrollY;

@@ -20,26 +20,31 @@ function fmtWeekday(d: Date) {
     class:list={['upcoming-section', 'border-t', 'border-charcoal/10', { 'is-single': events.length === 1 }]}
   >
     <div class="upcoming-grid">
-      {events.map((e) => (
-        <article class="upcoming-card">
-          <div class="upcoming-stamp">
-            <div class="upcoming-month">{fmtMonth(e.data.date)}</div>
-            <div class="upcoming-day">{fmtDay(e.data.date)}</div>
-            <div class="upcoming-weekday">{fmtWeekday(e.data.date)}</div>
-            {e.data.time && <div class="upcoming-time">{e.data.time}</div>}
-          </div>
-          <div class="upcoming-content">
-            <h3 class="upcoming-title">{e.data.title}</h3>
-            {e.data.location && (
-              <div class="upcoming-loc">
-                {e.data.location}
-                {e.data.address && <span class="upcoming-addr"> · {e.data.address}</span>}
-              </div>
-            )}
-            {e.data.summary && <p class="upcoming-summary">{e.data.summary}</p>}
-          </div>
-        </article>
-      ))}
+      {events.map((e) => {
+        // Link straight to the event's own page when it has one; otherwise
+        // render as a plain (non-interactive) card.
+        const Tag = e.data.url ? 'a' : 'article';
+        return (
+          <Tag class="upcoming-card" href={e.data.url}>
+            <div class="upcoming-stamp">
+              <div class="upcoming-month">{fmtMonth(e.data.date)}</div>
+              <div class="upcoming-day">{fmtDay(e.data.date)}</div>
+              <div class="upcoming-weekday">{fmtWeekday(e.data.date)}</div>
+              {e.data.time && <div class="upcoming-time">{e.data.time}</div>}
+            </div>
+            <div class="upcoming-content">
+              <h2 class="upcoming-title">{e.data.title}</h2>
+              {e.data.location && (
+                <div class="upcoming-loc">
+                  {e.data.location}
+                  {e.data.address && <span class="upcoming-addr"> · {e.data.address}</span>}
+                </div>
+              )}
+              {e.data.summary && <p class="upcoming-summary">{e.data.summary}</p>}
+            </div>
+          </Tag>
+        );
+      })}
     </div>
   </section>
 )}
@@ -52,13 +57,18 @@ function fmtWeekday(d: Date) {
 
   .upcoming-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
 
-  .upcoming-card { display: grid; grid-template-columns: auto 1fr; gap: 2rem; padding: 2rem; border: 1px solid rgba(35,32,29,0.12); color: rgb(35,32,29); transition: border-color 0.2s ease, transform 0.2s ease; background: transparent; }
+  .upcoming-card { display: grid; grid-template-columns: auto 1fr; gap: 2rem; padding: 2rem; border: 1px solid rgba(35,32,29,0.12); border-radius: 12px; color: rgb(35,32,29); text-decoration: none; transition: border-color 0.2s ease, transform 0.2s ease; background: transparent; }
   .upcoming-card:hover { border-color: rgb(35,32,29); transform: translateY(-2px); }
 
   .upcoming-stamp { text-align: center; border-right: 1px solid rgba(35,32,29,0.12); padding-right: 2rem; min-width: 5rem; }
-  .upcoming-month { font-family: 'Instrument Sans', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.18em; color: #E2402F; }
+  /* #E2402F (the site's usual red accent) only clears 3.7:1 against the cream
+     background at this text size — darkened to #C73829 for a real AA margin
+     (4.6:1) while staying visibly the same red. */
+  .upcoming-month { font-family: 'Instrument Sans', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.18em; color: #C73829; }
   .upcoming-day { font-family: 'Plus Jakarta Sans', sans-serif; font-style: italic; font-size: 3.5rem; font-weight: 700; line-height: 1; margin-top: 0.25rem; }
-  .upcoming-weekday { font-family: 'Instrument Sans', sans-serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; color: rgba(35,32,29,0.5); margin-top: 0.5rem; }
+  /* 0.5 alpha measured at 3.1:1 against cream — below the 4.5:1 AA minimum
+     for this text size. Bumped to 0.68 (5.3:1) for a real margin. */
+  .upcoming-weekday { font-family: 'Instrument Sans', sans-serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; color: rgba(35,32,29,0.68); margin-top: 0.5rem; }
   .upcoming-time { font-family: 'Instrument Sans', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; color: rgb(35,32,29); margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid rgba(35,32,29,0.12); }
 
   .upcoming-content { display: flex; flex-direction: column; }
