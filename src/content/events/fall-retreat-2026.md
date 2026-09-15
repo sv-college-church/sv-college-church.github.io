@@ -8,7 +8,7 @@ location: "Santa Cruz, CA"
 summary: "A day at the beach and boardwalk — sports, Bible, worship, big questions, and new friends. Open to all SVC students, any campus."
 campus: "all"
 banner:
-  text: "🍂 NORCAL FALL RETREAT · SAT OCT 3 · SANTA CRUZ · $15"
+  text: "🍂 NORCAL FALL RETREAT · SAT OCT 3 · SANTA CRUZ"
   shortText: "🍂 FALL RETREAT · OCT 3"
   cta:
     label: "Sign Up"
