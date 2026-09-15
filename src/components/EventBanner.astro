@@ -9,7 +9,14 @@ const bannerId = event?.slug ?? '';
 ---
 
 {banner && (
-  <div class="announcement-banner" id="event-banner" data-event-banner data-banner-id={bannerId}>
+  <div
+    class="announcement-banner"
+    id="event-banner"
+    data-event-banner
+    data-banner-id={bannerId}
+    role="region"
+    aria-label="Site announcement"
+  >
     {banner.cta && (
       // Invisible "stretched link" covering the whole banner so it's clickable
       // anywhere, not just the visible CTA button. aria-hidden + tabindex="-1"
