@@ -10,6 +10,13 @@ const bannerId = event?.slug ?? '';
 
 {banner && (
   <div class="announcement-banner" id="event-banner" data-event-banner data-banner-id={bannerId}>
+    {banner.cta && (
+      // Invisible "stretched link" covering the whole banner so it's clickable
+      // anywhere, not just the visible CTA button. aria-hidden + tabindex="-1"
+      // keep it out of the accessibility tree and tab order — the visible CTA
+      // link below is the one screen reader / keyboard users interact with.
+      <a href={banner.cta.url} class="banner-hit-area" aria-hidden="true" tabindex="-1"></a>
+    )}
     <span class="banner-text">
       <span class="label-full">{banner.emoji ? `${banner.emoji} ` : ''}{banner.text}</span>
       <span class="label-short">{banner.emoji ? `${banner.emoji} ` : ''}{banner.shortText}</span>
@@ -134,6 +141,8 @@ const bannerId = event?.slug ?? '';
   }
 
   .event-banner-link {
+    position: relative;
+    z-index: 1; /* stay above .banner-hit-area for hover/click */
     font-family: 'Instrument Sans', sans-serif;
     font-size: 0.9rem;
     font-weight: 800;
@@ -151,6 +160,16 @@ const bannerId = event?.slug ?? '';
 
   .event-banner-link:hover { background: #b51623; }
 
+  /* Covers the entire banner so clicking anywhere (not just the CTA button)
+     navigates to it. Sits beneath the CTA link and dismiss button so both
+     stay independently interactive. */
+  .banner-hit-area {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    cursor: pointer;
+  }
+
   /* Independent of the centered text+CTA group so closing it doesn't
      shift their centering. */
   .banner-dismiss {
@@ -158,6 +177,7 @@ const bannerId = event?.slug ?? '';
     right: 1rem;
     top: 50%;
     transform: translateY(-50%);
+    z-index: 2; /* above .banner-hit-area */
     width: 28px;
     height: 28px;
     display: flex;
