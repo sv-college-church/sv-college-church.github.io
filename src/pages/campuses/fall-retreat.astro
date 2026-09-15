@@ -58,7 +58,25 @@ const structuredData = [
     <section class="hero-section" style="view-transition-name: campus-fall-retreat">
       <a href="/campuses" class="back-link">← Campuses</a>
       <h1 class="retreat-name">NorCal<br />Fall Retreat</h1>
-      <p class="retreat-subtitle">Saturday, October 3, 2026 · 10 AM – 9 PM · Santa Cruz, CA · $15</p>
+
+      <ul class="details-list">
+        <li class="details-row">
+          <span class="details-label">Date</span>
+          <span class="details-value">Saturday, October 3, 2026</span>
+        </li>
+        <li class="details-row">
+          <span class="details-label">Time</span>
+          <span class="details-value">10 AM – 9 PM</span>
+        </li>
+        <li class="details-row">
+          <span class="details-label">Location</span>
+          <span class="details-value">Santa Cruz, CA</span>
+        </li>
+        <li class="details-row">
+          <span class="details-label">Cost</span>
+          <span class="details-value">$15</span>
+        </li>
+      </ul>
     </section>
 
     <section class="flyer-section">
@@ -131,14 +149,43 @@ const structuredData = [
     color: #117688;
   }
 
-  .retreat-subtitle {
+  .details-list {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    border: 1px solid rgba(35, 32, 29, 0.12);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .details-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.25rem 2rem;
+    border-left: 1px solid rgba(35, 32, 29, 0.12);
+  }
+  .details-row:first-child { border-left: none; }
+
+  .details-label {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(0.85rem, 1.6vw, 1.05rem);
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    color: rgba(35, 32, 29, 0.7);
-    max-width: 34rem;
-    margin-top: 1.25rem;
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #117688;
+  }
+
+  .details-value {
+    font-family: 'Bitter', Georgia, serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #23201D;
+    white-space: nowrap;
   }
 
   .flyer-section {
@@ -208,6 +255,9 @@ const structuredData = [
   @media (max-width: 640px) {
     .hero-section { padding: 9rem 1.5rem 2.5rem; min-height: 28vh; }
     .back-link { top: 6.5rem; left: 1.5rem; }
+    .details-list { flex-direction: column; width: 100%; max-width: 22rem; }
+    .details-row { border-left: none; border-top: 1px solid rgba(35, 32, 29, 0.12); align-items: center; }
+    .details-row:first-child { border-top: none; }
     .flyer-section { padding: 2rem 1.25rem 0; }
     .details-section { padding: 2.5rem 1.5rem 4rem; }
   }
