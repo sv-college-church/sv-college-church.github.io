@@ -3,10 +3,13 @@ import { getActiveBannerEvent } from '../lib/events';
 
 const event = await getActiveBannerEvent();
 const banner = event?.data.banner;
+// Keyed to this specific event (its content-collection slug) so dismissing
+// one banner event doesn't suppress a future, different one.
+const bannerId = event?.slug ?? '';
 ---
 
 {banner && (
-  <div class="announcement-banner" id="event-banner" data-event-banner>
+  <div class="announcement-banner" id="event-banner" data-event-banner data-banner-id={bannerId}>
     <span class="banner-text">
       <span class="label-full">{banner.emoji ? `${banner.emoji} ` : ''}{banner.text}</span>
       <span class="label-short">{banner.emoji ? `${banner.emoji} ` : ''}{banner.shortText}</span>
@@ -17,7 +20,24 @@ const banner = event?.data.banner;
         <span class="label-short">{banner.cta.shortLabel} →</span>
       </a>
     )}
+    <button type="button" class="banner-dismiss" aria-label="Dismiss announcement" data-banner-dismiss>
+      <span aria-hidden="true">×</span>
+    </button>
   </div>
+  <script is:inline define:vars={{ bannerId }}>
+    // Runs immediately (not deferred) so a dismissal from earlier this
+    // session hides the banner before it has a chance to flash on screen.
+    // Dismissal is per-tab-session (sessionStorage), not permanent — a new
+    // visit (new browser session) shows the banner again, by design.
+    (function () {
+      try {
+        if (sessionStorage.getItem('dismissed-banner-' + bannerId) === '1') {
+          var el = document.currentScript && document.currentScript.previousElementSibling;
+          if (el) el.style.display = 'none';
+        }
+      } catch (e) {}
+    })();
+  </script>
 )}
 
 <script>
@@ -26,13 +46,38 @@ const banner = event?.data.banner;
   function applyBannerOffset() {
     const banner = document.querySelector<HTMLElement>('[data-event-banner]');
     const nav = document.querySelector<HTMLElement>('.nav-header');
-    const h = banner ? banner.offsetHeight : 0;
+    const visible = banner && banner.style.display !== 'none';
+    const h = visible ? banner!.offsetHeight : 0;
     document.body.style.paddingTop = h ? `${h}px` : '';
     document.documentElement.style.setProperty('--banner-height', `${h}px`);
     if (nav) nav.style.top = h ? `${h}px` : '';
   }
 
-  document.addEventListener('astro:page-load', applyBannerOffset);
+  // Dismissing hides the banner for the rest of this tab session
+  // (sessionStorage — cleared when the tab/browser session ends, so the
+  // banner is back on the next visit) and immediately collapses the
+  // offset it was holding open for the nav/page content.
+  function initBannerDismiss() {
+    const banner = document.querySelector<HTMLElement>('[data-event-banner]');
+    const btn = document.querySelector<HTMLElement>('[data-banner-dismiss]');
+    if (!banner || !btn) return;
+    const id = banner.dataset.bannerId ?? '';
+    btn.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('dismissed-banner-' + id, '1');
+      } catch {
+        // sessionStorage unavailable (private mode, etc.) — dismiss still
+        // works for this page view, just won't stick across navigations.
+      }
+      banner.style.display = 'none';
+      applyBannerOffset();
+    });
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    applyBannerOffset();
+    initBannerDismiss();
+  });
   // ViewTransitions: reset before swap so the new page doesn't inherit stale offsets
   document.addEventListener('astro:before-swap', () => {
     document.body.style.paddingTop = '';
@@ -51,7 +96,7 @@ const banner = event?.data.banner;
     justify-content: center;
     gap: 1.5rem;
     background: #0A0A0A;
-    padding: clamp(0.6rem, 1.4vh, 1.1rem) 2rem;
+    padding: clamp(0.6rem, 1.4vh, 1.1rem) 3.5rem;
     position: fixed;
     top: 0;
     left: 0;
@@ -87,12 +132,42 @@ const banner = event?.data.banner;
 
   .event-banner-link:hover { background: #b51623; }
 
+  /* Independent of the centered text+CTA group so closing it doesn't
+     shift their centering. */
+  .banner-dismiss {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: rgba(245, 245, 240, 0.7);
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  .banner-dismiss:hover {
+    color: #F5F5F0;
+    background: rgba(245, 245, 240, 0.12);
+  }
+  .banner-dismiss:focus-visible {
+    outline: 2px solid #F5F5F0;
+    outline-offset: 1px;
+  }
+
   .label-short { display: none; }
 
   @media (max-width: 640px) {
     .announcement-banner {
       gap: 0.6rem;
-      padding: 0.7rem 1rem;
+      padding: 0.7rem 2.5rem;
     }
     .banner-text .label-full { display: none; }
     .banner-text .label-short { display: inline; }
@@ -107,6 +182,12 @@ const banner = event?.data.banner;
       padding: 0.45rem 0.85rem;
       letter-spacing: 0.14em;
       flex-shrink: 0;
+    }
+    .banner-dismiss {
+      right: 0.5rem;
+      width: 24px;
+      height: 24px;
+      font-size: 1.2rem;
     }
   }
 </style>
