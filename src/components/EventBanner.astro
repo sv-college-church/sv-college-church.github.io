@@ -55,6 +55,29 @@ const bannerId = event?.slug ?? '';
 )}
 
 <script>
+  // Re-applies a dismissal recorded earlier this session. The <script
+  // is:inline> above only runs once, on the very first hard page load — it
+  // does NOT re-run after a client-side (View Transitions) navigation, since
+  // Astro swaps in a fresh, undismissed banner element for the new page
+  // rather than reusing the old one. Without this, dismissing the banner by
+  // clicking through it (its own CTA lands you on a page that also shows
+  // it) would set the session flag correctly but the banner would still be
+  // sitting there on arrival. astro:page-load, unlike a plain script tag,
+  // is guaranteed to fire on every navigation, hard or soft — so re-check
+  // here too.
+  function applyDismissedState() {
+    const banner = document.querySelector<HTMLElement>('[data-event-banner]');
+    if (!banner) return;
+    const id = banner.dataset.bannerId ?? '';
+    try {
+      if (sessionStorage.getItem('dismissed-banner-' + id) === '1') {
+        banner.style.display = 'none';
+      }
+    } catch {
+      // sessionStorage unavailable — nothing to restore, banner just shows.
+    }
+  }
+
   // The banner is fixed above the nav. We measure its height and offset
   // both the body (so page content clears it) and the fixed nav header.
   function applyBannerOffset() {
@@ -93,6 +116,7 @@ const bannerId = event?.slug ?? '';
   }
 
   document.addEventListener('astro:page-load', () => {
+    applyDismissedState();
     applyBannerOffset();
     initBannerDismiss();
   });
