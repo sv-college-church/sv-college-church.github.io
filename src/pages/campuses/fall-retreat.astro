@@ -62,10 +62,7 @@ const structuredData = [
       <ul class="details-list">
         <li class="details-row">
           <span class="details-label">Date</span>
-          <span class="details-value">
-            <span class="date-full">Saturday, October 3, 2026</span>
-            <span class="date-short">Sat, Oct 3, 2026</span>
-          </span>
+          <span class="details-value">Sat, Oct 3, 2026</span>
         </li>
         <li class="details-row">
           <span class="details-label">Time</span>
@@ -190,8 +187,6 @@ const structuredData = [
     color: #23201D;
   }
 
-  .date-short { display: none; }
-
   .flyer-section {
     display: flex;
     justify-content: center;
@@ -263,11 +258,14 @@ const structuredData = [
        stack left a lot of empty side padding around short values like
        "$15" for how much vertical space it took. */
     .details-list { grid-template-columns: 1fr 1fr; max-width: 22rem; }
-    .details-row { padding: 1rem 1.25rem; border-left: none; align-items: center; }
+    .details-row {
+      padding: 1rem 1.25rem;
+      border-left: none;
+      border-top: 1px solid rgba(35, 32, 29, 0.12);
+      align-items: center;
+    }
     .details-row:nth-child(odd) { border-right: 1px solid rgba(35, 32, 29, 0.12); }
     .details-row:nth-child(-n+2) { border-top: none; }
-    .date-full { display: none; }
-    .date-short { display: inline; }
     .flyer-section { padding: 2rem 1.25rem 0; }
     .details-section { padding: 2.5rem 1.5rem 4rem; }
   }
