@@ -255,9 +255,13 @@ const structuredData = [
   @media (max-width: 640px) {
     .hero-section { padding: 9rem 1.5rem 2.5rem; min-height: 28vh; }
     .back-link { top: 6.5rem; left: 1.5rem; }
-    .details-list { flex-direction: column; width: 100%; max-width: 22rem; }
-    .details-row { border-left: none; border-top: 1px solid rgba(35, 32, 29, 0.12); align-items: center; }
-    .details-row:first-child { border-top: none; }
+    /* 2x2 grid instead of 4 full-width stacked rows — the single-column
+       stack left a lot of empty side padding around short values like
+       "$15" for how much vertical space it took. */
+    .details-list { display: grid; grid-template-columns: 1fr 1fr; width: 100%; max-width: 22rem; }
+    .details-row { padding: 1rem 1.25rem; border-left: none; align-items: center; }
+    .details-row:nth-child(odd) { border-right: 1px solid rgba(35, 32, 29, 0.12); }
+    .details-row:nth-child(-n+2) { border-top: none; }
     .flyer-section { padding: 2rem 1.25rem 0; }
     .details-section { padding: 2.5rem 1.5rem 4rem; }
   }
