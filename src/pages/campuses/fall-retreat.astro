@@ -62,7 +62,10 @@ const structuredData = [
       <ul class="details-list">
         <li class="details-row">
           <span class="details-label">Date</span>
-          <span class="details-value">Saturday, October 3, 2026</span>
+          <span class="details-value">
+            <span class="date-full">Saturday, October 3, 2026</span>
+            <span class="date-short">Sat, Oct 3, 2026</span>
+          </span>
         </li>
         <li class="details-row">
           <span class="details-label">Time</span>
@@ -153,10 +156,10 @@ const structuredData = [
     list-style: none;
     margin: 1.75rem 0 0;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    max-width: 40rem;
     border: 1px solid rgba(35, 32, 29, 0.12);
     border-radius: 12px;
     overflow: hidden;
@@ -166,7 +169,7 @@ const structuredData = [
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
-    padding: 1.25rem 2rem;
+    padding: 1.25rem 1.25rem;
     border-left: 1px solid rgba(35, 32, 29, 0.12);
   }
   .details-row:first-child { border-left: none; }
@@ -185,8 +188,9 @@ const structuredData = [
     font-weight: 500;
     font-size: 1rem;
     color: #23201D;
-    white-space: nowrap;
   }
+
+  .date-short { display: none; }
 
   .flyer-section {
     display: flex;
@@ -258,10 +262,12 @@ const structuredData = [
     /* 2x2 grid instead of 4 full-width stacked rows — the single-column
        stack left a lot of empty side padding around short values like
        "$15" for how much vertical space it took. */
-    .details-list { display: grid; grid-template-columns: 1fr 1fr; width: 100%; max-width: 22rem; }
+    .details-list { grid-template-columns: 1fr 1fr; max-width: 22rem; }
     .details-row { padding: 1rem 1.25rem; border-left: none; align-items: center; }
     .details-row:nth-child(odd) { border-right: 1px solid rgba(35, 32, 29, 0.12); }
     .details-row:nth-child(-n+2) { border-top: none; }
+    .date-full { display: none; }
+    .date-short { display: inline; }
     .flyer-section { padding: 2rem 1.25rem 0; }
     .details-section { padding: 2.5rem 1.5rem 4rem; }
   }
