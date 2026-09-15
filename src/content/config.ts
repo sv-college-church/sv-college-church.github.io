@@ -13,6 +13,10 @@ const events = defineCollection({
     address: z.string().optional(),
     mapUrl: z.string().url().optional(),
     summary: z.string().optional(),
+    // Where a "Coming Up" card (UpcomingEvents.astro) links to, if anywhere —
+    // typically the event's own dedicated page. Independent of banner.cta.url
+    // since a featured/listed event may have a card without a sitewide banner.
+    url: z.string().optional(),
     campus: z
       .enum(['all', 'svc', 'sjsu', 'stanford', 'ucsc', 'deanza', 'scu'])
       .default('all'),

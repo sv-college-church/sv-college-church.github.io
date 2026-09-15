@@ -6,6 +6,7 @@ time: "10 AM – 9 PM"
 tier: "banner"
 location: "Santa Cruz, CA"
 summary: "A day at the beach and boardwalk — sports, Bible, worship, big questions, and new friends. Open to all SVC students, any campus."
+url: "/campuses/fall-retreat"
 campus: "all"
 banner:
   text: "🍂 NORCAL FALL RETREAT · SAT OCT 3 · SANTA CRUZ"
