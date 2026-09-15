@@ -63,13 +63,17 @@ const bannerId = event?.slug ?? '';
   // Dismissing hides the banner for the rest of this tab session
   // (sessionStorage — cleared when the tab/browser session ends, so the
   // banner is back on the next visit) and immediately collapses the
-  // offset it was holding open for the nav/page content.
+  // offset it was holding open for the nav/page content. Any click inside
+  // the banner counts as a dismissal — the × button, the CTA, or the
+  // whole-banner hit area — since clicking through to the event page means
+  // the user has seen it and doesn't need it hanging around when they come
+  // back. Link clicks still navigate normally; this just also records the
+  // dismissal before the browser leaves the page.
   function initBannerDismiss() {
     const banner = document.querySelector<HTMLElement>('[data-event-banner]');
-    const btn = document.querySelector<HTMLElement>('[data-banner-dismiss]');
-    if (!banner || !btn) return;
+    if (!banner) return;
     const id = banner.dataset.bannerId ?? '';
-    btn.addEventListener('click', () => {
+    banner.addEventListener('click', () => {
       try {
         sessionStorage.setItem('dismissed-banner-' + id, '1');
       } catch {
