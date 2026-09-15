@@ -6,7 +6,13 @@ const banner = event?.data.banner;
 ---
 
 {banner && (
-  <div class="announcement-banner" id="event-banner" data-event-banner>
+  <div
+    class="announcement-banner"
+    id="event-banner"
+    data-event-banner
+    role="region"
+    aria-label="Site announcement"
+  >
     <span class="banner-text">
       <span class="label-full">{banner.emoji ? `${banner.emoji} ` : ''}{banner.text}</span>
       <span class="label-short">{banner.emoji ? `${banner.emoji} ` : ''}{banner.shortText}</span>
