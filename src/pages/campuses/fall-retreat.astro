@@ -58,7 +58,6 @@ const structuredData = [
     <section class="hero-section" style="view-transition-name: campus-fall-retreat">
       <a href="/campuses" class="back-link">← Campuses</a>
       <h1 class="retreat-name">NorCal<br />Fall Retreat</h1>
-      <p class="retreat-tagline">Beach · Boardwalk · Sports · Bible · Worship · Big Questions · New Friends</p>
     </section>
 
     <section class="flyer-section">
@@ -73,9 +72,9 @@ const structuredData = [
 
     <section class="details-section">
       <p class="details-intro">
-        One day, every campus. Come hang out at the beach and boardwalk, dig into Scripture,
-        worship together, and wrestle with the big questions — alongside SVC students from
-        Stanford, SJSU, SCU, UC Santa Cruz, and De Anza.
+        Come hang out at the beach and boardwalk, dig into Scripture, worship together, and
+        wrestle with the big questions, alongside SVC students from Stanford, SJSU, SCU, UC
+        Santa Cruz, and De Anza.
       </p>
 
       <ul class="details-list">
@@ -150,16 +149,6 @@ const structuredData = [
     color: #117688;
   }
 
-  .retreat-tagline {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(0.8rem, 1.6vw, 1rem);
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    color: rgba(35, 32, 29, 0.65);
-    max-width: 46ch;
-    margin-top: 1.25rem;
-  }
-
   .flyer-section {
     display: flex;
     justify-content: center;
@@ -202,23 +191,26 @@ const structuredData = [
     flex-wrap: wrap;
     justify-content: center;
     gap: 0;
-    border: 1px solid rgba(35, 32, 29, 0.12);
-    border-radius: 12px;
+    background: #ffffff;
+    border-radius: 14px;
     overflow: hidden;
+    box-shadow:
+      0 1px 2px rgba(35, 32, 29, 0.06),
+      0 12px 32px rgba(35, 32, 29, 0.1);
   }
 
   .details-row {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
-    padding: 1.25rem 2rem;
-    border-left: 1px solid rgba(35, 32, 29, 0.12);
+    gap: 0.4rem;
+    padding: 1.5rem 2.25rem;
+    border-left: 1px solid rgba(35, 32, 29, 0.1);
   }
   .details-row:first-child { border-left: none; }
 
   .details-label {
     font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.62rem;
+    font-size: 0.65rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.18em;
@@ -226,9 +218,10 @@ const structuredData = [
   }
 
   .details-value {
-    font-family: 'Bitter', Georgia, serif;
-    font-weight: 500;
-    font-size: 1rem;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: -0.01em;
     color: #23201D;
     white-space: nowrap;
   }
