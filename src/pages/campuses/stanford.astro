@@ -352,7 +352,10 @@ const structuredData = [
     color: rgba(35, 32, 29, 0.65);
     margin-top: 0.5rem;
   }
-  .weekly-addr { color: rgba(35, 32, 29, 0.45); font-weight: 400; }
+  /* 0.45 alpha (matching .upcoming-addr) measured at 2.7:1 against cream —
+     well under the 4.5:1 AA minimum. Bumped to 0.68 for a real margin
+     (5.3:1), consistent with the other contrast fixes on this site. */
+  .weekly-addr { color: rgba(35, 32, 29, 0.68); font-weight: 400; }
 
   .weekly-desc {
     font-family: 'Instrument Sans', sans-serif;
