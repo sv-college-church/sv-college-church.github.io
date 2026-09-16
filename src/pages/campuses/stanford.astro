@@ -5,7 +5,6 @@ import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import momentLogo from '../../assets/images/campuses/logos/moment.png';
 import momentGrad from '../../assets/images/campuses/logos/moment-grad.png';
-import readBibleFlyer from '../../assets/images/events/read-the-bible-stanford.png';
 
 const pageUrl = new URL('/campuses/stanford', Astro.site).href;
 const readBibleSignupUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfWE3Gt4e66Xd9BsOv2EKAvzWzsyILvL1VITjEA1q4ggbMvzw/viewform';
@@ -107,14 +106,15 @@ const structuredData = [
         rel="noopener noreferrer"
         class="weekly-card"
       >
-        <Image
-          src={readBibleFlyer}
-          alt="Read the Bible for Yourself flyer: Tuesdays, 7-8 PM at CIRCLE (3rd floor of Old Union). Bring your questions, we'll bring the text and snacks. First meeting September 29. Hosted by Moment Christian Fellowship."
-          class="weekly-thumb"
-        />
-        <div class="weekly-body">
+        <div class="weekly-stamp">
+          <div class="weekly-frequency">Weekly</div>
+          <div class="weekly-day">Tue</div>
+          <div class="weekly-time">7–8 PM</div>
+        </div>
+        <div class="weekly-content">
           <h2 class="weekly-title">Read the Bible for Yourself</h2>
-          <p class="weekly-desc">Tuesdays, 7–8 PM at CIRCLE (3rd floor, Old Union). Bring your questions, we'll bring the text and the snacks. First meeting September 29.</p>
+          <div class="weekly-loc">CIRCLE <span class="weekly-addr">· 3rd floor, Old Union</span></div>
+          <p class="weekly-desc">Bring your questions, we'll bring the text and the snacks. First meeting September 29.</p>
           <span class="weekly-cta">Sign Up ↗</span>
         </div>
       </a>
@@ -264,7 +264,11 @@ const structuredData = [
     .group-col { padding: 3.5rem 2rem; }
   }
 
-  /* ── Read the Bible for Yourself ── */
+  /* ── Read the Bible for Yourself ──
+     Mirrors UpcomingEvents.astro's .upcoming-card: bordered card, a
+     stamp column (divider on the right) plus content, same hover lift.
+     The stamp swaps a single date for "weekly / Tue / 7-8 PM" since this
+     is a recurring meeting, not a one-off dated event. */
   .weekly-section {
     padding: 4rem 2rem;
     border-top: 1px solid rgba(35, 32, 29, 0.08);
@@ -273,36 +277,61 @@ const structuredData = [
   }
 
   .weekly-card {
-    display: flex;
-    align-items: center;
-    gap: 1.75rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
     max-width: 42rem;
     width: 100%;
-    background: #ffffff;
-    border: 1px solid rgba(35, 32, 29, 0.1);
+    padding: 2rem;
+    border: 1px solid rgba(35, 32, 29, 0.12);
     border-radius: 12px;
-    padding: 1.5rem;
+    color: #23201D;
     text-decoration: none;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    background: transparent;
+    transition: border-color 0.2s ease, transform 0.2s ease;
   }
   .weekly-card:hover {
-    transform: scale(1.015);
-    box-shadow: 0 8px 28px rgba(35, 32, 29, 0.12);
+    border-color: #8C1515;
+    transform: translateY(-2px);
   }
 
-  .weekly-thumb {
-    flex-shrink: 0;
-    width: 110px;
-    height: auto;
-    border-radius: 8px;
-    object-fit: cover;
+  .weekly-stamp {
+    text-align: center;
+    border-right: 1px solid rgba(35, 32, 29, 0.12);
+    padding-right: 2rem;
+    min-width: 6rem;
   }
 
-  .weekly-body {
+  .weekly-frequency {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #8C1515;
+  }
+
+  .weekly-day {
+    font-family: 'Archivo', sans-serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-top: 0.3rem;
+  }
+
+  .weekly-time {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: rgba(35, 32, 29, 0.65);
+    margin-top: 0.5rem;
+  }
+
+  .weekly-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.6rem;
   }
 
   .weekly-title {
@@ -311,9 +340,19 @@ const structuredData = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: -0.01em;
-    line-height: 1.05;
+    line-height: 1.1;
     color: #8C1515;
   }
+
+  .weekly-loc {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: rgba(35, 32, 29, 0.65);
+    margin-top: 0.5rem;
+  }
+  .weekly-addr { color: rgba(35, 32, 29, 0.45); font-weight: 400; }
 
   .weekly-desc {
     font-family: 'Instrument Sans', sans-serif;
@@ -321,6 +360,7 @@ const structuredData = [
     font-weight: 500;
     line-height: 1.6;
     color: rgba(35, 32, 29, 0.75);
+    margin: 1rem 0 0;
   }
 
   .weekly-cta {
@@ -334,16 +374,25 @@ const structuredData = [
     background: #8C1515;
     padding: 0.55rem 1.2rem;
     border-radius: 8px;
+    margin-top: 1.25rem;
+    align-self: flex-start;
   }
 
   @media (max-width: 640px) {
     .weekly-section { padding: 3rem 1.5rem; }
-    .weekly-card {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 1.25rem;
+    .weekly-card { grid-template-columns: 1fr; gap: 1rem; padding: 1.5rem; }
+    .weekly-stamp {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      border-right: none;
+      border-bottom: 1px solid rgba(35, 32, 29, 0.12);
+      padding-right: 0;
+      padding-bottom: 0.75rem;
+      text-align: left;
     }
-    .weekly-thumb { width: 88px; }
+    .weekly-day { font-size: 1.8rem; margin-top: 0; }
+    .weekly-time { margin-top: 0; }
   }
 
   /* ── FAQ ── */
