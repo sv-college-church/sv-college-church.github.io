@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import momentLogo from '../../assets/images/campuses/logos/moment.png';
 import momentGrad from '../../assets/images/campuses/logos/moment-grad.png';
+import readBibleFlyer from '../../assets/images/events/read-the-bible-stanford.png';
 
 const pageUrl = new URL('/campuses/stanford', Astro.site).href;
 const readBibleSignupUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfWE3Gt4e66Xd9BsOv2EKAvzWzsyILvL1VITjEA1q4ggbMvzw/viewform';
@@ -106,6 +107,7 @@ const structuredData = [
         rel="noopener noreferrer"
         class="weekly-card"
       >
+        <Image src={readBibleFlyer} alt="" class="weekly-thumb" />
         <div class="weekly-stamp">
           <div class="weekly-frequency">Weekly</div>
           <div class="weekly-day">Tue</div>
@@ -278,9 +280,10 @@ const structuredData = [
 
   .weekly-card {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
     gap: 2rem;
-    max-width: 42rem;
+    max-width: 46rem;
     width: 100%;
     padding: 2rem;
     border: 1px solid rgba(35, 32, 29, 0.12);
@@ -293,6 +296,14 @@ const structuredData = [
   .weekly-card:hover {
     border-color: #8C1515;
     transform: translateY(-2px);
+  }
+
+  .weekly-thumb {
+    width: 84px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
   }
 
   .weekly-stamp {
@@ -396,6 +407,7 @@ const structuredData = [
     }
     .weekly-day { font-size: 1.8rem; margin-top: 0; }
     .weekly-time { margin-top: 0; }
+    .weekly-thumb { width: 72px; margin-bottom: 0.25rem; }
   }
 
   /* ── FAQ ── */
