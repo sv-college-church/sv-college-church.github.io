@@ -5,8 +5,10 @@ import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import momentLogo from '../../assets/images/campuses/logos/moment.png';
 import momentGrad from '../../assets/images/campuses/logos/moment-grad.png';
+import readBibleFlyer from '../../assets/images/events/read-the-bible-stanford.png';
 
 const pageUrl = new URL('/campuses/stanford', Astro.site).href;
+const readBibleSignupUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfWE3Gt4e66Xd9BsOv2EKAvzWzsyILvL1VITjEA1q4ggbMvzw/viewform';
 
 const faqs = [
   {
@@ -96,6 +98,26 @@ const structuredData = [
         <p class="group-body">Moment Grad is a graduate student group at Stanford focused on building genuine connections in the context of Christian community.</p>
         <a href="https://www.instagram.com/moment.stanford/" target="_blank" rel="noopener noreferrer" class="group-link">Events ↗</a>
       </div>
+    </section>
+
+    <section class="weekly-section">
+      <a
+        href={readBibleSignupUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="weekly-card"
+      >
+        <Image
+          src={readBibleFlyer}
+          alt="Read the Bible for Yourself flyer: Tuesdays, 7-8 PM at CIRCLE (3rd floor of Old Union). Bring your questions, we'll bring the text and snacks. First meeting September 29. Hosted by Moment Christian Fellowship."
+          class="weekly-thumb"
+        />
+        <div class="weekly-body">
+          <h2 class="weekly-title">Read the Bible for Yourself</h2>
+          <p class="weekly-desc">Tuesdays, 7–8 PM at CIRCLE (3rd floor, Old Union). Bring your questions, we'll bring the text and the snacks. First meeting September 29.</p>
+          <span class="weekly-cta">Sign Up ↗</span>
+        </div>
+      </a>
     </section>
 
     <section class="faq-section">
@@ -240,6 +262,88 @@ const structuredData = [
       height: 1px;
     }
     .group-col { padding: 3.5rem 2rem; }
+  }
+
+  /* ── Read the Bible for Yourself ── */
+  .weekly-section {
+    padding: 4rem 2rem;
+    border-top: 1px solid rgba(35, 32, 29, 0.08);
+    display: flex;
+    justify-content: center;
+  }
+
+  .weekly-card {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    max-width: 42rem;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid rgba(35, 32, 29, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .weekly-card:hover {
+    transform: scale(1.015);
+    box-shadow: 0 8px 28px rgba(35, 32, 29, 0.12);
+  }
+
+  .weekly-thumb {
+    flex-shrink: 0;
+    width: 110px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .weekly-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .weekly-title {
+    font-family: 'Archivo', sans-serif;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    color: #8C1515;
+  }
+
+  .weekly-desc {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: rgba(35, 32, 29, 0.75);
+  }
+
+  .weekly-cta {
+    display: inline-block;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #ffffff;
+    background: #8C1515;
+    padding: 0.55rem 1.2rem;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .weekly-section { padding: 3rem 1.5rem; }
+    .weekly-card {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 1.25rem;
+    }
+    .weekly-thumb { width: 88px; }
   }
 
   /* ── FAQ ── */
