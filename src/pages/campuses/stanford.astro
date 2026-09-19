@@ -6,9 +6,13 @@ import { Image } from 'astro:assets';
 import momentLogo from '../../assets/images/campuses/logos/moment.png';
 import momentGrad from '../../assets/images/campuses/logos/moment-grad.png';
 import readBibleFlyer from '../../assets/images/events/read-the-bible-stanford.png';
+import welcomeNightFlyer from '../../assets/images/events/welcome-night-stanford.png';
+import midAutumnFlyer from '../../assets/images/events/mid-autumn-stanford.png';
 
 const pageUrl = new URL('/campuses/stanford', Astro.site).href;
 const readBibleSignupUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfWE3Gt4e66Xd9BsOv2EKAvzWzsyILvL1VITjEA1q4ggbMvzw/viewform';
+const welcomeNightSignupUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf9_K7nXvHtUv-lEJZhHNrastWG-hpPsTqFPAGWmjMnp9xSrg/viewform';
+const midAutumnSignupUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf9_K7nXvHtUv-lEJZhHNrastWG-hpPsTqFPAGWmjMnp9xSrg/viewform';
 
 const faqs = [
   {
@@ -115,6 +119,40 @@ const structuredData = [
         <div class="weekly-body">
           <h2 class="weekly-title">Read the Bible for Yourself</h2>
           <p class="weekly-desc">Tuesdays, 7–8 PM at CIRCLE (3rd floor, Old Union). Bring your questions, we'll bring the text and the snacks. First meeting September 29.</p>
+          <span class="weekly-cta">Sign Up ↗</span>
+        </div>
+      </a>
+      <a
+        href={welcomeNightSignupUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="weekly-card"
+      >
+        <Image
+          src={welcomeNightFlyer}
+          alt="Graduate Student Welcome Night flyer: Tuesday, September 22 at EVGR B170. Hosted by Moment Grad at Stanford."
+          class="weekly-thumb"
+        />
+        <div class="weekly-body">
+          <h2 class="weekly-title">Graduate Student Welcome Night</h2>
+          <p class="weekly-desc">Tuesday, 9/22 at EVGR B170. Join us to learn more about our group and future community events!</p>
+          <span class="weekly-cta">Sign Up ↗</span>
+        </div>
+      </a>
+      <a
+        href={midAutumnSignupUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="weekly-card"
+      >
+        <Image
+          src={midAutumnFlyer}
+          alt="Mid-Autumn Festival Celebration flyer: Friday, September 25 at EVGR B141. Free Chinese food. Hosted by Moment Grad at Stanford."
+          class="weekly-thumb"
+        />
+        <div class="weekly-body">
+          <h2 class="weekly-title">Mid-Autumn Festival Celebration</h2>
+          <p class="weekly-desc">Friday, 9/25 at EVGR B141. Celebrate Mid-Autumn Festival with us with free Chinese food!</p>
           <span class="weekly-cta">Sign Up ↗</span>
         </div>
       </a>
@@ -269,7 +307,9 @@ const structuredData = [
     padding: 4rem 2rem;
     border-top: 1px solid rgba(35, 32, 29, 0.08);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
   }
 
   .weekly-card {
