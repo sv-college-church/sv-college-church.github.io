@@ -109,15 +109,9 @@ const previewOffsets = [
 // it to the counter clutter on the left.
 const previewFocus = ['left center', 'right center', 'center', 'center'];
 
-// Location and time are confirmed for both dates. No ride details exist
+// Location and time are confirmed for this date. No ride details exist
 // yet, so there's nothing to note about them on the page for now.
 const serviceDates = [
-  {
-    date: 'Sun, Sep 20',
-    isoDate: '2026-09-20',
-    time: '12 PM',
-    signupUrl: 'https://joinflyer.com/ucsc/klesis/event/klesis-sunday-gathering-sep-20-2026',
-  },
   {
     date: 'Sun, Sep 27',
     isoDate: '2026-09-27',
@@ -338,7 +332,7 @@ const structuredData = [
     <!-- ── SUNDAY WORSHIP SERVICE ── -->
     <section id="sunday-service" class="service-section">
       <h2 class="section-heading">Sunday Gathering</h2>
-      <p class="section-sub">Join us for the first two Sundays of the school year.</p>
+      <p class="section-sub">Join us for Sunday Gathering at UC Santa Cruz.</p>
 
       <ul class="service-list">
         {serviceDates.map((s) => (
