@@ -109,16 +109,9 @@ const previewOffsets = [
 // it to the counter clutter on the left.
 const previewFocus = ['left center', 'right center', 'center', 'center'];
 
-// Location and time are confirmed for this date. No ride details exist
-// yet, so there's nothing to note about them on the page for now.
-const serviceDates = [
-  {
-    date: 'Sun, Sep 27',
-    isoDate: '2026-09-27',
-    time: '12 PM',
-    signupUrl: 'https://joinflyer.com/ucsc/klesis/event/klesis-sunday-gathering-sep-27-2026',
-  },
-];
+// Add upcoming dates here as { date, isoDate, time, signupUrl }. When the
+// list is empty, the section shows a "next date coming soon" note instead.
+const serviceDates: { date: string; isoDate: string; time: string; signupUrl: string }[] = [];
 const serviceLocation = 'Baskin Engineering Hall';
 const serviceLocationConfirmed = true;
 
@@ -334,7 +327,10 @@ const structuredData = [
       <h2 class="section-heading">Sunday Gathering</h2>
       <p class="section-sub">Join us for Sunday Gathering at UC Santa Cruz.</p>
 
-      <ul class="service-list">
+      {serviceDates.length === 0 && (
+        <p class="section-note">Next date coming soon. Check <a href={flyerUrl} target="_blank" rel="noopener noreferrer">Flyer ↗</a> for updates.</p>
+      )}
+      {serviceDates.length > 0 && <ul class="service-list">
         {serviceDates.map((s) => (
           <li class="service-row">
             <div class="service-info">
@@ -348,7 +344,7 @@ const structuredData = [
             <a href={s.signupUrl} target="_blank" rel="noopener noreferrer" class="service-signup-btn">Sign Up ↗</a>
           </li>
         ))}
-      </ul>
+      </ul>}
     </section>
 
     <!-- ── FAQ ── -->
