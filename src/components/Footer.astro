@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import acts2network from '../assets/images/network/acts2network.webp';
 import acts2college from '../assets/images/network/acts2college.webp';
 import sendnetwork from '../assets/images/network/sendnetwork.webp';
 import { isSequencePage, LAST_PAGE } from '../lib/pageSequence';
@@ -23,9 +22,6 @@ const hideOnMobile = isSequencePage(path) && path !== LAST_PAGE;
 
     <!-- Network logos — centered -->
     <div class="network-logos sm:justify-self-center">
-      <a href="https://acts2.network/" target="_blank" rel="noopener noreferrer" aria-label="Acts2 Network">
-        <Image src={acts2network} alt="Acts2 Network" class="network-logo" />
-      </a>
       <a href="https://www.acts2college.org/" target="_blank" rel="noopener noreferrer" aria-label="Acts2 College">
         <Image src={acts2college} alt="Acts2 College" class="network-logo" />
       </a>
