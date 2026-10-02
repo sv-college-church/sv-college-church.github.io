@@ -46,6 +46,9 @@ const carouselPhotos = [
   { src: friendsgivingCardGame, alt: 'Klesis students laughing over a card game at Friendsgiving' },
 ];
 
+// signupUrl points at the Klesis Flyer page rather than a single Flyer event:
+// each group's sessions are posted there as separate weekly events, and a
+// link to one of them stops working as soon as that week's session ends.
 // previewPhotos are real photos of each group, submitted by the campus team.
 // Most groups get one photo; a group can list more than one (Charcuterie
 // Chats gets two — a board shot and a group shot) and all of that group's
@@ -54,9 +57,9 @@ const groups = [
   {
     name: 'Bible Reading Project',
     leads: 'Robbie & Alyssa',
-    time: 'Thursdays, 7 – 8 PM',
+    time: 'Wednesdays, 7 – 8 PM',
     tagline: 'Meet weekly to read the Bible together! No experience or religious background necessary.',
-    signupUrl: 'https://joinflyer.com/ucsc/klesis/event/frosh-starter-pack---week-1-sep-23-2026',
+    signupUrl: flyerUrl,
     previewPhotos: [connectGroupBibleReading],
   },
   {
@@ -64,7 +67,7 @@ const groups = [
     leads: 'Kerri & Jeanine',
     time: 'Thursdays, 7 – 8 PM',
     tagline: 'Make new friends and have meaningful conversations over themed Bible passages and charcuterie boards!',
-    signupUrl: 'https://joinflyer.com/ucsc/klesis/event/charcuterie-chats---week-1-sep-24-2026',
+    signupUrl: flyerUrl,
     previewPhotos: [connectGroupCharcuterieBoard, connectGroupCharcuterieFriends],
   },
   {
@@ -73,7 +76,7 @@ const groups = [
     time: 'Thursdays, 7 – 8:30 PM',
     // *marinate* renders as emphasis — see withEmphasis() below.
     tagline: 'Join us for some good food and good thoughts as we *marinate* in the wisdom of the book of Proverbs!',
-    signupUrl: 'https://joinflyer.com/ucsc/klesis/event/protein-proverbs---week-1-sep-24-2026',
+    signupUrl: flyerUrl,
     previewPhotos: [connectGroupProteinProverbs],
   },
 ];
@@ -194,28 +197,12 @@ const structuredData = [
 
 <BaseLayout
   title="Klesis UCSC | Christian Fellowship & Bible Study at UC Santa Cruz"
-  description="Klesis is a Christian fellowship at UC Santa Cruz. Connect Groups, Sunday Gathering, and Welcome Week, open to all UCSC students, Christian or not."
+  description="Klesis is a Christian fellowship at UC Santa Cruz. Connect Groups and Sunday Gathering, open to all UCSC students, Christian or not."
   structuredData={structuredData}
 >
   <Nav />
 
   <main id="main-content">
-
-    <!-- ── WELCOME WEEK BANNER ── -->
-    <!-- Now the very first thing on the page, so it carries its own
-         nav-clearance padding instead of the carousel below it. -->
-    <a href={flyerUrl} target="_blank" rel="noopener noreferrer" class="ww-banner">
-      <span class="ww-banner-eyebrow">Welcome Week</span>
-      <span class="ww-banner-copy">
-        <!-- Shorter phrasing swaps in below the mobile breakpoint — the
-             full "Welcome, Class of 2030!" wording wraps onto 2 lines on
-             narrow phones, and a wrapped banner reads worse than a
-             slightly terser one. -->
-        <span class="ww-banner-copy-full">Welcome, Class of 2030! Check out our Welcome Week events!</span>
-        <span class="ww-banner-copy-short">Class of 2030: Check out our Welcome Week events!</span>
-      </span>
-      <span class="ww-banner-arrow">↗</span>
-    </a>
 
     <!-- ── CAROUSEL / HERO ── -->
     <!-- A slideshow, not a marquee: one photo at a time, holds 5s, crossfades.
@@ -378,95 +365,21 @@ const structuredData = [
 </style>
 
 <style>
-  main { flex: 1; display: flex; flex-direction: column; }
-
-  /* ── WELCOME WEEK BANNER ── */
-  /* Now the very first thing on the page — carries its own nav-clearance
-     top padding. main has no side padding of its own, so a plain
-     block-level width fills it edge to edge. Still the only element on
-     the page carrying the pastel gradient. */
-  .ww-banner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem 1.25rem;
-    width: 100%;
-    /* Nav is fixed at 8rem tall on desktop (5rem on mobile) and overlays
-       whatever's behind it, so top padding = nav height + the same 2.25rem
-       breathing room used on the bottom — equal padding is what actually
-       centers the text visually below the nav, a flat 8.5rem top made the
-       text sit hard against the nav with dead space below it instead. */
-    padding: calc(8rem + 2.25rem) 2rem 2.25rem;
-    background: linear-gradient(120deg, #A3D1EB 0%, #F7DEA8 100%);
-    text-decoration: none;
-    transition: filter 0.15s ease;
-  }
-  .ww-banner:hover {
-    filter: brightness(1.03);
-  }
-
-  /* The browser's default focus ring was effectively invisible here —
-     this banner is a full-bleed, near-viewport-width link, and its
-     default outline drew at the very edge of that huge box where it's
-     easy to miss (confirmed by tabbing to it: no perceptible change,
-     unlike the hero-cta buttons' own :focus-visible). Charcoal was
-     already verified elsewhere on this page to clear AA contrast against
-     both ends of this same gradient, and outline-offset is negative so
-     the ring stays inside the banner's own box instead of getting
-     clipped by the viewport at y=0. */
-  .ww-banner:focus-visible {
-    outline: 3px solid #23201D;
-    outline-offset: -4px;
-  }
-
-  .ww-banner-eyebrow {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: #004A8A;
-    flex-shrink: 0;
-  }
-
-  .ww-banner-copy {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    font-weight: 700;
-    color: #23201D;
-    text-align: center;
-  }
-
-  .ww-banner-copy-short {
-    display: none;
-  }
-
-  .ww-banner-arrow {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #004A8A;
-    flex-shrink: 0;
-  }
-
+  /* The nav is fixed and overlays whatever sits behind it, so main is
+     pushed down by the nav's own height: 8rem on desktop, 5rem on mobile
+     and on short desktop viewports (see Nav.astro). */
+  main { flex: 1; display: flex; flex-direction: column; padding-top: 8rem; }
   @media (max-width: 768px) {
-    .ww-banner { padding: calc(5rem + 1.75rem) 1.5rem 1.75rem; }
-    .ww-banner-copy-full { display: none; }
-    .ww-banner-copy-short {
-      display: inline;
-      /* The shorter wording alone isn't enough to keep this on one line
-         down at typical phone widths (~375-430px) at the parent's
-         font-size — this scales down with viewport width, floored so it
-         never gets too small to read, capped at the parent's own size so
-         it doesn't grow past it near the 768px edge of this query. */
-      font-size: clamp(0.8rem, 3.3vw, 1.2rem);
-    }
+    main { padding-top: 5rem; }
+  }
+  @media (min-width: 768px) and (max-height: 760px) {
+    main { padding-top: 5rem; }
   }
 
   /* ── CAROUSEL / HERO ── */
   /* Full-bleed and full-screen-height — ignores main's padding and runs
-     edge to edge. Sits right after the banner now, so no nav-clearance
-     padding of its own is needed. The Klesis / UC Santa Cruz identity
+     edge to edge. First thing on the page; main's top padding keeps it
+     clear of the nav. The Klesis / UC Santa Cruz identity
      overlays on top of the slides via .carousel-overlay, at every
      breakpoint — see the <768px override below for how mobile fills the
      screen with a cropped photo instead of the letterboxed one here. */
@@ -516,9 +429,9 @@ const structuredData = [
     opacity: 1;
   }
 
-  /* Experimental: ties the hero back to the banner's pastel gradient above
-     it. A plain translucent layer (not blended) so it actually reads as a
-     color cast — mix-blend-mode: overlay only nudges contrast/saturation
+  /* Experimental: a pastel gradient cast over the hero, the same gradient
+     the hero buttons fill with on hover. A plain translucent layer (not
+     blended) so it actually reads as a color cast — mix-blend-mode: overlay only nudges contrast/saturation
      and was nearly invisible on these fairly desaturated forest/kitchen
      photos. Spans the full slides track (photo + letterboxed sides), not
      just the framed photo. Painted on top of .carousel-vignette (below),
@@ -593,7 +506,7 @@ const structuredData = [
      breakpoint-scoped exception to "never crop" — the alternative
      (sizing the frame to the photo's own aspect ratio) left too little
      room to keep the identity block overlaid on the photo without it
-     spilling into the banner above and the section below.
+     spilling into the nav above and the section below.
      Height is tied to viewport width (min() with an svh cap) rather than
      pinned to a flat 100svh, so it actually gets shorter as the screen
      narrows instead of walling off the same full-height box at every
@@ -699,9 +612,9 @@ const structuredData = [
   }
 
   /* Back to outline-only at rest — the opaque fill didn't land well as
-     the default state. Hover fills with the same gradient + dark text
-     as .ww-banner instead, so the brand pairing still shows up, just on
-     interaction rather than always-on.
+     the default state. Hover fills with the same pastel gradient as
+     .carousel-color-wash + dark text instead, so the brand pairing still
+     shows up, just on interaction rather than always-on.
      The fill is a ::before layer that fades in via opacity, not a
      transition on `background` directly — browsers can't smoothly
      interpolate a solid/transparent background into a gradient, so
