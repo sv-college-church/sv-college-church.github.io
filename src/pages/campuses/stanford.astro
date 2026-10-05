@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import { Image } from 'astro:assets';
 import momentLogo from '../../assets/images/campuses/logos/moment.png';
 import momentGrad from '../../assets/images/campuses/logos/moment-grad.png';
+import readBibleFlyer from '../../assets/images/events/read-the-bible-stanford.png';
 
 const pageUrl = new URL('/campuses/stanford', Astro.site).href;
 const readBibleSignupUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfWE3Gt4e66Xd9BsOv2EKAvzWzsyILvL1VITjEA1q4ggbMvzw/viewform';
@@ -106,6 +107,11 @@ const structuredData = [
         rel="noopener noreferrer"
         class="weekly-card"
       >
+        <Image
+          src={readBibleFlyer}
+          alt="Read the Bible for Yourself flyer: Tuesdays, 7-8 PM at CIRCLE (3rd floor of Old Union). Bring your questions, we'll bring the text and snacks. First meeting September 29. Hosted by Moment Christian Fellowship."
+          class="weekly-thumb"
+        />
         <div class="weekly-body">
           <h2 class="weekly-title">Read the Bible for Yourself</h2>
           <p class="weekly-desc">Tuesdays, 7–8 PM at CIRCLE (3rd floor, Old Union). Bring your questions, we'll bring the text and the snacks.</p>
@@ -285,6 +291,14 @@ const structuredData = [
     transform: scale(1.015);
   }
 
+  .weekly-thumb {
+    flex-shrink: 0;
+    width: 110px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
   .weekly-body {
     display: flex;
     flex-direction: column;
@@ -330,6 +344,7 @@ const structuredData = [
       align-items: flex-start;
       padding: 1.25rem;
     }
+    .weekly-thumb { width: 88px; }
   }
 
   /* ── FAQ ── */
