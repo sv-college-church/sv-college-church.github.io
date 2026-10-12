@@ -1,7 +1,14 @@
 ---
-import { getHighlightedEvents } from '../lib/events';
+import { getHighlightedEvents, type EventCampus } from '../lib/events';
 
-const events = await getHighlightedEvents();
+interface Props {
+  campus?: EventCampus;
+  heading?: string;
+}
+
+const { campus = 'all', heading } = Astro.props;
+const events = await getHighlightedEvents(new Date(), campus);
+const CardHeading = heading ? 'h3' : 'h2';
 
 function fmtMonth(d: Date) {
   return d.toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' }).toUpperCase();
@@ -19,6 +26,7 @@ function fmtWeekday(d: Date) {
     id="upcoming-events"
     class:list={['upcoming-section', 'border-t', 'border-charcoal/10', { 'is-single': events.length === 1 }]}
   >
+    {heading && <h2 class="upcoming-heading">{heading}</h2>}
     <div class="upcoming-grid">
       {events.map((e) => {
         // Link straight to the event's own page when it has one; otherwise
@@ -33,7 +41,7 @@ function fmtWeekday(d: Date) {
               {e.data.time && <div class="upcoming-time">{e.data.time}</div>}
             </div>
             <div class="upcoming-content">
-              <h2 class="upcoming-title">{e.data.title}</h2>
+              <CardHeading class="upcoming-title">{e.data.title}</CardHeading>
               {e.data.location && (
                 <div class="upcoming-loc">
                   {e.data.location}
@@ -56,6 +64,8 @@ function fmtWeekday(d: Date) {
   }
 
   .upcoming-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+
+  .upcoming-heading { font-family: 'Archivo', sans-serif; font-size: clamp(1.2rem, 2.6vw, 1.9rem); font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.15; color: rgb(35,32,29); text-align: center; margin: 0 0 2rem; }
 
   .upcoming-card { display: grid; grid-template-columns: auto 1fr; gap: 2rem; padding: 2rem; border: 1px solid rgba(35,32,29,0.12); border-radius: 12px; color: rgb(35,32,29); text-decoration: none; transition: border-color 0.2s ease, transform 0.2s ease; background: transparent; }
   .upcoming-card:hover { border-color: rgb(35,32,29); transform: translateY(-2px); }

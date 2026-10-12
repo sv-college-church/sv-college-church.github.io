@@ -50,6 +50,9 @@ This plan was written after reading the actual source (`src/pages`, `src/compone
 - [ ] On `index.astro`, the footer starts at `opacity: 0` and only becomes visible (`is-visible` class) after the ~3.2s hero sequence completes — confirm this doesn't leave the footer permanently hidden if the sequence JS throws/bails early (e.g., `cards.length === 0`).
 
 ### 1.3 Event banner (`EventBanner.astro`) and upcoming events (`UpcomingEvents.astro`)
+- [ ] Run `npm run test:events` for campus isolation, church-wide placement, banner eligibility and expiration regressions.
+- [ ] Campus-specific cards appear only on their campus page. `/gather` and the sitewide banner accept only `campus: "all"` or `"svc"` events.
+- [ ] On `/campuses/deanza`, upcoming De Anza cards appear near the existing Events link; when no matching events remain, both the "Coming Up" heading and event section are absent.
 - [ ] With an active `tier: "banner"` event whose `bannerStartsAt`/default 21-day lead window includes today: confirm the fixed banner renders above the nav, `--banner-height` CSS var is set, and `.nav-header` top offset shifts down to clear it.
 - [ ] Banner's full label (`.label-full`) shows above 640px, short label (`.label-short`) shows at ≤640px — verify the breakpoint switch with real content (currently untestable — see Section 0 stale-events finding).
 - [ ] Banner CTA link (`banner.cta.url`) navigates correctly (e.g., to `/gather#upcoming-events`).
@@ -89,7 +92,7 @@ This plan was written after reading the actual source (`src/pages`, `src/compone
 - [ ] "When" (Sundays / 12 PM) and "Where" (SVC Student Center, 2346 Walsh Ave, Santa Clara) render correctly side-by-side on desktop and stacked on mobile (≤640px breakpoint).
 - [ ] "Get Directions →" link opens the correct Google Maps URL in a new tab.
 - [ ] Footnote "* we also gather at other spots across the South Bay" is present and legible (see Section 0 contrast finding).
-- [ ] "Coming Up ↓" trigger only renders when `getHighlightedEvents()` returns at least one event (`hasUpcoming` check) — confirm it's correctly **absent** in the current no-upcoming-events state, and reappears once a live event is added.
+- [ ] "Coming Up ↓" trigger only renders when `getHighlightedEvents()` returns at least one church-wide event (`hasUpcoming` check). Campus-only events must not create the trigger or a card on `/gather`.
 - [ ] Clicking "Coming Up" scrolls smoothly to `#upcoming-events` and lands below the fixed nav/banner, not underneath it.
 
 ### 1.8 Campuses index (`campuses/index.astro`)

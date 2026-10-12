@@ -82,6 +82,21 @@ bun run format:check
 └── tsconfig.json
 ```
 
+## Events
+
+Dated listings live in `src/content/events/` and expire after their `date` (or
+`endDate`) through the daily rebuild.
+
+- Church-wide events use `campus: "all"` or `"svc"` and appear on `/gather`.
+  Only church-wide events can appear in the sitewide banner.
+- Campus-specific events use their campus key and belong on that campus page,
+  not `/gather`. Render them with `UpcomingEvents`, passing the campus key;
+  `/campuses/deanza` uses `campus="deanza"` and a "Coming Up" heading.
+- Cards display `featured` and `banner` events. A campus page with no upcoming
+  matching events renders no event section.
+
+Run the placement and expiration regression tests with `npm run test:events`.
+
 ## Deployment
 
 This is a fully static site. Deploy the `dist/` folder to any static host.
