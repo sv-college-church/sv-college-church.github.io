@@ -1,6 +1,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export type EventEntry = CollectionEntry<'events'>;
+export type EventCampus = EventEntry['data']['campus'];
 
 const DEFAULT_BANNER_LEAD_DAYS = 21;
 
@@ -8,6 +9,13 @@ function startOfDay(d: Date): Date {
   const out = new Date(d);
   out.setUTCHours(0, 0, 0, 0);
   return out;
+}
+
+function matchesCampus(event: EventEntry, campus: EventCampus): boolean {
+  if (campus === 'all' || campus === 'svc') {
+    return event.data.campus === 'all' || event.data.campus === 'svc';
+  }
+  return event.data.campus === campus;
 }
 
 /** Last day the event is still "current" (endDate if set, else date). */
@@ -24,16 +32,23 @@ export function bannerStartDay(event: EventEntry): Date {
 }
 
 /** Events whose end day is today or later, sorted soonest first. */
-export async function getUpcomingEvents(now: Date = new Date()): Promise<EventEntry[]> {
+export async function getUpcomingEvents(
+  now: Date = new Date(),
+  campus?: EventCampus
+): Promise<EventEntry[]> {
   const today = startOfDay(now);
   const all = await getCollection('events');
   return all
-    .filter((e) => eventEndDay(e).getTime() >= today.getTime())
+    .filter(
+      (e) =>
+        eventEndDay(e).getTime() >= today.getTime() &&
+        (campus === undefined || matchesCampus(e, campus))
+    )
     .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
 }
 
 /**
- * The single banner-tier event that should be visible right now.
+ * The single church-wide banner-tier event that should be visible right now.
  * - tier === 'banner'
  * - bannerStartDay <= today <= eventEndDay
  * - has banner data
@@ -43,7 +58,7 @@ export async function getActiveBannerEvent(
   now: Date = new Date()
 ): Promise<EventEntry | null> {
   const today = startOfDay(now).getTime();
-  const upcoming = await getUpcomingEvents(now);
+  const upcoming = await getUpcomingEvents(now, 'all');
   const candidates = upcoming.filter(
     (e) =>
       e.data.tier === 'banner' &&
@@ -53,8 +68,11 @@ export async function getActiveBannerEvent(
   return candidates[0] ?? null;
 }
 
-/** Banner + featured upcoming events (for /gather callout, homepage strip). */
-export async function getHighlightedEvents(now: Date = new Date()): Promise<EventEntry[]> {
-  const upcoming = await getUpcomingEvents(now);
+/** Banner + featured events for one campus, or church-wide events by default. */
+export async function getHighlightedEvents(
+  now: Date = new Date(),
+  campus: EventCampus = 'all'
+): Promise<EventEntry[]> {
+  const upcoming = await getUpcomingEvents(now, campus);
   return upcoming.filter((e) => e.data.tier === 'banner' || e.data.tier === 'featured');
 }

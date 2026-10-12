@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import UpcomingEvents from '../../components/UpcomingEvents.astro';
 import { Image } from 'astro:assets';
 import ismpLogo from '../../assets/images/campuses/logos/ismp.png';
 
@@ -84,6 +85,8 @@ const structuredData = [
         <a href="https://internationalmentorship.org/deanza" target="_blank" rel="noopener noreferrer" class="events-btn">ISMP ↗</a>
       </div>
     </section>
+
+    <UpcomingEvents campus="deanza" heading="Coming Up" />
 
     <section class="about-section">
       <h2 class="info-label">About</h2>

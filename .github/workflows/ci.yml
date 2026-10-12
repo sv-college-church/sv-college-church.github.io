@@ -19,6 +19,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Event placement and expiration tests
+        run: npm run test:events
+
       - name: Type check
         continue-on-error: true # advisory until pre-existing errors in about.astro and church.astro are fixed
         run: npx astro check
