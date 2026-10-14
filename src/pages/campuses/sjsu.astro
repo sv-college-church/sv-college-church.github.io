@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import UpcomingEvents from '../../components/UpcomingEvents.astro';
 import { Image } from 'astro:assets';
 import klesisSjsu from '../../assets/images/campuses/logos/klesis-sjsu.png';
 import fourCorners from '../../assets/images/campuses/logos/4corners.png';
@@ -126,6 +127,8 @@ const structuredData = [
         <a href="https://www.instagram.com/ismp_sjsu/" target="_blank" rel="noopener noreferrer" class="group-link-secondary">Follow @ismp_sjsu ↗</a>
       </div>
     </section>
+
+    <UpcomingEvents campus="sjsu" heading="Coming Up" />
 
     <section class="facts-section">
       <h2 class="section-heading">Christian life at San José State</h2>
