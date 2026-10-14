@@ -120,3 +120,28 @@ test('sitewide banner excludes campus events and preserves lead dates', async ()
   assert.equal((await events.getActiveBannerEvent(now)).id, 'church');
   assert.equal(await events.getActiveBannerEvent(new Date('2000-01-12T12:00:00Z')), null);
 });
+
+test('separate SJSU sessions expire independently without church-wide placement', async () => {
+  const events = loadEvents([
+    fixture('first-session', 'sjsu', { date: new Date('2000-01-11') }),
+    fixture('second-session', 'sjsu', { date: new Date('2000-01-18') }),
+  ]);
+  assert.deepEqual(
+    ids(await events.getHighlightedEvents(new Date('2000-01-11T12:00:00Z'), 'sjsu')),
+    ['first-session', 'second-session']
+  );
+  assert.deepEqual(
+    ids(await events.getHighlightedEvents(new Date('2000-01-12T12:00:00Z'), 'sjsu')),
+    ['second-session']
+  );
+  assert.deepEqual(
+    ids(await events.getHighlightedEvents(new Date('2000-01-18T12:00:00Z'), 'sjsu')),
+    ['second-session']
+  );
+  assert.deepEqual(
+    ids(await events.getHighlightedEvents(new Date('2000-01-19T12:00:00Z'), 'sjsu')),
+    []
+  );
+  assert.deepEqual(ids(await events.getHighlightedEvents(now)), []);
+  assert.equal(await events.getActiveBannerEvent(now), null);
+});
