@@ -91,8 +91,8 @@ Dated listings live in `src/content/events/` and expire after their `date` (or
   Only church-wide events can appear in the sitewide banner.
 - Campus-specific events use their campus key and belong on that campus page,
   not `/gather`. Render them with `UpcomingEvents`, passing the campus key;
-  `/campuses/deanza` and `/campuses/sjsu` use their campus keys and a "Coming Up"
-  heading.
+  `/campuses/deanza`, `/campuses/sjsu`, and `/campuses/ucsc` use their campus
+  keys and a "Coming Up" heading.
 - Cards display `featured` and `banner` events. A campus page with no upcoming
   matching events renders no event section.
 

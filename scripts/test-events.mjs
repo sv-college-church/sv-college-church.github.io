@@ -145,3 +145,19 @@ test('separate SJSU sessions expire independently without church-wide placement'
   assert.deepEqual(ids(await events.getHighlightedEvents(now)), []);
   assert.equal(await events.getActiveBannerEvent(now), null);
 });
+
+test('a UCSC bonus session expires without affecting other campuses or Gather', async () => {
+  const events = loadEvents([
+    fixture('bonus-session', 'ucsc', { date: new Date('2000-01-10') }),
+    fixture('other-campus', 'sjsu'),
+    fixture('church', 'all'),
+  ]);
+  assert.deepEqual(ids(await events.getHighlightedEvents(now, 'ucsc')), ['bonus-session']);
+  assert.deepEqual(
+    ids(await events.getHighlightedEvents(new Date('2000-01-11T12:00:00Z'), 'ucsc')),
+    []
+  );
+  assert.deepEqual(ids(await events.getHighlightedEvents(now, 'sjsu')), ['other-campus']);
+  assert.deepEqual(ids(await events.getHighlightedEvents(now)), ['church']);
+  assert.equal(await events.getActiveBannerEvent(now), null);
+});

@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import UpcomingEvents from '../../components/UpcomingEvents.astro';
 import { Image } from 'astro:assets';
 import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
 import friendsgiving from '../../assets/images/campuses/ucsc/friendsgiving.jpg';
@@ -308,6 +309,8 @@ const structuredData = [
 
       <p class="section-note">See all groups and events on <a href={flyerUrl} target="_blank" rel="noopener noreferrer">Flyer ↗</a></p>
     </section>
+
+    <UpcomingEvents campus="ucsc" heading="Coming Up" />
 
     <!-- ── SUNDAY WORSHIP SERVICE ── -->
     <section id="sunday-service" class="service-section">
