@@ -145,3 +145,41 @@ test('separate SJSU sessions expire independently without church-wide placement'
   assert.deepEqual(ids(await events.getHighlightedEvents(now)), []);
   assert.equal(await events.getActiveBannerEvent(now), null);
 });
+
+test('UCSC Sunday cards expire without appearing on Gather, other campuses or the banner', async () => {
+  const events = loadEvents([fixture('ucsc-sunday', 'ucsc')]);
+  assert.deepEqual(ids(await events.getHighlightedEvents(now, 'ucsc')), ['ucsc-sunday']);
+  for (const campus of ['all', 'svc', 'sjsu', 'stanford', 'deanza', 'scu']) {
+    assert.deepEqual(ids(await events.getHighlightedEvents(now, campus)), []);
+  }
+  assert.equal(await events.getActiveBannerEvent(now), null);
+  assert.deepEqual(
+    ids(await events.getHighlightedEvents(new Date('2000-01-12T12:00:00Z'), 'ucsc')),
+    []
+  );
+});
+
+test('Sunday schedule notices and multi-day retreats retain church-wide placement and expiration', async () => {
+  const events = loadEvents([
+    fixture('sunday-notice', 'svc'),
+    fixture('retreat', 'all', {
+      date: new Date('2000-01-14'),
+      endDate: new Date('2000-01-16'),
+    }),
+  ]);
+  assert.deepEqual(ids(await events.getHighlightedEvents(now)), ['sunday-notice', 'retreat']);
+  assert.deepEqual(
+    ids(await events.getHighlightedEvents(new Date('2000-01-12T12:00:00Z'))),
+    ['retreat']
+  );
+  assert.deepEqual(
+    ids(await events.getHighlightedEvents(new Date('2000-01-16T12:00:00Z'))),
+    ['retreat']
+  );
+  assert.deepEqual(
+    ids(await events.getHighlightedEvents(new Date('2000-01-17T12:00:00Z'))),
+    []
+  );
+  assert.deepEqual(ids(await events.getHighlightedEvents(now, 'ucsc')), []);
+  assert.equal(await events.getActiveBannerEvent(now), null);
+});

@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
+import UpcomingEvents from '../../components/UpcomingEvents.astro';
 import { Image } from 'astro:assets';
 import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
 import friendsgiving from '../../assets/images/campuses/ucsc/friendsgiving.jpg';
@@ -112,12 +113,6 @@ const previewOffsets = [
 // it to the counter clutter on the left.
 const previewFocus = ['left center', 'right center', 'center', 'center'];
 
-// Add upcoming dates here as { date, isoDate, time, signupUrl }. When the
-// list is empty, the section shows a "next date coming soon" note instead.
-const serviceDates: { date: string; isoDate: string; time: string; signupUrl: string }[] = [];
-const serviceLocation = 'Baskin Engineering Hall';
-const serviceLocationConfirmed = true;
-
 const faqs = [
   {
     q: 'Is there a Christian fellowship at UC Santa Cruz?',
@@ -172,26 +167,6 @@ const structuredData = [
       acceptedAnswer: { '@type': 'Answer', text: f.a },
     })),
   },
-  // Event structured data for Sunday Gathering — only added once
-  // serviceLocationConfirmed is true, so nothing tentative gets published
-  // to search results.
-  ...(serviceLocationConfirmed
-    ? serviceDates.map((s) => ({
-        '@context': 'https://schema.org',
-        '@type': 'Event',
-        name: 'Klesis Sunday Gathering',
-        startDate: `${s.isoDate}T12:00:00-07:00`,
-        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-        eventStatus: 'https://schema.org/EventScheduled',
-        location: {
-          '@type': 'Place',
-          name: serviceLocation,
-          address: { '@type': 'PostalAddress', addressLocality: 'Santa Cruz', addressRegion: 'CA', addressCountry: 'US' },
-        },
-        organizer: { '@id': `${pageUrl}#klesis` },
-        url: s.signupUrl,
-      }))
-    : []),
 ];
 ---
 
@@ -263,6 +238,8 @@ const structuredData = [
       </div>
     </section>
 
+    <UpcomingEvents campus="ucsc" heading="Coming Up" />
+
     <!-- ── CONNECT GROUPS ── -->
     <section id="connect-groups" class="groups-section">
       <h2 class="section-heading">Connect Groups</h2>
@@ -314,24 +291,7 @@ const structuredData = [
       <h2 class="section-heading">Sunday Gathering</h2>
       <p class="section-sub">Join us for Sunday Gathering at UC Santa Cruz.</p>
 
-      {serviceDates.length === 0 && (
-        <p class="section-note">Next date coming soon. Check <a href={flyerUrl} target="_blank" rel="noopener noreferrer">Flyer ↗</a> for updates.</p>
-      )}
-      {serviceDates.length > 0 && <ul class="service-list">
-        {serviceDates.map((s) => (
-          <li class="service-row">
-            <div class="service-info">
-              <span class="service-date">{s.date}</span>
-              <span class="service-time">{s.time}</span>
-              <span class="service-loc">
-                {serviceLocation}
-                {!serviceLocationConfirmed && <span class="service-tbc">(location TBC)</span>}
-              </span>
-            </div>
-            <a href={s.signupUrl} target="_blank" rel="noopener noreferrer" class="service-signup-btn">Sign Up ↗</a>
-          </li>
-        ))}
-      </ul>}
+      <p class="section-note">Check <a href={flyerUrl} target="_blank" rel="noopener noreferrer">Flyer ↗</a> for upcoming Sunday dates and sign-ups.</p>
     </section>
 
     <!-- ── FAQ ── -->
@@ -744,7 +704,7 @@ const structuredData = [
     margin: 0;
     padding: 0;
     width: 100%;
-    /* Matches .service-list's width below — this list doesn't need the
+    /* This list doesn't need the
        extra room 42rem gave it, which just stretched the row content
        apart from the Sign Up button for no reason. */
     max-width: 34rem;
@@ -910,92 +870,9 @@ const structuredData = [
     align-items: center;
   }
 
-  .service-list {
-    list-style: none;
-    margin: 3rem 0 0;
-    padding: 0;
-    width: 100%;
-    max-width: 34rem;
-    border-top: 1px solid rgba(35, 32, 29, 0.1);
-  }
-
-  .service-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 1.25rem 0.5rem;
-    border-bottom: 1px solid rgba(35, 32, 29, 0.1);
-  }
-
-  /* Date/time/loc wrapped together (mirrors .group-info in the Connect
-     Groups list above) so the Sign Up button is the row's only other flex
-     child and stays pinned to the end via .service-row's space-between. */
-  .service-info {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.5rem 1rem;
-    min-width: 0;
-  }
-
-  .service-date {
-    font-family: 'Instrument Sans', sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
-    color: #23201D;
-  }
-
-  .service-time {
-    font-family: 'Bitter', Georgia, serif;
-    font-weight: 350;
-    font-style: italic;
-    font-size: 1rem;
-    color: #2C4F72;
-  }
-
-  .service-loc {
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 500;
-    color: rgba(35, 32, 29, 0.65);
-  }
-
-  .service-tbc {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #A15C2A;
-    margin-left: 0.4rem;
-  }
-
-  /* Same look as .group-signup-btn in the Connect Groups section above. */
-  .service-signup-btn {
-    flex-shrink: 0;
-    display: inline-block;
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #ffffff;
-    background: #2C4F72;
-    text-decoration: none;
-    padding: 0.65rem 1.4rem;
-    border-radius: 8px;
-    white-space: nowrap;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .service-signup-btn:hover {
-    transform: scale(1.04);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
-  }
-
   @media (max-width: 768px) {
     .groups-section, .service-section { padding-left: 1.5rem; padding-right: 1.5rem; }
     .group-row { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .service-row { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
     .faq-section { padding: 3.5rem 1.5rem; }
     .section-heading { margin-bottom: 0; }
   }
