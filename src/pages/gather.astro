@@ -41,7 +41,9 @@ const bannerPhotos = [
   { src: sundayPanoramaFullRoom, alt: 'Panoramic view of the full room gathered for Sunday service' },
 ];
 
-const hasUpcoming = (await getHighlightedEvents()).length > 0;
+const upcomingEvents = await getHighlightedEvents();
+const hasUpcoming = upcomingEvents.length > 0;
+const scheduleExceptions = upcomingEvents.filter((event) => event.data.eventType === 'schedule-exception');
 const pageUrl = new URL('/gather', Astro.site).href;
 
 const structuredData = [
@@ -67,6 +69,9 @@ const structuredData = [
       startTime: '12:00',
       endTime: '13:30',
       repeatFrequency: 'P1W',
+      ...(scheduleExceptions.length > 0 && {
+        exceptDate: scheduleExceptions.map((event) => event.data.date.toISOString().slice(0, 10)),
+      }),
     },
     location: {
       '@type': 'Place',
@@ -116,8 +121,11 @@ const structuredData = [
       <div class="info-col" data-animate>
         <div class="info-content">
           <p class="info-lead">
-            SVC meets every <strong>Sunday</strong> at the <strong>SVC Student Center</strong>, 1700 Duane Ave, Santa Clara, CA 95054.
+            SVC usually meets on <strong>Sundays</strong> at the <strong>SVC Student Center</strong>, 1700 Duane Ave, Santa Clara, CA 95054.
           </p>
+          {scheduleExceptions.map((event) => (
+            <p class="info-lead"><strong>{event.data.summary}</strong></p>
+          ))}
           <p class="info-lead">
             Rides will be provided from <strong><a href="https://www.google.com/maps/search/?api=1&query=Washburn+Hall+San+Jose+State+University" target="_blank" rel="noopener noreferrer" class="quiet-link">Washburn Hall</a></strong> at <strong>11:30am</strong>.
           </p>
@@ -518,4 +526,3 @@ const structuredData = [
     }
   }
 </style>
-

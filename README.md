@@ -91,10 +91,14 @@ Dated listings live in `src/content/events/` and expire after their `date` (or
   Only church-wide events can appear in the sitewide banner.
 - Campus-specific events use their campus key and belong on that campus page,
   not `/gather`. Render them with `UpcomingEvents`, passing the campus key;
-  `/campuses/deanza` and `/campuses/sjsu` use their campus keys and a "Coming Up"
-  heading.
+  `/campuses/deanza`, `/campuses/sjsu` and `/campuses/ucsc` use their campus keys
+  and a "Coming Up" heading. UCSC Sunday dates also live in this collection,
+  rather than a separate hand-maintained date list.
 - Cards display `featured` and `banner` events. A campus page with no upcoming
   matching events renders no event section.
+- Church-wide notices with `eventType: "schedule-exception"` also appear beside
+  the usual Sunday details on `/gather` and exclude their date from its recurring
+  event structured data. They expire with the dated listing.
 
 Run the placement and expiration regression tests with `npm run test:events`.
 
