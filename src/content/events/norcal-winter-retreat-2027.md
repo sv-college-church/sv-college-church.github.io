@@ -2,14 +2,13 @@
 title: "NorCal Winter Retreat"
 date: 2027-01-22
 endDate: 2027-01-24
-time: "Starts 5 PM"
 tier: "featured"
 campus: "all"
 location: "Jenness Park"
-summary: "January 22-24 at Jenness Park. See Flyer for details."
-url: "https://joinflyer.com/ucsc/klesis/event/norcal-winter-retreat-1-22-1-24-jan-22-2027"
+summary: "January 22-24 at Jenness Park. Register here."
+url: "https://docs.google.com/forms/d/e/1FAIpQLSdImVYqCMPqcw3J9YiHSzrzoUuELAtgiEMYv-fZ6ISBQ1aKFQ/viewform"
 ---
 
-NorCal Winter Retreat is January 22-24, 2027, at Jenness Park, starting Friday at 5 PM.
+NorCal Winter Retreat is January 22-24, 2027, at Jenness Park.
 
-[Event details](https://joinflyer.com/ucsc/klesis/event/norcal-winter-retreat-1-22-1-24-jan-22-2027)
+[Register here](https://docs.google.com/forms/d/e/1FAIpQLSdImVYqCMPqcw3J9YiHSzrzoUuELAtgiEMYv-fZ6ISBQ1aKFQ/viewform)
