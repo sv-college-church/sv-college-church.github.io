@@ -7,7 +7,7 @@ campus: "svc"
 eventType: "schedule-exception"
 location: "SVC Student Center"
 address: "1700 Duane Ave, Santa Clara"
-summary: "On November 15, SVC gathers at 4 PM for our Thanksgiving Service and Celebration."
+summary: "On November 15, SVC gathers at 4 PM for our Thanksgiving Service and Celebration. Rides from Washburn Hall are at 3:30 PM that day."
 ---
 
-Our Thanksgiving Service and Celebration is on Sunday, November 15, 2026, 4-7 PM, at the SVC Student Center, 1700 Duane Ave, Santa Clara.
+Our Thanksgiving Service and Celebration is on Sunday, November 15, 2026, 4-7 PM, at the SVC Student Center, 1700 Duane Ave, Santa Clara. Rides from Washburn Hall are at 3:30 PM that day.
