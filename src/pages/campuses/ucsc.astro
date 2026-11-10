@@ -3,6 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import UpcomingEvents from '../../components/UpcomingEvents.astro';
+import { SUNDAY_PICKUPS } from '../../config/rides';
+import { getRideChanges } from '../../lib/events';
 import { Image } from 'astro:assets';
 import klesisUcsc from '../../assets/images/campuses/logos/klesis-ucsc.png';
 import friendsgiving from '../../assets/images/campuses/ucsc/friendsgiving.jpg';
@@ -20,6 +22,8 @@ import connectGroupProteinProverbs from '../../assets/images/campuses/ucsc/conne
 
 const pageUrl = new URL('/campuses/ucsc', Astro.site).href;
 const flyerUrl = 'https://joinflyer.com/ucsc/klesis';
+const pickup = SUNDAY_PICKUPS.ucsc;
+const rideChanges = await getRideChanges(new Date(), 'ucsc');
 
 // From Klesis Santa Cruz's own Flickr (flickr.com/photos/pursuitcollegechurch).
 // The original 3 were used with the campus team's direction on which photos to
@@ -290,6 +294,11 @@ const structuredData = [
     <section id="sunday-service" class="service-section">
       <h2 class="section-heading">Sunday Gathering</h2>
       <p class="section-sub">Join us for Sunday Gathering at UC Santa Cruz.</p>
+
+      <p class="section-note" id="sunday-rides">Rides to <a href="/gather">SVC in Santa Clara</a> leave from {pickup.place} at {pickup.time}. Message your mentor to get a ride.</p>
+      {rideChanges.map((change) => (
+        <p class="section-note ride-change"><strong>{change.text}</strong></p>
+      ))}
 
       <p class="section-note">Check <a href={flyerUrl} target="_blank" rel="noopener noreferrer">Flyer ↗</a> for upcoming Sunday dates and sign-ups.</p>
     </section>
@@ -860,6 +869,8 @@ const structuredData = [
     text-decoration: underline;
     text-underline-offset: 0.15em;
   }
+  .section-note.ride-change { margin-top: 0.75rem; }
+  #sunday-rides { scroll-margin-top: 8rem; }
 
   /* ── SUNDAY WORSHIP SERVICE ── */
   .service-section {

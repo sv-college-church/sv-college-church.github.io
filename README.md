@@ -99,6 +99,10 @@ Dated listings live in `src/content/events/` and expire after their `date` (or
 - Church-wide notices with `eventType: "schedule-exception"` also appear beside
   the usual Sunday details on `/gather` and exclude their date from its recurring
   event structured data. They expire with the dated listing.
+- Standing Sunday ride pickups live in `src/config/rides.ts` and show on that
+  campus page; `/gather` links to them. A church-wide event can set
+  `rideTimes` (for example `rideTimes: { sjsu: "3:30 PM" }`) for a different
+  pickup time that day. The campus page shows it until the event expires.
 
 Run the placement and expiration regression tests with `npm run test:events`.
 

@@ -20,6 +20,11 @@ const events = defineCollection({
     campus: z
       .enum(['all', 'svc', 'sjsu', 'stanford', 'ucsc', 'deanza', 'scu'])
       .default('all'),
+    // Church-wide Sundays only: a different ride pickup time for that day,
+    // shown on the campus page until the event expires.
+    rideTimes: z
+      .record(z.enum(['sjsu', 'stanford', 'ucsc', 'deanza', 'scu']), z.string())
+      .optional(),
     bannerStartsAt: z.date().optional(),
     banner: z
       .object({

@@ -159,6 +159,21 @@ test('UCSC Sunday cards expire without appearing on Gather, other campuses or th
   );
 });
 
+test('ride time changes come only from upcoming church-wide events and expire with them', async () => {
+  const events = loadEvents([
+    fixture('changed-sunday', 'svc', { rideTimes: { sjsu: '3:30 PM' } }),
+    fixture('past-sunday', 'svc', { date: new Date('2000-01-09'), rideTimes: { sjsu: '1 PM' } }),
+    fixture('usual-sunday', 'svc', { date: new Date('2000-01-12') }),
+    fixture('campus-event', 'ucsc', { rideTimes: { sjsu: '9 AM', ucsc: '9 AM' } }),
+  ]);
+  const changes = await events.getRideChanges(now, 'sjsu');
+  assert.deepEqual(changes.map((c) => [c.event.id, c.text]), [
+    ['changed-sunday', 'Tuesday, January 11: rides leave at 3:30 PM.'],
+  ]);
+  assert.deepEqual(await events.getRideChanges(now, 'ucsc'), []);
+  assert.deepEqual(await events.getRideChanges(new Date('2000-01-12T12:00:00Z'), 'sjsu'), []);
+});
+
 test('Sunday schedule notices and multi-day retreats retain church-wide placement and expiration', async () => {
   const events = loadEvents([
     fixture('sunday-notice', 'svc'),
