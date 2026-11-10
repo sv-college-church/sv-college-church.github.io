@@ -8,6 +8,11 @@ import klesisSjsu from '../../assets/images/campuses/logos/klesis-sjsu.png';
 import fourCorners from '../../assets/images/campuses/logos/4corners.png';
 import ismpIcon from '../../assets/images/campuses/logos/ismp-icon.png';
 import { CONNECT_GROUPS_LIVE } from '../../config/flags';
+import { SUNDAY_PICKUPS } from '../../config/rides';
+import { getRideChanges } from '../../lib/events';
+
+const pickup = SUNDAY_PICKUPS.sjsu;
+const rideChanges = await getRideChanges(new Date(), 'sjsu');
 
 const pageUrl = new URL('/campuses/sjsu', Astro.site).href;
 const sundayLocation = 'SVC Student Center, 1700 Duane Ave, Santa Clara, CA 95054';
@@ -137,9 +142,12 @@ const structuredData = [
           <p class="fact-label">Recognized student orgs</p>
           <p class="fact-body">Klesis Christian Fellowship and 4Corners Christian Fellowship are both officially recognized student organizations at San José State.</p>
         </div>
-        <div class="fact">
+        <div class="fact" id="sunday-rides">
           <p class="fact-label">Sundays together</p>
-          <p class="fact-body">The whole church gathers Sundays at 12 PM at {sundayLocation}. <a href="/gather">See the Sunday gathering</a>.</p>
+          <p class="fact-body">The whole church gathers Sundays at 12 PM at {sundayLocation}. Rides leave from {pickup.place} at {pickup.time}. <a href="/gather">See the Sunday gathering</a>.</p>
+          {rideChanges.map((change) => (
+            <p class="fact-body ride-change"><strong>{change.text}</strong></p>
+          ))}
         </div>
       </div>
     </section>
@@ -369,6 +377,8 @@ const structuredData = [
     transition: text-decoration-color 0.2s ease;
   }
   .fact-body a:hover { text-decoration-color: #004A8A; }
+  .ride-change { margin-top: 0.75rem; }
+  #sunday-rides { scroll-margin-top: 8rem; }
 
   .faq-accordion {
     max-width: 46rem;

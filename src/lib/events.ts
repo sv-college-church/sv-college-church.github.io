@@ -68,6 +68,25 @@ export async function getActiveBannerEvent(
   return candidates[0] ?? null;
 }
 
+/** Upcoming church-wide events that change a campus's Sunday ride time. */
+export async function getRideChanges(
+  now: Date,
+  campus: Exclude<EventCampus, 'all' | 'svc'>
+): Promise<{ event: EventEntry; time: string; text: string }[]> {
+  const upcoming = await getUpcomingEvents(now, 'all');
+  return upcoming.flatMap((event) => {
+    const time = event.data.rideTimes?.[campus];
+    if (!time) return [];
+    const day = event.data.date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC',
+    });
+    return [{ event, time, text: `${day}: rides leave at ${time}.` }];
+  });
+}
+
 /** Banner + featured events for one campus, or church-wide events by default. */
 export async function getHighlightedEvents(
   now: Date = new Date(),
