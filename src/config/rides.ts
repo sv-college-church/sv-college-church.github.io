@@ -1,5 +1,5 @@
 // Standing pickups for the Sunday gathering. List a campus only when its
-// pickup is public; everyone else is told to message their mentor.
+// pickup is public; Gather sends everyone else to the Connect page.
 // A one-day change goes on that Sunday's event as `rideTimes`, so it expires
 // with the listing.
 export const SUNDAY_PICKUPS = {
